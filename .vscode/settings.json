@@ -1,0 +1,12 @@
+{
+  // "files.autoSave": "afterDelay",
+  "latex-workshop.latex.autoBuild.run": "never",
+  // "latex-workshop.latex.autoBuild.run": "onFileChange",
+  "workbench.editorAssociations": {
+    "*.pdf": "latex-workshop-pdf-hook"
+  },
+  "latex-workshop.formatting.latex": "latexindent"
+
+  // 4. Đồng bộ vị trí con trỏ sang PDF ngay sau khi build (như bạn đã hỏi ở trên)
+  // "latex-workshop.synctex.afterBuild.enabled": false,
+}
