@@ -1,0 +1,74 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[utf8]{vietnam}
+\usepackage{lipsum}
+\usepackage{tikz}
+\usepackage{tikzpagenodes}
+\usetikzlibrary{calc}
+\usepackage[a4paper, top=2cm, bottom=2cm, left=3.5cm, right=2.5cm]{geometry}
+\usepackage{pdfpages}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{enumitem} % Gói hỗ trợ tùy chỉnh danh sách
+\usepackage{xcolor}
+\usepackage{tcolorbox} % Gói hỗ trợ tùy chỉnh khung
+\usepackage{makecell} % Gói hỗ trợ tạo ô trong bảng
+
+\setlength{\parindent}{0pt} % Không thụt lề
+
+\definecolor{RedHUST}{RGB}{205,5,5}
+\setlist{format={\color{RedHUST}\bfseries}} % Đặt màu cho danh sách
+\definecolor{BlueSAMI}{RGB}{1,90,143}
+
+% Định nghĩa môi trường block
+\newenvironment{block}[1]
+{\begin{tcolorbox}[%
+colback=white, % Màu nền nội dung
+colframe=BlueSAMI, % Màu khung
+arc=3mm, % Góc bo tròn
+title={\textbf{#1}}, % Tiêu đề, in đậm
+colbacktitle=BlueSAMI, % Màu nền tiêu đề
+coltitle=white, % Màu chữ tiêu đề
+boxrule=2pt, % Độ dày của khung
+before upper={\tcbtitle\vskip0pt\par}
+]
+\begin{minipage}{\textwidth}}
+{\end{minipage}
+\end{tcolorbox}}
+
+\setlength{\headheight}{12.42429pt} % bug header foooter
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{Đồ án tốt nghiệp}
+\rhead{Vũ Văn Nghĩa - 20206205}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% Căn giữa tiêu đề mục lục
+\makeatletter
+\renewcommand{\tableofcontents}{
+\begin{center}
+\section*{\contentsname}
+\end{center}
+\@starttoc{toc}
+}
+\makeatother
+
+\numberwithin{figure}{section} % Đặt số ảnh theo section
+% Căn giữa tiêu đề danh sách hình ảnh
+\makeatletter
+\renewcommand{\listoffigures}{
+\begin{center}
+\section*{\listfigurename}
+\end{center}
+\@starttoc{lof}
+}
+\makeatother
+
+% \usepackage{microtype}
+% \usepackage{blindtext}
+
+\begin{document}
+\input{doc}
+\end{document}

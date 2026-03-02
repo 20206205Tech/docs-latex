@@ -1,0 +1,15 @@
+# repos:
+#   - repo: local
+#     hooks:
+#       - id: format-latex
+#         name: Format LaTeX Files
+#         entry: python tools/format_latex.py
+#         language: python
+#         # Chỉ chạy khi có sự thay đổi ở các file .tex (hoặc định dạng bạn muốn)
+#         files: \.tex$
+#         # Nếu script của bạn cần các thư viện bổ sung (như trong pyproject.toml),
+#         # bạn có thể chỉ định chúng ở đây:
+#         # additional_dependencies: ['autopep8', 'flake8'] # Hoặc để trống nếu đã cài local
+
+#         env:
+#           PYTHONUTF8: "1"
