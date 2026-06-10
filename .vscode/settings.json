@@ -1,7 +1,7 @@
 {
   // "files.autoSave": "afterDelay",
-  "latex-workshop.latex.autoBuild.run": "never",
-  // "latex-workshop.latex.autoBuild.run": "onFileChange",
+  // "latex-workshop.latex.autoBuild.run": "never",
+  "latex-workshop.latex.autoBuild.run": "onFileChange",
   "workbench.editorAssociations": {
     "*.pdf": "latex-workshop-pdf-hook"
   },
