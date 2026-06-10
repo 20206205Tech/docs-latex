@@ -25,11 +25,15 @@ def format_terminology(content):
     for char in INVISIBLE_CHARS:
         content = content.replace(char, "")
 
-    # 2. Collapse 4+ consecutive newlines down to 3
+    # 2. Strip trailing/leading whitespace from every line
+    lines = content.split("\n")
+    content = "\n".join(line.strip() for line in lines)
+
+    # 3. Collapse 4+ consecutive newlines down to 3
     while "\n\n\n\n" in content:
         content = content.replace("\n\n\n\n", "\n\n\n")
 
-    # 3. Terminology replacement — skip LaTeX comments (% not preceded by \)
+    # 4. Terminology replacement — skip LaTeX comments (% not preceded by \)
     lines = content.split("\n")
     result = []
 
