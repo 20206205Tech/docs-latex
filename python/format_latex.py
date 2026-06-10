@@ -1,9 +1,9 @@
 import os
-# import subprocess
-from datetime import datetime
 
 # import pyperclip
-import settings
+import env
+
+# import subprocess
 
 
 def format_latex(directory):
@@ -17,29 +17,12 @@ def format_latex(directory):
                 with open(file_path, "r", encoding="utf-8") as f:
                     contents = f.read()
 
-
-
-
-
-
-
-
                 while "\n\n\n" in contents:
                     contents = contents.replace("\n\n\n", "\n\n")
                 contents = contents.replace("\n\n\n", "\n\n")
 
                 with open(file_path, "w", encoding="utf-8") as f:
                     f.write(contents)
-
-
-
-
-
-
-
-
-
-
 
                 # with open(file_path, "r", encoding="utf-8") as f:
                 #     contents = f.readlines()
@@ -85,13 +68,8 @@ def format_latex(directory):
                 #     f.write(contents)
 
 
-
-
-
-
-def main(): 
-    format_latex(settings.PATH_FOLDER_LATEX)
-  
+def main():
+    format_latex(env.PATH_FOLDER_LATEX)
 
 
 if __name__ == "__main__":
