@@ -320,7 +320,34 @@ từ đó cung cấp nguồn dẫn chứng rõ ràng cho người dùng.
 % TODO Các cách chucking
 
 
-xxxxxxxxxxxxxxxxxxxxx
+Các bước cốt lõi để xây dựng một hệ thống RAG:
+
+
+\begin{itemize}
+
+
+\item Toàn bộ dữ liệu tri thức (tài liệu, hướng dẫn, văn bản luật...) được chia nhỏ thành các đoạn (chunks).
+
+
+\item Sử dụng các mô hình nhúng (embedding models) để chuyển đổi các đoạn văn bản này thành các biểu diễn vector.
+\item Lưu trữ các vector vào vector database để tối ưu hóa việc tìm kiếm không gian nhiều chiều.
+
+
+\item Hệ thống nhận yêu cầu từ người dùng dưới dạng ngôn ngữ tự nhiên.
+
+
+\item Câu truy vấn của người dùng cũng được mã hóa thành vector.
+\item Cơ chế truy xuất sẽ quét toàn bộ vector database để đo lường độ tương đồng ngữ nghĩa nhằm trích xuất ra các đoạn tài liệu liên quan nhất.
+
+
+\item Các đoạn văn bản liên quan vừa được truy xuất sẽ được ghép nối với câu truy vấn ban đầu của người dùng.
+
+
+\item Câu prompt đã được làm giàu ngữ cảnh sẽ được đưa vào LLM
+\item LLM sử dụng ngữ cảnh được cung cấp để sinh ra câu trả lời mạch lạc và có độ chính xác cao đối với nguồn dữ liệu.
+
+
+\end{itemize}
 
 
 \begin{figure}[H]
