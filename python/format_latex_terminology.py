@@ -13,13 +13,24 @@ if sys.stdout.encoding != "utf-8":
 
 
 def format_terminology(content):
-    # Skip LaTeX comments (% ...) to avoid modifying them
-    # Split on comment lines to preserve them
+    # 1. Strip invisible/zero-width characters from the entire content first
+    #    (these appear anywhere, including inside LaTeX commands — safe to remove globally)
+    INVISIBLE_CHARS = [
+        "\u200B",  # Zero Width Space
+        "\u200C",  # Zero Width Non-Joiner
+        "\u200D",  # Zero Width Joiner
+        "\uFEFF",  # BOM / Zero Width No-Break Space
+        "\u00AD",  # Soft Hyphen
+    ]
+    for char in INVISIBLE_CHARS:
+        content = content.replace(char, "")
+
+    # 2. Terminology replacement — skip LaTeX comments (% not preceded by \)
     lines = content.split("\n")
     result = []
 
     for line in lines:
-        # Find where the comment starts (% not preceded by \)
+        # Find where the comment starts
         comment_idx = -1
         for i, ch in enumerate(line):
             if ch == "%" and (i == 0 or line[i - 1] != "\\"):
@@ -27,7 +38,6 @@ def format_terminology(content):
                 break
 
         if comment_idx == -1:
-            # No comment — process entire line
             text_part = line
             comment_part = ""
         else:
