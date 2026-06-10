@@ -117,7 +117,7 @@ DATA = [
 TEX_PATH = os.path.join(
     env.PATH_FOLDER_LATEX,
     "contents",
-    "Chương 0",
+    "0",
     "danh_sach_viet_tat",
     "danh_sach_viet_tat.tex",
 )
