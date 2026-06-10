@@ -29,7 +29,11 @@ def format_terminology(content):
     lines = content.split("\n")
     content = "\n".join(line.strip() for line in lines)
 
-    # 3. Collapse 4+ consecutive newlines down to 3
+    # 3. Collapse multiple spaces into one
+    while "  " in content:
+        content = content.replace("  ", " ")
+
+    # 4. Collapse 4+ consecutive newlines down to 3
     while "\n\n\n\n" in content:
         content = content.replace("\n\n\n\n", "\n\n\n")
 

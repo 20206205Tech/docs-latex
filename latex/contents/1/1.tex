@@ -41,11 +41,11 @@ Từ đó, có thể dẫn đến những sai sót, thậm chí là thiệt hạ
 \begin{itemize}
 
 
-\item         Tiết kiệm chi phí
-\item         Hoạt động làm việc 24/7
-\item         Phản hồi nhanh chóng
-\item         Cập nhật thông tin thường xuyên
-\item         Trích dẫn thông tin chi tiết
+\item Tiết kiệm chi phí
+\item Hoạt động làm việc 24/7
+\item Phản hồi nhanh chóng
+\item Cập nhật thông tin thường xuyên
+\item Trích dẫn thông tin chi tiết
 
 
 \end{itemize}
@@ -77,7 +77,7 @@ là dự đoán xác suất của từ tiếp theo
 dựa theo các từ đã xuất hiện trước đó.
 LLM không đọc chữ như con người.
 Chia câu thành các phần nhỏ gọi là token.
-Biến mỗi token thành  vector
+Biến mỗi token thành vector
 trong không gian nhiều chiều.
 Những từ có nghĩa gần nhau
 vua (king) và hoàng hậu (queen), hoặc mèo (cat) và chó (dog)
@@ -106,49 +106,49 @@ sẽ có các tọa độ rất gần nhau trong không gian.
 % % Scale toàn bộ hình nếu cần, mặc định 1 là giữ nguyên tỉ lệ
 % \begin{tikzpicture}[scale=0.8, every node/.style={transform shape}]
 
-%     % ================= HỆ TRỤC BÊN TRÁI =================
-%     \begin{scope}[shift={(0,0)}]
-%         % Hệ trục tọa độ x, y (màu xám nhạt)
-%         \draw[lightgray, <->, thin] (-3, 0) -- (3, 0);
-%         \draw[lightgray, <->, thin] (0, -3) -- (0, 3);
+% % ================= HỆ TRỤC BÊN TRÁI =================
+% \begin{scope}[shift={(0,0)}]
+% % Hệ trục tọa độ x, y (màu xám nhạt)
+% \draw[lightgray, <->, thin] (-3, 0) -- (3, 0);
+% \draw[lightgray, <->, thin] (0, -3) -- (0, 3);
 
-%         % Gốc tọa độ O1
-%         \coordinate (O1) at (0,0);
+% % Gốc tọa độ O1
+% \coordinate (O1) at (0,0);
 
-%         % Vẽ 2 vector có nghĩa gần nhau (góc hẹp)
-%         \draw[thick, BlueSAMI, ->, line width=1.2pt] (O1) -- (50:2.5) node[above right] {$\vec{v}_1$};
-%         \draw[thick, BlueSAMI, ->, line width=1.2pt] (O1) -- (25:2.3) node[right] {$\vec{v}_2$};
+% % Vẽ 2 vector có nghĩa gần nhau (góc hẹp)
+% \draw[thick, BlueSAMI, ->, line width=1.2pt] (O1) -- (50:2.5) node[above right] {$\vec{v}_1$};
+% \draw[thick, BlueSAMI, ->, line width=1.2pt] (O1) -- (25:2.3) node[right] {$\vec{v}_2$};
 
-%         % Nhãn không gian gốc
-%         \node[black] at (0, -3.5) {Không gian từ gốc (Word Vectors)};
-%     \end{scope}
+% % Nhãn không gian gốc
+% \node[black] at (0, -3.5) {Không gian từ gốc (Word Vectors)};
+% \end{scope}
 
-%     % ================= MŨI TÊN CHUYỂN ĐỔI Ở GIỮA =================
-%     \draw[thick, black, ->, line width=1.5pt] (4, 0) -- (5.5, 0)
-%         node[midway, above, font=\small\sffamily] {Projection / Trượt};
+% % ================= MŨI TÊN CHUYỂN ĐỔI Ở GIỮA =================
+% \draw[thick, black, ->, line width=1.5pt] (4, 0) -- (5.5, 0)
+% node[midway, above, font=\small\sffamily] {Projection / Trượt};
 
-%     % ================= HỆ TRỤC BÊN PHẢI =================
-%     \begin{scope}[shift={(9,0)}]
-%         % Hệ trục tọa độ x, y
-%         \draw[lightgray, <->, thin] (-3, 0) -- (3, 0);
-%         \draw[lightgray, <->, thin] (0, -3) -- (0, 3);
+% % ================= HỆ TRỤC BÊN PHẢI =================
+% \begin{scope}[shift={(9,0)}]
+% % Hệ trục tọa độ x, y
+% \draw[lightgray, <->, thin] (-3, 0) -- (3, 0);
+% \draw[lightgray, <->, thin] (0, -3) -- (0, 3);
 
-%         % Vẽ vùng không gian con (vùng màu xanh nhạt đổ bóng)
-%         % Thay vì dùng tọa độ cứng, ta dùng hình bình hành được xoay nghiêng
-%         \fill[BlueSAMI, opacity=0.2] (-1.5, -2.5) -- (1.5, 2.5) -- (2.8, 2.5) -- (-0.2, -2.5) -- cycle;
+% % Vẽ vùng không gian con (vùng màu xanh nhạt đổ bóng)
+% % Thay vì dùng tọa độ cứng, ta dùng hình bình hành được xoay nghiêng
+% \fill[BlueSAMI, opacity=0.2] (-1.5, -2.5) -- (1.5, 2.5) -- (2.8, 2.5) -- (-0.2, -2.5) -- cycle;
 
-%         % Vẽ đường biên giới hạn miền (nếu muốn rõ ràng)
-%         \draw[BlueSAMI, dashed, thin] (-1.5, -2.5) -- (1.5, 2.5);
-%         \draw[BlueSAMI, dashed, thin] (-0.2, -2.5) -- (2.8, 2.5);
+% % Vẽ đường biên giới hạn miền (nếu muốn rõ ràng)
+% \draw[BlueSAMI, dashed, thin] (-1.5, -2.5) -- (1.5, 2.5);
+% \draw[BlueSAMI, dashed, thin] (-0.2, -2.5) -- (2.8, 2.5);
 
-%         % Vẽ các vector đã được gom cụm vào vùng không gian này
-%         \coordinate (O2) at (0,0);
-%         \draw[thick, BlueSAMI, ->, line width=1.2pt] (O2) -- (60:2.2);
-%         \draw[thick, BlueSAMI, ->, line width=1.2pt] (O2) -- (52:2.4);
+% % Vẽ các vector đã được gom cụm vào vùng không gian này
+% \coordinate (O2) at (0,0);
+% \draw[thick, BlueSAMI, ->, line width=1.2pt] (O2) -- (60:2.2);
+% \draw[thick, BlueSAMI, ->, line width=1.2pt] (O2) -- (52:2.4);
 
-%         % Nhãn không gian đích
-%         \node[black] at (0, -3.5) {Không gian con ngữ nghĩa};
-%     \end{scope}
+% % Nhãn không gian đích
+% \node[black] at (0, -3.5) {Không gian con ngữ nghĩa};
+% \end{scope}
 
 % \end{tikzpicture}
 % \caption{Mô phỏng quá trình ánh xạ các vector từ gần nghĩa.}
@@ -205,10 +205,10 @@ cluster/.style={dashed, draw=#1!50, fill=#1!5, rounded corners=8pt, inner sep=6p
 \draw[->, orange!70, dashed] (0,0) -- (cat);
 \draw[->, orange!70, dashed] (0,0) -- (dog);
 
-%  % --- Chú thích khoảng cách ---
-%  % Vẽ mũi tên hai đầu thể hiện khoảng cách gần nhau trong cụm
-%  \draw[<->, red, thick] (king) -- node[above right, scale=0.7] { } (queen);
-%  \draw[<->, red, thick] (cat) -- node[above left, scale=0.7] { } (dog);
+% % --- Chú thích khoảng cách ---
+% % Vẽ mũi tên hai đầu thể hiện khoảng cách gần nhau trong cụm
+% \draw[<->, red, thick] (king) -- node[above right, scale=0.7] { } (queen);
+% \draw[<->, red, thick] (cat) -- node[above left, scale=0.7] { } (dog);
 
 \end{tikzpicture}
 
@@ -218,13 +218,13 @@ cluster/.style={dashed, draw=#1!50, fill=#1!5, rounded corners=8pt, inner sep=6p
 
 Khi dự đoán từ tiếp theo,
 mô hình không chỉ nhìn vào từ ngay trước nó,
-mà nó nhìn vào  toàn bộ các từ đã xuất hiện  và dùng cơ chế gọi là  Self-Attention  để xem từ nào quan trọng nhất.
+mà nó nhìn vào toàn bộ các từ đã xuất hiện và dùng cơ chế gọi là Self-Attention để xem từ nào quan trọng nhất.
 
 
 Ví dụ: Trong câu "Con mèo rượt đuổi con chuột vì nó chạy rất nhanh", cơ chế Attention sẽ giúp mô hình hiểu chữ "nó" ở đây có xác suất cao là đang chỉ "con chuột" chứ không phải "con mèo".
 
 
-Sau khi tính toán ngữ cảnh, mô hình sẽ quét qua toàn bộ kho từ vựng    và gán cho mỗi từ một con số xác suất.       Mô hình sẽ chọn từ tiếp theo dựa trên bảng xác suất này.    Quá trình này lặp đi lặp lại liên tục       cho đến khi nó tạo ra một ký tự đặc biệt ra lệnh dừng lại.
+Sau khi tính toán ngữ cảnh, mô hình sẽ quét qua toàn bộ kho từ vựng và gán cho mỗi từ một con số xác suất. Mô hình sẽ chọn từ tiếp theo dựa trên bảng xác suất này. Quá trình này lặp đi lặp lại liên tục cho đến khi nó tạo ra một ký tự đặc biệt ra lệnh dừng lại.
 
 
 \begin{figure}[H]
@@ -240,21 +240,21 @@ Tuy nhiên LLM có một số nhược điểm:
 \begin{itemize}
 
 
-\item  Dữ liệu huấn luyện rộng
+\item Dữ liệu huấn luyện rộng
 
-\item  Độ chính xác không cao với miền cụ thể
+\item Độ chính xác không cao với miền cụ thể
 
-\item  Có hiện tượng ảo giác (Hallucination)
+\item Có hiện tượng ảo giác (Hallucination)
 
-\item  Dữ liệu chỉ cập nhật đến ngày train, dữ liệu cũ
+\item Dữ liệu chỉ cập nhật đến ngày train, dữ liệu cũ
 
-\item  LLM không biết dữ liệu mới
+\item LLM không biết dữ liệu mới
 
-\item  LLM không biết dữ liệu doanh nghiệp
+\item LLM không biết dữ liệu doanh nghiệp
 
-\item  LLM không biết tài liệu người dùng
+\item LLM không biết tài liệu người dùng
 
-\item  Chi phí cho việc huấn luyện, tinh chỉnh lớn.
+\item Chi phí cho việc huấn luyện, tinh chỉnh lớn.
 
 
 \end{itemize}
@@ -277,9 +277,37 @@ có thể đưa ra kết quả không chính xác trong thực tế,
 Làm thế nào để mô hình ngôn ngữ lớn có thể trả lời các câu hỏi pháp luật một cách chính xác?
 
 
+Retrieval Augmented Generation (RAG)
+là một kỹ thuật
+giúp nâng cao khả năng của LLM kết hợp với tri thức bên ngoài.
+
+
+Phương pháp này thực hiện bằng cách truy xuất thông tin liên quan từ kho tài liệu (tri thức)
+và sử dụng chúng cho quá trình sinh câu trả lời dựa trên LLMs.
+
+
+Ở góc nhìn triển khai hệ thống, các kiến trúc RAG hiện đại thường được mô tả như một pipeline gồm 3 giai đoạn chính:
+
+Lập chỉ mục (indexing): Chuẩn hóa dữ liệu và xây dựng chỉ mục truy xuất.
+Truy xuất (retrieval): Tìm các đoạn văn bản liên quan nhất với truy vấn.
+Tạo sinh (generation): LLM sử dụng các đoạn truy xuất làm ngữ cảnh để tổng hợp và tạo câu trả lời.
+
+
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.1]{pictures/rag-basic.excalidraw.png}
+\includegraphics[scale = 0.2]{pictures/rag-1.excalidraw.png}
+\caption{Sơ đồ RAG cơ bản}
+\end{figure}
+
+
+Trích xuất, chia nhỏ
+ftur
+các chuc
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.2]{pictures/rag-2.excalidraw.png}
 \caption{Sơ đồ RAG cơ bản}
 \end{figure}
 
@@ -290,7 +318,7 @@ em sử dụng Agentic RAG
 để tăng cường khả năng truy xuất tri thức từ các văn bản pháp luật,
 giúp mô hình ngôn ngữ lớn đưa ra câu trả lời chính xác hơn,
 có căn cứ pháp lý rõ ràng
-và giảm thiểu hiện tượng ảo giác   so với mô hình LLM truyền thống.
+và giảm thiểu hiện tượng ảo giác so với mô hình LLM truyền thống.
 Thay vì “đoán”, LLM sẽ dựa vào dữ liệu thật
 từ đó cung cấp nguồn dẫn chứng rõ ràng cho người dùng.
 \end{block}
