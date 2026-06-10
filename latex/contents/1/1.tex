@@ -442,15 +442,22 @@ Sơ đồ Agentic RAG dự án này:
 Giải thích sơ đồ Agentic RAG:
 
 
-\begin{itemize}
-\item xxxxxxxxxxx
-\item xxxxxxxxxxx
-\item xxxxxxxxxxx
-\end{itemize}
+% \begin{itemize}
+% \item \textbf{Tầng định tuyến (Router → route\_from\_start):} Mỗi tin nhắn đều đi qua \texttt{Router} đầu tiên. Node này kiểm tra ba điều kiện: tin quá ngắn (< 2 ký tự) → đi thẳng \texttt{General}; đang chờ xác nhận (\texttt{pending\_confirmation}) → đi \texttt{Confirmer}; hoặc định tuyến vào luồng chính theo chế độ (Voice, Fast, hoặc Agentic đầy đủ).
 
+% \item \textbf{Tầng phân tích song song (Entry Dispatcher):} Với luồng Agentic đầy đủ, ba node chạy đồng thời: \texttt{Linker} đọc URL nếu có; \texttt{Classify} phân loại câu hỏi là pháp lý hay thông thường; \texttt{Extract Identity} trích xuất số hiệu văn bản (VD: \texttt{100/2019/NĐ-CP}). Kết quả hội tụ tại \texttt{Entry Join} trước khi phân nhánh tiếp.
 
-% \subsubsection{Mô hình ngôn ngữ lớn LLM (Large Language Model)}
-% \subsubsection{Mô hình ngôn ngữ lớn LLM (Large Language Model)}
+% \item \textbf{Kiểm tra hiệu lực pháp lý (Check Effective):} Nếu câu hỏi thuộc nhóm \texttt{TYPE\_LEGAL} và có số hiệu văn bản, hệ thống tra cứu trạng thái trong DB. Văn bản đã hết hiệu lực hoàn toàn → kết thúc ngay; văn bản hết hiệu lực một phần → phát cảnh báo và \textbf{tạm dừng} (\texttt{pending\_confirmation = True}), chờ người dùng xác nhận ở lượt sau qua \texttt{Confirmer}.
+
+% \item \textbf{Tầng truy xuất song song (Retrieve Dispatcher):} Bốn nguồn dữ liệu chạy đồng thời — tài liệu người dùng đính kèm (Milvus), bản tóm tắt tài liệu (Cloudflare R2), văn bản pháp luật gốc (Pinecone), và dữ liệu pháp điển (Qdrant). \texttt{Join Retrieve} gộp kết quả, loại trùng lặp, và sắp xếp theo điểm tương đồng.
+
+% \item \textbf{Nhánh Fast vs. Agentic sau khi truy xuất:} Fast mode lấy top-5 tài liệu qua \texttt{Fast RAG} và đi thẳng vào \texttt{Advisor}, kết thúc ngay sau khi có câu trả lời. Agentic mode qua \texttt{Ranker} (LLM lọc tài liệu không liên quan), sau đó kiểm tra độ liên quan: không có tài liệu → \texttt{Rewrite} câu hỏi và retry (tối đa 2 lần); hết lượt retry → \texttt{Browser} tìm kiếm web qua Tavily.
+
+% \item \textbf{Vòng lặp tự kiểm tra chất lượng (Check Answer):} Chỉ áp dụng ở Agentic mode. Sau khi \texttt{Advisor} trả lời, \texttt{Check Answer} dùng LLM đánh giá câu trả lời có hallucination không. Nếu không hợp lệ và chưa quá 2 lần → xóa câu trả lời cũ, \texttt{Rewrite} lại query, lặp lại toàn bộ luồng truy xuất. Đây là điểm phân biệt cốt lõi giữa \textit{Agentic} RAG (tự phản biện) và RAG thông thường (trả lời một lần duy nhất).
+% \end{itemize}
+
+\subsubsection{Mô hình ngôn ngữ lớn LLM (Large Language Model)}
+\subsubsection{Mô hình ngôn ngữ lớn LLM (Large Language Model)}
 
 
 \subsection{Mục tiêu}
