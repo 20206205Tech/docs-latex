@@ -62,7 +62,7 @@ người dùng phải kiểm chứng thông tin với chuyên gia và các CSDL 
 
 
 \subsection{Khảo sát công nghệ xây dựng}
-\subsubsection{Mô hình ngôn ngữ lớn}
+\subsubsection{Mô hình ngôn ngữ lớn LLM (Large Language Model)}
 
 
 Năm 2017, các kỹ sư của Google
@@ -230,6 +230,7 @@ Ví dụ: Trong câu "Con mèo rượt đuổi con chuột vì nó chạy rất 
    \caption{Cách hoạt động của LLM}
 \end{figure}
 
+\newpage
 Tuy nhiên LLM có một số nhược điểm:
 
 
@@ -261,6 +262,24 @@ Tuy nhiên LLM có một số nhược điểm:
    \includegraphics[scale = 0.25]{pictures/llm-crons.png}
    \caption{Một số nhược điểm của LLM}
 \end{figure}
+
+
+\subsubsection{Tạo tăng cường truy xuất RAG (Retrieval Augmented Generation)}
+
+
+Mô hình ngôn ngữ lớn
+ có thể đưa ra kết quả không chính xác trong thực tế,
+ đối mặt với thách thức như hiểu được lập luận pháp lý phức tạp,
+ đảm bảo tính minh bạch và tránh các phản hồi gây hiểu nhầm.
+ Làm thế nào để mô hình ngôn ngữ lớn có thể trả lời các câu hỏi pháp luật một cách chính xác?
+
+
+\begin{block}{Ứng dụng trong đồ án}
+   Trong phạm vi đồ án này, em sử dụng RAG để tăng cường khả năng truy xuất tri thức từ các văn bản pháp luật, giúp mô hình ngôn ngữ lớn đưa ra câu trả lời chính xác hơn, có căn cứ pháp lý rõ ràng và giảm thiểu hiện tượng hallucination so với mô hình LLM truyền thống. Thay vì “đoán”, LLM sẽ dựa vào dữ liệu thật từ đó cung cấp nguồn dẫn chứng rõ ràng cho người dùng.
+\end{block}
+
+% \subsubsection{Mô hình ngôn ngữ lớn LLM (Large Language Model)}
+% \subsubsection{Mô hình ngôn ngữ lớn LLM (Large Language Model)}
 
 
 \subsection{Mục tiêu}
