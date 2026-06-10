@@ -287,7 +287,9 @@ trước khi sinh ra câu trả lời.
 
 \begin{block}{Ứng dụng trong đồ án}
 Trong phạm vi đồ án này,
-em sử dụng Agentic RAG
+em sử dụng
+% Agentic
+RAG
 để tăng cường khả năng truy xuất tri thức từ các văn bản pháp luật,
 giúp mô hình ngôn ngữ lớn đưa ra câu trả lời chính xác hơn,
 có căn cứ pháp lý rõ ràng
@@ -310,7 +312,7 @@ từ đó cung cấp nguồn dẫn chứng rõ ràng cho người dùng.
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.2]{pictures/rag-1.excalidraw.png}
+\includegraphics[scale = 0.21]{pictures/rag-1.excalidraw.png}
 \caption{Sơ đồ RAG cơ bản (Extracting and Indexing)}
 \end{figure}
 
@@ -326,10 +328,12 @@ Các bước cốt lõi để xây dựng một hệ thống RAG:
 \begin{itemize}
 
 
-\item Toàn bộ dữ liệu tri thức (tài liệu, hướng dẫn, văn bản luật...) được chia nhỏ thành các đoạn (chunks).
+\item Toàn bộ dữ liệu tri thức (tài liệu, văn bản luật, \dots) được chia nhỏ thành các đoạn (chunks).
 
 
 \item Sử dụng các mô hình nhúng (embedding models) để chuyển đổi các đoạn văn bản này thành các biểu diễn vector.
+
+
 \item Lưu trữ các vector vào vector database để tối ưu hóa việc tìm kiếm không gian nhiều chiều.
 
 
@@ -350,46 +354,87 @@ Các bước cốt lõi để xây dựng một hệ thống RAG:
 \end{itemize}
 
 
+Việc áp dụng kiến trúc RAG không chỉ giúp giảm đáng kể chi phí huấn luyện và bảo trì mô hình mà còn hạn chế hiện tượng tạo ra thông tin ảo giác thông qua việc dựa trên các tài liệu được truy xuất từ nguồn dữ liệu đáng tin cậy. Điều này giúp nâng cao độ chính xác, khả năng mở rộng và tính cập nhật của hệ thống.
+
+
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.2]{pictures/rag-2.excalidraw.png}
+\includegraphics[scale = 0.21]{pictures/rag-2.excalidraw.png}
 \caption{Sơ đồ RAG cơ bản (Retrieval and Generation)}
 \end{figure}
 
 
-% \begin{block}{Ứng dụng trong đồ án}
+\newpage
+
+
+Hệ sinh thái LangChain trong phát triển ứng dụng AI:
+
+
+\begin{itemize}
+
+\item LangChain cung cấp các khối xây dựng cơ bản như lời nhắc, mô hình, bộ nhớ và bộ truy xuất để kết hợp thành các quy trình tuyến tính.
+
+\item LangGraph mô hình hóa các ứng dụng AI dưới dạng đồ thị cho phép các tác nhân lặp lại, phân nhánh, đánh giá kết quả và duy trì trạng thái trung tâm, làm cho nó trở nên lý tưởng cho các hệ thống đa tác nhân.
+
+\item LangSmith và Langfuse cung cấp khả năng theo dõi và phân tích để gỡ lỗi, theo dõi việc sử dụng token và đánh giá hiệu suất.
+
+\end{itemize}
+
+
+\begin{block}{Ứng dụng trong đồ án}
 % Trong phạm vi đồ án này,
-% em sử dụng Agentic RAG
+% em sử dụng
+% % Agentic
+% RAG
 % để tăng cường khả năng truy xuất tri thức từ các văn bản pháp luật,
 % giúp mô hình ngôn ngữ lớn đưa ra câu trả lời chính xác hơn,
 % có căn cứ pháp lý rõ ràng
 % và giảm thiểu hiện tượng ảo giác so với mô hình LLM truyền thống.
 % Thay vì “đoán”, LLM sẽ dựa vào dữ liệu thật
 % từ đó cung cấp nguồn dẫn chứng rõ ràng cho người dùng.
-% \end{block}
+
+
+Tuy nhiên, sử dụng RAG đơn giản
+thì độ chính xác chưa cao
+và vẫn có thể sai sót
+vì vậy ,
+em sử dụng LangGraph
+xây dựng Agentic RAG
+để tăng độ chính xác
+và hạn chế ảo giác
+vì miền tư vấn pháp luật
+yêu cầu độ chính xác cao.
+\end{block}
 
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.25]{pictures/llm-crons.png}
-\caption{Một số nhược điểm của LLM}
+\includegraphics[scale = 0.7]{pictures/625723062_18126048418556935_1835132745978934341_n.jpg}
+\caption{Các khái niệm quan trọng của LangGraph}
 \end{figure}
 
 
-Thay vì chạy theo một chuỗi tuyến tính, LangGraph mô tả luồng công việc như một mạng lưới gồm:
+Thay vì thực thi các bước theo quy trình tuyến tính như LangChain, LangGraph mô hình hóa luồng công việc dưới dạng một đồ thị gồm các thành phần chính sau:
+
+
 \begin{itemize}
 
-\item Nodes (Nút): Đại diện cho các bước, tác vụ (tasks) hoặc hành động cụ thể (ví dụ: gọi LLM, tìm kiếm cơ sở dữ liệu, chào người dùng).
-\item Edges (Cạnh): Định nghĩa luồng di chuyển giữa các node. Edges có thể là đường đi trực tiếp hoặc có điều kiện (conditional edges - dựa trên kết quả của node trước để quyết định đi tiếp đến node nào).
-\item Cycles (Vòng lặp): Đây là tính năng quan trọng nhất. Khác với kiến trúc DAG (Đồ thị có hướng không chu trình) thông thường, LangGraph cho phép agent quay lại các node trước đó để thực hiện lại, tự sửa lỗi, hoặc lặp lại quy trình (iterative process) cho đến khi đạt mục tiêu.
+\item Nodes (Nút): Đại diện cho các bước xử lý, tác vụ hoặc hành động cụ thể, chẳng hạn như gọi mô hình ngôn ngữ lớn (LLM), truy xuất cơ sở dữ liệu hoặc tương tác với người dùng.
+\item Edges (Cạnh): Xác định hướng chuyển tiếp giữa các nút. Các cạnh có thể là đường đi trực tiếp hoặc cạnh có điều kiện (conditional edges), cho phép lựa chọn nhánh thực thi dựa trên kết quả của nút trước đó.
+\item Cycles (Vòng lặp): Đây là đặc điểm nổi bật của LangGraph. Khác với kiến trúc đồ thị có hướng không chu trình, LangGraph cho phép tác nhân (agent) quay lại các nút đã thực hiện để đánh giá lại kết quả, tự sửa lỗi hoặc lặp lại quy trình nhiều lần cho đến khi đạt được mục tiêu mong muốn.
+\item State (Trạng thái): Đây là bộ nhớ dùng chung. Mọi nút (node) trong đồ thị đều có thể đọc dữ liệu từ State này và ghi kết quả mới của chúng vào đây.
 \end{itemize}
+
+
+\newpage
+
 
 Sơ đồ Agentic RAG dự án này:
 
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.25]{pictures/rag_diagram.png}
+\includegraphics[scale = 0.23]{pictures/rag_diagram.png}
 \caption{Sơ đồ LangGraph của dự án}
 \end{figure}
 
