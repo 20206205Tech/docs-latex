@@ -3,7 +3,12 @@
   // "latex-workshop.synctex.afterBuild.enabled": false,
   "latex-workshop.synctex.afterBuild.enabled": true,
 
-  // "files.autoSave": "afterDelay",
+  "latex-workshop.view.pdf.viewer": "tab",
+  // "latex-workshop.latex.autoClean.run": "onBuilt",
+
+  "files.autoSave": "afterDelay",
+  // "files.autoSave": "off",
+
   // "latex-workshop.latex.autoBuild.run": "never",
   "latex-workshop.latex.autoBuild.run": "onFileChange",
   "workbench.editorAssociations": {
