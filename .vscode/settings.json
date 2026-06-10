@@ -1,7 +1,7 @@
 {
   // 4. Đồng bộ vị trí con trỏ sang PDF ngay sau khi build
-  "latex-workshop.synctex.afterBuild.enabled": false,
-  // "latex-workshop.synctex.afterBuild.enabled": true,
+  // "latex-workshop.synctex.afterBuild.enabled": false,
+  "latex-workshop.synctex.afterBuild.enabled": true,
 
   "latex-workshop.view.pdf.viewer": "tab",
   // "latex-workshop.latex.autoClean.run": "onBuilt",
