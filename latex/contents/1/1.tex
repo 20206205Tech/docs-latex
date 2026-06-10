@@ -224,6 +224,9 @@ mà nó nhìn vào  toàn bộ các từ đã xuất hiện  và dùng cơ chế
 Ví dụ: Trong câu "Con mèo rượt đuổi con chuột vì nó chạy rất nhanh", cơ chế Attention sẽ giúp mô hình hiểu chữ "nó" ở đây có xác suất cao là đang chỉ "con chuột" chứ không phải "con mèo".
 
 
+Sau khi tính toán ngữ cảnh, mô hình sẽ quét qua toàn bộ kho từ vựng    và gán cho mỗi từ một con số xác suất.       Mô hình sẽ chọn từ tiếp theo dựa trên bảng xác suất này.    Quá trình này lặp đi lặp lại liên tục       cho đến khi nó tạo ra một ký tự đặc biệt ra lệnh dừng lại.
+
+
 \begin{figure}[H]
 \centering
 \includegraphics[scale = 0.4]{pictures/llm.png}
@@ -274,6 +277,13 @@ có thể đưa ra kết quả không chính xác trong thực tế,
 Làm thế nào để mô hình ngôn ngữ lớn có thể trả lời các câu hỏi pháp luật một cách chính xác?
 
 
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.1]{pictures/rag-basic.excalidraw.png}
+\caption{Sơ đồ RAG cơ bản}
+\end{figure}
+
+
 \begin{block}{Ứng dụng trong đồ án}
 Trong phạm vi đồ án này,
 em sử dụng Agentic RAG
@@ -284,6 +294,42 @@ và giảm thiểu hiện tượng ảo giác   so với mô hình LLM truyền 
 Thay vì “đoán”, LLM sẽ dựa vào dữ liệu thật
 từ đó cung cấp nguồn dẫn chứng rõ ràng cho người dùng.
 \end{block}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.25]{pictures/llm-crons.png}
+\caption{Một số nhược điểm của LLM}
+\end{figure}
+
+
+Thay vì chạy theo một chuỗi tuyến tính, LangGraph mô tả luồng công việc như một mạng lưới gồm:
+\begin{itemize}
+
+\item Nodes (Nút): Đại diện cho các bước, tác vụ (tasks) hoặc hành động cụ thể (ví dụ: gọi LLM, tìm kiếm cơ sở dữ liệu, chào người dùng).
+\item Edges (Cạnh): Định nghĩa luồng di chuyển giữa các node. Edges có thể là đường đi trực tiếp hoặc có điều kiện (conditional edges - dựa trên kết quả của node trước để quyết định đi tiếp đến node nào).
+\item Cycles (Vòng lặp): Đây là tính năng quan trọng nhất. Khác với kiến trúc DAG (Đồ thị có hướng không chu trình) thông thường, LangGraph cho phép agent quay lại các node trước đó để thực hiện lại, tự sửa lỗi, hoặc lặp lại quy trình (iterative process) cho đến khi đạt mục tiêu.
+\end{itemize}
+
+Sơ đồ Agentic RAG dự án này:
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.25]{pictures/rag_diagram.png}
+\caption{Sơ đồ LangGraph của dự án}
+\end{figure}
+
+
+Giải thích sơ đồ Agentic RAG:
+
+
+\begin{itemize}
+\item xxxxxxxxxxx
+\item xxxxxxxxxxx
+\item xxxxxxxxxxx
+\end{itemize}
+
 
 % \subsubsection{Mô hình ngôn ngữ lớn LLM (Large Language Model)}
 % \subsubsection{Mô hình ngôn ngữ lớn LLM (Large Language Model)}

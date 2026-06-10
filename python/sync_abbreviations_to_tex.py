@@ -25,11 +25,11 @@ DATA = [
     #     "eng": "Application Programming Interface",
     #     "vie": "Giao diện lập trình ứng dụng",
     # },
-    # {
-    #     "abbr": "RAG",
-    #     "eng": "Retrieval Augmented Generation",
-    #     "vie": "Tạo tăng cường truy xuất",
-    # },
+    {
+        "abbr": "RAG",
+        "eng": "Retrieval Augmented Generation",
+        "vie": "Tạo tăng cường truy xuất",
+    },
     # {"abbr": "DDD", "eng": "Domain Driven Design", "vie": "Thiết kế hướng miền"},
     # {"abbr": "MSA", "eng": "Microservice Architecture", "vie": "Kiến trúc vi dịch vụ"},
     # {
