@@ -14,12 +14,17 @@ if sys.stdout.encoding != "utf-8":
 
 DATA = [
     {"abbr": "AI", "eng": "Artificial Intelligence", "vie": "Trí tuệ nhân tạo"},
+    {
+        "abbr": "NLP",
+        "eng": "Natural Language Processing",
+        "vie": "Xử lý ngôn ngữ tự nhiên",
+    },
+    {"abbr": "LLM", "eng": "Large Language Model", "vie": "Mô hình ngôn ngữ lớn"},
     # {
     #     "abbr": "API",
     #     "eng": "Application Programming Interface",
     #     "vie": "Giao diện lập trình ứng dụng",
     # },
-    # {"abbr": "LLM", "eng": "Large Language Model", "vie": "Mô hình ngôn ngữ lớn"},
     # {
     #     "abbr": "RAG",
     #     "eng": "Retrieval Augmented Generation",
@@ -53,11 +58,6 @@ DATA = [
     #     "vie": "Định danh tài nguyên Internet",
     # },
     # {"abbr": "CLI", "eng": "Command Line Interface", "vie": "Giao diện dòng lệnh"},
-    {
-        "abbr": "NLP",
-        "eng": "Natural Language Processing",
-        "vie": "Xử lý ngôn ngữ tự nhiên",
-    },
     # {"abbr": "CSDL", "eng": "Cơ sở dữ liệu", "vie": "Cơ sở dữ liệu"},
     # {"abbr": "SSE", "eng": "Server-sent events", "vie": "Sự kiện máy chủ gửi"},
     # {
