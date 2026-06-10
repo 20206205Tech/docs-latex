@@ -233,6 +233,7 @@ Sau khi tính toán ngữ cảnh, mô hình sẽ quét qua toàn bộ kho từ v
 \caption{Cách hoạt động của LLM}
 \end{figure}
 
+
 \newpage
 Tuy nhiên LLM có một số nhược điểm:
 
@@ -275,41 +276,13 @@ có thể đưa ra kết quả không chính xác trong thực tế,
 đối mặt với thách thức như hiểu được lập luận pháp lý phức tạp,
 đảm bảo tính minh bạch và tránh các phản hồi gây hiểu nhầm.
 Làm thế nào để mô hình ngôn ngữ lớn có thể trả lời các câu hỏi pháp luật một cách chính xác?
-
-
 Retrieval Augmented Generation (RAG)
 là một kỹ thuật
-giúp nâng cao khả năng của LLM kết hợp với tri thức bên ngoài.
-
-
-Phương pháp này thực hiện bằng cách truy xuất thông tin liên quan từ kho tài liệu (tri thức)
-và sử dụng chúng cho quá trình sinh câu trả lời dựa trên LLMs.
-
-
-Ở góc nhìn triển khai hệ thống, các kiến trúc RAG hiện đại thường được mô tả như một pipeline gồm 3 giai đoạn chính:
-
-Lập chỉ mục (indexing): Chuẩn hóa dữ liệu và xây dựng chỉ mục truy xuất.
-Truy xuất (retrieval): Tìm các đoạn văn bản liên quan nhất với truy vấn.
-Tạo sinh (generation): LLM sử dụng các đoạn truy xuất làm ngữ cảnh để tổng hợp và tạo câu trả lời.
-
-
-\begin{figure}[H]
-\centering
-\includegraphics[scale = 0.2]{pictures/rag-1.excalidraw.png}
-\caption{Sơ đồ RAG cơ bản}
-\end{figure}
-
-
-Trích xuất, chia nhỏ
-ftur
-các chuc
-
-
-\begin{figure}[H]
-\centering
-\includegraphics[scale = 0.2]{pictures/rag-2.excalidraw.png}
-\caption{Sơ đồ RAG cơ bản}
-\end{figure}
+được thiết kế
+để khắc phục hiện tượng ảo giác
+của LLM
+bằng cách cung cấp thêm nguồn tri thức bên ngoài
+trước khi sinh ra câu trả lời.
 
 
 \begin{block}{Ứng dụng trong đồ án}
@@ -322,6 +295,51 @@ và giảm thiểu hiện tượng ảo giác so với mô hình LLM truyền th
 Thay vì “đoán”, LLM sẽ dựa vào dữ liệu thật
 từ đó cung cấp nguồn dẫn chứng rõ ràng cho người dùng.
 \end{block}
+
+
+% Phương pháp này thực hiện bằng cách truy xuất thông tin liên quan từ kho tài liệu (tri thức)
+% và sử dụng chúng cho quá trình sinh câu trả lời dựa trên LLMs.
+
+
+% Ở góc nhìn triển khai hệ thống, các kiến trúc RAG hiện đại thường được mô tả như một pipeline gồm 3 giai đoạn chính:
+
+% Lập chỉ mục (indexing): Chuẩn hóa dữ liệu và xây dựng chỉ mục truy xuất.
+% Truy xuất (retrieval): Tìm các đoạn văn bản liên quan nhất với truy vấn.
+% Tạo sinh (generation): LLM sử dụng các đoạn truy xuất làm ngữ cảnh để tổng hợp và tạo câu trả lời.
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.2]{pictures/rag-1.excalidraw.png}
+\caption{Sơ đồ RAG cơ bản (Extracting and Indexing)}
+\end{figure}
+
+
+% TODO RAG rẻ hơn tinh chỉnh
+
+% TODO Các cách chucking
+
+
+xxxxxxxxxxxxxxxxxxxxx
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.2]{pictures/rag-2.excalidraw.png}
+\caption{Sơ đồ RAG cơ bản (Retrieval and Generation)}
+\end{figure}
+
+
+% \begin{block}{Ứng dụng trong đồ án}
+% Trong phạm vi đồ án này,
+% em sử dụng Agentic RAG
+% để tăng cường khả năng truy xuất tri thức từ các văn bản pháp luật,
+% giúp mô hình ngôn ngữ lớn đưa ra câu trả lời chính xác hơn,
+% có căn cứ pháp lý rõ ràng
+% và giảm thiểu hiện tượng ảo giác so với mô hình LLM truyền thống.
+% Thay vì “đoán”, LLM sẽ dựa vào dữ liệu thật
+% từ đó cung cấp nguồn dẫn chứng rõ ràng cho người dùng.
+% \end{block}
 
 
 \begin{figure}[H]
