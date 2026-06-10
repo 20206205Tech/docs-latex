@@ -442,8 +442,21 @@ Sơ đồ Agentic RAG dự án này:
 Giải thích sơ đồ Agentic RAG:
 
 
-% \begin{itemize}
-% \item \textbf{Tầng định tuyến (Router → route\_from\_start):} Mỗi tin nhắn đều đi qua \texttt{Router} đầu tiên. Node này kiểm tra ba điều kiện: tin quá ngắn (< 2 ký tự) → đi thẳng \texttt{General}; đang chờ xác nhận (\texttt{pending\_confirmation}) → đi \texttt{Confirmer}; hoặc định tuyến vào luồng chính theo chế độ (Voice, Fast, hoặc Agentic đầy đủ).
+\begin{itemize}
+\item Hệ thống
+phân chia việc sử dụng thông minh
+giữa mô hình nhỏ cho luồng cơ bản
+và mô hình lớn cho tác vụ suy luận
+là chìa khóa để tối ưu cả chi phí, độ trễ và hiệu năng.
+(Nhìn vào sơ đồ các Node màu xanh lá sử dụng mô hình nhỏ,
+các Node màu xanh dương sử dụng mô hình lớn)
+
+
+\item Mỗi tin nhắn đều đi qua \texttt{Router}.
+Node này kiểm tra điều kiện
+giúp định tuyến vào luồng chính xác
+theo từng trạng thái.
+
 
 % \item \textbf{Tầng phân tích song song (Entry Dispatcher):} Với luồng Agentic đầy đủ, ba node chạy đồng thời: \texttt{Linker} đọc URL nếu có; \texttt{Classify} phân loại câu hỏi là pháp lý hay thông thường; \texttt{Extract Identity} trích xuất số hiệu văn bản (VD: \texttt{100/2019/NĐ-CP}). Kết quả hội tụ tại \texttt{Entry Join} trước khi phân nhánh tiếp.
 
@@ -454,7 +467,7 @@ Giải thích sơ đồ Agentic RAG:
 % \item \textbf{Nhánh Fast vs. Agentic sau khi truy xuất:} Fast mode lấy top-5 tài liệu qua \texttt{Fast RAG} và đi thẳng vào \texttt{Advisor}, kết thúc ngay sau khi có câu trả lời. Agentic mode qua \texttt{Ranker} (LLM lọc tài liệu không liên quan), sau đó kiểm tra độ liên quan: không có tài liệu → \texttt{Rewrite} câu hỏi và retry (tối đa 2 lần); hết lượt retry → \texttt{Browser} tìm kiếm web qua Tavily.
 
 % \item \textbf{Vòng lặp tự kiểm tra chất lượng (Check Answer):} Chỉ áp dụng ở Agentic mode. Sau khi \texttt{Advisor} trả lời, \texttt{Check Answer} dùng LLM đánh giá câu trả lời có hallucination không. Nếu không hợp lệ và chưa quá 2 lần → xóa câu trả lời cũ, \texttt{Rewrite} lại query, lặp lại toàn bộ luồng truy xuất. Đây là điểm phân biệt cốt lõi giữa \textit{Agentic} RAG (tự phản biện) và RAG thông thường (trả lời một lần duy nhất).
-% \end{itemize}
+\end{itemize}
 
 \subsubsection{Mô hình ngôn ngữ lớn LLM (Large Language Model)}
 \subsubsection{Mô hình ngôn ngữ lớn LLM (Large Language Model)}
