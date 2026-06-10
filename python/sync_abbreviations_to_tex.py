@@ -83,8 +83,6 @@ DATA = [
 
 
 # \newpage
-# {\centering \section*{Danh sách viết tắt}} % Đặt tên tiêu đề
-# \addcontentsline{toc}{section}{Danh sách viết tắt} % Thêm vào mục lục
 
 # \begin{table}[ht]
 # \centering
@@ -120,8 +118,8 @@ TEX_PATH = os.path.join(
     env.PATH_FOLDER_LATEX,
     "contents",
     "Chương 0",
-    "Danh sách viết tắt",
-    "Danh sách viết tắt.tex",
+    "danh_sach_viet_tat",
+    "danh_sach_viet_tat.tex",
 )
 
 # Số ký tự tối đa trong một dòng của cột Mô tả trước khi xuống dòng (\\)
