@@ -573,7 +573,7 @@ và người dùng không thể nhập URL nên hệ thống chuyển đến \te
 \end{itemize}
 
 
-\subsubsection{Mô hình ngôn ngữ lớn LLM (Large Language Model)}
+\subsubsection{Kiến trúc vi dịch vụ MSA (Microservice Architecture)}
 
 
 Kiến trúc vi dịch vụ chia bài toán thành các thành phần nhỏ hơn được gọi là các dịch vụ.
@@ -584,22 +584,34 @@ Kiến trúc vi dịch vụ chia bài toán thành các thành phần nhỏ hơn
 \item Các dịch vụ độc lập và giao tiếp với nhau thông qua hạ tầng mạng.
 \end{itemize}
 
-![alt text](images/mono.png)
+% ![alt text](images/mono.png)
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.3]{pictures/mono.png}
+\caption{Kiến trúc tổng quan các dịch vụ}
+\end{figure}
 
 Một số lợi ích của Microservice:
 
 
 \begin{itemize}
-
-\item Đa dạng ngôn ngữ lập trình khác nhau
+\item Mỗi dịch vụ có các biến bí mật (secret) riêng.
+\item Không cần cài các thư viện, các phụ thuộc với dịch vụ không dùng
+\item Đa dạng ngôn ngữ lập trình khác nhau theo từng logic của từng dịch vụ
 \item Phân chia tài nguyên cho từng dịch vụ (Ví dụ Heroku giới hạn RAM, AI cần GPU)
-\item Không cần cài thư viện, phụ thuộc với dịch vụ không dùng
-\item Biến bí mật email, ai, tải file, ...
 \item Giảm thời gian quá trình kiểm thử vì mỗi dịch vụ có nghiệp vụ khác nhau
-\item Tăng khả năng mở rộng hệ thống
+
+
 \item Vì các dịch vụ độc lập, dễ dàng triển khai
+\item Tăng khả năng mở rộng hệ thống
+
 
 \end{itemize}
+
+
+\newpage
 
 
 Kiến trúc tổng quan các dịch vụ của dự án:
@@ -607,8 +619,8 @@ Kiến trúc tổng quan các dịch vụ của dự án:
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.9]{pictures/chatbot-tra-cuu-luat-la-gi.jpeg}
-\caption{Kiến trúc tổng quan các dịch vụ}
+\includegraphics[scale = 0.2]{pictures/MSA.png}
+\caption{Kiến trúc tổng quan các dịch vụ của dự án}
 \end{figure}
 
 
