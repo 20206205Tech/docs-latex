@@ -458,15 +458,116 @@ giúp định tuyến vào luồng chính xác
 theo từng trạng thái.
 
 
-% \item \textbf{Tầng phân tích song song (Entry Dispatcher):} Với luồng Agentic đầy đủ, ba node chạy đồng thời: \texttt{Linker} đọc URL nếu có; \texttt{Classify} phân loại câu hỏi là pháp lý hay thông thường; \texttt{Extract Identity} trích xuất số hiệu văn bản (VD: \texttt{100/2019/NĐ-CP}). Kết quả hội tụ tại \texttt{Entry Join} trước khi phân nhánh tiếp.
+\item Ở chế độ suy luận Agentic RAG đầy đủ
+thực hiện
+phân tích song song
 
-% \item \textbf{Kiểm tra hiệu lực pháp lý (Check Effective):} Nếu câu hỏi thuộc nhóm \texttt{TYPE\_LEGAL} và có số hiệu văn bản, hệ thống tra cứu trạng thái trong DB. Văn bản đã hết hiệu lực hoàn toàn → kết thúc ngay; văn bản hết hiệu lực một phần → phát cảnh báo và \textbf{tạm dừng} (\texttt{pending\_confirmation = True}), chờ người dùng xác nhận ở lượt sau qua \texttt{Confirmer}.
+\begin{itemize}
 
-% \item \textbf{Tầng truy xuất song song (Retrieve Dispatcher):} Bốn nguồn dữ liệu chạy đồng thời — tài liệu người dùng đính kèm (Milvus), bản tóm tắt tài liệu (Cloudflare R2), văn bản pháp luật gốc (Pinecone), và dữ liệu pháp điển (Qdrant). \texttt{Join Retrieve} gộp kết quả, loại trùng lặp, và sắp xếp theo điểm tương đồng.
 
-% \item \textbf{Nhánh Fast vs. Agentic sau khi truy xuất:} Fast mode lấy top-5 tài liệu qua \texttt{Fast RAG} và đi thẳng vào \texttt{Advisor}, kết thúc ngay sau khi có câu trả lời. Agentic mode qua \texttt{Ranker} (LLM lọc tài liệu không liên quan), sau đó kiểm tra độ liên quan: không có tài liệu → \texttt{Rewrite} câu hỏi và retry (tối đa 2 lần); hết lượt retry → \texttt{Browser} tìm kiếm web qua Tavily.
+\item \texttt{Linker} đọc URL nếu có.
+\item \texttt{Classify} phân loại câu hỏi là pháp lý hay thông thường.
+\item \texttt{Extract Identity} trích xuất số hiệu văn bản (VD: \texttt{100/2019/NĐ-CP}).
 
-% \item \textbf{Vòng lặp tự kiểm tra chất lượng (Check Answer):} Chỉ áp dụng ở Agentic mode. Sau khi \texttt{Advisor} trả lời, \texttt{Check Answer} dùng LLM đánh giá câu trả lời có hallucination không. Nếu không hợp lệ và chưa quá 2 lần → xóa câu trả lời cũ, \texttt{Rewrite} lại query, lặp lại toàn bộ luồng truy xuất. Đây là điểm phân biệt cốt lõi giữa \textit{Agentic} RAG (tự phản biện) và RAG thông thường (trả lời một lần duy nhất).
+
+\end{itemize}
+
+
+\item Kiểm tra hiệu lực pháp lý:
+Nếu câu hỏi thuộc nhóm \texttt{TYPE\_LEGAL} và có số hiệu văn bản,
+hệ thống tra cứu trạng thái.
+
+
+\begin{itemize}
+
+
+\item
+Văn bản đã hết hiệu lực hoàn toàn
+thì kết thúc ngay.
+\item
+Văn bản hết hiệu lực một phần
+thì phát cảnh báo và chờ người dùng xác nhận ở lượt sau qua \texttt{Confirmer}.
+
+
+\end{itemize}
+
+
+\item
+Truy xuất nguồn dữ liệu song song
+
+
+\begin{itemize}
+
+
+\item Tài liệu người dùng (Milvus)
+\item Tóm tắt tài liệu (Cloudflare R2)
+\item Văn bản pháp luật (Pinecone)
+\item Dữ liệu pháp điển (Qdrant)
+
+\end{itemize}
+
+
+% \textbf{Nhánh Fast vs. Agentic sau khi truy xuất:}
+% Fast mode lấy top-5 tài liệu qua \texttt{Fast RAG}
+% và đi thẳng vào \texttt{Advisor},
+% kết thúc ngay sau khi có câu trả lời.
+\item
+Tiếp tục tới \texttt{Ranker} để lọc tài liệu
+
+
+\begin{itemize}
+
+
+\item
+Nếu có tài liệu hợp lý
+thì
+chuyển đến \texttt{Advisor}
+để tiến hành tạo câu trả lời.
+
+
+\item
+Nếu không có tài liệu hợp lý
+thì
+chuyển đến \texttt{Rewrite}
+để tạo lại câu hỏi.
+
+
+\item
+Sau khi thử tạo lại câu hỏi
+vẫn không có tài liệu hợp lý
+thì sẽ dùng \texttt{Browser}
+để lấy tài liệu
+tại nguồn
+thuvienphapluat.vn và luatvietnam.vn
+
+
+\end{itemize}
+
+
+\item
+Vòng lặp tự kiểm tra chất lượng
+Sau khi \texttt{Advisor} trả lời,
+\texttt{Check Answer} đánh giá câu trả lời có hợp lý hay không?
+
+
+\begin{itemize}
+
+
+\item
+Nếu không hợp lệ và chưa quá 2 lần
+thì xóa câu trả lời cũ,
+chuyển đến \texttt{Rewrite}
+để tạo lại câu hỏi
+và
+lặp lại toàn bộ luồng truy xuất.
+
+\item
+Nếu câu trả lời hợp lệ hoặc đã quá số lần thử lại
+thì
+hệ thống kết thúc trả lời
+\end{itemize}
+
+
 \end{itemize}
 
 \subsubsection{Mô hình ngôn ngữ lớn LLM (Large Language Model)}
