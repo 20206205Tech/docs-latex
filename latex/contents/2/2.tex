@@ -1,29 +1,49 @@
-
 \newpage
 \section{Phân tích thiết kế hệ thống}
-
-\lipsum[1]
 
 
 \subsection{Bài toán nghiệp vụ}
 
+Hệ thống hỗ trợ người dùng hỏi đáp pháp luật Việt Nam, phân tích tài liệu, hợp đồng và đàm thoại trực tiếp thời gian thực với trợ lý ảo pháp lý. Dựa trên thiết kế hướng miền (DDD), bài toán lớn được chia làm các miền phụ (Subdomain) với các chức năng như sau:
 
-\lipsum[1]
+% ![alt text](images/domain/SubDomain.png)
 
+\subsubsection{Miền phụ cốt lõi (Core Subdomain)}
 
-\subsection{Phân tích thiết kế hệ thống}
-
-
-\lipsum[1]
-
-
-\subsection{Kiến trúc hệ thống}
+Miền phụ cốt lõi là phần quan trọng và có giá trị nhất của hệ thống. Miền phụ cốt lõi giúp phân biệt các doanh nghiệp và làm cho các doanh nghiệp có giá trị. Miền phụ cốt lõi tập trung vào mục tiêu và yêu cầu của khách hàng với doanh nghiệp, từ đó quyết định sự thành công của doanh nghiệp. Vì vậy, mỗi doanh nghiệp luôn tìm cách thực hiện những điều khác biệt trong các miền phụ cốt lõi này để đạt được lợi thế so với đối thủ cạnh tranh.
 
 
-\lipsum[1]
+\begin{itemize}
 
 
-\subsection{Đường ống dữ liệu}
+\item Dịch vụ trò chuyện (conversation service)
 
 
-\lipsum[1]
+\begin{itemize}
+
+
+\item Nhập văn bản bằng text hoặc micro
+\item Chức năng đàm thoại giọng nói Voice (Chỉ dành cho người dùng đã thanh toán VIP)
+\item Sử dụng chức năng RAG suy luận (Chỉ dành cho người dùng đã thanh toán VIP)
+\item Đánh dấu cuộc trò chuyện theo thư mục và ghi chú
+\item Tạo liên kết chia sẻ và thu hồi cuộc trò chuyện
+
+\end{itemize}
+
+
+\item Dịch vụ chatbot (chatbot service)
+
+
+\begin{itemize}
+
+
+\item Tương tác giao tiếp với conversation service
+\item Tương tác giao tiếp với livekit server
+\item Lấy thông tin về lịch sử trò chuyện
+\item Lấy thông tin chi tiết trò chuyện
+\end{itemize}
+
+\end{itemize}
+
+
+Miền phụ cốt lõi là nơi diễn ra các luồng xử lý phức tạp và quyết định đến mức độ hài lòng của người dùng.
