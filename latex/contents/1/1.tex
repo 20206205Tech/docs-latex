@@ -382,16 +382,6 @@ Hệ sinh thái LangChain trong phát triển ứng dụng AI:
 
 
 \begin{block}{Ứng dụng trong đồ án}
-% Trong phạm vi đồ án này,
-% em sử dụng
-% % Agentic
-% RAG
-% để tăng cường khả năng truy xuất tri thức từ các văn bản pháp luật,
-% giúp mô hình ngôn ngữ lớn đưa ra câu trả lời chính xác hơn,
-% có căn cứ pháp lý rõ ràng
-% và giảm thiểu hiện tượng ảo giác so với mô hình LLM truyền thống.
-% Thay vì “đoán”, LLM sẽ dựa vào dữ liệu thật
-% từ đó cung cấp nguồn dẫn chứng rõ ràng cho người dùng.
 
 
 Tuy nhiên, sử dụng RAG đơn giản
@@ -507,10 +497,6 @@ Truy xuất nguồn dữ liệu song song
 \end{itemize}
 
 
-% \textbf{Nhánh Fast vs. Agentic sau khi truy xuất:}
-% Fast mode lấy top-5 tài liệu qua \texttt{Fast RAG}
-% và đi thẳng vào \texttt{Advisor},
-% kết thúc ngay sau khi có câu trả lời.
 \item
 Tiếp tục tới \texttt{Ranker} để lọc tài liệu
 
@@ -564,13 +550,31 @@ lặp lại toàn bộ luồng truy xuất.
 \item
 Nếu câu trả lời hợp lệ hoặc đã quá số lần thử lại
 thì
-hệ thống kết thúc trả lời
+hệ thống kết thúc quá trình trả lời.
 \end{itemize}
+
+
+\item
+Ở chế độ Fast RAG
+chỉ đi qua \texttt{Classify} để phân loại.
+Sau đó truy xuất dữ liệu lấy dữ liệu.
+Dùng \texttt{Advisor} trả lời
+và
+hệ thống kết thúc quá trình trả lời
+mà không cần bước kiểm tra.
+
+
+\item
+Ở chế độ giọng nói Voice,
+do đã có Agent nên không cần qua bước phân loại của LangGraph
+và người dùng không thể nhập URL nên hệ thống chuyển đến \texttt{Extract Identity} trích xuất số hiệu văn bản.
 
 
 \end{itemize}
 
 \subsubsection{Mô hình ngôn ngữ lớn LLM (Large Language Model)}
+
+
 \subsubsection{Mô hình ngôn ngữ lớn LLM (Large Language Model)}
 
 
