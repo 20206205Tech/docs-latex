@@ -13,6 +13,7 @@ if sys.stdout.encoding != "utf-8":
 
 
 DATA = [
+    {"abbr": "GPU", "eng": "Graphics Processing Unit", "vie": "Bộ phận xử lý đồ họa"},
     {"abbr": "AI", "eng": "Artificial Intelligence", "vie": "Trí tuệ nhân tạo"},
     {
         "abbr": "NLP",
@@ -30,8 +31,8 @@ DATA = [
         "eng": "Retrieval Augmented Generation",
         "vie": "Tạo tăng cường truy xuất",
     },
-    # {"abbr": "DDD", "eng": "Domain Driven Design", "vie": "Thiết kế hướng miền"},
-    # {"abbr": "MSA", "eng": "Microservice Architecture", "vie": "Kiến trúc vi dịch vụ"},
+    {"abbr": "DDD", "eng": "Domain Driven Design", "vie": "Thiết kế hướng miền"},
+    {"abbr": "MSA", "eng": "Microservice Architecture", "vie": "Kiến trúc vi dịch vụ"},
     # {
     #     "abbr": "SQL",
     #     "eng": "Structured Query Language",
@@ -52,68 +53,60 @@ DATA = [
     #     "eng": "Object-Oriented Programming",
     #     "vie": "Lập trình hướng đối tượng",
     # },
-    # {
-    #     "abbr": "URL",
-    #     "eng": "Uniform Resource Locator",
-    #     "vie": "Định danh tài nguyên Internet",
-    # },
+    {
+        "abbr": "URL",
+        "eng": "Uniform Resource Locator",
+        "vie": "Định danh tài nguyên Internet",
+    },
     # {"abbr": "CLI", "eng": "Command Line Interface", "vie": "Giao diện dòng lệnh"},
-    # {"abbr": "CSDL", "eng": "Cơ sở dữ liệu", "vie": "Cơ sở dữ liệu"},
+    {"abbr": "CSDL", "eng": "Cơ sở dữ liệu", "vie": "Cơ sở dữ liệu"},
     # {"abbr": "SSE", "eng": "Server-sent events", "vie": "Sự kiện máy chủ gửi"},
-    # {
-    #     "abbr": "TOTP",
-    #     "eng": "Time-based One-Time Password",
-    #     "vie": "Mật khẩu dùng một lần dựa trên thời gian",
-    # },
-    # {"abbr": "2FA", "eng": "Two-Factor Authentication", "vie": "Xác thực hai yếu tố"},
-    # {"abbr": "MFA", "eng": "Multi-Factor Authentication", "vie": "Xác thực đa yếu tố"},
-    # {"abbr": "K8s", "eng": "Kubernetes", "vie": "Kubernetes"},
-    # {"abbr": "CI", "eng": "Continuous Integration", "vie": "Tích hợp liên tục"},
-    # {
-    #     "abbr": "CD",
-    #     "eng": "Continuous Delivery / Deployment",
-    #     "vie": "Chuyển giao/Triển khai liên tục",
-    # },
-    # {
-    #     "abbr": "CD",
-    #     "eng": "Continuousx Delivery / Deployment",
-    #     "vie": "Chuyển giao/Triển khai liên tục",
-    # },
+    {
+        "abbr": "TOTP",
+        "eng": "Time-based One-Time Password",
+        "vie": "Mật khẩu dùng một lần dựa trên thời gian",
+    },
+    {"abbr": "2FA", "eng": "Two-Factor Authentication", "vie": "Xác thực hai yếu tố"},
+    {"abbr": "MFA", "eng": "Multi-Factor Authentication", "vie": "Xác thực đa yếu tố"},
+    {"abbr": "K8s", "eng": "Kubernetes", "vie": "Kubernetes"},
+    {"abbr": "CI", "eng": "Continuous Integration", "vie": "Tích hợp liên tục"},
+    {
+        "abbr": "CD",
+        "eng": "Continuous Delivery / Deployment",
+        "vie": "Chuyển giao/Triển khai liên tục",
+    },
 ]
 
 
-# \newpage
-
-# \begin{table}[ht]
-# \centering
-# \begin{tabular}{|c|c|c|l|}
-# \hline
 # \textbf{STT} & \textbf{Từ viết tắt} & \textbf{Từ viết đầy đủ} & \textbf{Mô tả} \\ \hline
+
 # 1 & CNTT & Công nghệ thông tin & Công nghệ thông tin \\ \hline
+
 # 2 & OOP & Object Oriented Programming & \makecell[l]{Kỹ thuật lập trình \\ hướng đối tượng} \\ \hline
 # 3 & ORM & Object Relational Mapping & \makecell[l]{Kỹ thuật ánh xạ \\ các đối tượng lập trình\\ với từng bảng trong\\ cơ sở dữ liệu} \\ \hline
+
 # 4 & SQL & Structured Query Language & \makecell[l]{Ngôn ngữ truy vấn \\ mang tính cấu trúc} \\ \hline
 # 5 & DBMS & Database Management System & \makecell[l]{Hệ quản trị cơ sở dữ liệu} \\ \hline
+
 # 6 & JWT & JSON Web Token & \makecell[l]{Một tiêu chuẩn dùng để \\ truyền tải thông tin \\ dưới dạng JSON} \\ \hline
 # 7 & JSON & JavaScript Object Notation & \makecell[l]{Một kiểu dữ liệu \\ mở rộng của JavaScript} \\ \hline
-# 8 & OTP & One Time Password & Mật khẩu một lần \\ \hline
+
+
 # 9 & HMAC & Hash-based Message Authentication Code & \makecell[l]{Mã xác thực tin nhắn \\ dựa trên băm} \\ \hline
-# 10 & HOTP & HMAC-based One-time Password & \makecell[l]{Mật khẩu một lần \\ dựa theo HMAC} \\ \hline
-# 11 & TOTP & Time-based One-time Password & \makecell[l]{Mật khẩu một lần \\ dựa theo thời gian} \\ \hline
-# 12 & QR Code & Quick response code & Mã phản hồi nhanh \\ \hline
-# 13 & URL & Uniform Resource Locator & \makecell[l]{Địa chỉ định vị \\ tài nguyên trên\\ Internet} \\ \hline
-# 14 & DNS & Domain Name System & \makecell[l]{Hệ thống phân giải \\ tên miền} \\ \hline
-# 15 & FQDN & Fully Qualified Domain Name & Tên miền đầy đủ \\ \hline
-# 16 & TTL & Time To Live & \makecell[l]{Thời gian bản ghi DNS \\ được lưu trữ trong\\ bộ nhớ cache} \\ \hline
-# 17 & BIND9 & Berkeley Internet Name Domain & \makecell[l]{Một phần mềm \\ máy chủ DNS} \\ \hline
+
+
 # 18 & API & Application Programming Interface & \makecell[l]{Giao diện lập trình \\ ứng dụng} \\ \hline
 # 19 & CLI & Command Line Interface & Giao diện dòng lệnh \\ \hline
-# 20 & XDR & Extended Detection and Response & \makecell[l]{Phát hiện và \\ ứng phó mở rộng} \\ \hline
-# \end{tabular}
-# \end{table}
 
-# \newpage
-# Đường dẫn file .tex đầu ra
+# 12 & QR Code & Quick response code & Mã phản hồi nhanh \\ \hline
+# 16 & TTL & Time To Live & \makecell[l]{Thời gian bản ghi DNS \\ được lưu trữ trong\\ bộ nhớ cache} \\ \hline
+
+# 14 & DNS & Domain Name System & \makecell[l]{Hệ thống phân giải \\ tên miền} \\ \hline
+# 15 & FQDN & Fully Qualified Domain Name & Tên miền đầy đủ \\ \hline
+# 20 & XDR & Extended Detection and Response & \makecell[l]{Phát hiện và \\ ứng phó mở rộng} \\ \hline
+# 17 & BIND9 & Berkeley Internet Name Domain & \makecell[l]{Một phần mềm \\ máy chủ DNS} \\ \hline
+
+
 TEX_PATH = os.path.join(
     env.PATH_FOLDER_LATEX,
     "contents",

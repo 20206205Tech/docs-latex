@@ -381,13 +381,17 @@ Hệ sinh thái LangChain trong phát triển ứng dụng AI:
 \end{itemize}
 
 
+% Sử dụng LangSmith trong dự án
+% Sử dụng Langfuse trong dự án
+
+
 \begin{block}{Ứng dụng trong đồ án}
 
 
 Tuy nhiên, sử dụng RAG đơn giản
 thì độ chính xác chưa cao
 và vẫn có thể sai sót
-vì vậy ,
+vì vậy,
 em sử dụng LangGraph
 xây dựng Agentic RAG
 để tăng độ chính xác
@@ -590,7 +594,7 @@ Kiến trúc vi dịch vụ chia bài toán thành các thành phần nhỏ hơn
 \begin{figure}[H]
 \centering
 \includegraphics[scale = 0.3]{pictures/mono.png}
-\caption{Kiến trúc tổng quan các dịch vụ}
+\caption{Giới thiệu Microservice}
 \end{figure}
 
 Một số lợi ích của Microservice:
@@ -624,7 +628,29 @@ Kiến trúc tổng quan các dịch vụ của dự án:
 \end{figure}
 
 
-\subsubsection{Mô hình ngôn ngữ lớn LLM (Large Language Model)}
+\subsubsection{Thiết kế hướng miền DDD (Domain Driven Design)}
+
+
+% => Class
+
+% Kiến trúc
+% Clean
+
+% File
+% folder
+% module
+% <!-- Ảnh DOMAIN DRIVEN DESIGN bản gốc -->
+
+
+% ### 1. Tại sao `Payment` cần `DomainService`?
+% Trong service `Payment`, có `PaymentDomainService` để điều phối giữa 3 Aggregate khác nhau: `Transaction`,`Subscription`, và `Plan`.
+% * **Sự phối hợp phức tạp:** Khi một `Transaction` thành công, nó cần kích hoạt (`activate`) một `Subscription` dựa trên thông tin từ `Plan`.
+% * **Logic không thuộc về Aggregate nào đơn lẻ:** Việc tính toán ngày hết hạn của Subscription dựa trên Plan sau khi Transaction thành công là logic nghiệp vụ liên quan đến nhiều bên. Nếu đặt logic này vào `Transaction` thì nó biết quá nhiều về `Subscription`, và ngược lại.
+
+
+% 3. **Lưu ý về thiết kế DDD:** Thông thường, Infrastructure (như TypeORM entities) nên nằm ở từng Service vì nó phụ thuộc vào Database Schema cụ thể của service đó.
+
+\lipsum[1]
 
 
 \subsection{Mục tiêu}
