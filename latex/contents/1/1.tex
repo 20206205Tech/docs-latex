@@ -475,19 +475,16 @@ hệ thống tra cứu trạng thái.
 \begin{itemize}
 
 
-\item
-Văn bản đã hết hiệu lực hoàn toàn
+\item Văn bản đã hết hiệu lực hoàn toàn
 thì kết thúc ngay.
-\item
-Văn bản hết hiệu lực một phần
+\item Văn bản hết hiệu lực một phần
 thì phát cảnh báo và chờ người dùng xác nhận ở lượt sau qua \texttt{Confirmer}.
 
 
 \end{itemize}
 
 
-\item
-Truy xuất nguồn dữ liệu song song
+\item Truy xuất nguồn dữ liệu song song
 
 
 \begin{itemize}
@@ -501,29 +498,25 @@ Truy xuất nguồn dữ liệu song song
 \end{itemize}
 
 
-\item
-Tiếp tục tới \texttt{Ranker} để lọc tài liệu
+\item Tiếp tục tới \texttt{Ranker} để lọc tài liệu
 
 
 \begin{itemize}
 
 
-\item
-Nếu có tài liệu hợp lý
+\item Nếu có tài liệu hợp lý
 thì
 chuyển đến \texttt{Advisor}
 để tiến hành tạo câu trả lời.
 
 
-\item
-Nếu không có tài liệu hợp lý
+\item Nếu không có tài liệu hợp lý
 thì
 chuyển đến \texttt{Rewrite}
 để tạo lại câu hỏi.
 
 
-\item
-Sau khi thử tạo lại câu hỏi
+\item Sau khi thử tạo lại câu hỏi
 vẫn không có tài liệu hợp lý
 thì sẽ dùng \texttt{Browser}
 để lấy tài liệu
@@ -534,8 +527,7 @@ thuvienphapluat.vn và luatvietnam.vn
 \end{itemize}
 
 
-\item
-Vòng lặp tự kiểm tra chất lượng
+\item Vòng lặp tự kiểm tra chất lượng
 Sau khi \texttt{Advisor} trả lời,
 \texttt{Check Answer} đánh giá câu trả lời có hợp lý hay không?
 
@@ -543,23 +535,20 @@ Sau khi \texttt{Advisor} trả lời,
 \begin{itemize}
 
 
-\item
-Nếu không hợp lệ và chưa quá 2 lần
+\item Nếu không hợp lệ và chưa quá 2 lần
 thì xóa câu trả lời cũ,
 chuyển đến \texttt{Rewrite}
 để tạo lại câu hỏi
 và
 lặp lại toàn bộ luồng truy xuất.
 
-\item
-Nếu câu trả lời hợp lệ hoặc đã quá số lần thử lại
+\item Nếu câu trả lời hợp lệ hoặc đã quá số lần thử lại
 thì
 hệ thống kết thúc quá trình trả lời.
 \end{itemize}
 
 
-\item
-Ở chế độ Fast RAG
+\item Ở chế độ Fast RAG
 chỉ đi qua \texttt{Classify} để phân loại.
 Sau đó truy xuất dữ liệu lấy dữ liệu.
 Dùng \texttt{Advisor} trả lời
@@ -568,8 +557,7 @@ hệ thống kết thúc quá trình trả lời
 mà không cần bước kiểm tra.
 
 
-\item
-Ở chế độ giọng nói Voice,
+\item Ở chế độ giọng nói Voice,
 do đã có Agent nên không cần qua bước phân loại của LangGraph
 và người dùng không thể nhập URL nên hệ thống chuyển đến \texttt{Extract Identity} trích xuất số hiệu văn bản.
 

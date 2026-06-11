@@ -1,3 +1,4 @@
+import re
 import sys
 
 import env
@@ -33,11 +34,15 @@ def format_terminology(content):
     while "  " in content:
         content = content.replace("  ", " ")
 
-    # 4. Collapse 4+ consecutive newlines down to 3
+    # 4. Join \item followed by a newline + content onto one line
+    #    e.g. "\item\nFoo" -> "\item Foo"
+    content = re.sub(r"(\\item)\n+(\S)", r"\1 \2", content)
+
+    # 5. Collapse 4+ consecutive newlines down to 3
     while "\n\n\n\n" in content:
         content = content.replace("\n\n\n\n", "\n\n\n")
 
-    # 4. Terminology replacement — skip LaTeX comments (% not preceded by \)
+    # 6. Terminology replacement — skip LaTeX comments (% not preceded by \)
     lines = content.split("\n")
     result = []
 

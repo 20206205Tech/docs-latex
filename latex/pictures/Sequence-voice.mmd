@@ -1,0 +1,75 @@
+sequenceDiagram
+    actor User
+    participant Persona as Persona Service
+    participant Conv as Conversation Service
+    participant ConvDB as Conversation DB
+    participant LiveKit as LiveKit Server (Cloud)
+    participant Agent as Voice Agent (Python)
+    participant ElevenLabs as ElevenLabs API (External)
+    participant RAG as LangGraph + LLM
+
+    %% Giai đoạn 1: Chuẩn bị thông tin và khởi tạo
+    User->>+Persona: GET /code-persona-service/public
+    Persona-->>-User: Trả về danh sách Persona (voice_code, tts_engine...)
+
+    User->>+Conv: GET /code-conversation-service/chats/:chat_id/voice-token?persona_id=...
+
+    %% Kiểm tra quyền
+    Conv->>+ConvDB: Kiểm tra quyền (isVip)
+    ConvDB-->>-Conv: Trạng thái VIP hợp lệ
+
+    %% Cấp phát Token từ LiveKit
+    Note over Conv: Tự sinh AccessToken cục bộ bằng SDK<br>(API_KEY & API_SECRET, room=chat_id)
+
+    Conv-->>-User: HTTP 200 OK (Trả về token & serverUrl)
+
+    %% Giai đoạn 2: Thiết lập kết nối Real-time
+    User->>LiveKit: Kết nối WebSocket/WebRTC bằng Token
+
+    %% Agent tham gia phòng
+    Note over Agent, LiveKit: LiveKit Server kích hoạt Agent Worker
+    Agent->>LiveKit: Connect & Join Room (chat_id)
+
+    %% Giai đoạn 3: Tải ngữ cảnh, cấu hình và Chủ động chào
+    Agent->>+Persona: GET /code-persona-service/public/persona/{persona_id}
+    Persona-->>-Agent: Trả về voice_code, tts_engine, system_prompt...
+
+    Note over Agent: Agent cấu hình STT, VAD và cập nhật giọng nói cho DynamicTTS
+
+    %% AI CHỦ ĐỘNG CHÀO USER
+    alt tts_engine == 'edge_tts' / 'piper_tts'
+        Agent->>+Persona: POST /code-persona-service/audio/v1/audio/speech (TTS câu chào)
+        Persona-->>-Agent: Trả về Audio stream câu chào
+    else tts_engine == 'elevenlabs'
+        Agent->>+ElevenLabs: Yêu cầu TTS câu chào (API key)
+        ElevenLabs-->>-Agent: Trả về Audio stream câu chào
+    end
+
+    Agent->>LiveKit: Đẩy Audio stream câu chào
+    LiveKit->>User: Playback (Phát câu chào ra loa của User)
+
+    %% Giai đoạn 4: Quá trình đàm thoại & RAG
+    loop Xử lý hội thoại thời gian thực
+        User->>LiveKit: Gửi Audio stream (Giọng nói User)
+        LiveKit->>Agent: Nhận Audio chunk & chuyển đổi thành Text (STT)
+
+        opt Nếu cần tra cứu kiến thức pháp luật
+            Agent->>+RAG: Gọi tool search_law (generation_stream)
+            Note over RAG: Tìm kiếm Vector DB (Milvus) & dùng LLM (Llama 3.1)
+            RAG-->>-Agent: Trả về kết quả tra cứu (Text)
+        end
+
+        Note over Agent: Agent LLM (Llama 3.3) tổng hợp câu trả lời (Text)
+
+        %% TTS phản hồi
+        alt tts_engine == 'edge_tts' / 'piper_tts'
+            Agent->>+Persona: POST /code-persona-service/audio/v1/audio/speech (TTS phản hồi)
+            Persona-->>-Agent: Trả về Audio stream phản hồi
+        else tts_engine == 'elevenlabs'
+            Agent->>+ElevenLabs: Yêu cầu TTS phản hồi (API key)
+            ElevenLabs-->>-Agent: Trả về Audio stream phản hồi
+        end
+
+        Agent->>LiveKit: Đẩy Audio stream phản hồi
+        LiveKit->>User: Playback (Phát âm thanh ra loa của User)
+    end

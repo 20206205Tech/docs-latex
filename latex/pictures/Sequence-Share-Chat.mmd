@@ -1,0 +1,45 @@
+
+sequenceDiagram
+    actor User
+    participant Conv as Conversation Service
+    participant ConvDB as Conversation DB
+    participant RabbitMQ as RabbitMQ Broker
+    participant Chatbot as Chatbot Service
+    participant ChatbotDB as Chatbot DB
+    participant R2 as R2 Object Storage
+
+    User->>+Conv: POST /code-conversation-service/chats/share (Kèm chatId & lastMessageId)
+    Conv->>+ConvDB: Kiểm tra quyền sở hữu Chat
+    ConvDB-->>-Conv: OK
+
+    Conv->>+ConvDB: INSERT Share (status='PENDING') & INSERT Outbox (ShareGeneratedEvent)
+    ConvDB-->>-Conv: Commit Transaction (Atomic)
+
+    Conv-->>-User: HTTP 201 Created (Trả về shareId & shareUrl tạm thời)
+
+    Note over Conv, RabbitMQ: Cron job OutboxRelay quét DB định kỳ gửi event
+    Conv->>+ConvDB: SELECT PENDING OutboxEvents
+    ConvDB-->>-Conv: Danh sách events
+    Conv->>+RabbitMQ: Publish 'ShareGeneratedEvent' (Queue: share_generated)
+    RabbitMQ-->>-Conv: Ack
+    Conv->>+ConvDB: UPDATE Outbox status='DONE'
+    ConvDB-->>-Conv: OK
+
+    RabbitMQ-->>+Chatbot: Consume 'ShareGeneratedEvent'
+    Chatbot->>+ChatbotDB: Query tin nhắn của Chat đến lastMessageId
+    ChatbotDB-->>-Chatbot: Danh sách tin nhắn
+    Note over Chatbot: Xử lý build nội dung chat thành JSONL
+
+    Chatbot->>+R2: Upload file JSONL (Key: shared_chats/{userId}/{shareId}.jsonl)
+    R2-->>-Chatbot: Trả về file_url
+    Chatbot->>+ChatbotDB: Lưu thông tin Share và Version mới để đồng bộ
+    ChatbotDB-->>-Chatbot: OK
+
+    Chatbot->>+RabbitMQ: Publish 'ShareUploadCompletedEvent' (Queue: share_upload_completed)
+    RabbitMQ-->>-Chatbot: Ack
+    Chatbot-->>-RabbitMQ: Acknowledge (Hoàn thành Task gốc)
+
+    RabbitMQ-->>+Conv: Consume 'ShareUploadCompletedEvent'
+    Conv->>+ConvDB: Cập nhật Share (status='ACTIVE', fileUrl=fileUrl)
+    ConvDB-->>-Conv: OK
+    Conv-->>-RabbitMQ: Acknowledge

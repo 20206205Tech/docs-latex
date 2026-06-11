@@ -1,0 +1,30 @@
+
+sequenceDiagram
+    actor User
+    participant Conv as Conversation Service
+    participant ConvDB as Conversation DB
+    participant RabbitMQ as RabbitMQ Broker
+    participant Chatbot as Chatbot Service
+    participant ChatbotDB as Chatbot DB
+    participant R2 as R2 Object Storage
+
+    User->>+Conv: POST /code-conversation-service/shares/:id/revoke
+    Conv->>+ConvDB: UPDATE Share (isActive=false) & INSERT Outbox (ShareRevokedEvent)
+    ConvDB-->>-Conv: Commit Transaction (Atomic)
+    Conv-->>-User: HTTP 200 OK (Xác nhận thu hồi thành công)
+
+    Note over Conv, RabbitMQ: Cron job OutboxRelay quét DB định kỳ gửi event
+    Conv->>+ConvDB: SELECT PENDING OutboxEvents
+    ConvDB-->>-Conv: Danh sách events
+    Conv->>+RabbitMQ: Publish 'ShareRevokedEvent' (Queue: share_revoked)
+    RabbitMQ-->>-Conv: Ack
+    Conv->>+ConvDB: UPDATE Outbox status='DONE'
+    ConvDB-->>-Conv: OK
+
+    RabbitMQ-->>+Chatbot: Consume 'ShareRevokedEvent'
+    Chatbot->>+R2: Yêu cầu xóa file JSONL khỏi R2 (delete_file)
+    R2-->>-Chatbot: OK (Đã xóa file)
+
+    Chatbot->>+ChatbotDB: UPDATE Share (is_revoked=True, version=version)
+    ChatbotDB-->>-Chatbot: OK
+    Chatbot-->>-RabbitMQ: Acknowledge (Hoàn thành)

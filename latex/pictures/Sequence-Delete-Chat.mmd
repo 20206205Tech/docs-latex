@@ -1,0 +1,36 @@
+
+sequenceDiagram
+    actor User
+    participant Conv as Conversation Service (NestJS)
+    participant ConvDB as Conversation DB
+    participant RabbitMQ as RabbitMQ Broker
+    participant Chatbot as Chatbot Service (Python)
+    participant ChatbotDB as Chatbot DB
+
+    %% Bước 1: User gửi yêu cầu xóa
+    User->>+Conv: DELETE /code-conversation-service/chats/:id
+
+    %% Bước 2: Lưu trạng thái và ghi nhận Outbox
+    Conv->>+ConvDB: UPDATE Chat (isActive=false) & INSERT Outbox (ChatDeletedEvent)
+    ConvDB-->>-Conv: Commit Transaction
+
+    Conv-->>-User: HTTP 200 OK (Phản hồi thành công ngay lập tức)
+
+    %% Bước 3: Relayer quét Outbox gửi đi
+    Note over Conv, RabbitMQ: Cron job OutboxRelay quét DB định kỳ
+    Conv->>+ConvDB: SELECT PENDING OutboxEvents
+    ConvDB-->>-Conv: Danh sách events
+
+    Conv->>+RabbitMQ: Publish 'ChatDeletedEvent' (Queue: chat_deletions)
+    RabbitMQ-->>-Conv: Ack
+
+    Conv->>+ConvDB: UPDATE Outbox status='DONE'
+    ConvDB-->>-Conv: OK
+
+    %% Bước 4: Python xử lý đồng bộ xóa
+    RabbitMQ-->>+Chatbot: Consume 'ChatDeletedEvent' (args: chatId, userId)
+
+    Chatbot->>+ChatbotDB: Soft Delete toàn bộ Messages liên quan tới chatId
+    ChatbotDB-->>-Chatbot: OK
+
+    Chatbot-->>-RabbitMQ: Acknowledge (Hoàn tất)

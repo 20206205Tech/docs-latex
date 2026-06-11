@@ -1,0 +1,102 @@
+
+sequenceDiagram
+    actor User
+    participant PaymentService as Payment Service
+    participant PaymentDatabase as Payment Database
+    participant Redis as Redis <br>(BullMQ)
+    participant PaymentGateway as Payment Gateway <br>(VNPay, Momo, ZaloPay, SePay)
+    participant Kafka as Kafka <br>(Event Bus)
+    participant ConsumeService as Consume service <br>(conversation service, document service)
+    participant ConsumeDatabase as Consume database <br>(conversation database, document database)
+
+    %% PHẦN 1: TẠO ĐƠN VÀ HẸN GIỜ HỦY
+    User->>+PaymentService: POST /code-payment-service/subscriptions/purchase
+    PaymentService->>+PaymentDatabase: GET Plan & Validate
+    PaymentDatabase-->>-PaymentService: Plan Info & Subscription Context
+
+    PaymentService->>+PaymentDatabase: INSERT Pending Transaction & Subscription
+    PaymentDatabase-->>-PaymentService: txnRef, subscriptionId
+
+    %% Đẩy Delay Job vào BullMQ
+    PaymentService->>+Redis: Thêm Delay Job 'payment-timeout' (Delay 10 phút)
+    Redis-->>-PaymentService: job_id
+
+    PaymentService->>+PaymentGateway: Yêu cầu tạo URL (createPaymentUrl)
+    PaymentGateway-->>-PaymentService: payment_url
+    PaymentService-->>-User: HTTP 201 Created (payment_url)
+
+    %% PHẦN 2: THANH TOÁN
+    User->>PaymentGateway: Chuyển hướng & Thanh toán
+    PaymentGateway-->>User: Redirect về Web/App (Redirect URL)
+
+    %% PHẦN 3 & 4: WEBHOOK & KAFKA PUB/SUB (OUTBOX PATTERN)
+    Note over PaymentGateway, PaymentService: Webhook gửi callback tới Payment Service
+    PaymentGateway->>+PaymentService: POST/GET /code-payment-service/subscriptions/payment-callback/:provider
+    PaymentService->>PaymentService: Validate Signature
+
+    alt Chữ ký KHÔNG hợp lệ (Sai checksum)
+        PaymentService-->>PaymentGateway: Trả về lỗi chữ ký (Invalid Checksum - Ngắt sớm không ghi DB)
+    else Chữ ký hợp lệ
+        PaymentService->>+PaymentDatabase: SELECT Transaction by txnRef
+        PaymentDatabase-->>-PaymentService: Transaction Info
+
+        alt Giao dịch không tồn tại OR Số tiền thanh toán không khớp
+            PaymentService-->>PaymentGateway: Trả về lỗi tương ứng (Ngắt sớm không ghi DB)
+        else Giao dịch đã EXPIRED trước đó
+            PaymentService-->>PaymentGateway: Phản hồi thành công (Báo cần hỗ trợ thủ công - Ngắt sớm)
+        else Giao dịch đã xử lý thành công/thất bại trước đó (status != 'pending')
+            PaymentService-->>PaymentGateway: Phản hồi thành công (Confirm Success - Ngắt sớm)
+        else Giao dịch hợp lệ & đang ở trạng thái 'pending'
+            alt Thanh toán thành công (Gateway báo thành công)
+                PaymentService->>+PaymentDatabase: UPDATE Transaction status = 'success'
+                PaymentService->>PaymentDatabase: UPDATE Subscription status = 'active'
+                PaymentService->>PaymentDatabase: INSERT OutboxEvent (SubscriptionPurchasedEvent, status 'PENDING')
+                PaymentDatabase-->>-PaymentService: Commit Transaction (Atomic)
+                PaymentService-->>PaymentGateway: Phản hồi Gateway (Confirm Success)
+
+                %% Cron job gửi Kafka bất đồng bộ (Outbox Pattern)
+                Note over PaymentService, Kafka: Outbox Relay Cron job định kỳ quét bảng Outbox
+                PaymentService->>+PaymentDatabase: SELECT PENDING OutboxEvents
+                PaymentDatabase-->>PaymentService: OutboxEvents List
+                PaymentService->>+Kafka: Publish Event 'SubscriptionPurchasedEvent' (Topic: dev/prod-payment-events)
+                Kafka-->>-PaymentService: Ack
+                PaymentService->>+PaymentDatabase: UPDATE OutboxEvent status = 'DONE'
+                PaymentDatabase-->>-PaymentService: OK
+            else Thanh toán thất bại (Gateway báo thất bại)
+                PaymentService->>+PaymentDatabase: UPDATE Transaction status = 'failed'
+                PaymentDatabase-->>-PaymentService: OK
+                PaymentService-->>PaymentGateway: Phản hồi Gateway (Giao dịch thất bại)
+            end
+        end
+    end
+
+    %% Các service khác tự động Consume Event từ Kafka
+    Kafka-->>+ConsumeService: Consume SubscriptionPurchasedEvent
+
+    %% CHECK TRÙNG LẦN 2: Khóa dòng và so sánh Version
+    ConsumeService->>+ConsumeDatabase: SELECT UserSubscription FOR UPDATE (Lock pessimistic_write)
+    ConsumeDatabase-->>-ConsumeService: Trả về thông tin & Version hiện tại
+
+    alt Event Version > Version hiện tại trong DB
+        ConsumeService->>+ConsumeDatabase: UPDATE UserSubscription (status='active', version=event.version)
+        ConsumeDatabase-->>-ConsumeService: OK
+        ConsumeService-->>Kafka: Commit Offset
+    else Event Version <= Version hiện tại trong DB (Sự kiện trùng / cũ)
+        ConsumeService-->>-Kafka: Bỏ qua (Skip) & Commit Offset
+    end
+
+    %% PHẦN 5: XỬ LÝ DELAY JOB (Sau 10 phút nếu chưa thanh toán)
+    Note over PaymentService, PaymentDatabase: 10 phút sau: BullMQ worker xử lý kiểm tra hết hạn
+    PaymentService->>+Redis: Nhận Delay Job từ Queue
+    Redis-->>-PaymentService: transactionId
+    PaymentService->>+PaymentDatabase: Kiểm tra trạng thái Transaction hiện tại
+
+    alt Trạng thái là 'pending'
+        PaymentDatabase-->>PaymentService: Trạng thái: 'pending'
+        PaymentService->>PaymentDatabase: UPDATE Transaction status = 'expired'
+        PaymentService->>PaymentDatabase: UPDATE Subscription status = 'expired'
+        PaymentDatabase-->>PaymentService: OK
+    else Đã thanh toán / Thất bại
+        PaymentDatabase-->>-PaymentService: Trạng thái: 'success' / 'failed'
+        Note over PaymentService: Bỏ qua (Skip)
+    end
