@@ -60,7 +60,7 @@ DATA = [
     },
     # {"abbr": "CLI", "eng": "Command Line Interface", "vie": "Giao diện dòng lệnh"},
     {"abbr": "CSDL", "eng": "Cơ sở dữ liệu", "vie": "Cơ sở dữ liệu"},
-    # {"abbr": "SSE", "eng": "Server-sent events", "vie": "Sự kiện máy chủ gửi"},
+    {"abbr": "SSE", "eng": "Server-sent events", "vie": "Sự kiện máy chủ gửi"},
     {
         "abbr": "TOTP",
         "eng": "Time-based One-Time Password",
@@ -81,8 +81,17 @@ DATA = [
     #     #     "eng": "Hyper Text Markup Language",
     #     #     "vie": "Ngôn ngữ Đánh dấu Siêu văn bản",
     #     # },
+    {
+        "abbr": "TTS",
+        "eng": "Text to Speech",
+        "vie": "Chuyển văn bản thành giọng nói",
+    },
+    {
+        "abbr": "STT",
+        "eng": "Speech to Text",
+        "vie": "Chuyển giọng nói thành văn bản",
+    },
 ]
-
 
 # # <!-- *	SMTP: Simple Mail Transfer Protocol (Giao thức truyền thư đơn giản) -->
 
