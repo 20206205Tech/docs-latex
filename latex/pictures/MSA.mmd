@@ -1,0 +1,65 @@
+graph TB
+
+    classDef client fill:#171717,stroke:#fff,stroke-width:2px,color:#fff;
+    classDef gateway fill:#003459,stroke:#fff,stroke-width:2px,color:#fff;
+    classDef external_svc fill:#00a86b,stroke:#fff,stroke-width:1px,color:#fff;
+    classDef internal_nest fill:#e0234e,stroke:#fff,stroke-width:1px,color:#fff;
+    classDef internal_python fill:#3776ab,stroke:#fff,stroke-width:1px,color:#fff;
+    classDef vector_db fill:#007BFF,stroke:#fff,stroke-width:2px,color:#fff;
+    classDef mq fill:#f1c40f,stroke:#333,stroke-width:2px,color:#000;
+    classDef rtc fill:#ff5722,stroke:#fff,stroke-width:2px,color:#fff;
+
+    Client["Client (Next.js)"]:::client
+    Kong["Kong API Gateway"]:::gateway
+
+    Auth["Auth Service (Supabase)"]:::external_svc
+    Setting["Setting Service (Neon API)"]:::external_svc
+    Payment["Payment Service (Heroku)"]:::internal_nest
+
+    MQ["Message Queue"]:::mq
+
+    LiveKit["LiveKit Server"]:::rtc
+
+    Conv["Conversation Service"]:::internal_nest
+    Persona["Persona Service"]:::internal_python
+
+    Chatbot["Chatbot + Voice Agent"]:::internal_python
+    Doc["Document (Docling)"]:::internal_python
+
+    VectorDB[("Vector Database")]:::vector_db
+
+    %% --- ĐỊNH NGHĨA 2 SERVICE MỚI ---
+    VBPL["VBPL Service"]:::internal_python
+    PhapDien["PhapDien Service"]:::internal_python
+    %% --------------------------------
+
+    LiveKit <-->|Stream| Chatbot
+    Conv -->|Get Token| LiveKit
+
+    Client --> Kong
+    Client <-->|WebRTC| LiveKit
+
+    Kong --> Auth
+    Kong --> Setting
+    Kong --> Payment
+    Kong --> Conv
+    Kong --> Persona
+
+    %% --- KẾT NỐI 2 SERVICE MỚI VỚI GATEWAY ---
+    Kong --> VBPL
+    Kong --> PhapDien
+    %% -----------------------------------------
+
+    Conv <-->|gRPC & Message Queue| Chatbot
+    Chatbot -->|REST | Persona
+
+    Kong --> Chatbot
+
+    Chatbot -->|Truy vấn| VectorDB
+    Doc -.->|Xử lý & Lưu trữ| VectorDB
+
+    Payment == Publish Event ==> MQ
+    MQ == Consume Event ==> Conv
+    MQ == Consume Event ==> Doc
+
+    Kong --> Doc
