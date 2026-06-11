@@ -21,11 +21,11 @@ DATA = [
         "vie": "Xử lý ngôn ngữ tự nhiên",
     },
     {"abbr": "LLM", "eng": "Large Language Model", "vie": "Mô hình ngôn ngữ lớn"},
-    # {
-    #     "abbr": "API",
-    #     "eng": "Application Programming Interface",
-    #     "vie": "Giao diện lập trình ứng dụng",
-    # },
+    {
+        "abbr": "API",
+        "eng": "Application Programming Interface",
+        "vie": "Giao diện lập trình ứng dụng",
+    },
     {
         "abbr": "RAG",
         "eng": "Retrieval Augmented Generation",
@@ -68,6 +68,7 @@ DATA = [
     },
     {"abbr": "2FA", "eng": "Two-Factor Authentication", "vie": "Xác thực hai yếu tố"},
     {"abbr": "MFA", "eng": "Multi-Factor Authentication", "vie": "Xác thực đa yếu tố"},
+    {"abbr": "VIP", "eng": "Very Important Person", "vie": "Người rất quan trọng"},
     {"abbr": "K8s", "eng": "Kubernetes", "vie": "Kubernetes"},
     {"abbr": "CI", "eng": "Continuous Integration", "vie": "Tích hợp liên tục"},
     {
@@ -75,7 +76,28 @@ DATA = [
         "eng": "Continuous Delivery / Deployment",
         "vie": "Chuyển giao/Triển khai liên tục",
     },
+    #     #       {
+    #     #     "abbr": "HTML",
+    #     #     "eng": "Hyper Text Markup Language",
+    #     #     "vie": "Ngôn ngữ Đánh dấu Siêu văn bản",
+    #     # },
 ]
+
+
+# # <!-- *	SMTP: Simple Mail Transfer Protocol (Giao thức truyền thư đơn giản) -->
+
+# # <!-- *	UI: User Interface (Giao diện người dùng) -->
+
+
+# # Ack
+# # <!-- UML -->
+
+
+# # CQRS (Command Query Responsibility Segregation)
+
+# # là mẫu thiết kế tách biệt mô hình dữ liệu cho các thao tác đọc (Query) và ghi (Command). Việc tách biệt này giúp tối ưu hóa hiệu suất, tăng khả năng mở rộng (scalability), bảo mật tốt hơn và quản lý độ phức tạp trong các hệ thống lớn
+
+# # <!-- CQRS là viết tắt của Command and Query Responsibility Segregation -->
 
 
 # \textbf{STT} & \textbf{Từ viết tắt} & \textbf{Từ viết đầy đủ} & \textbf{Mô tả} \\ \hline
