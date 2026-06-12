@@ -626,3 +626,106 @@ Sơ đồ thu thập dữ liệu chung
 
 Tại các bước sẽ sử dụng logic so sánh hash để bỏ qua văn bản không thay đổi nội dung
 giúp tiết kiệm tài nguyên và thời gian xử lý dữ liệu.
+
+
+\subsubsection{Đường ống dữ liệu Văn bản pháp luật}
+
+
+Khi làm việc với bài toán dữ liệu thực tế, việc thu thập dữ liệu
+có thách thức
+phụ thuộc
+vào nguồn
+dữ liệu.
+Vào ngày 24/05/2026, nguồn dữ liệu Văn bản pháp luật được thay đổi cả hệ thống, API và giao diện.
+Do sự thay đổi lớn về dữ liệu thu thập
+nên hệ thống cần xử lý lại các bước Data pipeline.
+
+Giao diện nguồn dữ liệu Văn bản pháp luật mới
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.2]{pictures/vbpl-search.png}
+\caption{Sơ đồ thu thập dữ liệu chung}
+\end{figure}
+
+
+Sơ đồ tổng quan Data pipeline Văn bản pháp luật
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.2]{pictures/Data-Pipeline-VBPL.excalidraw.png}
+\caption{Sơ đồ thu thập dữ liệu chung}
+\end{figure}
+
+
+Các bước thực hiện cũ
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.2]{pictures/step0.excalidraw.png}
+\caption{Sơ đồ thu thập dữ liệu chung}
+\end{figure}
+
+
+Mô tả các bước thực hiện cũ:
+
+Quá trình Data pipeline được chia thành 3 giai đoạn: Thu thập dữ liệu, Tiền xử lý văn bản và Tích hợp RAG Pipeline.
+
+\begin{itemize}
+
+
+\item Giai đoạn Khởi tạo:
+\begin{itemize}
+
+\item step_setup_workflow cập nhật danh sách và thứ tự các bước (workflow) vào cơ sở dữ liệu PostgreSQL
+
+
+\end{itemize}
+\item Giai đoạn Thu thập Dữ liệu:
+\begin{itemize}
+
+\item step_crawl_document_total và step_load_document_total: thu thập tổng số lượng văn bản pháp luật hiện có trên hệ thống web.
+\item step_crawl_document_list và step_load_document_list: Dựa vào sự chênh lệch tổng số lượng, tính toán số trang cần quét và thu thập danh sách các item_id.
+\item step_crawl_document_detail và step_load_document_detail: tải toàn bộ mã nguồn HTML trang chi tiết của từng văn bản và Upload các file HTML gốc này lên Google Drive, đồng thời lưu drive_id và mã băm MD5 hash vào database để quản lý thay đổi.
+
+
+\end{itemize}
+\item Giai đoạn Tiền xử lý Dữ liệu:
+\begin{itemize}
+
+\item step_extract_document_info: từ file HTML, bóc tách các siêu dữ liệu quan trọng (Metadata) như: Số hiệu, Cơ quan ban hành, Ngày có hiệu lực, Người ký, v.v., và lưu vào database.
+\item step_extract_document_content: Làm sạch file HTML, cắt bỏ các phần thừa (header, footer, menu) và chỉ giữ lại phần nội dung (thẻ div#toanvancontent ).
+\item step_extract_document_markdown: Chuyển đổi file HTML đã làm sạch sang định dạng Markdown.
+
+
+\end{itemize}
+\item Giai đoạn Tích hợp RAG pipeline
+\begin{itemize}
+
+\item step_rag_summary: Sử dụng LLM viết một bản tóm tắt ngắn gọn mô tả bức tranh toàn cảnh của văn bản pháp luật đó.
+\item step_rag_chunking: Chạy Semantic Chunking. LLM sẽ dựa vào bản tóm tắt và nội dung chi tiết để quyết định các "điểm cắt" tối ưu, chia nhỏ văn bản thành các đoạn (chunks) sao cho không bị đứt gãy ý nghĩa.
+\item step_rag_context: Đây là bước chống mất ngữ cảnh. LLM sẽ sinh ra ngữ cảnh cho từng đoạn chunk nhỏ vừa được cắt, đảm bảo mỗi chunk đều có thể đứng độc lập khi được tìm kiếm.
+\item step_rag_embedding: Sử dụng mô hình HuggingFace ( keepitreal/vietnamese-sbert ) để biến đổi các đoạn văn bản (đã có ngữ cảnh) thành vector đa chiều và lưu trữ vào VectorDB (Pinecone).
+\end{itemize}
+\end{itemize}
+
+
+Các bước thực hiện mới
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.2]{pictures/step1.excalidraw.png}
+\caption{Sơ đồ thu thập dữ liệu chung}
+\end{figure}
+
+
+\begin{itemize}
+\item Nhờ vào việc nguồn dữ liệu thay đổi sang hệ thống API mới
+trả về cấu trúc JSON giàu thông tin, hệ thống không còn cần các bước bóc tách thủ công từ mã nguồn HTML phức tạp, giúp tăng tốc độ xử lý và độ chính xác của dữ liệu.
+
+\item Hệ thống loại bỏ bước step_extract_document_info vì nội dung Metadata chi tiết đã có trong API
+
+\item Hệ thống loại bỏ bước step_extract_document_content vì nội dung văn bản đã được API trả trong thông tin documentContent
+
+
+\end{itemize}
