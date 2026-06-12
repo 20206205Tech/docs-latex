@@ -18,29 +18,78 @@
 Quản lý các thông tin bí mật là một phần cực kỳ quan trọng. Đặc biệt khi hệ thống được thiết kế theo kiến trúc microservices.
 Khi dự án có nhiều service, việc sử dụng file .env độc lập cho từng service sẽ gây khó khăn trong việc quản lý, cấu hình, đồng bộ và bảo mật.
 
-> Trong đồ án này, em sử dụng Doppler – một nền tảng quản lý secret tập trung. Việc áp dụng Doppler mang lại một không gian lưu trữ an toàn, thống nhất (Single Source of Truth) cho toàn bộ hệ thống.
 
-Sơ đồ quản lý secret bằng doppler
+\begin{block}{Ứng dụng trong đồ án}
+Trong đồ án này, em sử dụng Doppler
+– một nền tảng quản lý thông tin bí mật tập trung.
+Việc áp dụng Doppler mang lại một không gian lưu trữ an toàn,
+thống nhất (Single Source of Truth) cho toàn bộ hệ thống.
+
+
+\end{block}
 
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale = 0.2]{pictures/secret-by-doppler.excalidraw.png}
-\caption{Logo của Đại học Bách Khoa Hà Nội}
+\caption{Sơ đồ quản lý secret bằng doppler}
 \end{figure}
 
 
 Cấu hình chia nhỏ bí mật theo từng nhu cầu sử dụng trong doppler
 
 
-% <!-- Chia nhỏ quản lý bí mật theo từng nhu cầu giúp quản lý tốt hơn -->
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.4]{pictures/doppler-projects.png}
+\caption{Cấu hình chia nhỏ bí mật theo từng nhu cầu sử dụng trong doppler}
+\end{figure}
+
+
+\subsubsection{CI/CD bằng Github Action}
+
+
+CI/CD là
+phương pháp tự động hóa
+quy trình tích hợp
+và triển khai phần mềm.
+Phương pháp này giúp
+đẩy nhanh tốc độ, giảm thiểu lỗi thủ công
+và duy trì độ ổn định cho hệ thống.
+GitHub Actions là công cụ CI/CD mạnh mẽ được tích hợp sẵn trên GitHub.
 
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.2]{pictures/doppler-projects.png}
-\caption{Logo của Đại học Bách Khoa Hà Nội}
+\includegraphics[scale = 0.1]{pictures/cicd-overview.jpg}
+\caption{Cấu hình chia nhỏ bí mật theo từng nhu cầu sử dụng trong doppler}
 \end{figure}
+
+
+Sơ đồ CI/CD bằng Github Action
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.2]{pictures/cicd-by-github-action.excalidraw.png}
+\caption{Cấu hình chia nhỏ bí mật theo từng nhu cầu sử dụng trong doppler}
+\end{figure}
+
+
+\begin{block}{Ứng dụng trong đồ án}
+
+
+Trong dự án này, hệ thống vừa sử dụng Github Action miễn phí của Github, vừa sử dụng Github Action trên Self-hosted runner của VPS.
+
+
+\end{block}
+
+
+\subsubsection{Quản lý các thông tin bí mật (secret)}
+\subsubsection{Quản lý các thông tin bí mật (secret)}
+\subsubsection{Quản lý các thông tin bí mật (secret)}
+\subsubsection{Quản lý các thông tin bí mật (secret)}
+\subsubsection{Quản lý các thông tin bí mật (secret)}
 
 
 \subsection{Triển khai các dịch vụ}
