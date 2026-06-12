@@ -577,4 +577,52 @@ Hệ thống phân chia người dùng thành 4 nhóm đối tượng chính v�
 % % \subsection{Kiến trúc hệ thống}
 % % \lipsum[1]
 \subsection{Đường ống dữ liệu}
-\lipsum[1]
+
+
+Đường ống dữ liệu
+bao gồm các chuỗi quy trình xử lý tự động
+từ một hoặc nhiều nguồn (source) đến một đích đến (destination) để lưu trữ, phân tích hoặc phục vụ cho các ứng dụng khác.
+
+Vì dự án này làm về miền nghiệp vụ pháp luật
+nên không cần thu thập dữ liệu từ nhiều nguồn khác nhau.
+Em sử dụng dữ liệu chính thống từ nhà nước là
+\textbf{Văn bản pháp luật}
+tại địa chỉ
+\url{https://vbpl.vn}
+và
+dữ liệu
+\textbf{Pháp Điển}
+tại địa chỉ
+\url{https://phapdien.moj.gov.vn/Pages/chi-tiet-bo-phap-dien.aspx}
+
+Giao diện nguồn dữ liệu Văn bản pháp luật
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.2]{pictures/Home-vbpl.png}
+\caption{Giao diện nguồn dữ liệu Văn bản pháp luật}
+\end{figure}
+
+Giao diện nguồn dữ liệu Pháp Điển
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.3]{pictures/Home-PhapDien.png}
+\caption{Giao diện nguồn dữ liệu Pháp Điển}
+\end{figure}
+
+
+Sơ đồ thu thập dữ liệu chung
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.2]{pictures/crawl-data.excalidraw.png}
+\caption{Sơ đồ thu thập dữ liệu chung}
+\end{figure}
+
+
+Tại các bước sẽ sử dụng logic so sánh hash để bỏ qua văn bản không thay đổi nội dung
+giúp tiết kiệm tài nguyên và thời gian xử lý dữ liệu.
