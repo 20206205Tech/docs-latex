@@ -76,11 +76,11 @@ DATA = [
         "eng": "Continuous Delivery / Deployment",
         "vie": "Chuyển giao/Triển khai liên tục",
     },
-    #     #       {
-    #     #     "abbr": "HTML",
-    #     #     "eng": "Hyper Text Markup Language",
-    #     #     "vie": "Ngôn ngữ Đánh dấu Siêu văn bản",
-    #     # },
+    {
+        "abbr": "HTML",
+        "eng": "Hyper Text Markup Language",
+        "vie": "Ngôn ngữ Đánh dấu Siêu văn bản",
+    },
     {
         "abbr": "TTS",
         "eng": "Text to Speech",
