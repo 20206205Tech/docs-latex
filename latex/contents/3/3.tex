@@ -230,11 +230,60 @@ Các kong api gateway plugins trong dự án này:
 \end{itemize}
 
 
-\subsubsection{Quản lý các thông tin bí mật (secret)}
-\subsubsection{Quản lý các thông tin bí mật (secret)}
-\subsubsection{Quản lý các thông tin bí mật (secret)}
-\subsubsection{Quản lý các thông tin bí mật (secret)}
-\subsubsection{Quản lý các thông tin bí mật (secret)}
+\subsubsection{Container và GitOps (Docker, Kubernetes, ArgoCD)}
+
+
+Docker: Hệ thống chạy tốt trên máy của lập trình viên nhưng lỗi khi lên server do khác biệt về hệ điều hành hoặc thư viện. Docker đóng gói ứng dụng cùng với các thư viện, file cấu hình và môi trường cần thiết vào một hộp kín gọi là Container.
+
+
+Kubernetes (K8s): Khi có nhiều container trên các server khác nhau, nếu một server down thì sao? Nếu đột nhiên lượng truy cập tăng vọt thì làm thế nào? Kubernetes là một hệ thống quản lý container (container orchestration). Giúp tự động hóa việc triển khai, mở rộng quy mô và quản lý các container.
+
+
+GitOps với ArgoCD: Việc cấu hình hệ thống bằng cách gõ lệnh tay rất dễ dẫn đến sai sót, khó theo dõi ai đã thay đổi gì, và cực kỳ khó khôi phục nếu hệ thống sập. GitOps là một phương pháp sử dụng manifest của Git (như GitHub, GitLab) là nguồn chân lý duy nhất (Single Source of Truth). Các file yaml của K8s đều được lưu trên Git. ArgoCD nhận diện thay đổi và tự động triển khai (deploy) hoặc tinh chỉnh hạ tầng thực tế cho khớp với Git.
+
+
+Kết quả các docker image trên Docker Hub
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.2]{pictures/docker-hub-web-ui.png}
+\caption{Cấu hình chia nhỏ bí mật theo từng nhu cầu sử dụng trong doppler}
+\end{figure}
+
+
+Kết quả giao diện ArgoCD chạy docker trong kubernetes
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.2]{pictures/argocd-web-ui.png}
+\caption{Cấu hình chia nhỏ bí mật theo từng nhu cầu sử dụng trong doppler}
+\end{figure}
+
+
+\subsubsection{Giao tiếp giữa các services}
+
+
+% ## Trực tiếp
+
+% REST gRPC webhook
+
+% bên gửi và bên nhận phải cùng hoạt động dẫn đến phụ thuộc nhau
+
+% ## Gián tiếp (qua trung gian)
+
+% message queue : kafka RabbitMQ
+
+% bên gửi và bên nhận hoạt động độc lập (không cần biết địa chỉ)
+
+\lipsum[1]
+
+% \subsubsection{Quản lý các thông tin bí mật (secret)}
+% \subsubsection{Quản lý các thông tin bí mật (secret)}
+% \subsubsection{Quản lý các thông tin bí mật (secret)}
+% \subsubsection{Quản lý các thông tin bí mật (secret)}
+% \subsubsection{Quản lý các thông tin bí mật (secret)}
 
 
 \subsection{Triển khai các dịch vụ}
