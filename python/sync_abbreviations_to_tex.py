@@ -91,6 +91,11 @@ DATA = [
         "eng": "Speech to Text",
         "vie": "Chuyển giọng nói thành văn bản",
     },
+    {
+        "abbr": "IaC",
+        "eng": "Infrastructure as Code",
+        "vie": "Cơ sở hạ tầng dưới dạng mã",
+    },
 ]
 
 # # <!-- *	SMTP: Simple Mail Transfer Protocol (Giao thức truyền thư đơn giản) -->
