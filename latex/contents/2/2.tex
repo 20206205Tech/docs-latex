@@ -731,6 +731,13 @@ trả về cấu trúc JSON giàu thông tin, hệ thống không còn cần cá
 \end{itemize}
 
 
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.2]{pictures/github-action-vbpl.png}
+\caption{Sơ đồ thu thập dữ liệu chung}
+\end{figure}
+
+
 \subsubsection{Đường ống dữ liệu Pháp Điển}
 
 Pháp điển là tập hợp các quy phạm pháp luật đang còn hiệu lực của các văn bản quy phạm pháp luật do cơ quan nhà nước ở trung ương ban hành, từ Thông tư trở lên và trừ Hiến pháp.
@@ -802,3 +809,10 @@ Quá trình Data pipeline được chia thành 3 giai đoạn: Thu thập dữ l
 - step\_rag\_chunking: Thực hiện đối chiếu từ Cây mục lục (jdAllTree) với các thẻ bên trong từng file HTML chi tiết. Từ đó, bóc tách chính xác từng phần nội dung văn bản thành dạng JSON có các đoạn văn bản và siêu dữ liệu (Metadata).
 
 - step\_rag\_embedding: Làm giàu ngữ cảnh bằng cách nối trực tiếp tên Chủ đề và Đề mục vào phần đầu của mỗi đoạn văn bản chunk. Sau đó, nội dung được đưa qua mô hình HuggingFace ( keepitreal/vietnamese-sbert ) để biến đổi thành các vector cơ sở dữ liệu vector Qdrant.
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.2]{pictures/github-action-PhapDien.png}
+\caption{Sơ đồ thu thập dữ liệu chung}
+\end{figure}
