@@ -1,0 +1,51 @@
+graph LR
+    %% --- ĐỊNH NGHĨA LỚP MÀU (CÙNG MÀU BAN ĐẦU) ---
+    classDef client fill:#171717,stroke:#fff,stroke-width:2px,color:#fff;
+    classDef gateway fill:#003459,stroke:#fff,stroke-width:2px,color:#fff;
+    classDef external_svc fill:#00a86b,stroke:#fff,stroke-width:1px,color:#fff;
+    classDef internal_nest fill:#e0234e,stroke:#fff,stroke-width:1px,color:#fff;
+    classDef internal_python fill:#3776ab,stroke:#fff,stroke-width:1px,color:#fff;
+
+    %% --- ĐỊNH NGHĨA CÁC NODE ---
+    Client["Client (Next.js)"]:::client
+    Kong["Kong API Gateway"]:::gateway
+
+    %% External Services (Màu xanh lá)
+    Auth["Auth Service (Supabase)"]:::external_svc
+    Setting["Setting Service (Neon API)"]:::external_svc
+
+    %% Internal NestJS Services (Màu đỏ)
+    Payment["Payment Service (Heroku)"]:::internal_nest
+    Conv["Conversation Service"]:::internal_nest
+
+    %% Internal Python Services (Màu xanh dương Python)
+    Persona["Persona Service"]:::internal_python
+    Chatbot["Chatbot + Voice Agent"]:::internal_python
+    Doc["Document (Docling)"]:::internal_python
+    VBPL["VBPL Service"]:::internal_python
+    PhapDien["PhapDien Service"]:::internal_python
+
+    %% --- LUỒNG ĐI (ROUTE MAPPING) ---
+    Client -->|Request| Kong
+
+    %% subgraph Kong Route Mapping [Bản đồ Route điều hướng của Kong]
+        %% Route tới External Services
+        Kong -- "/supabase-auth-service/*" --> Auth
+        Kong -- "/neon-setting-service/*" --> Setting
+
+        %% Route tới NestJS Services
+        Kong -- "/code-payment-service/*" --> Payment
+        Kong -- "/code-conversation-service/*" --> Conv
+
+        %% Route tới Python Services
+        Kong -- "/code-persona-service/*" --> Persona
+        Kong -- "/code-chatbot-service/*" --> Chatbot
+        Kong -- "/code-document-service/*" --> Doc
+
+        %% Route tới các Service dữ liệu mới
+        Kong -- "/data-pipeline-vbplnew-service/*" --> VBPL
+        Kong -- "/data-pipeline-phapdien-service/*" --> PhapDien
+    %% end
+
+    %% Tối ưu hiển thị cho Subgraph
+    style Kong Route Mapping fill:none,stroke:#666,stroke-width:1px,stroke-dasharray: 5 5;
