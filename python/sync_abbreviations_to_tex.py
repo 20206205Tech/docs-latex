@@ -33,11 +33,11 @@ DATA = [
     },
     {"abbr": "DDD", "eng": "Domain Driven Design", "vie": "Thiết kế hướng miền"},
     {"abbr": "MSA", "eng": "Microservice Architecture", "vie": "Kiến trúc vi dịch vụ"},
-    # {
-    #     "abbr": "SQL",
-    #     "eng": "Structured Query Language",
-    #     "vie": "Ngôn ngữ truy vấn cấu trúc",
-    # },
+    {
+        "abbr": "SQL",
+        "eng": "Structured Query Language",
+        "vie": "Ngôn ngữ truy vấn cấu trúc",
+    },
     {
         "abbr": "JWT",
         "eng": "JSON Web Token",
@@ -63,7 +63,7 @@ DATA = [
         "eng": "Uniform Resource Locator",
         "vie": "Định danh tài nguyên Internet",
     },
-    # {"abbr": "CLI", "eng": "Command Line Interface", "vie": "Giao diện dòng lệnh"},
+    {"abbr": "CLI", "eng": "Command Line Interface", "vie": "Giao diện dòng lệnh"},
     {"abbr": "CSDL", "eng": "Cơ sở dữ liệu", "vie": "Cơ sở dữ liệu"},
     {"abbr": "SSE", "eng": "Server-sent events", "vie": "Sự kiện máy chủ gửi"},
     {
@@ -101,9 +101,14 @@ DATA = [
         "eng": "Infrastructure as Code",
         "vie": "Cơ sở hạ tầng dưới dạng mã",
     },
+    {
+        "abbr": "SMTP",
+        "eng": "Simple Mail Transfer Protocol",
+        "vie": "Giao thức truyền thư đơn giản",
+    },
 ]
 
-# # <!-- *	SMTP: Simple Mail Transfer Protocol (Giao thức truyền thư đơn giản) -->
+# # <!-- *	:  () -->
 
 # # <!-- *	UI: User Interface (Giao diện người dùng) -->
 
@@ -126,15 +131,12 @@ DATA = [
 # 2 & OOP & Object Oriented Programming & \makecell[l]{Kỹ thuật lập trình \\ hướng đối tượng} \\ \hline
 # 3 & ORM & Object Relational Mapping & \makecell[l]{Kỹ thuật ánh xạ \\ các đối tượng lập trình\\ với từng bảng trong\\ cơ sở dữ liệu} \\ \hline
 
-# 4 & SQL & Structured Query Language & \makecell[l]{Ngôn ngữ truy vấn \\ mang tính cấu trúc} \\ \hline
+
 # 5 & DBMS & Database Management System & \makecell[l]{Hệ quản trị cơ sở dữ liệu} \\ \hline
 
 
 # 9 & HMAC & Hash-based Message Authentication Code & \makecell[l]{Mã xác thực tin nhắn \\ dựa trên băm} \\ \hline
 
-
-# 18 & API & Application Programming Interface & \makecell[l]{Giao diện lập trình \\ ứng dụng} \\ \hline
-# 19 & CLI & Command Line Interface & Giao diện dòng lệnh \\ \hline
 
 # 12 & QR Code & Quick response code & Mã phản hồi nhanh \\ \hline
 # 16 & TTL & Time To Live & \makecell[l]{Thời gian bản ghi DNS \\ được lưu trữ trong\\ bộ nhớ cache} \\ \hline
