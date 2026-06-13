@@ -38,16 +38,21 @@ DATA = [
     #     "eng": "Structured Query Language",
     #     "vie": "Ngôn ngữ truy vấn cấu trúc",
     # },
-    # {
-    #     "abbr": "JWT",
-    #     "eng": "JSON Web Token",
-    #     "vie": "Một tiêu chuẩn dùng để truyền tải thông tin dưới dạng JSON",
-    # },
-    # {
-    #     "abbr": "JSON",
-    #     "eng": "JavaScript Object Notation",
-    #     "vie": "Ký hiệu đối tượng JavaScript",
-    # },
+    {
+        "abbr": "JWT",
+        "eng": "JSON Web Token",
+        "vie": "Tiêu chuẩn truyền tải thông tin JSON",
+    },
+    {
+        "abbr": "JSON",
+        "eng": "JavaScript Object Notation",
+        "vie": "Một kiểu định dạng dữ liệu key - value",
+    },
+    {
+        "abbr": "RLS",
+        "eng": "Row-Level Security",
+        "vie": "Bảo mật cấp hàng",
+    },
     # {
     #     "abbr": "OOP",
     #     "eng": "Object-Oriented Programming",
@@ -123,9 +128,6 @@ DATA = [
 
 # 4 & SQL & Structured Query Language & \makecell[l]{Ngôn ngữ truy vấn \\ mang tính cấu trúc} \\ \hline
 # 5 & DBMS & Database Management System & \makecell[l]{Hệ quản trị cơ sở dữ liệu} \\ \hline
-
-# 6 & JWT & JSON Web Token & \makecell[l]{Một tiêu chuẩn dùng để \\ truyền tải thông tin \\ dưới dạng JSON} \\ \hline
-# 7 & JSON & JavaScript Object Notation & \makecell[l]{Một kiểu dữ liệu \\ mở rộng của JavaScript} \\ \hline
 
 
 # 9 & HMAC & Hash-based Message Authentication Code & \makecell[l]{Mã xác thực tin nhắn \\ dựa trên băm} \\ \hline
