@@ -106,9 +106,24 @@ DATA = [
         "eng": "Simple Mail Transfer Protocol",
         "vie": "Giao thức truyền thư đơn giản",
     },
+    {
+        "abbr": "IPN",
+        "eng": "Instant Payment Notification",
+        "vie": "Thông báo thanh toán tức thì",
+    },
+    {
+        "abbr": "PSP",
+        "eng": "Payment Service Provider",
+        "vie": "Đơn vị cung cấp dịch vụ thanh toán",
+    },
+    {
+        "abbr": "PSC",
+        "eng": "Payment Service Consumer",
+        "vie": "Đơn vị sử dụng dịch vụ thanh toán",
+    },
 ]
+# https://neon.com/docs/data-api/custom-authentication-providers
 
-# # <!-- *	:  () -->
 
 # # <!-- *	UI: User Interface (Giao diện người dùng) -->
 
