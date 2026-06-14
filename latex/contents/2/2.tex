@@ -702,10 +702,20 @@ vì thao tác thủ công.
 \item cloudflare: cấu hình DNS, bucket R2 file, tunnel
 \item aiven: kafka
 \item supabase: auth google
-\item Neon: database postgres VBPL
+\item Neon: database postgres VBPL=>
+\item digitalocean xxxxxxxxxxxxxx: database postgres VBPL
 \item heroku: payment service
 \end{itemize}
 
+% TODO: tttt NEON tạo hẳn project cho riêng, độc lập, tránh giới hạn
+% neon-limit-free.png
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.2]{pictures/neon-limit-free.png}
+\caption{Cấu hình chia nhỏ bí mật theo từng nhu cầu sử dụng trong doppler}
+\end{figure}
 \begin{figure}[H]
 \centering
 \includegraphics[scale = 0.2]{pictures/infrastructure-as-code-IaC-terraform.excalidraw.png}
@@ -852,11 +862,11 @@ Kết quả các docker image trên Docker Hub
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.2]{pictures/docker-hub-web-ui.png}
+\includegraphics[scale = 0.2]{pictures/docker-hub-web-ui2.png}
 \caption{Cấu hình chia nhỏ bí mật theo từng nhu cầu sử dụng trong doppler}
 \end{figure}
 
-
+% TODO: chatbot được private do quan trọng nhất
 Kết quả giao diện ArgoCD chạy docker trong kubernetes
 
 
