@@ -809,6 +809,22 @@ Cấu trúc dự án Kong API Gateway
 \end{figure}
 
 
+% TODO:
+
+% Môi trường sản xuất thực tế gặp nhiều khó khăn, rate limmit giới hạn tốc độ
+% DDOS
+% dò env secret bí mật
+
+% ![alt text](kong-api-gateway-env-secret.png)
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.2]{pictures/kong-api-gateway-env-secret.png}
+\caption{Cấu hình chia nhỏ bí mật theo từng nhu cầu sử dụng trong doppler}
+\end{figure}
+
+
 Sơ đồ quản lý Kong API Gateway
 
 
@@ -970,6 +986,15 @@ Sơ đồ thu thập dữ liệu chung
 Tại các bước sẽ sử dụng logic so sánh hash để bỏ qua văn bản không thay đổi nội dung
 giúp tiết kiệm tài nguyên và thời gian xử lý dữ liệu.
 
+
+% TODO: Có so sánh hash = tiết kiệm= nhanh
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.2]{pictures/data-pipeline-hash-skip.png}
+\caption{Sơ đồ thu thập dữ liệu chung}
+\end{figure}
 
 Thư viện dlt (Data Load Tool)
 là một thư viện Python
