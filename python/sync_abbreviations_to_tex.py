@@ -123,7 +123,18 @@ DATA = [
     },
 ]
 # https://neon.com/docs/data-api/custom-authentication-providers
-
+# <!-- # Tài liệu tham khảo -->
+# <!-- https://developer.hashicorp.com/terraform -->
+# <!-- https://github.com/features/actions -->
+# <!-- https://aws.amazon.com/vi/what-is/retrieval-augmented-generation -->
+# <!-- https://weaviate.io/blog/what-is-agentic-rag -->
+# <!-- https://dlthub.com/docs/intro -->
+# <!-- https://nestjs.com/ -->
+# <!-- https://fastapi.tiangolo.com/ -->
+# <!-- https://neon.com -->
+# <!-- https://supabase.com -->
+# <!-- https://www.scrapy.org -->
+# <!-- https://developer.konghq.com -->
 
 # # <!-- *	UI: User Interface (Giao diện người dùng) -->
 
