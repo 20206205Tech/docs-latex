@@ -121,6 +121,16 @@ DATA = [
         "eng": "Payment Service Consumer",
         "vie": "Đơn vị sử dụng dịch vụ thanh toán",
     },
+    {
+        "abbr": "UI",
+        "eng": "User Interface",
+        "vie": "Giao diện người dùng",
+    },
+    {
+        "abbr": "gRPC",
+        "eng": "gRPC Remote Procedure Call",
+        "vie": "Framework Gọi thủ tục từ xa do Google phát triển",
+    },
 ]
 # https://neon.com/docs/data-api/custom-authentication-providers
 # <!-- # Tài liệu tham khảo -->
@@ -135,8 +145,11 @@ DATA = [
 # <!-- https://supabase.com -->
 # <!-- https://www.scrapy.org -->
 # <!-- https://developer.konghq.com -->
+# https://grpc.io/ https://grpc.io/docs/
 
-# # <!-- *	UI: User Interface (Giao diện người dùng) -->
+# https://docs.livekit.io/reference/agents/events/
+# https://docs.livekit.io/reference/client-sdk-js/enums/RoomEvent.html
+# https://docs.livekit.io/intro/basics/rooms-participants-tracks/
 
 
 # # Ack
