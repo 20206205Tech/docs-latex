@@ -80,8 +80,8 @@ before upper={\tcbtitle\vskip0pt\par}
 % \usepackage{microtype}
 % \usepackage{blindtext}
 
-\usepackage{titlesec}
-\newcommand{\sectionbreak}{\clearpage}
+\usepackage{etoolbox}
+\pretocmd{\section}{\clearpage}{}{}
 
 \begin{document}
 
