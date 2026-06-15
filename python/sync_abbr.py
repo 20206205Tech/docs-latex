@@ -254,8 +254,8 @@ def generate_tex():
     rows_str = "\n".join(rows)
 
     tex_content = rf"""\newpage
-{{\centering \section*{{Danh sách viết tắt}}}} % Đặt tên tiêu đề
-\addcontentsline{{toc}}{{section}}{{Danh sách viết tắt}} % Thêm vào mục lục
+{{\centering \section*{{DANH MỤC KÝ HIỆU}}}} % Đặt tên tiêu đề
+\addcontentsline{{toc}}{{section}}{{DANH MỤC KÝ HIỆU}} % Thêm vào mục lục
 
 \begin{{table}}[ht]
 \centering
