@@ -1,0 +1,34 @@
+sequenceDiagram
+    autonumber
+    participant Publisher as NestJS Service
+    participant MQ_Main as RabbitMQ Main Queue
+    participant MQ_Retry as RabbitMQ Retry Queue (TTL 20s)
+    participant Worker as Python Consumer
+    participant MQ_DLQ as RabbitMQ DLQ
+    participant DLQ_Consumer as DLQ Consumer (Alert Service)
+    participant TeleBot as Telegram Bot API
+    participant Developer as Developer Group (Telegram)
+
+    Publisher->>MQ_Main: Publish message (e.g. share_generated)
+
+    rect rgb(240, 248, 255)
+        Note over MQ_Main, Worker: Vòng lặp thử lại (Retry Loop) tối đa 5 lần
+        MQ_Main->>Worker: Consume message (Lần n)
+        Note over Worker: Xử lý thất bại (Lỗi DB, Lỗi R2...)
+        alt retry_count < 5
+            Worker->>MQ_Retry: Publish to Retry Queue (x-retry-count + 1)
+            MQ_Retry-->>MQ_Main: Hết thời gian chờ (TTL 20s) -> Quay lại Main Queue
+        else retry_count >= 5
+            Worker->>MQ_Main: Reject / Nack (requeue=false)
+            MQ_Main->>MQ_DLQ: Broker tự động định tuyến sang DLQ (Dead Letter Exchange)
+        end
+    end
+
+    rect rgb(255, 240, 245)
+        Note over MQ_DLQ, Developer: Xử lý DLQ & Cảnh báo Telegram
+        MQ_DLQ->>DLQ_Consumer: Nhận tin nhắn lỗi từ DLQ
+        DLQ_Consumer->>DLQ_Consumer: Parse payload & Trích xuất nguyên nhân lỗi (Error stack)
+        DLQ_Consumer->>+TeleBot: POST /sendMessage (Chat ID, Markdown format)
+        TeleBot-->>-DLQ_Consumer: 200 OK
+        TeleBot->>Developer: Hiển thị cảnh báo đỏ 🚨 (Kèm payload, Stacktrace)
+    end
