@@ -136,25 +136,12 @@ DATA = [
         "eng": "Dead Letter Queue",
         "vie": "Hàng đợi thư lỗi",
     },
+    {
+        "abbr": "QR Code",
+        "eng": "Quick Response Code",
+        "vie": "Mã phản hồi nhanh",
+    },
 ]
-# https://neon.com/docs/data-api/custom-authentication-providers
-# <!-- # Tài liệu tham khảo -->
-# <!-- https://developer.hashicorp.com/terraform -->
-# <!-- https://github.com/features/actions -->
-# <!-- https://aws.amazon.com/vi/what-is/retrieval-augmented-generation -->
-# <!-- https://weaviate.io/blog/what-is-agentic-rag -->
-# <!-- https://dlthub.com/docs/intro -->
-# <!-- https://nestjs.com/ -->
-# <!-- https://fastapi.tiangolo.com/ -->
-# <!-- https://neon.com -->
-# <!-- https://supabase.com -->
-# <!-- https://www.scrapy.org -->
-# <!-- https://developer.konghq.com -->
-# https://grpc.io/ https://grpc.io/docs/
-
-# https://docs.livekit.io/reference/agents/events/
-# https://docs.livekit.io/reference/client-sdk-js/enums/RoomEvent.html
-# https://docs.livekit.io/intro/basics/rooms-participants-tracks/
 
 
 # # Ack
