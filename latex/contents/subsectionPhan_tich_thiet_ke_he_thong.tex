@@ -19,24 +19,24 @@ Hệ thống phân chia người dùng thành 4 nhóm đối tượng chính v�
 
 \begin{itemize}
 
-\item Khách vãng lai (Guest):
+\item \textbf{Khách vãng lai (Guest):}
 Là những người dùng chưa có tài khoản hoặc chưa đăng nhập vào hệ thống. Mục đích chính của họ là tìm hiểu thông tin cơ bản về ứng dụng và trải nghiệm thử các tính năng công khai.
 Có thể xem các trang giới thiệu, bảng giá gói cước; nghe thử các mẫu giọng nói của các nhân vật; xem các đoạn trò chuyện tư vấn pháp luật được người dùng khác chia sẻ công khai. Họ có thể thực hiện đăng ký tài khoản mới hoặc đăng nhập (qua email hoặc Google).
 
 
-\item Người dùng phổ thông (User):
+\item \textbf{Người dùng phổ thông (User):}
 Là những cá nhân đã đăng ký và đăng nhập thành công vào hệ thống. Đây là tệp khách hàng tiêu chuẩn sử dụng các tính năng hỏi đáp pháp lý cơ bản bằng văn bản. Tác nhân này kế thừa toàn bộ quyền của Guest.
 Có thể chat/hỏi đáp pháp lý cơ bản với AI; sử dụng các công cụ cá nhân hóa như đánh dấu (bookmark), tạo ghi chú, thay đổi cài đặt và quản lý hồ sơ cá nhân. Người dùng có thể chia sẻ cuộc trò chuyện của mình cho người khác, bảo mật tài khoản bằng xác thực 2 lớp (2FA/TOTP) và có thể thực hiện nâng cấp/mua gói cước VIP.
 
 
-\item Người dùng VIP (VIP):
+\item \textbf{Người dùng VIP (VIP):}
 Là những người dùng đã thanh toán và đăng ký gói cước VIP. Họ có nhu cầu giải quyết các vấn đề pháp lý phức tạp, cần phân tích tài liệu chuyên sâu hoặc muốn tương tác rảnh tay qua giọng nói. Tác nhân này kế thừa toàn bộ quyền của User.
 Được sử dụng các tính năng cao cấp bao gồm: Đàm thoại trực tiếp với AI bằng giọng nói (Voice chat qua LiveKit); tải lên các tài liệu, hợp đồng cá nhân để AI phân tích; và được phép sử dụng các mô hình suy luận (reasoning) nâng cao để giải quyết các truy vấn pháp lý phức tạp (áp dụng cho cả chat văn bản và đàm thoại).
 
 
-\item Quản trị viên (Admin):
+\item \textbf{Quản trị viên (Admin):}
 Là nhân sự thuộc ban quản trị/vận hành hệ thống. Họ có kiến thức về quản lý hệ thống, theo dõi luồng dữ liệu (Data Pipeline) và cấu hình các dịch vụ tích hợp giọng nói. Tác nhân này kế thừa toàn bộ quyền cơ bản của User.
 Có toàn quyền truy cập trang quản trị để: Quản lý các nhân vật trợ lý ảo; thiết lập và quản lý hệ thống chuyển đổi văn bản thành giọng nói (TTS Engine và Voices kết nối với ElevenLabs); quản lý các gói cước VIP; và xem/theo dõi các báo cáo về luồng xử lý dữ liệu pháp luật (Data Pipeline).
 
-\textbf{}
+
 \end{itemize}
