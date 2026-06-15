@@ -137,6 +137,36 @@ Thông tin payload của JWT từ Supabase:
 \label{fig:auth-jwt-supabase}
 \end{figure}
 
+\textbf{Thuật toán TOTP (Time-based One-time Password)} sử dụng yếu tố thời gian Unix (thay vì dùng bộ đếm) (thời gian $T_0$ của Unix là ngày 1 tháng 1 năm 1970). Giá trị của bộ đếm trong thuật toán TOTP được tính bằng công thức:
+
+\[C_T = \left[\frac{T-T_0}{T_X}\right]\]
+
+Trong đó:
+
+\begin{itemize}
+\item $T$ là thời gian hiện tại
+\item $T_0$ là thời gian đầu tiên
+\item $T_X$ là thời gian của OTP (mặc định là 30 giây)
+\end{itemize}
+
+Sau khi thực hiện xong thuật toán TOTP, lần đầu tiên máy chủ cần trao đổi khóa bí mật với người dùng. Vì hiện nay điện thoại thông minh đều được trang bị camera, máy chủ có thể chuyển đổi khóa bí mật thành mã QR và yêu cầu người dùng phần mềm Authenticator quét mã QR để lấy khóa bí mật.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{pictures/why-totp.png}
+\caption{Trao đổi khóa bí mật bằng cách quét mã QR}
+\label{fig:why-totp}
+\end{figure}
+
+Tóm lại, TOTP sử dụng khóa bí mật có thể hiển thị dưới dạng mã QR cho người dùng. Từ đó, máy chủ và phần mềm Authenticator đều có thể tính được giá trị của OTP theo thuật toán. Cuối cùng, khi cần xác thực OTP thì người dùng nhập giá trị OTP của phần mềm Authenticator để máy chủ tiến hành so sánh.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{pictures/2fa_diagram.jpg}
+\caption{Cách hoạt động của TOTP}
+\label{fig:2fa-diagram}
+\end{figure}
+
 Tham khảo tài liệu của Supabase tại:\\
 \url{https://supabase.com/docs/guides/auth/auth-mfa/totp}
 
