@@ -16,6 +16,8 @@ if sys.stdout.encoding != "utf-8":
 def delete_empty_latex_files(directory):
     for root, dirs, files in os.walk(directory):
         for file in files:
+            if os.path.basename(file) == "dev.tex":
+                continue
             if file.endswith(".tex"):
                 file_path = os.path.join(root, file)
                 try:

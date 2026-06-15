@@ -1,0 +1,343 @@
+\subsubsection{Sơ đồ tuần tự (Sequence Diagram)}
+\lipsum[1]
+
+% \paragraph{Sơ đồ tuần tự Luồng Thanh toán gói dịch vụ}
+
+% Luồng nghiệp vụ này mô tả vòng đời của một giao dịch thanh toán gói dịch vụ VIP trong hệ thống, từ lúc người dùng khởi tạo yêu cầu thanh toán cho đến khi hệ thống xác nhận.
+
+
+% % \begin{figure}[H]
+% % \centering
+% % \includegraphics[angle=90,scale = 0.2]{pictures/Sequence-payment.png}
+% % \caption{Sơ đồ tuần tự Luồng Thanh toán gói dịch vụ}
+% % \end{figure}
+
+
+% % \begin{figure}[htbp]
+% % \centering
+% % % Xoay ảnh 90 độ ngược chiều kim đồng hồ
+% % \includegraphics[angle=90, width=0.8\textwidth]{pictures/Sequence-payment.png}
+% % \caption{Bức ảnh đã được xoay ngang 90 độ}
+% % \label{fig:rotated_img}
+% % \end{figure}
+
+% % \begin{sidewaysfigure}
+% % \centering
+% % \includegraphics[width=\textwidth]{pictures/Sequence-payment.png}
+% % \caption{Cả hình ảnh và chú thích đều được xoay ngang}
+% % \label{fig:sideways_img}
+% % \end{sidewaysfigure}
+% % \begin{landscape}
+% % \begin{figure}[htbp]
+% % \centering
+% % \includegraphics[width=\linewidth]{pictures/Sequence-payment.png}
+% % \caption{Trang giấy đã được chuyển sang chế độ nằm ngang (landscape)}
+% % \label{fig:landscape_img}
+% % \end{figure}
+% % \end{landscape}
+
+% \begin{landscape}
+% \begin{figure}[htbp]
+% \centering
+% % Lệnh này đảm bảo ảnh không bao giờ vượt qua chiều rộng hoặc chiều cao của trang
+% \includegraphics[width=\linewidth, height=\textheight, keepaspectratio]{pictures/Sequence-payment.png}
+% \caption{Ảnh đã được tự động điều chỉnh tỷ lệ để nằm gọn trong trang ngang}
+% \label{fig:fixed_landscape}
+% \end{figure}
+% \end{landscape}
+
+
+% % \newpage
+% % \subparagraph{Các thành phần tham gia}
+
+% % \begin{table}[H]
+% % \centering
+% % \renewcommand{\arraystretch}{1.3}
+% % \begin{tabular}{|l|l|p{5cm}|}
+% % \hline
+% % \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
+% % User & Actor & Người dùng thực hiện thao tác mua gói dịch vụ trên ứng dụng. \\ \hline
+% % Payment Service & Microservice & Dịch vụ xử lý nghiệp vụ thanh toán, xác thực dữ liệu, gọi cổng thanh toán và nhận webhook. \\ \hline
+% % Payment Database & Database & Cơ sở dữ liệu lưu trữ thông tin về dịch vụ thanh toán. \\ \hline
+% % Redis (BullMQ) & Queue & Hệ thống hàng đợi sử dụng để đếm ngược thời gian hết hạn của giao dịch. \\ \hline
+% % Payment Gateway & External Service & Cổng dịch vụ thanh toán bên thứ ba (VNPay, Momo, ZaloPay, SePay) tiếp nhận thanh toán từ người dùng. \\ \hline
+% % Kafka (Event Bus) & Message Broker & Message queue giúp các dịch vụ giao tiếp thông qua sự kiện. \\ \hline
+% % Consume Service & Microservice & Dịch vụ khác (conversation, document) lắng nghe sự kiện thanh toán thành công. \\ \hline
+% % Consume Database & Database & Cơ sở dữ liệu của dịch vụ khác thực hiện lưu trữ trạng thái Subscription của người dùng sau khi được cập nhật. \\ \hline
+% % \end{tabular}
+% % \caption{Danh sách các thành phần và vai trò trong Sơ đồ tuần tự Luồng Thanh toán gói dịch vụ}
+% % \label{tab:system_components_payment}
+% % \end{table}
+
+% % \subparagraph{Mô tả tổng quan}
+
+% % \begin{itemize}
+% % \item Người dùng gửi yêu cầu tạo thanh toán.
+% % \item Dịch vụ thanh toán xử lý dữ liệu trong database và hẹn giờ hết hạn với redis, làm việc với cổng thanh toán (payment gateway).
+% % \item Dịch vụ thanh toán phản hồi về cho user thông tin đường dẫn thanh toán.
+% % \item Người dùng thực hiện thanh toán với cổng thanh toán.
+% % \item Cổng thanh toán gửi thông báo kết quả giao dịch cho dịch vụ thanh toán.
+% % \item Dịch vụ thanh toán xử lý thông tin thanh toán. nếu thanh toán thành công sẽ xử lý dữ liệu và lưu bảng outbox cùng transaction trong database đảm bảo tính nguyên tử (atomic).
+% % \item Outbox Relay quét bảng outbox định kỳ lấy ra các sự kiện và gửi đến message queue (kafka).
+% % \item Các dịch vụ khác (conversation service, document service) lắng nghe sự kiện, kiểm tra phiên bản và lưu thông tin vào database
+% % \item Hệ thống có khả năng xử lý hết hạn giao dịch với bullmq và redis. nếu trạng thái là pending thì cập nhật thành expired. nếu trạng thái là success hoặc failed thì bỏ qua.
+% % \end{itemize}
+
+% % \paragraph{Sơ đồ tuần tự Luồng xử lý tài liệu}
+
+% % Luồng nghiệp vụ này mô tả vòng đời của tài liệu khi người dùng tải lên hệ thống, lưu trữ tệp tin, trích xuất nội dung và lưu trữ dữ liệu vector phục vụ tính năng RAG.
+
+
+% % \begin{figure}[H]
+% % \centering
+% % \includegraphics[scale = 0.18]{pictures/Sequence-document.png}
+% % \caption{Sơ đồ tuần tự Luồng xử lý tài liệu}
+% % \end{figure}
+
+% % \subparagraph{Các thành phần tham gia}
+
+% % \begin{table}[H]
+% % \centering
+% % \renewcommand{\arraystretch}{1.3}
+% % \begin{tabular}{|l|l|p{5cm}|}
+% % \hline
+% % \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
+% % User & Actor & Người dùng thực hiện tải lên tài liệu và nhận phản hồi trạng thái từ hệ thống. \\ \hline
+% % Document Service & Microservice & Dịch vụ chính tiếp nhận yêu cầu, kiểm qua gói dịch vụ người dùng. \\ \hline
+% % Database & Database & Cơ sở dữ liệu kiểm tra thông tin gói cước người dùng (UserSubscription) và lưu trữ trạng thái của tài liệu. \\ \hline
+% % R2 Object Storage & Object Storage & Kho lưu trữ dùng để lưu trữ file tài liệu. \\ \hline
+% % RabbitMQ (Celery Broker) & Message Broker & Hàng đợi tác vụ (Task Queue) cho Celery, tiếp nhận và phân phối các công việc. \\ \hline
+% % Document Worker (Celery) & Worker Service & Tiến trình xử lý tải file, trích xuất text, gọi dịch vụ AI và đồng bộ dữ liệu vào Vector Store. \\ \hline
+% % Cloudflare Workers AI & External Service / AI Engine & Dịch vụ trí tuệ nhân tạo tiếp nhận prompt và nội dung tài liệu từ Worker để xử lý và trả về kết quả tóm tắt (Summary). \\ \hline
+% % Milvus (Vector Store) & Vector Database & Cơ sở dữ liệu vector chịu trách nhiệm lưu trữ các đoạn văn bản (chunks) kèm theo nhúng (embeddings) và metadata để phục vụ tìm kiếm ngữ nghĩa (RAG). \\ \hline
+% % \end{tabular}
+% % \caption{Danh sách các thành phần và vai trò trong Sơ đồ tuần tự Luồng xử lý tài liệu}
+% % \label{tab:system_components_document}
+% % \end{table}
+
+% % \subparagraph{Mô tả tổng quan}
+
+% % \begin{itemize}
+% % \item Người dùng gửi yêu cầu tải lên file văn bản.
+% % \item Dịch vụ tài liệu kiểm tra điều kiện bảng UserSubscription trong Database.
+% % \item Dịch vụ tài liệu lưu file vào R2 Object Storage.
+% % \item Dịch vụ tài liệu đẩy thông tin công việc vào hệ thống nhắn tin RabbitMQ.
+% % \item Dịch vụ tài liệu trả ngay kết quả tải lên thành công cho người dùng.
+% % \item Document Worker tải file từ R2 Object Storage
+% % \item Document Worker xử lý tóm tắt và RAG file tài liệu với Cloudflare Workers AI, Vector Database
+% % \item Document Worker cập nhật thông tin trong database
+% % \end{itemize}
+
+% % \paragraph{Sơ đồ tuần tự Luồng Nhắn tin văn bản}
+
+% % Luồng nghiệp vụ này mô tả vòng đời của yêu cầu nhắn tin từ người dùng, qua các bước kiểm tra người dùng, giao tiếp với dịch vụ AI bằng gRPC và trả về kết quả theo thời gian thực thông qua luồng dữ liệu Server-Sent Events (SSE).
+
+
+% % \begin{figure}[H]
+% % \centering
+% % \includegraphics[scale = 0.18]{pictures/Sequence-conversation.png}
+% % \caption{Sơ đồ tuần tự Luồng Nhắn tin văn bản}
+% % \end{figure}
+
+% % \subparagraph{Các thành phần tham gia}
+
+% % \begin{table}[H]
+% % \centering
+% % \renewcommand{\arraystretch}{1.3}
+% % \begin{tabular}{|l|l|p{5cm}|}
+% % \hline
+% % \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
+% % User & Actor & Người dùng khởi tạo yêu cầu gọi API và lắng nghe kết quả phản hồi dạng luồng (stream) từ hệ thống. \\ \hline
+% % Conversation Service & Microservice & Dịch vụ trò chuyện giao tiếp, nhận yêu cầu, quản lý kết nối SSE và làm trung gian giao tiếp. \\ \hline
+% % Conversation DB & Database & Cơ sở dữ liệu lưu trữ thông tin về quyền người dùng VIP và trò chuyện. \\ \hline
+% % Chatbot Service & Microservice & Nhận yêu cầu qua gRPC, xử lý AI, lưu trữ lịch sử trò chuyện. \\ \hline
+% % Chatbot DB & Database & Cơ sở dữ liệu dùng để lưu trữ nội dung tin nhắn (User và AI). \\ \hline
+% % LangGraph + LLM & AI Engine & Xử lý ngôn ngữ tự nhiên, tạo chuỗi suy luận và sinh văn bản phản hồi. \\ \hline
+% % \end{tabular}
+% % \caption{Danh sách các thành phần và vai trò trong Sơ đồ tuần tự Luồng Nhắn tin văn bản}
+% % \label{tab:system_components_conversation}
+% % \end{table}
+
+% % \subparagraph{Mô tả tổng quan}
+
+% % \begin{itemize}
+% % \item Người dùng gửi yêu cầu trò chuyện.
+% % \item Dịch vụ trò chuyện kiểm tra điều kiện bảng UserSubscription trong Database nếu tính năng suy luận use\_reasoning.
+% % \item Dịch vụ trò chuyện trả lỗi 404 nếu không tồn tại vì chưa bắt đầu trò chuyện.
+% % \item Sau khi xác thực thành công, dịch vụ trò chuyện mở luồng giao tiếp gRPC tới dịch vụ Chatbot.
+% % \item Dịch vụ Chatbot sử dụng LangGraph và LLM tạo câu trả lời.
+% % \item Dịch vụ Chatbot lưu thông tin lịch sử trong database.
+% % \end{itemize}
+
+% % \paragraph{Sơ đồ tuần tự Luồng Hội thoại giọng nói}
+
+% % Luồng nghiệp vụ này mô tả Hội thoại giọng nói theo thời gian thực giữa người dùng và AI Voice Agent, bao gồm từ bước cấp quyền, thiết lập phòng họp LiveKit, đến quá trình xử lý ngôn ngữ, tra cứu RAG pháp luật và phản hồi âm thanh (TTS).
+
+
+% % \begin{figure}[H]
+% % \centering
+% % \includegraphics[scale = 0.18]{pictures/Sequence-voice.png}
+% % \caption{Sơ đồ tuần tự Luồng Hội thoại giọng nói}
+% % \end{figure}
+
+% % \subparagraph{Các thành phần tham gia}
+
+% % \begin{table}[H]
+% % \centering
+% % \renewcommand{\arraystretch}{1.3}
+% % \begin{tabular}{|l|l|p{5cm}|}
+% % \hline
+% % \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
+% % User & Actor & Người dùng thực hiện thao tác tương tác bằng giọng nói. \\ \hline
+% % Persona Service & Microservice & Quản lý thông tin của nhân vật và đảm nhiệm sinh giọng nói (edge\_tts, piper\_tts). \\ \hline
+% % Conversation Service & Microservice & Xử lý tạo phiên trò chuyện, kiểm tra quyền người dùng và cấp phát Access Token cục bộ cho dịch vụ LiveKit. \\ \hline
+% % Conversation DB & Database & Lưu trữ dữ liệu phiên chat và thông tin người dùng bảng UserSubscription. \\ \hline
+% % LiveKit Server & Cloud Service / WebRTC & Máy chủ trung gian xử lý các kết nối WebRTC, phân phối và truyền phát luồng dữ liệu giữa User và Agent. \\ \hline
+% % Voice Agent & Agent & Đảm nhiệm điều phối trò chuyện, sử dụng LangGraph. \\ \hline
+% % ElevenLabs API & External Service & Nền tảng bên thứ ba cung cấp dịch vụ TTS. \\ \hline
+% % LangGraph + LLM & AI Engine & Xử lý ngôn ngữ tự nhiên, tạo chuỗi suy luận và sinh văn bản phản hồi. \\ \hline
+% % \end{tabular}
+% % \caption{Danh sách các thành phần và vai trò trong Sơ đồ tuần tự Luồng Hội thoại giọng nói}
+% % \label{tab:system_components_voice}
+% % \end{table}
+
+% % \subparagraph{Mô tả tổng quan}
+
+% % \begin{itemize}
+% % \item Người dùng gọi API lấy cấu hình nhân vật hiện có và yêu cầu Voice Token cho chat\_id cụ thể.
+% % \item Dịch vụ trò chuyện kiểm tra điều kiện bảng UserSubscription.
+% % \item Dịch vụ trò chuyện tạo Access Token LiveKit cho người dùng.
+% % \item Người dùng sử dụng Token để kết nối WebRTC tới LiveKit Server.
+% % \item Voice Agent tham gia vào cùng phòng người dùng.
+% % \item Voice Agent lấy thông tin nhân vật và cấu hình giọng nói (Persona Service hoặc ElevenLabs).
+% % \item Voice Agent chủ động chào hỏi người dùng.
+% % \item Voice Agent sử dụng LangGraph tạo câu trả lời và xử lý cuộc trò chuyện với người dùng.
+% % \end{itemize}
+
+% % \paragraph{Sơ đồ tuần tự Luồng Xóa cuộc trò chuyện}
+
+% % Luồng nghiệp vụ này mô tả quá trình người dùng thực hiện xóa một cuộc trò chuyện, đảm bảo tính nhất quán dữ liệu giữa các dịch vụ thông qua mẫu thiết kế Outbox Pattern và giao tiếp qua RabbitMQ.
+
+
+% % \begin{figure}[H]
+% % \centering
+% % \includegraphics[scale = 0.18]{pictures/Sequence-Delete-Chat.png}
+% % \caption{Sơ đồ tuần tự Luồng Xóa cuộc trò chuyện}
+% % \end{figure}
+
+% % \subparagraph{Các thành phần tham gia}
+
+% % \begin{table}[H]
+% % \centering
+% % \renewcommand{\arraystretch}{1.3}
+% % \begin{tabular}{|l|l|p{5cm}|}
+% % \hline
+% % \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
+% % User & Actor & Người dùng thực hiện thao tác gửi yêu cầu để xóa một cuộc trò chuyện. \\ \hline
+% % Conversation Service & Microservice & Dịch vụ trò chuyện tiếp nhận yêu cầu từ người dùng, cập nhật trạng thái xóa, ghi nhận sự kiện vào Outbox và dùng Cron job để relay sự kiện. \\ \hline
+% % Conversation DB & Database & Cơ sở dữ liệu lưu trữ thông tin trò chuyện và bảng Outbox. \\ \hline
+% % RabbitMQ Broker & Message Broker & Message Broker nhận sự kiện và phân phối đến các dịch vụ theo dõi. \\ \hline
+% % Chatbot Service & Microservice & Dịch vụ AI đóng vai trò tiêu thụ (Consumer), lắng nghe sự kiện xóa để đồng bộ hóa dữ liệu. \\ \hline
+% % Chatbot DB & Database & Cơ sở dữ liệu lưu trữ chi tiết các tin nhắn của cuộc trò chuyện. \\ \hline
+% % \end{tabular}
+% % \caption{Danh sách các thành phần và vai trò trong Sơ đồ tuần tự Luồng Xóa cuộc trò chuyện}
+% % \label{tab:system_components_delete_chat}
+% % \end{table}
+
+% % \subparagraph{Mô tả tổng quan}
+
+% % \begin{itemize}
+% % \item Người dùng gửi yêu cầu xóa cuộc trò chuyện.
+% % \item Dịch vụ trò chuyện thực hiện một Database Transaction đồng thời cập nhật trạng thái đoạn chat thành xóa mềm ( isActive=false ) và chèn sự kiện ChatDeletedEvent vào bảng Outbox.
+% % \item Outbox Relay quét bảng outbox định kỳ lấy ra các sự kiện và gửi đến hàng đợi chat\_deletions của RabbitMQ.
+% % \item Dịch vụ Chatbot nhận được sự kiện ChatDeletedEvent từ RabbitMQ sẽ tiến hành xóa mềm (Soft Delete) trong database.
+% % \end{itemize}
+
+% % \paragraph{Sơ đồ tuần tự Luồng Tạo Chia sẻ cuộc trò chuyện}
+
+% % Luồng nghiệp vụ này mô tả vòng đời của một yêu cầu chia sẻ cuộc trò chuyện, lưu trữ dữ liệu trò chuyện dưới dạng tệp tin JSONL trên Cloud Storage, và đồng bộ trạng thái giữa các dịch vụ thông qua mô hình Transactional Outbox kết hợp Message Broker.
+
+
+% % \begin{figure}[H]
+% % \centering
+% % \includegraphics[scale = 0.18]{pictures/Sequence-Share-Chat.png}
+% % \caption{Sơ đồ tuần tự Luồng Tạo Chia sẻ cuộc trò chuyện}
+% % \end{figure}
+
+% % \subparagraph{Các thành phần tham gia}
+
+% % \begin{table}[H]
+% % \centering
+% % \renewcommand{\arraystretch}{1.3}
+% % \begin{tabular}{|l|l|p{5cm}|}
+% % \hline
+% % \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
+% % User & Actor & Người dùng gửi yêu cầu chia sẻ cuộc trò chuyện kèm theo tham số tin nhắn cuối để giới hạn phạm vi chia sẻ. \\ \hline
+% % Conversation Service & Microservice & Dịch vụ quản lý chịu trách nhiệm tiếp nhận API từ người dùng, quản lý giao dịch Outbox và cập nhật trạng thái chia sẻ cuối cùng. \\ \hline
+% % Conversation DB & Database & Cơ sở dữ liệu của Conversation Service, lưu trữ thông tin chung về trò chuyện, bản ghi chia sẻ và các sự kiện trong bảng Outbox. \\ \hline
+% % RabbitMQ Broker & Message Broker & Message Broker nhận sự kiện và phân phối đến các dịch vụ theo dõi. \\ \hline
+% % Chatbot Service & Microservice & Dịch vụ AI, chịu trách nhiệm nhận sự kiện, trích xuất nội dung tin nhắn và tải lên file chia sẻ. \\ \hline
+% % Chatbot DB & Database & Cơ sở dữ liệu của Chatbot Service, lưu trữ lịch sử tin nhắn chi tiết của cuộc trò chuyện và ghi nhận thông tin phiên bản đồng bộ của yêu cầu chia sẻ. \\ \hline
+% % R2 Object Storage & External Service & Hạ tầng lưu trữ đối tượng (Object Storage tương thích S3), sử dụng để lưu trữ tệp tin cấu trúc JSONL chứa nội dung chi tiết của cuộc trò chuyện được chia sẻ. \\ \hline
+% % \end{tabular}
+% % \caption{Danh sách các thành phần và vai trò trong Sơ đồ tuần tự Luồng Tạo Chia sẻ cuộc trò chuyện}
+% % \label{tab:system_components_share_chat}
+% % \end{table}
+
+% % \subparagraph{Mô tả tổng quan}
+
+% % \begin{itemize}
+% % \item Người dùng gửi yêu cầu chia sẻ cung cấp thông tin định danh chatId và lastMessageId.
+% % \item Dịch vụ trò chuyện tạo bản ghi chia sẻ với và chèn sự kiện vào bảng outbox cùng transaction trong database đảm bảo tính nguyên tử (atomic).
+% % \item Dịch vụ trò chuyện phản hồi đường dẫn liên kết tạm thời shareUrl giúp giảm thiểu độ trễ phản hồi cho người dùng.
+% % \item Outbox Relay quét bảng outbox định kỳ lấy ra các sự kiện ShareGeneratedEvent vào hàng đợi share\_generated trên RabbitMQ Broker.
+% % \item Dịch vụ Chatbot nhận thông điệp ShareGeneratedEvent từ hàng đợi.
+% % \item Dịch vụ Chatbot truy vấn danh sách tin nhắn từ Chatbot database tính tới thời điểm lastMessageId.
+% % \item Dịch vụ Chatbot tạo tệp tin JSONL và tải lên R2 Object Storage.
+% % \item Dịch vụ Chatbot thực hiện lưu thông tin file\_url và phiên bản mới của bản ghi chia sẻ.
+% % \item Dịch vụ Chatbot gửi thông điệp ShareUploadCompletedEvent chứa thông tin kết quả tới hàng đợi share\_upload\_completed trên RabbitMQ.
+% % \item Dịch vụ trò chuyện nhận thông điệp ShareUploadCompletedEvent từ hàng đợi.
+% % \item Dịch vụ trò chuyện cập nhật thông tin đường dẫn fileUrl.
+% % \end{itemize}
+
+% % \paragraph{Sơ đồ tuần tự Luồng Thu hồi chia sẻ cuộc trò chuyện}
+
+% % Luồng nghiệp vụ này mô tả vòng đời của một yêu cầu thu hồi quyền chia sẻ cuộc trò chuyện từ người dùng, đảm bảo tính nhất quán dữ liệu giữa các dịch vụ thông qua mẫu thiết kế Transactional Outbox và giao tiếp bất đồng bộ qua RabbitMQ.
+
+
+% % \begin{figure}[H]
+% % \centering
+% % \includegraphics[scale = 0.18]{pictures/Sequence-Revoke-Share-Chat.png}
+% % \caption{Sơ đồ tuần tự Luồng Thu hồi chia sẻ cuộc trò chuyện}
+% % \end{figure}
+
+% % \subparagraph{Các thành phần tham gia}
+
+% % \begin{table}[H]
+% % \centering
+% % \renewcommand{\arraystretch}{1.3}
+% % \begin{tabular}{|l|l|p{5cm}|}
+% % \hline
+% % \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
+% % User & Actor & Người dùng khởi tạo yêu cầu thu hồi quyền chia sẻ cuộc trò chuyện. \\ \hline
+% % Conversation Service & Microservice & Dịch vụ tiếp nhận yêu cầu từ người dùng, thực hiện cập nhật cơ sở dữ liệu và ghi lại sự kiện vào bảng Outbox. \\ \hline
+% % Conversation DB & Database & Cơ sở dữ liệu chính của Conversation Service, lưu trữ trạng thái bản ghi chia sẻ (Share) và bảng hàng đợi sự kiện (Outbox). \\ \hline
+% % RabbitMQ Broker & Message Broker & Message Broker nhận sự kiện và phân phối đến các dịch vụ theo dõi. \\ \hline
+% % Chatbot Service & Microservice & Dịch vụ đóng vai trò là Consumer, lắng nghe sự kiện từ RabbitMQ, thực thi nghiệp vụ xóa file và cập nhật cơ sở dữ liệu. \\ \hline
+% % Chatbot DB & Database & Cơ sở dữ liệu của Chatbot Service, dùng để lưu trữ trạng thái bản ghi chia sẻ và cơ chế kiểm soát phiên bản. \\ \hline
+% % R2 Object Storage & External Service & Dịch vụ lưu trữ đối tượng bên ngoài, chịu trách nhiệm lưu trữ vật lý các tệp tin dữ liệu cuộc trò chuyện định dạng JSONL. \\ \hline
+% % \end{tabular}
+% % \caption{Danh sách các thành phần và vai trò trong Sơ đồ tuần tự Luồng Thu hồi chia sẻ cuộc trò chuyện}
+% % \label{tab:system_components_revoke_share_chat}
+% % \end{table}
+
+% % \subparagraph{Mô tả tổng quan}
+
+% % \begin{itemize}
+% % \item Người dùng gửi yêu cầu thu hồi chia sẻ.
+% % \item Dịch vụ trò chuyện cập nhật trạng thái bản ghi Share ( isActive=false ) đồng thời chèn (insert) sự kiện ShareRevokedEvent vào bảng Outbox cùng transaction trong database đảm bảo tính nguyên tử (atomic).
+% % \item Outbox Relay quét bảng outbox định kỳ lấy ra các sự kiện ShareRevokedEvent vào hàng đợi share\_revoked trên RabbitMQ.
+% % \item Dịch vụ Chatbot nhận thông điệp ShareRevokedEvent từ hàng đợi.
+% % \item Dịch vụ Chatbot xóa ngay tệp tin JSONL trên R2 Object Storage.
+% % \item Dịch vụ Chatbot cập nhật trạng thái bản ghi Share trong Chatbot DB ( is\_revoked=True )
+% % \end{itemize}

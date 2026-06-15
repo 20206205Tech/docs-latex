@@ -131,6 +131,11 @@ DATA = [
         "eng": "gRPC Remote Procedure Call",
         "vie": "Framework Gọi thủ tục từ xa do Google phát triển",
     },
+    {
+        "abbr": "DLQ",
+        "eng": "Dead Letter Queue",
+        "vie": "Hàng đợi thư lỗi",
+    },
 ]
 # https://neon.com/docs/data-api/custom-authentication-providers
 # <!-- # Tài liệu tham khảo -->
