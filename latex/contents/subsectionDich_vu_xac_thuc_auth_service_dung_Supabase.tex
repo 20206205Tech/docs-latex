@@ -1,6 +1,5 @@
 \subsection{Dịch vụ xác thực (auth service - dùng Supabase)}
 
-
 Hệ thống sử dụng Supabase để xử lý các nhóm chức năng chính bao gồm: xác thực và phân quyền, xác thực 2 yếu tố (MFA), quản lý dữ liệu người dùng và quản lý tệp tin (lưu trữ các file ảnh đại diện do người dùng tải lên tại bucket \texttt{avatars}).
 
 Do mỗi lần người dùng đăng nhập lại, Supabase/Google sẽ ghi đè lại thông tin gốc từ tài khoản liên kết, bảng \texttt{profiles} được thiết kế riêng để lưu trữ và duy trì thông tin cập nhật mới nhất của người dùng.

@@ -23,11 +23,9 @@
 \definecolor{RedHUST}{RGB}{205,5,5}
 % \setlist{format={\color{RedHUST}\bfseries}} % Đặt màu cho danh sách
 
-
 % Định nghĩa lại lệnh \lipsum gốc để tự động bọc trong màu RedHUST
 \let\oldlipsum\lipsum
 \renewcommand{\lipsum}[1][1-7]{{\color{RedHUST}\oldlipsum[#1]}}
-
 
 \definecolor{BlueSAMI}{RGB}{1,90,143}
 \setlist{format={\color{BlueSAMI}\bfseries}} % Đặt màu cho danh sách

@@ -5,13 +5,11 @@
 
 % Luồng nghiệp vụ này mô tả vòng đời của một giao dịch thanh toán gói dịch vụ VIP trong hệ thống, từ lúc người dùng khởi tạo yêu cầu thanh toán cho đến khi hệ thống xác nhận.
 
-
 % % \begin{figure}[H]
 % % \centering
 % % \includegraphics[angle=90,scale = 0.2]{pictures/Sequence-payment.png}
 % % \caption{Sơ đồ tuần tự Luồng Thanh toán gói dịch vụ}
 % % \end{figure}
-
 
 % % \begin{figure}[htbp]
 % % \centering
@@ -45,7 +43,6 @@
 % \label{fig:fixed_landscape}
 % \end{figure}
 % \end{landscape}
-
 
 % % \subparagraph{Các thành phần tham gia}
 
@@ -85,7 +82,6 @@
 % % \paragraph{Sơ đồ tuần tự Luồng xử lý tài liệu}
 
 % % Luồng nghiệp vụ này mô tả vòng đời của tài liệu khi người dùng tải lên hệ thống, lưu trữ tệp tin, trích xuất nội dung và lưu trữ dữ liệu vector phục vụ tính năng RAG.
-
 
 % % \begin{figure}[H]
 % % \centering
@@ -131,7 +127,6 @@
 
 % % Luồng nghiệp vụ này mô tả vòng đời của yêu cầu nhắn tin từ người dùng, qua các bước kiểm tra người dùng, giao tiếp với dịch vụ AI bằng gRPC và trả về kết quả theo thời gian thực thông qua luồng dữ liệu Server-Sent Events (SSE).
 
-
 % % \begin{figure}[H]
 % % \centering
 % % \includegraphics[scale = 0.18]{pictures/Sequence-conversation.png}
@@ -171,7 +166,6 @@
 % % \paragraph{Sơ đồ tuần tự Luồng Hội thoại giọng nói}
 
 % % Luồng nghiệp vụ này mô tả Hội thoại giọng nói theo thời gian thực giữa người dùng và AI Voice Agent, bao gồm từ bước cấp quyền, thiết lập phòng họp LiveKit, đến quá trình xử lý ngôn ngữ, tra cứu RAG pháp luật và phản hồi âm thanh (TTS).
-
 
 % % \begin{figure}[H]
 % % \centering
@@ -217,7 +211,6 @@
 
 % % Luồng nghiệp vụ này mô tả quá trình người dùng thực hiện xóa một cuộc trò chuyện, đảm bảo tính nhất quán dữ liệu giữa các dịch vụ thông qua mẫu thiết kế Outbox Pattern và giao tiếp qua RabbitMQ.
 
-
 % % \begin{figure}[H]
 % % \centering
 % % \includegraphics[scale = 0.18]{pictures/Sequence-Delete-Chat.png}
@@ -255,7 +248,6 @@
 % % \paragraph{Sơ đồ tuần tự Luồng Tạo Chia sẻ cuộc trò chuyện}
 
 % % Luồng nghiệp vụ này mô tả vòng đời của một yêu cầu chia sẻ cuộc trò chuyện, lưu trữ dữ liệu trò chuyện dưới dạng tệp tin JSONL trên Cloud Storage, và đồng bộ trạng thái giữa các dịch vụ thông qua mô hình Transactional Outbox kết hợp Message Broker.
-
 
 % % \begin{figure}[H]
 % % \centering
@@ -302,7 +294,6 @@
 % % \paragraph{Sơ đồ tuần tự Luồng Thu hồi chia sẻ cuộc trò chuyện}
 
 % % Luồng nghiệp vụ này mô tả vòng đời của một yêu cầu thu hồi quyền chia sẻ cuộc trò chuyện từ người dùng, đảm bảo tính nhất quán dữ liệu giữa các dịch vụ thông qua mẫu thiết kế Transactional Outbox và giao tiếp bất đồng bộ qua RabbitMQ.
-
 
 % % \begin{figure}[H]
 % % \centering

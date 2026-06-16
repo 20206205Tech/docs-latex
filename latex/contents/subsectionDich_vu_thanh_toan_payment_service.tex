@@ -9,7 +9,7 @@ Sơ đồ tổng quan về Dịch vụ thanh toán (payment service):
 \label{fig:payment-kafka-event}
 \end{figure}
 
-Mục đích: Dịch vụ thanh toán (payment service) chịu trách nhiệm quản lý thông tin các gói dịch vụ (\texttt{plans}), quản lý thuê bao thành viên (\texttt{subscriptions}) của người dùng và tích hợp các cổng thanh toán.
+Mục đích: Dịch vụ thanh toán (payment service) chịu trách nhiệm quản lý thông tin các gói dịch vụ (\texttt{plans}), quản lý thuê bao người dùng (\texttt{subscriptions}) của người dùng và tích hợp các cổng thanh toán.
 
 \subsubsection{I. Quản lý Gói dịch vụ (Plans)}
 
@@ -236,7 +236,6 @@ Sự kiện này được tiêu thụ (consume) bởi hai dịch vụ: \textbf{D
 \item Mở khóa người dùng để kích hoạt tính năng trò chuyện thoại nâng cao và mô hình suy luận dành cho VIP.
 \end{enumerate}
 \end{itemize}
-
 
 \subsubsection{Cơ chế Instant Payment Notification (IPN)}
 

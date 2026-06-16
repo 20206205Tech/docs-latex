@@ -1,7 +1,6 @@
 \subsection{Khảo sát công nghệ xây dựng cốt lõi}
 \subsubsection{Mô hình ngôn ngữ lớn LLM (Large Language Model)}
 
-
 Năm 2017, các kỹ sư của Google
 đưa ra bài báo "Attention Is All You Need"
 khai sinh kiến trúc Transformer
@@ -36,7 +35,6 @@ sẽ có các tọa độ rất gần nhau trong không gian.
 % \end{tikzpicture}
 % }
 % \end{figure}
-
 
 % \begin{figure}[!h]
 % \centering
@@ -91,7 +89,6 @@ sẽ có các tọa độ rất gần nhau trong không gian.
 % \caption{Mô phỏng quá trình ánh xạ các vector từ gần nghĩa.}
 % \end{figure}
 
-
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}[
@@ -102,16 +99,13 @@ dot/.style={circle, fill=#1, inner sep=2pt},
 cluster/.style={dashed, draw=#1!50, fill=#1!5, rounded corners=8pt, inner sep=6pt}
 ]
 
-
 % --- Hệ Trục Tọa Độ ---
 \draw[->, thick, gray] (-1,0) -- (7,0) node[right, black] {};
 \draw[->, thick, gray] (0,-1) -- (0,6) node[above, black] {};
 \node[below left] at (0,0) {$O$};
 
-
 \coordinate (king) at (1.5, 4.5);
 \coordinate (queen) at (2.2, 4.2);
-
 
 \draw[cluster=blue] (0.8, 3.6) rectangle (2.9, 5.2);
 \node[blue!80!black, above] at (1.85, 5.2) {};
@@ -123,7 +117,6 @@ cluster/.style={dashed, draw=#1!50, fill=#1!5, rounded corners=8pt, inner sep=6p
 % Vẽ vector từ gốc tọa độ (tùy chọn để thể hiện tính chất vector)
 \draw[->, blue!70, dashed] (0,0) -- (king);
 \draw[->, blue!70, dashed] (0,0) -- (queen);
-
 
 % --- Cụm 2: Thú cưng (Cat & Dog) ---
 % Định nghĩa tọa độ cho Cat và Dog nằm rất gần nhau nhưng xa cụm King/Queen
@@ -152,17 +145,13 @@ cluster/.style={dashed, draw=#1!50, fill=#1!5, rounded corners=8pt, inner sep=6p
 \caption{Mô phỏng quá trình ánh xạ các vector từ gần nghĩa.}
 \end{figure}
 
-
 Khi dự đoán từ tiếp theo,
 mô hình không chỉ nhìn vào từ ngay trước nó,
 mà nó nhìn vào toàn bộ các từ đã xuất hiện và dùng cơ chế gọi là Self-Attention để xem từ nào quan trọng nhất.
 
-
 Ví dụ: Trong câu "Con mèo rượt đuổi con chuột vì nó chạy rất nhanh", cơ chế Attention sẽ giúp mô hình hiểu chữ "nó" ở đây có xác suất cao là đang chỉ "con chuột" chứ không phải "con mèo".
 
-
 Sau khi tính toán ngữ cảnh, mô hình sẽ quét qua toàn bộ kho từ vựng và gán cho mỗi từ một con số xác suất. Mô hình sẽ chọn từ tiếp theo dựa trên bảng xác suất này. Quá trình này lặp đi lặp lại liên tục cho đến khi nó tạo ra một ký tự đặc biệt ra lệnh dừng lại.
-
 
 \begin{figure}[H]
 \centering
@@ -170,12 +159,9 @@ Sau khi tính toán ngữ cảnh, mô hình sẽ quét qua toàn bộ kho từ v
 \caption{Cách hoạt động của LLM}
 \end{figure}
 
-
 Tuy nhiên LLM có một số nhược điểm:
 
-
 \begin{itemize}
-
 
 \item Dữ liệu huấn luyện rộng
 
@@ -193,9 +179,7 @@ Tuy nhiên LLM có một số nhược điểm:
 
 \item Chi phí cho việc huấn luyện, tinh chỉnh lớn.
 
-
 \end{itemize}
-
 
 \begin{figure}[H]
 \centering

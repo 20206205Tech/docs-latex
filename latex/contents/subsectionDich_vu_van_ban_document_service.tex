@@ -37,7 +37,6 @@ Vì chức năng tải lên tài liệu chỉ dành riêng cho người dùng s�
 \end{itemize}
 \end{itemize}
 
-
 \subsubsection{Document Worker}
 
 Dịch vụ văn bản kết hợp với \textbf{Document Worker} (nhận các tác vụ nền từ Celery thông qua RabbitMQ) để thực hiện quy trình xử lý tài liệu phục vụ hệ thống RAG:
@@ -64,7 +63,6 @@ Dịch vụ văn bản kết hợp với \textbf{Document Worker} (nhận các t
 
 \item \textbf{Giám sát Langfuse}: Toàn bộ luồng tóm tắt văn bản bằng AI (Cloudflare Workers AI) được theo dõi vết và giám sát chi tiết thông qua nền tảng \textbf{Langfuse} để kiểm soát chất lượng và độ trễ.
 \end{itemize}
-
 
 Giao diện quản lý vector trên Milvus:
 

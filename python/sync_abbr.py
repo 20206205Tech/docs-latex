@@ -74,7 +74,7 @@ DATA = [
     {"abbr": "2FA", "eng": "Two-Factor Authentication", "vie": "Xác thực hai yếu tố"},
     {"abbr": "MFA", "eng": "Multi-Factor Authentication", "vie": "Xác thực đa yếu tố"},
     {"abbr": "VIP", "eng": "Very Important Person", "vie": "Người rất quan trọng"},
-    {"abbr": "K8s", "eng": "Kubernetes", "vie": "Kubernetes"},
+    {"abbr": "K8s", "eng": "Kubernetes", "vie": "Công cụ quản lý container"},
     {"abbr": "CI", "eng": "Continuous Integration", "vie": "Tích hợp liên tục"},
     {
         "abbr": "CD",
