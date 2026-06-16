@@ -144,6 +144,8 @@ DATA = [
 ]
 
 
+# OCR	Optical Character Recognition (Công nghệ nhận dạng chữ qua ảnh)
+
 # # Ack
 # # <!-- UML -->
 
