@@ -1,0 +1,28 @@
+@startuml
+actor "Admin" as Admin
+participant "Web Frontend" as Frontend
+participant "API Gateway\n(Kong)" as Kong
+participant "Pháp Điển Pipeline\nService" as PhapDienService
+database "Pipeline DB" as DB
+
+== Luồng 1: Theo dõi báo cáo Pháp Điển Pipeline (Pháp Điển) ==
+Admin -> Frontend: Truy cập trang Bảng điều khiển (Admin Dashboard)
+activate Frontend
+
+Frontend -> Kong: GET /data-pipeline-phapdien-service/phapdien/summary\n[Headers: Authorization: Bearer <token>]
+activate Kong
+Kong -> PhapDienService: Chuyển tiếp yêu cầu lấy summary Pháp Điển
+activate PhapDienService
+PhapDienService -> DB: Truy vấn tổng số chủ đề, đề mục, mục lục
+activate DB
+DB --> PhapDienService: Số liệu thống kê Pháp Điển
+deactivate DB
+PhapDienService --> Kong: Trả về summary (total_chu_de, total_de_muc, total_tree_items)
+deactivate PhapDienService
+Kong --> Frontend: Trả về dữ liệu báo cáo Pháp Điển
+deactivate Kong
+
+Frontend -> Frontend: Vẽ biểu đồ báo cáo Pháp Điển trực quan
+Frontend --> Admin: Hiển thị giao diện Dashboard báo cáo tiến độ Pháp Điển Pipeline
+deactivate Frontend
+@enduml
