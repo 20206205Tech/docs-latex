@@ -1,0 +1,58 @@
+@startuml
+actor "User" as User
+participant "Web Frontend" as Frontend
+participant "API Gateway\n(Kong)" as Kong
+participant "Conversation Service" as ConversationService
+database "Conversation DB" as ConversationDB
+participant "Chatbot Service\ngRPC" as ChatbotService
+database "Chatbot DB" as ChatbotDB
+
+== Luồng nghiệp vụ: Chat pháp lý với reasoning nâng cao ==
+
+User -> Frontend: Nhập truy vấn pháp lý phức tạp\nvà bật use_reasoning=true
+activate Frontend
+
+Frontend -> Kong: POST /code-conversation-service/chats/stream\n{chat_id, query, file_ids, use_reasoning=true}
+activate Kong
+Kong -> ConversationService: Chuyển tiếp yêu cầu stream chat
+activate ConversationService
+
+ConversationService -> ConversationDB: Kiểm tra UserSubscription.isVip(userId)
+activate ConversationDB
+ConversationDB --> ConversationService: Gói thuê bao VIP còn hiệu lực
+deactivate ConversationDB
+
+ConversationService -> ConversationDB: Kiểm tra chat_id thuộc user
+activate ConversationDB
+ConversationDB --> ConversationService: Chat hợp lệ
+deactivate ConversationDB
+
+ConversationService -> ChatbotService: AskAI(chat_id, query, file_ids, use_reasoning=true)\n[gRPC metadata: Authorization]
+activate ChatbotService
+ChatbotService -> ChatbotDB: Lưu tin nhắn human
+activate ChatbotDB
+ChatbotDB --> ChatbotService: OK
+deactivate ChatbotDB
+
+ChatbotService --> ConversationService: Stream status_update / content_chunk / metadata
+ConversationService --> Kong: Stream dữ liệu SSE về client
+Kong --> Frontend: Stream trạng thái reasoning, nội dung và nguồn tham chiếu
+
+ChatbotService -> ChatbotDB: Lưu tin nhắn AI, reasoning_steps, sources
+activate ChatbotDB
+ChatbotDB --> ChatbotService: OK
+deactivate ChatbotDB
+deactivate ChatbotService
+
+Frontend --> User: Hiển thị câu trả lời pháp lý\nkèm các bước xử lý và nguồn
+deactivate ConversationService
+deactivate Kong
+deactivate Frontend
+
+alt #LightPink User chưa có gói thuê bao VIP
+    ConversationService --> Kong: HTTP 403 Forbidden
+    Kong --> Frontend: Từ chối dùng reasoning nâng cao
+    Frontend --> User: Yêu cầu nâng cấp gói thuê bao VIP
+end
+
+@enduml
