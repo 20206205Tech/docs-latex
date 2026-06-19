@@ -119,6 +119,7 @@ DATA = [
     {
         "abbr": "PSC",
         "eng": "Payment Service Consumer",
+        # "vie": r"\makecell[l]{Framework Gọi thủ tục từ xa \\ do Google phát triển}",
         "vie": "Đơn vị sử dụng dịch vụ thanh toán",
     },
     {"abbr": "UI", "eng": "User Interface", "vie": "Giao diện người dùng"},
