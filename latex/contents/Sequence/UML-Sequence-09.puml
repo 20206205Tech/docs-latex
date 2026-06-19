@@ -6,8 +6,8 @@ participant "Auth Service\n(Supabase)" as AuthService
 database "Supabase Database" as DB
 participant "Authenticator App" as AuthApp
 
-== Luồng 3: Thay đổi thiết bị xác thực 2 lớp (Change TOTP MFA Device) ==
-User -> Frontend: Chọn "Đổi thiết bị 2FA"
+== Luồng 3: Hủy liên kết và thiết lập lại thiết bị MFA ==
+User -> Frontend: Chọn hủy liên kết thiết bị MFA hiện tại
 activate Frontend
 
 note over Frontend: Người dùng bắt buộc\nphải có phiên AAL2\ntrước khi đổi thiết bị.
@@ -20,13 +20,22 @@ AuthService -> DB: Xóa factor cũ / Cập nhật status = deleted
 activate DB
 DB --> AuthService: OK
 deactivate DB
-AuthService -> AuthService: Hạ cấp phiên token hiện tại xuống AAL1 (aal = aal1)
 AuthService --> Kong: Xác nhận hủy đăng ký thành công
 deactivate AuthService
 Kong --> Frontend: Xác nhận hủy đăng ký thành công
 deactivate Kong
 
-note over Frontend: Phiên đăng nhập bị hạ xuống AAL1.\nFrontend lập tức kích hoạt quy trình Enroll cho thiết bị mới.
+Frontend -> Kong: GET /supabase-auth-service/auth/v1/user
+activate Kong
+Kong -> AuthService: Lấy danh sách factors hiện tại
+activate AuthService
+AuthService --> Kong: Trả về danh sách factors rỗng
+deactivate AuthService
+Kong --> Frontend: Trả về danh sách factors rỗng
+deactivate Kong
+
+Frontend --> User: Hiển thị trạng thái chưa kích hoạt MFA và nút "Kích hoạt ngay"
+User -> Frontend: Chọn "Kích hoạt ngay" để sang /auth/mfa
 
 Frontend -> Kong: POST /supabase-auth-service/auth/v1/factors (TOTP)
 activate Kong
@@ -70,6 +79,6 @@ deactivate AuthService
 Kong --> Frontend: Trả về token nâng cấp AAL2 mới
 deactivate Kong
 
-Frontend --> User: Đổi thiết bị 2FA thành công! (Phiên bảo mật AAL2 hoạt động)
+Frontend --> User: Thiết lập lại thiết bị MFA thành công! (Phiên bảo mật AAL2 hoạt động)
 deactivate Frontend
 @enduml
