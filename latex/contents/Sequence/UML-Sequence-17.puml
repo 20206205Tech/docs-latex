@@ -1,0 +1,68 @@
+@startuml
+actor User as User
+participant "Conversation Service" as ConvService
+database "Conversation DB" as ConvDB
+participant "Chatbot Service\n(gRPC + LangGraph)" as Chatbot
+database "Chatbot DB" as ChatbotDB
+
+== Luồng Nhắn tin văn bản (Chat Flow) ==
+User -> ConvService: POST /code-conversation-service/chats/stream (Yêu cầu SSE)
+activate ConvService
+
+alt #AliceBlue use_reasoning == true
+    ConvService -> ConvDB: Kiểm tra trạng thái VIP (isVip)
+    activate ConvDB
+    ConvDB --> ConvService: Trả về trạng thái VIP
+    deactivate ConvDB
+    alt #LightPink Không phải VIP
+        ConvService --> User: Trả về lỗi HTTP 403 Forbidden (Hủy luồng)
+    end
+end
+
+ConvService -> ConvDB: Kiểm tra Chat tồn tại (findById)
+activate ConvDB
+ConvDB --> ConvService: Trả về thông tin Chat
+deactivate ConvDB
+alt #LightPink Chat không tồn tại
+    ConvService --> User: Trả về lỗi HTTP 404 Not Found (Hủy luồng)
+end
+
+ConvService -> Chatbot: Gọi AskAI qua gRPC Stream (query, chat_id, use_reasoning)
+activate Chatbot
+
+Chatbot -> ChatbotDB: Lưu tin nhắn User (role='human', content=query)
+activate ChatbotDB
+ChatbotDB --> Chatbot: OK
+deactivate ChatbotDB
+
+Chatbot -> Chatbot: Xử lý RAG (LLM + VectorDB)
+
+par #LightCyan Luồng sinh dữ liệu (Stream)
+    loop #LightCyan Nhận chunks từ RAG (type: content / status / metadata)
+        Chatbot --> ConvService: Gửi AskResponse (id, reply, type) qua gRPC
+        ConvService --> User: Gửi SSE Event { type, message }
+    end
+else #LightYellow Luồng Heartbeat (Keep-Alive)
+    loop #LightYellow Định kỳ 10 giây/lần
+        ConvService --> User: Gửi SSE Event { type: 'heartbeat', message: 'keep-alive' }
+    end
+end
+
+Chatbot -> Chatbot: Hoàn tất xử lý RAG
+
+note over Chatbot, ChatbotDB: Chatbot xử lý lưu trữ trước khi ngắt gRPC
+Chatbot -> ChatbotDB: Lưu tin nhắn AI (role='ai', full_content, reasoning_steps, sources)
+activate ChatbotDB
+ChatbotDB --> Chatbot: OK
+deactivate ChatbotDB
+
+opt #AliceBlue Nếu chat chưa có tiêu đề
+    Chatbot -> Chatbot: Kích hoạt Task chạy ngầm sinh tiêu đề (start_background_topic_generation)
+end
+Chatbot -> Chatbot: Kích hoạt Task chạy ngầm tóm tắt lịch sử (start_background_history_summarization)
+
+Chatbot --> ConvService: Đóng kết nối gRPC Stream
+deactivate Chatbot
+ConvService --> User: Gửi sự kiện kết thúc & Đóng luồng SSE
+deactivate ConvService
+@enduml

@@ -1,0 +1,39 @@
+\paragraph{Sơ đồ tuần tự Luồng Thu hồi chia sẻ cuộc trò chuyện}
+
+Luồng nghiệp vụ này mô tả vòng đời của một yêu cầu thu hồi quyền chia sẻ cuộc trò chuyện từ người dùng, đảm bảo tính nhất quán dữ liệu giữa các dịch vụ thông qua mẫu thiết kế Transactional Outbox và giao tiếp bất đồng bộ qua RabbitMQ.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.18]{contents/Sequence/UML-Sequence-20.png}
+\caption{Sơ đồ tuần tự Luồng Thu hồi chia sẻ cuộc trò chuyện}
+\end{figure}
+
+\subparagraph{Các thành phần tham gia}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|l|l|p{5cm}|}
+\hline
+\textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
+User & Actor & Người dùng khởi tạo yêu cầu thu hồi quyền chia sẻ cuộc trò chuyện. \\ \hline
+Conversation Service & Microservice & Dịch vụ tiếp nhận yêu cầu từ người dùng, thực hiện cập nhật cơ sở dữ liệu và ghi lại sự kiện vào bảng Outbox. \\ \hline
+Conversation DB & Database & Cơ sở dữ liệu chính của Conversation Service, lưu trữ trạng thái bản ghi chia sẻ (Share) và bảng hàng đợi sự kiện (Outbox). \\ \hline
+RabbitMQ Broker & Message Broker & Message Broker nhận sự kiện và phân phối đến các dịch vụ theo dõi. \\ \hline
+Chatbot Service & Microservice & Dịch vụ đóng vai trò là Consumer, lắng nghe sự kiện từ RabbitMQ, thực thi nghiệp vụ xóa file và cập nhật cơ sở dữ liệu. \\ \hline
+Chatbot DB & Database & Cơ sở dữ liệu của Chatbot Service, dùng để lưu trữ trạng thái bản ghi chia sẻ và cơ chế kiểm soát phiên bản. \\ \hline
+R2 Object Storage & External Service & Dịch vụ lưu trữ đối tượng bên ngoài, chịu trách nhiệm lưu trữ vật lý các tệp tin dữ liệu cuộc trò chuyện định dạng JSONL. \\ \hline
+\end{tabular}
+\caption{Danh sách các thành phần và vai trò trong Sơ đồ tuần tự Luồng Thu hồi chia sẻ cuộc trò chuyện}
+\end{table}
+
+\subparagraph{Mô tả tổng quan}
+
+\begin{itemize}
+\item Người dùng gửi yêu cầu thu hồi chia sẻ qua phương thức DELETE tới Conversation Service.
+\item Conversation Service cập nhật trạng thái bản ghi Share (isActive=false) đồng thời chèn (insert) sự kiện ShareRevokedEvent vào bảng Outbox cùng transaction trong database đảm bảo tính nguyên tử (atomic).
+\item Dịch vụ phản hồi HTTP 200 OK để xác nhận thu hồi thành công cho người dùng ngay lập tức.
+\item Outbox Relay quét bảng outbox định kỳ, lấy ra các sự kiện ShareRevokedEvent chưa gửi và publish vào hàng đợi \texttt{share\_revoked} trên RabbitMQ Broker.
+\item Chatbot Service nhận thông điệp ShareRevokedEvent từ hàng đợi, thực hiện xóa tệp tin JSONL lưu trữ tương ứng trên R2 Object Storage.
+\item Chatbot Service cập nhật trạng thái bản ghi Share trong Chatbot DB (is_revoked=True) và gửi phản hồi Acknowledge hoàn tất.
+\end{itemize}

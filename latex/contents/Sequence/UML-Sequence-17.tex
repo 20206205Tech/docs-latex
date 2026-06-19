@@ -1,0 +1,39 @@
+\paragraph{Sơ đồ tuần tự Luồng Nhắn tin văn bản}
+
+Luồng nghiệp vụ này mô tả vòng đời của yêu cầu nhắn tin từ người dùng, qua các bước kiểm tra người dùng, giao tiếp với dịch vụ AI bằng gRPC và trả về kết quả theo thời gian thực thông qua luồng dữ liệu Server-Sent Events (SSE).
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.18]{contents/Sequence/UML-Sequence-17.png}
+\caption{Sơ đồ tuần tự Luồng Nhắn tin văn bản}
+\end{figure}
+
+\subparagraph{Các thành phần tham gia}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|l|l|p{5cm}|}
+\hline
+\textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
+User & Actor & Người dùng khởi tạo yêu cầu gọi API và lắng nghe kết quả phản hồi dạng luồng (stream) từ hệ thống. \\ \hline
+Conversation Service & Microservice & Dịch vụ trò chuyện giao tiếp, nhận yêu cầu, quản lý kết nối SSE và làm trung gian giao tiếp. \\ \hline
+Conversation DB & Database & Cơ sở dữ liệu lưu trữ thông tin về quyền người dùng VIP và trò chuyện. \\ \hline
+Chatbot Service (gRPC + LangGraph) & Microservice & Nhận yêu cầu qua gRPC, xử lý AI, lưu trữ lịch sử trò chuyện. \\ \hline
+Chatbot DB & Database & Cơ sở dữ liệu dùng để lưu trữ nội dung tin nhắn (User và AI). \\ \hline
+LLM + VectorDB & AI Engine & Xử lý ngôn ngữ tự nhiên, tạo chuỗi suy luận và sinh văn bản phản hồi. \\ \hline
+\end{tabular}
+\caption{Danh sách các thành phần và vai trò trong Sơ đồ tuần tự Luồng Nhắn tin văn bản}
+\end{table}
+
+\subparagraph{Mô tả tổng quan}
+
+\begin{itemize}
+\item Người dùng gửi yêu cầu trò chuyện bằng phương thức POST thiết lập dòng dữ liệu SSE.
+\item Conversation Service kiểm tra quyền VIP của người dùng trên Conversation DB nếu câu hỏi yêu cầu sử dụng tính năng suy luận (\texttt{use\_reasoning}). Nếu không thỏa mãn, hệ thống trả về lỗi 403.
+\item Dịch vụ tiếp tục kiểm tra sự tồn tại của cuộc trò chuyện trong Database và trả lỗi 404 nếu không tìm thấy.
+\item Sau khi kiểm tra thành công, Conversation Service mở luồng kết nối gRPC Stream gửi yêu cầu tới Chatbot Service.
+\item Chatbot Service lưu tin nhắn của User vào Chatbot DB, sau đó thực hiện truy vấn RAG (truy xuất tri thức từ VectorDB và gọi mô hình LLM) để xử lý sinh câu trả lời.
+\item Dữ liệu câu trả lời (chunks) được đẩy liên tục thông qua gRPC về Conversation Service để chuyển tiếp SSE Event về cho User. Song song với đó, hệ thống duy trì luồng heartbeat định kỳ mỗi 10 giây.
+\item Khi quá trình sinh hoàn tất, Chatbot Service lưu nội dung câu trả lời hoàn chỉnh của AI kèm các bước suy luận vào Chatbot DB, kích hoạt các tác vụ chạy ngầm để sinh tiêu đề và tóm tắt lịch sử trước khi đóng kết nối.
+\end{itemize}
