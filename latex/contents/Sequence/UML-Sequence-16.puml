@@ -6,7 +6,7 @@ participant "Setting Service\n(Neon API)" as SettingService
 database "Setting Neon Database" as DB
 
 == Luồng 2: Cập nhật thông tin Cài đặt (Update Settings) ==
-User -> Frontend: Bật/Tắt các thiết lập (ví dụ: Dark Mode, Bật RAG) và bấm "Lưu"
+User -> Frontend: Thay đổi thiết lập (ví dụ: Theme, câu hỏi ví dụ, auto expand reasoning)
 activate Frontend
 
 Frontend -> Kong: POST /neon-setting-service (SettingItem[]) \n[Headers: Authorization: Bearer <token>]
@@ -22,7 +22,7 @@ deactivate SettingService
 Kong --> Frontend: Phản hồi thành công
 deactivate Kong
 
-Frontend -> Frontend: Áp dụng cài đặt cục bộ (ví dụ: Thay đổi theme màu tối)
-Frontend --> User: Lưu cài đặt thành công!
+Frontend -> Frontend: Áp dụng cài đặt cục bộ
+Frontend --> User: Hiển thị trạng thái cài đặt mới
 deactivate Frontend
 @enduml

@@ -13,7 +13,7 @@ Luồng nghiệp vụ này mô tả quy trình lưu các thay đổi thiết l�
 \begin{table}[H]
 \centering
 \renewcommand{\arraystretch}{1.3}
-\begin{tabular}{|l|l{5cm}|p{5cm}|}
+\begin{tabular}{|l|l|p{5cm}|}
 \hline
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
 User & Actor & Người dùng thực hiện thay đổi cấu hình thiết lập. \\ \hline
@@ -27,7 +27,7 @@ Setting Neon Database & Database & Lưu trữ cấu hình cài đặt của User
 
 \subparagraph{Mô tả chi tiết}
 \begin{itemize}
-\item Người dùng bật/tắt các tuỳ chọn trên giao diện và nhấn lưu. Frontend thực hiện gửi yêu cầu \texttt{POST /neon-setting-service} chứa danh sách các cài đặt được thay đổi qua Gateway đến Setting Service (Neon API).
+\item Người dùng thay đổi các tuỳ chọn trên giao diện. Frontend cập nhật trạng thái cục bộ và gửi yêu cầu \texttt{POST /neon-setting-service} chứa danh sách cài đặt mới qua Gateway đến Setting Service (Neon API).
 \item Setting Service (Neon API) thực hiện cập nhật hoặc thêm mới (Upsert) cấu hình của người dùng trong Setting Neon Database.
-\item Sau khi lưu thành công, Frontend áp dụng cấu hình cục bộ (ví dụ chuyển theme màu tối) và hiển thị thông báo lưu thành công.
+\item Frontend hiển thị trạng thái cài đặt mới theo dữ liệu đã được cập nhật.
 \end{itemize}
