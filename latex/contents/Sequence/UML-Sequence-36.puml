@@ -1,0 +1,49 @@
+@startuml
+actor "User" as User
+participant "Web Frontend" as Frontend
+participant "API Gateway\n(Kong)" as Kong
+participant "Conversation Service" as ConversationService
+database "Conversation DB" as ConversationDB
+participant "LiveKit SDK" as LiveKitSDK
+participant "LiveKit Cloud" as LiveKit
+
+== Luồng nghiệp vụ: Cấp token voice chat qua LiveKit ==
+
+User -> Frontend: Bấm bắt đầu đàm thoại bằng giọng nói
+activate Frontend
+
+Frontend -> Kong: GET /code-conversation-service/chats/{chat_id}/voice-token\n?persona_id={persona_id}&use_reasoning=true&file_ids[]={doc_id}
+activate Kong
+Kong -> ConversationService: Chuyển tiếp yêu cầu lấy voice token
+activate ConversationService
+
+ConversationService -> ConversationDB: Kiểm tra UserSubscription.isVip(userId)
+activate ConversationDB
+ConversationDB --> ConversationService: VIP hợp lệ
+deactivate ConversationDB
+
+ConversationService -> LiveKitSDK: Tạo AccessToken\nmetadata={chat_id,user_id,file_ids,use_reasoning,persona_id}
+activate LiveKitSDK
+LiveKitSDK --> ConversationService: JWT token có quyền roomJoin/canPublish/canSubscribe
+deactivate LiveKitSDK
+
+ConversationService --> Kong: HTTP 200 {token, serverUrl}
+deactivate ConversationService
+Kong --> Frontend: Trả token và LIVEKIT_URL
+deactivate Kong
+
+Frontend -> LiveKit: Connect WebRTC/WebSocket bằng token
+activate LiveKit
+LiveKit --> Frontend: Join room thành công
+deactivate LiveKit
+
+Frontend --> User: Mở phiên voice chat
+deactivate Frontend
+
+alt #LightPink User chưa có gói thuê bao VIP
+    ConversationService --> Kong: HTTP 403 Forbidden
+    Kong --> Frontend: Không cấp token
+    Frontend --> User: Hiển thị yêu cầu nâng cấp gói thuê bao VIP
+end
+
+@enduml

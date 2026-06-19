@@ -1,0 +1,34 @@
+\paragraph{Sơ đồ tuần tự Luồng Tải lên tài liệu cá nhân}
+
+Luồng này mô tả quá trình người dùng có gói thuê bao VIP tải lên tài liệu cá nhân. Document Service kiểm tra subscription, lưu file gốc vào Cloudflare R2, tạo bản ghi Document và đẩy tác vụ xử lý nền qua RabbitMQ.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.18]{contents/Sequence/UML-Sequence-38.png}
+\caption{Sơ đồ tuần tự Luồng Tải lên tài liệu cá nhân}
+\end{figure}
+
+\subparagraph{Các thành phần tham gia}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|l|l|p{5cm}|}
+\hline
+\textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
+User & Actor & Người dùng tải lên tài liệu cá nhân. \\ \hline
+Document Service & Microservice & Kiểm tra quyền, validate file, lưu metadata và publish task xử lý nền. \\ \hline
+Document Database & Database & Lưu Document và trạng thái subscription cục bộ. \\ \hline
+Cloudflare R2 & Object Storage & Lưu file gốc của người dùng. \\ \hline
+RabbitMQ & Message Broker & Nhận task \texttt{process\_document\_task} cho Document Worker. \\ \hline
+\end{tabular}
+\caption{Các thành phần tham gia luồng tải lên tài liệu cá nhân}
+\end{table}
+
+\subparagraph{Mô tả chi tiết}
+\begin{itemize}
+\item Web Frontend gọi \texttt{POST /code-document-service/documents/upload} với multipart file.
+\item Document Service kiểm tra \texttt{UserSubscription.is\_active=true} và \texttt{period\_end} còn hiệu lực.
+\item File được validate, lưu vào R2 theo đường dẫn \texttt{\{user\_id\}/document/\{doc\_id\}\{ext\}}.
+\item Sau khi upload thành công, service publish \texttt{process\_document\_task(doc\_id)} để xử lý tài liệu trong nền.
+\end{itemize}

@@ -1,0 +1,48 @@
+@startuml
+actor "User" as User
+participant "LiveKit Cloud" as LiveKit
+participant "Voice Agent\n(Chatbot Service)" as VoiceAgent
+participant "Persona Service" as PersonaService
+participant "TTS Provider" as TTSProvider
+participant "RAG / LangGraph" as RAG
+
+== Luồng nghiệp vụ: Đàm thoại trực tiếp với AI bằng giọng nói ==
+
+User -> LiveKit: Gửi audio stream
+activate LiveKit
+LiveKit -> VoiceAgent: Forward audio từ room chat_id
+activate VoiceAgent
+
+VoiceAgent -> VoiceAgent: STT + VAD chuyển giọng nói thành text
+VoiceAgent -> PersonaService: GET /code-persona-service/personas/{persona_id}
+activate PersonaService
+PersonaService --> VoiceAgent: voice_code, tts_engine, system_prompt
+deactivate PersonaService
+
+opt #AliceBlue Câu hỏi cần tra cứu pháp luật hoặc tài liệu cá nhân
+    VoiceAgent -> RAG: search_law(query, file_ids, use_reasoning, is_voice=true)
+    activate RAG
+    RAG --> VoiceAgent: Kết quả RAG và trạng thái xử lý
+    deactivate RAG
+end
+
+VoiceAgent -> VoiceAgent: Tổng hợp câu trả lời cuối cùng
+
+alt #LightGreen tts_engine nội bộ
+    VoiceAgent -> PersonaService: POST /code-persona-service/audio/v1/audio/speech
+    activate PersonaService
+    PersonaService --> VoiceAgent: Audio stream
+    deactivate PersonaService
+else #LightYellow tts_engine bên ngoài
+    VoiceAgent -> TTSProvider: Sinh audio phản hồi
+    activate TTSProvider
+    TTSProvider --> VoiceAgent: Audio stream
+    deactivate TTSProvider
+end
+
+VoiceAgent -> LiveKit: Publish audio phản hồi và data channel status
+LiveKit --> User: Phát giọng nói AI và cập nhật UI
+deactivate VoiceAgent
+deactivate LiveKit
+
+@enduml

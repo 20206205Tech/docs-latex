@@ -1,0 +1,34 @@
+\paragraph{Sơ đồ tuần tự Luồng Đàm thoại trực tiếp với AI bằng giọng nói}
+
+Luồng này mô tả phiên voice chat sau khi client đã join LiveKit room. Voice Agent nhận audio, chuyển thành văn bản, gọi RAG khi cần tra cứu pháp luật hoặc tài liệu cá nhân, sau đó sinh audio phản hồi cho người dùng.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.18]{contents/Sequence/UML-Sequence-37.png}
+\caption{Sơ đồ tuần tự Luồng Đàm thoại trực tiếp với AI bằng giọng nói}
+\end{figure}
+
+\subparagraph{Các thành phần tham gia}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|l|l|p{5cm}|}
+\hline
+\textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
+User & Actor & Người dùng nói chuyện trực tiếp với AI. \\ \hline
+LiveKit Cloud & External Service & Chuyển tiếp audio và data channel giữa client và Voice Agent. \\ \hline
+Voice Agent & Component & Xử lý STT, gọi công cụ RAG, tổng hợp phản hồi và publish audio. \\ \hline
+Persona Service & Microservice & Cung cấp persona, prompt, cấu hình giọng nói và TTS nội bộ. \\ \hline
+RAG / LangGraph & AI Pipeline & Tra cứu pháp luật, tài liệu cá nhân và sinh trạng thái reasoning. \\ \hline
+\end{tabular}
+\caption{Các thành phần tham gia luồng đàm thoại trực tiếp với AI}
+\end{table}
+
+\subparagraph{Mô tả chi tiết}
+\begin{itemize}
+\item User gửi audio stream qua LiveKit, Voice Agent nhận audio từ room và chuyển thành text bằng STT/VAD.
+\item Voice Agent lấy thông tin persona để cấu hình giọng nói, system prompt và TTS engine.
+\item Khi câu hỏi cần tra cứu, Voice Agent gọi \texttt{search\_law} với \texttt{file\_ids} và \texttt{use\_reasoning}.
+\item Phản hồi cuối cùng được chuyển thành audio bằng Persona Service hoặc TTS Provider, sau đó phát lại qua LiveKit.
+\end{itemize}

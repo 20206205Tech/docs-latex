@@ -1,0 +1,49 @@
+@startuml
+actor "User" as User
+participant "Web Frontend" as Frontend
+participant "Conversation Service" as ConversationService
+participant "Chatbot Service" as ChatbotService
+participant "LangGraph RAG" as RAG
+database "Milvus\nUser Documents" as Milvus
+participant "Legal Knowledge Base" as LegalKB
+database "Chatbot DB" as ChatbotDB
+
+== Luồng nghiệp vụ: Phân tích tài liệu cá nhân bằng reasoning pháp lý ==
+
+User -> Frontend: Gửi câu hỏi pháp lý kèm file_ids\nvà use_reasoning=true
+activate Frontend
+
+Frontend -> ConversationService: POST /code-conversation-service/chats/stream
+activate ConversationService
+ConversationService -> ChatbotService: AskAI(query, file_ids, use_reasoning=true)
+activate ChatbotService
+
+ChatbotService -> RAG: generation_stream(query, file_ids, use_reasoning=true)
+activate RAG
+RAG -> Milvus: Truy vấn vector tài liệu cá nhân theo user_id và file_ids
+activate Milvus
+Milvus --> RAG: Đoạn nội dung tài liệu liên quan
+deactivate Milvus
+
+RAG -> LegalKB: Truy vấn văn bản pháp luật liên quan
+activate LegalKB
+LegalKB --> RAG: Điều khoản, văn bản và nguồn tham chiếu
+deactivate LegalKB
+
+RAG -> RAG: Rank, kiểm tra hiệu lực,\nphân tích lập luận và tổng hợp kết luận
+RAG --> ChatbotService: Stream content_chunk, status_update, metadata(sources)
+deactivate RAG
+
+ChatbotService -> ChatbotDB: Lưu câu trả lời, reasoning_steps, sources
+activate ChatbotDB
+ChatbotDB --> ChatbotService: OK
+deactivate ChatbotDB
+
+ChatbotService --> ConversationService: Stream kết quả phân tích
+deactivate ChatbotService
+ConversationService --> Frontend: Stream nội dung, bước reasoning và nguồn
+deactivate ConversationService
+Frontend --> User: Hiển thị phân tích tài liệu cá nhân
+deactivate Frontend
+
+@enduml

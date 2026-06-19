@@ -1,0 +1,35 @@
+\paragraph{Sơ đồ tuần tự Luồng Xử lý tài liệu trong nền}
+
+Luồng này mô tả Document Worker nhận task từ RabbitMQ, tải file từ R2, trích xuất nội dung, tạo tóm tắt bằng AI và lưu vector vào Milvus để phục vụ truy vấn RAG sau này.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.18]{contents/Sequence/UML-Sequence-39.png}
+\caption{Sơ đồ tuần tự Luồng Xử lý tài liệu trong nền}
+\end{figure}
+
+\subparagraph{Các thành phần tham gia}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|l|l|p{5cm}|}
+\hline
+\textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
+RabbitMQ & Message Broker & Phân phối task xử lý tài liệu cho worker. \\ \hline
+Document Worker & Background Worker & Xử lý file, cập nhật trạng thái và ghi dữ liệu phục vụ RAG. \\ \hline
+Document Database & Database & Lưu metadata, status, has\_content và has\_summary. \\ \hline
+Cloudflare R2 & Object Storage & Lưu file gốc, parsed content và summary. \\ \hline
+Milvus & Vector Store & Lưu vector chunks theo user và document để truy vấn về sau. \\ \hline
+\end{tabular}
+\caption{Các thành phần tham gia luồng xử lý tài liệu trong nền}
+\end{table}
+
+\subparagraph{Mô tả chi tiết}
+\begin{itemize}
+\item Document Worker consume \texttt{process\_document\_task(doc\_id)} từ RabbitMQ.
+\item Worker chuyển trạng thái tài liệu sang \texttt{PROCESSING}, tải file gốc từ R2 và trích xuất text.
+\item Nội dung đã parse và summary được upload lại lên R2.
+\item Các chunk được embedding và upsert vào Milvus kèm metadata \texttt{user\_id} và \texttt{doc\_id}.
+\item Khi hoàn tất, Document được cập nhật \texttt{COMPLETED}, \texttt{has\_content=true}, \texttt{has\_summary=true}.
+\end{itemize}

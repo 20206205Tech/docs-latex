@@ -1,0 +1,35 @@
+\paragraph{Sơ đồ tuần tự Luồng Phân tích tài liệu cá nhân bằng reasoning pháp lý}
+
+Luồng này mô tả việc sử dụng tài liệu cá nhân đã upload trong truy vấn pháp lý. Chatbot Service gọi LangGraph RAG để truy vấn Milvus, kết hợp nguồn luật và thực hiện reasoning nâng cao trước khi trả kết quả cho người dùng.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.18]{contents/Sequence/UML-Sequence-40.png}
+\caption{Sơ đồ tuần tự Luồng Phân tích tài liệu cá nhân bằng reasoning pháp lý}
+\end{figure}
+
+\subparagraph{Các thành phần tham gia}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|l|l|p{5cm}|}
+\hline
+\textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
+User & Actor & Người dùng yêu cầu phân tích tài liệu cá nhân. \\ \hline
+Conversation Service & Microservice & Nhận yêu cầu stream chat và chuyển sang Chatbot Service. \\ \hline
+Chatbot Service & Microservice & Điều phối generation stream và lưu kết quả trò chuyện. \\ \hline
+LangGraph RAG & AI Pipeline & Truy vấn tài liệu cá nhân, nguồn luật và thực hiện reasoning. \\ \hline
+Milvus & Vector Store & Cung cấp các đoạn nội dung liên quan từ tài liệu cá nhân của user. \\ \hline
+Legal Knowledge Base & Knowledge Base & Cung cấp văn bản pháp luật, điều khoản và nguồn tham chiếu. \\ \hline
+\end{tabular}
+\caption{Các thành phần tham gia luồng phân tích tài liệu cá nhân bằng reasoning pháp lý}
+\end{table}
+
+\subparagraph{Mô tả chi tiết}
+\begin{itemize}
+\item User gửi truy vấn kèm \texttt{file\_ids} và \texttt{use\_reasoning=true}.
+\item RAG truy vấn Milvus để lấy đoạn tài liệu cá nhân liên quan theo user và file được chọn.
+\item RAG kết hợp nội dung tài liệu với nguồn luật, thực hiện rank, kiểm tra hiệu lực và tổng hợp lập luận.
+\item Kết quả stream về frontend gồm nội dung trả lời, reasoning steps và metadata nguồn tham chiếu.
+\end{itemize}

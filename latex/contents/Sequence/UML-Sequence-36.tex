@@ -1,0 +1,34 @@
+\paragraph{Sơ đồ tuần tự Luồng Cấp token voice chat qua LiveKit}
+
+Luồng này mô tả quá trình cấp Access Token cho phiên đàm thoại trực tiếp bằng giọng nói. Token LiveKit mang metadata về chat, người dùng, tài liệu đính kèm, persona và trạng thái sử dụng reasoning.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.18]{contents/Sequence/UML-Sequence-36.png}
+\caption{Sơ đồ tuần tự Luồng Cấp token voice chat qua LiveKit}
+\end{figure}
+
+\subparagraph{Các thành phần tham gia}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|l|l|p{5cm}|}
+\hline
+\textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
+User & Actor & Người dùng bắt đầu phiên voice chat. \\ \hline
+Web Frontend & Component & Gọi API lấy token và kết nối tới LiveKit Cloud. \\ \hline
+Conversation Service & Microservice & Kiểm tra quyền VIP và tạo Access Token bằng LiveKit SDK. \\ \hline
+Conversation Database & Database & Lưu trạng thái subscription được đồng bộ từ Payment Service. \\ \hline
+LiveKit Cloud & External Service & Hạ tầng WebRTC/WebSocket cho phiên đàm thoại thời gian thực. \\ \hline
+\end{tabular}
+\caption{Các thành phần tham gia luồng cấp token voice chat qua LiveKit}
+\end{table}
+
+\subparagraph{Mô tả chi tiết}
+\begin{itemize}
+\item Web Frontend gọi \texttt{GET /code-conversation-service/chats/\{chat\_id\}/voice-token} kèm \texttt{persona\_id}, \texttt{file\_ids[]} và \texttt{use\_reasoning}.
+\item Conversation Service chỉ cấp token khi user có gói thuê bao VIP hợp lệ trong môi trường production.
+\item Access Token chứa metadata \texttt{chat\_id}, \texttt{user\_id}, \texttt{file\_ids}, \texttt{use\_reasoning} và \texttt{persona\_id}.
+\item Client dùng token và \texttt{LIVEKIT\_URL} để join room tương ứng với \texttt{chat\_id}.
+\end{itemize}
