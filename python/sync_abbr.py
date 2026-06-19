@@ -184,8 +184,10 @@ TEX_PATH = os.path.join(
     env.PATH_FOLDER_LATEX,
     "contents",
     "0",
-    "danh_sach_viet_tat",
-    "danh_sach_viet_tat.tex",
+    # "danh_sach_viet_tat",
+    # "danh_sach_viet_tat.tex",
+    "danh_muc",
+    "DANH_MUC_KY_HIEU.tex",
 )
 
 # Số ký tự tối đa trong một dòng của cột Mô tả trước khi xuống dòng (\\)
@@ -242,7 +244,9 @@ def generate_tex():
 
     rows_str = "\n".join(rows)
 
-    tex_content = rf"""\newpage
+    tex_content = rf"""% DANH MỤC KÝ HIỆU
+
+\newpage
 {{\centering \section*{{DANH MỤC KÝ HIỆU}}}} % Đặt tên tiêu đề
 \addcontentsline{{toc}}{{section}}{{DANH MỤC KÝ HIỆU}} % Thêm vào mục lục
 
