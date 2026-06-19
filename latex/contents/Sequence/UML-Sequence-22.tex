@@ -1,11 +1,11 @@
 \paragraph{Sơ đồ tuần tự Luồng Quản lý nhân vật (Create/Update Persona)}
 
-Luồng nghiệp vụ này mô tả quy trình Quản trị viên (Admin) thực hiện tạo mới hoặc cập nhật một nhân vật , bao gồm các bước tải lên tài nguyên ảnh đại diện (avatar), âm thanh giới thiệu lên Cloud Storage và cập nhật thông tin cấu hình vào Persona Database.
+Luồng nghiệp vụ này mô tả quy trình Quản trị viên (Admin) thực hiện tạo mới hoặc cập nhật một nhân vật, bao gồm các bước tải lên tài nguyên ảnh đại diện, âm thanh giới thiệu lên Supabase Storage và cập nhật thông tin cấu hình vào Persona Database.
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale = 0.18]{contents/Sequence/UML-Sequence-22.png}
-\caption{Sơ đồ tuần tự Luồng Quản lý nhân vật }
+\caption{Sơ đồ tuần tự Luồng Quản lý nhân vật}
 \end{figure}
 
 \subparagraph{Các thành phần tham gia}
@@ -20,16 +20,16 @@ Admin & Actor & Quản trị viên hệ thống có quyền tạo, sửa và c�
 Web Frontend & Component & Giao diện quản trị Admin Panel để điền thông tin và tải lên file. \\ \hline
 API Gateway (Kong) & Component & Định tuyến và kiểm tra quyền quản trị qua token xác thực. \\ \hline
 Persona Service & Microservice & Tiếp nhận yêu cầu, xử lý nghiệp vụ, kiểm tra tính hợp lệ của giọng nói liên kết và lưu trữ. \\ \hline
-Cloud Storage & External Service & Nền tảng lưu trữ đối tượng (S3/R2 Bucket) dùng để lưu trữ file avatar và audio giới thiệu. \\ \hline
+Supabase Storage & External Service & Nền tảng lưu trữ file avatar và audio giới thiệu của nhân vật. \\ \hline
 Persona Database & Database & Cơ sở dữ liệu lưu trữ thông tin cấu hình nhân vật và liên kết giọng nói. \\ \hline
 \end{tabular}
-\caption{Các thành phần tham gia luồng Quản lý nhân vật }
+\caption{Các thành phần tham gia luồng Quản lý nhân vật}
 \end{table}
 
 \subparagraph{Mô tả chi tiết}
 \begin{itemize}
-\item \textbf{Tải lên Avatar (Tùy chọn):} Admin chọn ảnh đại diện. Frontend gửi file qua Kong tới Persona Service. Dịch vụ lưu file vào Cloud Storage và trả về đường dẫn \texttt{avatarUrl} cho Frontend.
-\item \textbf{Tải lên Âm thanh (Tùy chọn):} Admin chọn file âm thanh giới thiệu. Frontend gửi yêu cầu tải lên qua Kong, Persona Service lưu file vào Cloud Storage và phản hồi lại \texttt{audioUrl}.
-\item \textbf{Lưu thông tin nhân vật:} Admin điền đầy đủ các thông tin cấu hình như tên, mô tả, defaultPrompt và liên kết giọng nói (\texttt{voiceUuid}). Frontend gửi yêu cầu \texttt{POST /code-persona-service/personas} hoặc \texttt{PUT /code-persona-service/personas/\{persona\_id\}}.
-\item \textbf{Xử lý và Lưu trữ:} Persona Service kiểm tra sự tồn tại của \texttt{voiceUuid} trong cơ sở dữ liệu để đảm bảo liên kết hợp lệ, sau đó tiến hành ghi dữ liệu nhân vật vào Persona Database và phản hồi kết quả thành công về cho người dùng.
+\item \textbf{Tải lên Avatar (Tùy chọn):} Admin chọn ảnh đại diện. Frontend gửi file qua Kong tới Persona Service bằng \texttt{POST /code-persona-service/personas/upload-avatar}. Dịch vụ lưu file vào Supabase Storage và trả về đường dẫn \texttt{avatar\_url} cho Frontend.
+\item \textbf{Tải lên Âm thanh (Tùy chọn):} Admin chọn file âm thanh giới thiệu. Frontend gửi yêu cầu \texttt{POST /code-persona-service/personas/upload-audio}; Persona Service lưu file vào Supabase Storage và phản hồi lại \texttt{greeting\_audio\_url}.
+\item \textbf{Lưu thông tin nhân vật:} Admin điền các thông tin cấu hình như \texttt{name}, \texttt{gender}, \texttt{voice\_uuid}, \texttt{description}, \texttt{avatar\_url}, \texttt{greeting\_audio\_url}, \texttt{greeting\_text} và \texttt{is\_active}. Frontend gửi yêu cầu \texttt{POST /code-persona-service/personas} hoặc \texttt{PUT /code-persona-service/personas/\{persona\_id\}}.
+\item \textbf{Xử lý và Lưu trữ:} Persona Service kiểm tra sự tồn tại của \texttt{voice\_uuid} trong cơ sở dữ liệu. Nếu có \texttt{greeting\_text} hoặc thay đổi giọng nói, hệ thống có thể tự sinh lại audio giới thiệu và cập nhật \texttt{greeting\_audio\_url}, sau đó ghi dữ liệu nhân vật vào Persona Database.
 \end{itemize}

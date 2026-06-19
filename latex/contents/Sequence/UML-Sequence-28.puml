@@ -9,7 +9,7 @@ database "Persona DB" as DB
 Admin -> Frontend: Mở trang quản lý Engine và nhập cấu hình
 activate Frontend
 
-Frontend -> Kong: POST /code-persona-service/engines\n[Headers: Authorization: Bearer <token>]\n{ code, name, is_active }
+Frontend -> Kong: POST /code-persona-service/engines\nHoặc PUT /code-persona-service/engines/{engine_id}\n[Headers: Authorization: Bearer <token>]\n{ code, name, is_active }
 activate Kong
 Kong -> PersonaService: Chuyển tiếp yêu cầu tạo/cập nhật Engine
 activate PersonaService

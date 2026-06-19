@@ -10,7 +10,7 @@ Admin -> Frontend: Chọn gói thuê bao VIP, bấm "Lưu trữ" (Archive/Deacti
 activate Frontend
 Frontend -> Kong: DELETE /code-payment-service/plans/{plan_id}\n[Headers: Authorization: Bearer <token>]
 activate Kong
-Kong -> PaymentService: Chuyển tiếp yêu cầu xóa gói thuê bao VIP
+Kong -> PaymentService: Chuyển tiếp yêu cầu lưu trữ gói thuê bao VIP
 activate PaymentService
 
 PaymentService -> DB: UPDATE Plan SET isActive=false WHERE id=planId

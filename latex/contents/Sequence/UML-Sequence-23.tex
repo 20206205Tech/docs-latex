@@ -30,10 +30,10 @@ Persona Database & Database & Lưu trữ các bản ghi Voice để liên kết 
 \begin{itemize}
 \item \textbf{Yêu cầu đồng bộ:} Admin chọn chức năng đồng bộ trên giao diện. Frontend gửi yêu cầu \texttt{POST /voices/sync-elevenlabs} qua Kong tới Persona Service.
 \item \textbf{Gọi API ElevenLabs:} Persona Service gửi yêu cầu \texttt{GET /v1/voices} tới ElevenLabs API kèm theo khóa xác thực API Key của hệ thống được lưu trong biến môi trường.
-\item \textbf{Xử lý và Lưu trữ:} ElevenLabs trả về danh sách giọng nói dưới dạng JSON. Persona Service duyệt qua từng giọng nói, kiểm tra sự tồn tại trong Persona Database dựa trên Voice ID:
+\item \textbf{Xử lý và Lưu trữ:} ElevenLabs trả về danh sách giọng nói dưới dạng JSON. Persona Service lấy Engine có mã \texttt{elevenlabs}, duyệt qua từng giọng nói và kiểm tra sự tồn tại trong Persona Database dựa trên \texttt{voice\_code}:
 \begin{itemize}
-\item Nếu chưa tồn tại, chèn mới bản ghi với thông tin tên, category, preview\_url và gán engine\_code là \texttt{elevenlabs}.
-\item Nếu đã tồn tại, thực hiện cập nhật lại thông tin mới nhất.
+\item Nếu chưa tồn tại, chèn mới bản ghi Voice với \texttt{voice\_code}, \texttt{engine\_id} và \texttt{is\_active=true}.
+\item Nếu đã tồn tại, bỏ qua bản ghi đó; code hiện tại chưa cập nhật lại thông tin Voice đã có.
 \end{itemize}
-\item \textbf{Hoàn tất:} Persona Service phản hồi mã trạng thái HTTP 200 OK trả về số lượng giọng nói đã đồng bộ thành công để hiển thị thông báo lên màn hình Admin.
+\item \textbf{Hoàn tất:} Persona Service phản hồi mã trạng thái HTTP 200 OK với \texttt{synced\_count} và \texttt{synced\_codes} để hiển thị thông báo lên màn hình Admin.
 \end{itemize}
