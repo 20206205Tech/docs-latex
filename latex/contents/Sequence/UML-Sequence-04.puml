@@ -10,7 +10,7 @@ participant "Supabase Email" as Email
 Guest -> Frontend: Nhập Email & Password, nhấn "Đăng ký"
 activate Frontend
 
-Frontend -> Kong: POST /supabase-auth-service/auth/v1/signup?redirect_to=...
+Frontend -> Kong: POST /api/api-gateway/supabase-auth-service/auth/v1/signup?redirect_to=...
 activate Kong
 Kong -> AuthService: Chuyển tiếp yêu cầu đăng ký
 activate AuthService
@@ -20,7 +20,7 @@ activate DB
 DB --> AuthService: OK
 deactivate DB
 
-AuthService -> Email: Gửi link xác thực (Confirmation link trỏ qua Kong)
+AuthService -> Email: Gửi link xác thực (redirect_to=/auth/callback)
 activate Email
 Email --> Guest: Gửi email chứa link xác thực
 deactivate Email
