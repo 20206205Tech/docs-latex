@@ -5,9 +5,12 @@ from plantuml import PlantUML
 
 
 def render_plantuml(input_file: str, output_file: str):
-    """Renders PlantUML code from a file to a PNG image using the plantuml library."""
     # Official PlantUML server
-    server = PlantUML(url="http://www.plantuml.com/plantuml/img/")
+
+    # server = PlantUML(url="http://www.plantuml.com/plantuml/img/")
+
+    # docker run -d -p 8080:8080 plantuml/plantuml-server:tomcat
+    server = PlantUML(url="http://localhost:8080/img/")
 
     try:
         # Read the input file
@@ -55,6 +58,7 @@ def main():
 
         print(f"Processing {input_file}...")
         render_plantuml(input_file, output_file)
+        # time.sleep(20)
 
 
 if __name__ == "__main__":

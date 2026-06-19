@@ -1,6 +1,5 @@
 \section{Phân tích thiết kế hệ thống}
 
-
 \subsection{Bài toán nghiệp vụ}
 
 Hệ thống hỗ trợ người dùng
@@ -13,13 +12,11 @@ bài toán lớn được chia làm
 các miền phụ (Subdomain)
 với các chức năng như sau:
 
-
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.25]{pictures/SubDomain.png}
+\includegraphics[scale = 0.25]{pictures/SubDomainMindMap.png}
 \caption{Sơ đồ tổng quan SubDomain}
 \end{figure}
-
 
 \subsubsection{Miền phụ cốt lõi (Core Subdomain)}
 
@@ -37,44 +34,15 @@ Vì vậy, mỗi doanh nghiệp
 luôn tìm cách thực hiện những điều khác biệt
 trong các miền phụ cốt lõi này để đạt được lợi thế so với đối thủ cạnh tranh.
 
+% TODO: Subdomain-Core.tex
+% TODO: Subdomain-Core.tex
+% TODO: Subdomain-Core.tex
 
-\begin{itemize}
-
-
-\item Dịch vụ trò chuyện (conversation service)
-
-
-\begin{itemize}
-
-
-\item Nhập văn bản bằng text hoặc micro
-\item Chức năng đàm thoại giọng nói Voice (Chỉ dành cho người dùng đã thanh toán VIP)
-\item Sử dụng chức năng RAG suy luận (Chỉ dành cho người dùng đã thanh toán VIP)
-\item Đánh dấu cuộc trò chuyện theo thư mục và ghi chú
-\item Tạo liên kết chia sẻ và thu hồi cuộc trò chuyện
-
-\end{itemize}
-
-
-\item Dịch vụ chatbot (chatbot service)
-
-
-\begin{itemize}
-
-
-\item Tương tác giao tiếp với conversation service
-\item Tương tác giao tiếp với LiveKit server
-\item Lấy thông tin về lịch sử trò chuyện
-\item Lấy thông tin chi tiết trò chuyện
-\end{itemize}
-
-\end{itemize}
-
+\input{contents/SubDomain-Core.tex} % \paragraph{Đặc điểm người dùng hệ thống}
 
 Miền phụ cốt lõi
 là nơi diễn ra các luồng xử lý phức tạp
 và quyết định đến mức độ hài lòng của người dùng.
-
 
 \subsubsection{Miền phụ hỗ trợ (Supporting Subdomain)}
 
@@ -84,30 +52,11 @@ Miền phụ hỗ trợ cung cấp các dịch vụ
 để miền phụ cốt lõi hoạt động hiệu quả.
 Tuy nhiên, miền phụ hỗ trợ không đòi hỏi mức độ phức tạp cao về logic nghiệp vụ.
 
+% TODO: SubDomain-Supporting.tex
+% TODO: SubDomain-Supporting.tex
+% TODO: SubDomain-Supporting.tex
 
-\begin{itemize}
-
-
-\item Dịch vụ văn bản (document service)
-\begin{itemize}
-\item Tải lên file tài liệu văn bản (Chỉ dành cho người dùng đã thanh toán VIP)
-\item Lấy thông tin trạng thái văn bản
-\end{itemize}
-\item Dịch vụ nhân vật (persona service)
-\begin{itemize}
-\item Người dùng lựa chọn nhân vật để trò chuyện giọng nói
-\item Quản lý nhân vật (cần vai trò ADMIN)
-\item Quản lý giọng nói (cần vai trò ADMIN)
-\end{itemize}
-\item Báo cáo Data pipeline
-\begin{itemize}
-\item Báo cáo thông tin Data pipeline của văn bản pháp luật
-\item Báo cáo thông tin Data pipeline của Pháp Điển
-\end{itemize}
-
-
-\end{itemize}
-
+\input{contents/SubDomain-Supporting.tex} % \paragraph{Đặc điểm người dùng hệ thống}
 
 Miền phụ hỗ trợ giúp miền phụ cốt lõi không bị phình to.
 Tách nhỏ việc quản lý nhân vật, giọng nói
@@ -123,35 +72,11 @@ có thể được tìm thấy trên nhiều ngành.
 Doanh nghiệp không thể đạt được bất kỳ lợi thế cạnh tranh so
 với đối thủ bằng cách thực hiện những điều khác biệt trong miền phụ chung.
 
+% TODO: SubDomain-Generic.tex
+% TODO: SubDomain-Generic.tex
+% TODO: SubDomain-Generic.tex
 
-\begin{itemize}
-
-
-\item Dịch vụ xác thực (auth service - dùng supabase)
-\begin{itemize}
-\item Người dùng đăng ký, đăng nhập bằng email hoặc đăng nhập bằng Google
-\item Người dùng xem thông tin cá nhân và cập nhật tên, cập nhật ảnh avatar
-\item Người dùng có thể đổi mật khẩu hoặc dùng quên mật khẩu
-\item Xác thực 2FA bằng TOTP (bắt buộc vì dữ liệu pháp luật cần bảo mật)
-\end{itemize}
-\item Dịch vụ cài đặt (setting service - dùng Neon API)
-\begin{itemize}
-\item Lưu thông tin nhân vật giọng nói
-\item Bật tắt giao diện Dark mode
-\item Bật tắt câu hỏi gợi ý
-\item Bật tắt Tự động hiển thị các bước suy luận RAG trong cuộc trò chuyện
-\end{itemize}
-\item Dịch vụ thanh toán (payment service)
-\begin{itemize}
-\item Hiển thị các gói VIP và mức giá
-\item Quản lý các gói (cần vai trò ADMIN)
-\item Người dùng mua gói VIP để nâng cấp tài khoản
-\item Lưu lịch sử giao dịch
-
-
-\end{itemize}
-\end{itemize}
-
+\input{contents/SubDomain-Generic.tex} % \paragraph{Đặc điểm người dùng hệ thống}
 
 Việc áp dụng các giải pháp có sẵn
 như Supabase (Auth) hay Neon API (Settings)
@@ -162,9 +87,7 @@ là một chiến lược thông minh
 cho các hệ thống xử lý hợp đồng
 và dữ liệu pháp luật mang tính nhạy cảm.
 
-
 Sơ đồ phân rã chức năng
-
 
 \begin{figure}[H]
 \centering

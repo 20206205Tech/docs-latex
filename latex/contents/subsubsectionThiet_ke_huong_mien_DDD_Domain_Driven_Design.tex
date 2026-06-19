@@ -17,13 +17,11 @@ Nhóm mẫu này giúp phân chia một hệ thống lớn và phức tạp thà
 \item Miền phụ chung (Generic Subdomain)
 \end{itemize}
 
-
 \begin{figure}[H]
 \centering
 \includegraphics[scale = 0.3]{pictures/333Subdomain.excalidraw.png}
 \caption{Các loại miền phụ trong Domain Driven Design}
 \end{figure}
-
 
 \item \textbf{Chuyên gia miền (Domain Expert):} Người hiểu sâu sắc nhất về quy trình kinh doanh thực tế, làm việc chặt chẽ với đội ngũ phát triển.
 
@@ -65,7 +63,6 @@ Nhóm mẫu này đóng vai trò hiện thực hóa các khái niệm nghiệp v
 
 \item \textbf{Nguyên tắc đảo ngược phụ thuộc (Dependency Inversion):} Đảo ngược phụ thuộc là nguyên tắc cốt lõi giúp bảo vệ và cô lập lớp Miền (Domain Layer). Cơ chế hoạt động: Lớp Miền sẽ định nghĩa các giao diện (chính là các Cổng - Ports trong Kiến trúc lục giác) để yêu cầu những gì nó cần. Các module cấp thấp (như CSDL, hàng đợi tin nhắn) sẽ triển khai các giao diện này (đóng vai trò là Bộ điều hợp - Adapters) và cắm vào lớp Miền như những ``plugin'' độc lập.
 \end{itemize}
-
 
 \begin{figure}[H]
 \centering
