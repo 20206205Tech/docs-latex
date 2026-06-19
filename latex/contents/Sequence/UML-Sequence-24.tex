@@ -29,5 +29,5 @@ Payment Database & Database & Lưu trữ thông tin chi tiết về các gói th
 \begin{itemize}
 \item \textbf{Yêu cầu tạo mới:} Admin điền đầy đủ các thông tin gói thuê bao VIP bao gồm tên, thời hạn (số tháng), mức giá và các đặc quyền đi kèm (như RAG nâng cao, đàm thoại trực tiếp thời gian thực).
 \item \textbf{Gửi yêu cầu:} Web Frontend gửi yêu cầu \texttt{POST /code-payment-service/plans} mang theo token xác thực qua Kong API Gateway. Kong xác thực token và kiểm tra quyền của tài khoản Admin trước khi chuyển tiếp yêu cầu.
-\item \textbf{Xử lý và Lưu trữ:} Payment Service tiếp nhận yêu cầu từ Kong, thực hiện lưu trữ bản ghi gói thuê bao VIP mới vào Payment Database dưới trạng thái hoạt động (\texttt{isActive=true}), sau đó phản hồi mã trạng thái thành công HTTP 201 Created và thông tin gói thuê bao VIP về cho Admin.
+\item \textbf{Xử lý và Lưu trữ:} Payment Service tiếp nhận yêu cầu từ Kong, thực hiện lưu trữ bản ghi gói thuê bao VIP mới vào Payment Database với \texttt{isActive} theo request (mặc định là \texttt{true} nếu không truyền), sau đó phản hồi mã trạng thái thành công HTTP 201 Created và thông tin gói thuê bao VIP về cho Admin.
 \end{itemize}

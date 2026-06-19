@@ -13,7 +13,7 @@ activate Kong
 Kong -> PaymentService: Chuyển tiếp yêu cầu tạo gói thuê bao VIP
 activate PaymentService
 
-PaymentService -> DB: INSERT Plan record (isActive=true)
+PaymentService -> DB: INSERT Plan record (isActive theo request, mặc định true)
 activate DB
 DB --> PaymentService: OK (Bản ghi được lưu)
 deactivate DB

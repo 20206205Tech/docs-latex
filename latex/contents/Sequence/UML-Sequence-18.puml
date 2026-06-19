@@ -7,7 +7,7 @@ participant "Chatbot Service\n(Python)" as Chatbot
 database "Chatbot DB" as ChatbotDB
 
 == Luồng Xóa cuộc trò chuyện ==
-User -> Conv: DELETE /code-conversation-service/chats/:id
+User -> Conv: DELETE /code-conversation-service/chats/:chatId
 activate Conv
 
 == Lưu trạng thái và ghi nhận Outbox ==
@@ -40,7 +40,7 @@ deactivate ConvDB
 RabbitMQ --> Chatbot: Consume 'ChatDeletedEvent' (args: chatId, userId)
 activate Chatbot
 
-Chatbot -> ChatbotDB: Soft Delete toàn bộ Messages liên quan tới chatId
+Chatbot -> ChatbotDB: Soft Delete bản ghi Chat theo chatId và userId
 activate ChatbotDB
 ChatbotDB --> Chatbot: OK
 deactivate ChatbotDB

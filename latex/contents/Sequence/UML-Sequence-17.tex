@@ -29,10 +29,10 @@ LLM + VectorDB & AI Engine & Xử lý ngôn ngữ tự nhiên, tạo chuỗi suy
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
-\item Người dùng gửi yêu cầu trò chuyện bằng phương thức POST thiết lập dòng dữ liệu SSE.
+\item Người dùng gửi yêu cầu trò chuyện bằng phương thức POST thiết lập dòng dữ liệu SSE, kèm \texttt{chat\_id}, \texttt{query}, \texttt{file\_ids}, \texttt{use\_reasoning} và Bearer Token.
 \item Conversation Service kiểm tra quyền VIP của người dùng trên Conversation DB nếu câu hỏi yêu cầu sử dụng tính năng suy luận (\texttt{use\_reasoning}). Nếu không thỏa mãn, hệ thống trả về lỗi 403.
 \item Dịch vụ tiếp tục kiểm tra sự tồn tại của cuộc trò chuyện trong Database và trả lỗi 404 nếu không tìm thấy.
-\item Sau khi kiểm tra thành công, Conversation Service mở luồng kết nối gRPC Stream gửi yêu cầu tới Chatbot Service.
+\item Sau khi kiểm tra thành công, Conversation Service mở luồng kết nối gRPC Stream gửi yêu cầu tới Chatbot Service, đồng thời chuyển tiếp token xác thực qua metadata \texttt{authorization}.
 \item Chatbot Service lưu tin nhắn của User vào Chatbot DB, sau đó thực hiện truy vấn RAG (truy xuất tri thức từ VectorDB và gọi mô hình LLM) để xử lý sinh câu trả lời.
 \item Dữ liệu câu trả lời (chunks) được đẩy liên tục thông qua gRPC về Conversation Service để chuyển tiếp SSE Event về cho User. Song song với đó, hệ thống duy trì luồng heartbeat định kỳ mỗi 10 giây.
 \item Khi quá trình sinh hoàn tất, Chatbot Service lưu nội dung câu trả lời hoàn chỉnh của AI kèm các bước suy luận vào Chatbot DB, kích hoạt các tác vụ chạy ngầm để sinh tiêu đề và tóm tắt lịch sử trước khi đóng kết nối.

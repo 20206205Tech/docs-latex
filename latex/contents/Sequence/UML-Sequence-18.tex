@@ -34,5 +34,5 @@ Chatbot DB & Database & Cơ sở dữ liệu lưu trữ chi tiết các tin nh�
 \item Dịch vụ phản hồi HTTP 200 OK ngay lập tức để giảm độ trễ cho người dùng.
 \item Outbox Relay quét bảng outbox định kỳ, lấy ra các sự kiện chưa xử lý và gửi đến hàng đợi \texttt{chat\_deletions} của RabbitMQ Broker.
 \item Khi gửi thành công, Outbox Relay cập nhật trạng thái sự kiện thành 'DONE' trong DB.
-\item Chatbot Service nhận được sự kiện ChatDeletedEvent từ RabbitMQ sẽ tiến hành xóa mềm (Soft Delete) toàn bộ tin nhắn liên quan tới \texttt{chatId} trong Chatbot DB và gửi phản hồi Acknowledge hoàn tất tác vụ.
+\item Chatbot Service nhận được sự kiện ChatDeletedEvent từ RabbitMQ sẽ tiến hành xóa mềm (Soft Delete) bản ghi Chat tương ứng theo \texttt{chatId} và \texttt{userId} trong Chatbot DB, sau đó gửi phản hồi Acknowledge hoàn tất tác vụ.
 \end{itemize}

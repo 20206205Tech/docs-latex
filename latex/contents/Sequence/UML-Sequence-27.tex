@@ -31,6 +31,10 @@ Pipeline Database & Database & Cơ sở dữ liệu lưu trữ kết quả thố
 \begin{itemize}
 \item \texttt{GET /data-pipeline-vbplnew-service/documents/total}: Lấy tổng số văn bản luật đã thu thập và mốc thời gian cập nhật gần nhất.
 \item \texttt{GET /data-pipeline-vbplnew-service/workflows/summary}: Lấy số lượng văn bản đang nằm ở các bước xử lý (như cào dữ liệu, trích xuất text, chia nhỏ chunk, tạo nhúng vector RAG).
+\item \texttt{GET /data-pipeline-vbplnew-service/documents/status}: Lấy thống kê văn bản theo trạng thái xử lý.
+\item \texttt{GET /data-pipeline-vbplnew-service/documents/issue-date}: Lấy thống kê văn bản theo năm ban hành.
+\item \texttt{GET /data-pipeline-vbplnew-service/documents/doc-types}: Lấy thống kê theo loại văn bản.
+\item \texttt{GET /data-pipeline-vbplnew-service/documents/eff-statuses}: Lấy thống kê theo trạng thái hiệu lực.
 \end{itemize}
 \item \textbf{Xử lý thống kê:} VBPL Pipeline Service truy vấn các bảng thống kê và đếm số lượng bản ghi theo từng trạng thái bước trong Pipeline Database, sau đó phản hồi số liệu tổng hợp về cho Web Frontend.
 \item \textbf{Biểu diễn thông tin:} Web Frontend nhận dữ liệu phản hồi, tổng hợp và vẽ biểu đồ trực quan (biểu đồ cột hoặc hình tròn) để Admin theo dõi trực tiếp sức khỏe của các workflow.

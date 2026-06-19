@@ -6,7 +6,7 @@ participant "Chatbot Service\n(gRPC + LangGraph)" as Chatbot
 database "Chatbot DB" as ChatbotDB
 
 == Luồng Nhắn tin văn bản (Chat Flow) ==
-User -> ConvService: POST /code-conversation-service/chats/stream (Yêu cầu SSE)
+User -> ConvService: POST /code-conversation-service/chats/stream\n{ chat_id, query, file_ids, use_reasoning }\n[Headers: Authorization: Bearer <token>] (Yêu cầu SSE)
 activate ConvService
 
 alt #AliceBlue use_reasoning == true
@@ -27,7 +27,7 @@ alt #LightPink Chat không tồn tại
     ConvService --> User: Trả về lỗi HTTP 404 Not Found (Hủy luồng)
 end
 
-ConvService -> Chatbot: Gọi AskAI qua gRPC Stream (query, chat_id, use_reasoning)
+ConvService -> Chatbot: Gọi AskAI qua gRPC Stream\n(query, chat_id, file_ids, use_reasoning)\n[Metadata: authorization]
 activate Chatbot
 
 Chatbot -> ChatbotDB: Lưu tin nhắn User (role='human', content=query)
