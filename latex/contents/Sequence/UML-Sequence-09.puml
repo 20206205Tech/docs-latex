@@ -1,0 +1,75 @@
+@startuml
+actor "User" as User
+participant "Web Frontend" as Frontend
+participant "API Gateway\n(Kong)" as Kong
+participant "Auth Service\n(Supabase)" as AuthService
+database "Supabase Database" as DB
+participant "Authenticator App" as AuthApp
+
+== Luồng 3: Thay đổi thiết bị xác thực 2 lớp (Change TOTP MFA Device) ==
+User -> Frontend: Chọn "Đổi thiết bị 2FA"
+activate Frontend
+
+note over Frontend: Người dùng bắt buộc\nphải có phiên AAL2\ntrước khi đổi thiết bị.
+
+Frontend -> Kong: DELETE /supabase-auth-service/auth/v1/factors/{factorId}
+activate Kong
+Kong -> AuthService: Yêu cầu hủy đăng ký factor (Unenroll Factor)
+activate AuthService
+AuthService -> DB: Xóa factor cũ / Cập nhật status = deleted
+activate DB
+DB --> AuthService: OK
+deactivate DB
+AuthService -> AuthService: Hạ cấp phiên token hiện tại xuống AAL1 (aal = aal1)
+AuthService --> Kong: Xác nhận hủy đăng ký thành công
+deactivate AuthService
+Kong --> Frontend: Xác nhận hủy đăng ký thành công
+deactivate Kong
+
+note over Frontend: Phiên đăng nhập bị hạ xuống AAL1.\nFrontend lập tức kích hoạt quy trình Enroll cho thiết bị mới.
+
+Frontend -> Kong: POST /supabase-auth-service/auth/v1/factors (TOTP)
+activate Kong
+Kong -> AuthService: Yêu cầu enroll factor mới
+activate AuthService
+AuthService -> DB: Tạo factor mới (status = unverified)
+activate DB
+DB --> AuthService: Trả về Factor ID & Secret Key mới
+deactivate DB
+AuthService --> Kong: QR Code mới, Secret & Factor ID mới
+deactivate AuthService
+Kong --> Frontend: QR Code mới, Secret & Factor ID mới
+deactivate Kong
+
+Frontend -> User: Hiển thị QR Code mới & Secret Key mới
+User -> AuthApp: Quét mã QR bằng thiết bị mới
+activate AuthApp
+AuthApp --> User: Sinh mã OTP mới (6 chữ số)
+deactivate AuthApp
+
+User -> Frontend: Nhập mã OTP mới và nhấn "Xác nhận thiết bị mới"
+Frontend -> Kong: POST /supabase-auth-service/auth/v1/factors/{newFactorId}/challenge
+activate Kong
+Kong -> AuthService: Yêu cầu tạo Challenge mới
+activate AuthService
+AuthService --> Kong: Trả về Challenge ID mới
+deactivate AuthService
+Kong --> Frontend: Trả về Challenge ID mới
+deactivate Kong
+
+Frontend -> Kong: POST /supabase-auth-service/auth/v1/factors/{newFactorId}/verify
+activate Kong
+Kong -> AuthService: Gửi Challenge ID & mã OTP mới
+activate AuthService
+AuthService -> DB: Cập nhật trạng thái factor mới thành 'verified'
+activate DB
+DB --> AuthService: OK
+deactivate DB
+AuthService --> Kong: Trả về token nâng cấp AAL2 mới (aal = aal2)
+deactivate AuthService
+Kong --> Frontend: Trả về token nâng cấp AAL2 mới
+deactivate Kong
+
+Frontend --> User: Đổi thiết bị 2FA thành công! (Phiên bảo mật AAL2 hoạt động)
+deactivate Frontend
+@enduml

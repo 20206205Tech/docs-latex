@@ -1,0 +1,57 @@
+@startuml
+actor "User" as User
+participant "Web Frontend" as Frontend
+participant "API Gateway\n(Kong)" as Kong
+participant "Auth Service\n(Supabase)" as AuthService
+database "Supabase Database" as DB
+participant "Authenticator App" as AuthApp
+
+== Luồng 1: Kích hoạt xác thực 2 lớp (2FA Enrollment) ==
+User -> Frontend: Yêu cầu kích hoạt 2FA
+activate Frontend
+
+Frontend -> Kong: POST /supabase-auth-service/auth/v1/factors (TOTP)
+activate Kong
+Kong -> AuthService: Chuyển tiếp yêu cầu enroll
+activate AuthService
+AuthService -> DB: Đăng ký factor mới (status = unverified)
+activate DB
+DB --> AuthService: Trả về Factor ID & Secret Key
+deactivate DB
+AuthService --> Kong: Trả về QR Code, Secret & Factor ID
+deactivate AuthService
+Kong --> Frontend: Trả về QR Code, Secret & Factor ID
+deactivate Kong
+
+Frontend -> User: Hiển thị QR Code & Secret Key
+User -> AuthApp: Quét mã QR / Nhập Secret Key
+activate AuthApp
+AuthApp --> User: Sinh mã OTP (6 chữ số)
+deactivate AuthApp
+
+User -> Frontend: Nhập mã OTP và nhấn "Xác nhận"
+Frontend -> Kong: POST /supabase-auth-service/auth/v1/factors/{factorId}/challenge
+activate Kong
+Kong -> AuthService: Yêu cầu tạo Challenge
+activate AuthService
+AuthService --> Kong: Trả về Challenge ID
+deactivate AuthService
+Kong --> Frontend: Trả về Challenge ID
+deactivate Kong
+
+Frontend -> Kong: POST /supabase-auth-service/auth/v1/factors/{factorId}/verify
+activate Kong
+Kong -> AuthService: Gửi Challenge ID & mã OTP
+activate AuthService
+AuthService -> DB: Cập nhật trạng thái factor thành 'verified'
+activate DB
+DB --> AuthService: OK
+deactivate DB
+AuthService --> Kong: Trả về cặp token mới (AAL nâng lên aal2)
+deactivate AuthService
+Kong --> Frontend: Trả về cặp token mới
+deactivate Kong
+
+Frontend --> User: Kích hoạt 2FA thành công!
+deactivate Frontend
+@enduml

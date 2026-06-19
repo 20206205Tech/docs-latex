@@ -1,0 +1,36 @@
+\paragraph{Sơ đồ tuần tự Thay đổi thiết bị xác thực 2 lớp (Change TOTP MFA Device)}
+
+Luồng nghiệp vụ này mô tả chi tiết quy trình cho phép người dùng thay đổi thiết bị xác thực 2 lớp hiện tại sang thiết bị mới thông qua Supabase Auth Service.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.18]{contents/Sequence/UML-Sequence-09.png}
+\caption{Sơ đồ tuần tự Thay đổi thiết bị xác thực 2 lớp}
+\end{figure}
+
+\subparagraph{Các thành phần tham gia}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|l|l|p{5cm}|}
+\hline
+\textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
+User & Actor & Người dùng thực hiện thay đổi thiết bị bảo mật. \\ \hline
+Web Frontend & Component & Giao diện quản lý Next.js gọi API xóa factor cũ và kích hoạt enroll factor mới. \\ \hline
+API Gateway (Kong) & Component & Định tuyến các yêu cầu xóa factor (\texttt{DELETE}) và enroll mới. \\ \hline
+Auth Service (Supabase) & Microservice & Dịch vụ Supabase Auth thực hiện hủy đăng ký (unenroll) factor cũ, hạ cấp token và xử lý enroll factor mới. \\ \hline
+Supabase Database & Database & Xóa thông tin factor cũ và lưu thông tin factor mới. \\ \hline
+Authenticator App & External Service & Ứng dụng di động mới của người dùng thực hiện quét QR và sinh OTP xác thực. \\ \hline
+\end{tabular}
+\caption{Các thành phần tham gia luồng Thay đổi thiết bị xác thực 2 lớp}
+\end{table}
+
+\subparagraph{Mô tả chi tiết}
+\begin{itemize}
+\item Để thay đổi thiết bị, User yêu cầu hủy liên kết thiết bị cũ thông qua giao diện Web Frontend. Yêu cầu này chỉ được chấp nhận khi phiên xác thực hiện tại đã đạt cấp độ bảo mật cao nhất (AAL2).
+\item Frontend thực hiện cuộc gọi API \texttt{DELETE /factors/\{factorId\}} qua Kong Gateway gửi tới Auth Service.
+\item Auth Service tiến hành xóa (hoặc đánh dấu đã hủy kích hoạt) factor cũ trong Database, hạ cấp phiên đăng nhập hiện tại xuống AAL1 (\texttt{aal = aal1}), và gửi phản hồi thành công về cho Frontend.
+\item Frontend lập tức bắt đầu lại quy trình kích hoạt (Enrollment) cho thiết bị mới: gửi \texttt{POST /factors} để nhận QR Code, Secret Key và Factor ID mới của thiết bị mới.
+\item User quét mã QR bằng ứng dụng Authenticator mới và nhập mã OTP mới. Frontend gửi các yêu cầu Challenge và Verify để hoàn tất xác minh. Khi thành công, Auth Service cập nhật trạng thái factor mới thành \texttt{verified} trong Database, đồng thời cấp lại token AAL2 mới để khôi phục hoàn toàn quyền truy cập.
+\end{itemize}
