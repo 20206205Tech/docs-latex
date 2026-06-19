@@ -1,0 +1,36 @@
+\paragraph{Sơ đồ tuần tự Pha khởi tạo giao dịch mua gói thuê bao VIP}
+
+Pha này mô tả bước User chọn gói thuê bao VIP trên Web Frontend, hệ thống tạo Transaction ở trạng thái \texttt{PENDING}, tạo Subscription mới nếu người dùng chưa có subscription, đăng ký job timeout trên Redis, sau đó gọi Payment Gateway để sinh đường link thanh toán.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.18]{contents/Sequence/UML-Sequence-29.png}
+\caption{Sơ đồ tuần tự Pha khởi tạo giao dịch mua gói thuê bao VIP}
+\end{figure}
+
+\subparagraph{Các thành phần tham gia}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|l|l|p{5cm}|}
+\hline
+\textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
+User & Actor & Người dùng đã đăng nhập và chọn mua gói thuê bao VIP. \\ \hline
+Web Frontend & Component & Gửi yêu cầu mua gói thuê bao VIP và chuyển hướng người dùng đến link thanh toán. \\ \hline
+API Gateway (Kong) & Component & Kiểm tra xác thực token và định tuyến yêu cầu đến Payment Service. \\ \hline
+Payment Service & Microservice & Kiểm tra gói thuê bao VIP, tạo transaction, tạo subscription pending và yêu cầu link thanh toán. \\ \hline
+Payment DB & Database & Lưu thông tin gói thuê bao VIP, subscription và transaction. \\ \hline
+Redis (BullMQ) & Component & Quản lý job hết hạn giao dịch sau 10 phút. \\ \hline
+Payment Gateway & External Service & Cổng thanh toán bên thứ ba sinh Payment URL. \\ \hline
+\end{tabular}
+\caption{Các thành phần tham gia pha khởi tạo giao dịch mua gói thuê bao VIP}
+\end{table}
+
+\subparagraph{Mô tả chi tiết}
+\begin{itemize}
+\item \textbf{Gửi yêu cầu mua gói thuê bao VIP:} User chọn nâng cấp VIP, Frontend gửi \texttt{POST /subscriptions/purchase} qua Kong kèm Bearer Token.
+\item \textbf{Chuẩn bị dữ liệu thanh toán:} Payment Service kiểm tra plan, subscription hiện tại, tạo subscription mới ở trạng thái \texttt{PENDING} nếu cần và tạo transaction mới.
+\item \textbf{Tạo link thanh toán:} Service đăng ký job timeout trên Redis, gọi Payment Gateway để lấy \texttt{payment\_url}, rồi trả link về Frontend để chuyển hướng User.
+\item \textbf{Xử lý timeout:} Nếu sau 10 phút transaction vẫn ở trạng thái \texttt{PENDING}, Payment Timeout Processor cập nhật Transaction và Subscription liên quan thành \texttt{EXPIRED}; nếu transaction đã được xử lý thì bỏ qua job timeout.
+\end{itemize}
