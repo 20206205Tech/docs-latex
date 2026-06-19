@@ -22,7 +22,7 @@ deactivate Kong
 User -> Frontend: Tải trang Callback với URL Hash
 activate Frontend
 Frontend -> Frontend: Phát hiện tham số type = recovery
-Frontend -> Frontend: Lưu trữ Access Token tạm thời từ Hash
-Frontend --> User: Chuyển hướng người dùng sang trang đặt lại mật khẩu (/auth/reset-password)
+Frontend -> Frontend: Lưu trữ Access Token từ Hash
+Frontend --> User: Chuyển hướng sang /auth/mfa?next=/auth/reset-password
 deactivate Frontend
 @enduml

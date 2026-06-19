@@ -1,6 +1,6 @@
 \paragraph{Sơ đồ tuần tự Đặt lại / Đổi Mật khẩu (Reset / Change Password)}
 
-Luồng nghiệp vụ này mô tả quá trình cập nhật trực tiếp mật khẩu mới của người dùng lên hệ thống bằng cách sử dụng Access Token tạm thời.
+Luồng nghiệp vụ này mô tả quá trình cập nhật trực tiếp mật khẩu mới của người dùng lên hệ thống bằng Access Token hợp lệ sau khi người dùng đã đi qua callback khôi phục và bước xác thực MFA.
 
 \begin{figure}[H]
 \centering
@@ -28,6 +28,6 @@ Supabase Database & Database & Lưu trữ băm mật khẩu mới của người
 \subparagraph{Mô tả chi tiết}
 \begin{itemize}
 \item Tại giao diện đổi mật khẩu, người dùng nhập mật khẩu mới.
-\item Frontend gửi yêu cầu \texttt{PUT /auth/v1/user} kèm theo mật khẩu mới qua Gateway đến Auth Service (kèm Access Token tạm thời trong Header Authorization).
-\item Auth Service xác minh token, băm mật khẩu mới và cập nhật trong Supabase Database, sau đó trả về bản ghi thành công để Frontend chuyển hướng người dùng vào trong hệ thống.
+\item Frontend gửi yêu cầu \texttt{PUT /auth/v1/user} kèm theo mật khẩu mới qua Gateway đến Auth Service (kèm Access Token hợp lệ trong Header Authorization).
+\item Auth Service xác minh token, băm mật khẩu mới và cập nhật trong Supabase Database, sau đó trả về bản ghi thành công để Frontend chuyển hướng người dùng vào \texttt{/chat}.
 \end{itemize}

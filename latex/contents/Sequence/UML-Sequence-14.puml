@@ -9,7 +9,7 @@ database "Supabase Database" as DB
 User -> Frontend: Nhập mật khẩu mới và nhấn "Cập nhật mật khẩu"
 activate Frontend
 
-Frontend -> Kong: PUT /supabase-auth-service/auth/v1/user (password) \n[Headers: Authorization: Bearer <TempToken>]
+Frontend -> Kong: PUT /supabase-auth-service/auth/v1/user (password) \n[Headers: Authorization: Bearer <AccessToken>]
 activate Kong
 Kong -> AuthService: Yêu cầu cập nhật mật khẩu mới
 activate AuthService
@@ -22,6 +22,6 @@ deactivate AuthService
 Kong --> Frontend: Trả về thông tin User đã cập nhật
 deactivate Kong
 
-Frontend --> User: Đổi mật khẩu thành công! Chuyển hướng về trang chủ/chat
+Frontend --> User: Đổi mật khẩu thành công! Chuyển hướng về /chat
 deactivate Frontend
 @enduml
