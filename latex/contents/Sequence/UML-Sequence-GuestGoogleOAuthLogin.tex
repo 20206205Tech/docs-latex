@@ -1,0 +1,37 @@
+\paragraph{Sơ đồ tuần tự Luồng Đăng nhập / Đăng ký bằng Google}
+
+Luồng nghiệp vụ này mô tả chi tiết quá trình xác thực và đăng nhập/đăng ký tài khoản thông qua dịch vụ bên thứ ba Google (OAuth 2.0). Toàn bộ các yêu cầu từ Web Frontend đến dịch vụ Auth Service đều được định tuyến thông qua API Gateway (Kong).
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.18]{contents/Sequence/UML-Sequence-GuestGoogleOAuthLogin.png}
+\caption{Sơ đồ tuần tự Luồng Đăng nhập / Đăng ký bằng Google}
+\end{figure}
+
+\subparagraph{Các thành phần tham gia}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|l|l|p{5cm}|}
+\hline
+\textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
+Guest & Actor & Khách vãng lai thực hiện đăng nhập hoặc đăng ký tài khoản. \\ \hline
+Web Frontend & Component & Giao diện ứng dụng tiếp nhận tương tác và hiển thị trạng thái đăng nhập. \\ \hline
+API Gateway (Kong) & Component & Cổng kết nối trung gian chịu trách nhiệm định tuyến các yêu cầu API từ client đến dịch vụ Auth Service. \\ \hline
+Auth Service (Supabase) & Microservice & Dịch vụ xác thực chịu trách nhiệm xử lý thông tin đăng ký/đăng nhập, giao tiếp với Google và cấp phát JWT Token. \\ \hline
+Supabase Database & Database & Lưu trữ dữ liệu người dùng (bảng users). \\ \hline
+Google & External Service & Dịch vụ xác thực bên thứ ba của Google (OAuth 2.0). \\ \hline
+\end{tabular}
+\caption{Các thành phần tham gia luồng Đăng nhập / Đăng ký bằng Google}
+\end{table}
+
+\subparagraph{Mô tả tổng quan}
+
+\begin{itemize}
+\item Guest nhấp chọn Đăng nhập Google trên Frontend. Frontend thực hiện chuyển hướng trình duyệt (Redirect) trực tiếp đến endpoint authorize trên API Gateway (Kong) để chuyển tiếp yêu cầu đến Auth Service.
+\item Auth Service nhận yêu cầu và trả về phản hồi HTTP 302 Redirect trỏ tới trang xác thực Google OAuth. Trình duyệt của Guest tự động chuyển hướng sang Google để người dùng đăng nhập và ủy quyền.
+\item Sau khi xác thực thành công, Google chuyển hướng trình duyệt quay lại địa chỉ Callback của Auth Service thông qua API Gateway (Kong) cùng với mã xác thực (Auth Code).
+\item Auth Service trực tiếp trao đổi Auth Code với Google để nhận thông tin người dùng, lưu/cập nhật dữ liệu vào Database, sinh cặp mã JWT Token, sau đó thực hiện Redirect 302 trình duyệt quay lại địa chỉ Callback của Web Frontend (\texttt{/auth/callback}) chứa Access Token và Refresh Token trong phần URL Hash.
+\item Web Frontend trích xuất các mã token từ URL Hash, lưu trữ cục bộ và kiểm tra cấp độ xác thực AAL. Nếu tài khoản cần xác thực bổ sung, hệ thống chuyển sang \texttt{/auth/mfa}; ngược lại chuyển Guest vào giao diện người dùng chính (\texttt{/chat}).
+\end{itemize}
