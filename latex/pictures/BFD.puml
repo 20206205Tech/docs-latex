@@ -20,8 +20,8 @@ wbsDiagram {
 
 ** Phân hệ Chung (Generic Subdomain)
 *** Dịch vụ Xác thực (Auth Service)
-**** Đăng ký tài khoản mới
-**** Đăng nhập hệ thống
+**** Đăng ký với Email
+**** Đăng nhập với Email hoặc Google
 **** Quản lý bảo mật 2FA
 **** Đổi/Quên mật khẩu
 **** Quản lý thông tin cá nhân
