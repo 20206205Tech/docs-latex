@@ -11,6 +11,7 @@ activate Frontend
 
 Frontend -> Kong: POST /neon-setting-service (SettingItem[]) \n[Headers: Authorization: Bearer <token>]
 activate Kong
+note over Kong: Kong tự động thêm (để UPSERT):\n- tham số on_conflict=user_id,key trên URL\n- header Prefer: resolution=merge-duplicates
 Kong -> SettingService: Chuyển tiếp cấu hình mới
 activate SettingService
 SettingService -> DB: Cập nhật hoặc thêm mới (Upsert) cấu hình của User

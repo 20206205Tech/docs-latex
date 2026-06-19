@@ -11,6 +11,7 @@ activate Frontend
 
 Frontend -> Kong: GET /supabase-auth-service/rest/v1/profiles?id=eq.{userId}
 activate Kong
+note over Kong: Kong tự động thêm thông tin apikey trong header
 Kong -> AuthService: Chuyển tiếp yêu cầu lấy Profile
 activate AuthService
 AuthService -> DB: Truy vấn thông tin profile theo ID
@@ -26,6 +27,7 @@ Frontend -> User: Hiển thị thông tin hồ sơ (Họ tên, Ảnh đại di�
 User -> Frontend: Nhập Họ tên mới và nhấn "Lưu thay đổi"
 Frontend -> Kong: PATCH /supabase-auth-service/rest/v1/profiles?id=eq.{userId} (full_name)
 activate Kong
+note over Kong: Kong tự động thêm thông tin apikey trong header
 Kong -> AuthService: Chuyển tiếp yêu cầu cập nhật Profile
 activate AuthService
 AuthService -> DB: Cập nhật thông tin Full Name

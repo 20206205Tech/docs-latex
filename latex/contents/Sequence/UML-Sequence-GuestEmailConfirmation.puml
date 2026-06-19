@@ -8,6 +8,7 @@ database "Supabase Database" as DB
 == Luồng Xác nhận email kích hoạt tài khoản ==
 Guest -> Kong: Click vào link xác thực trong Email (trỏ qua Kong)
 activate Kong
+note over Kong: Kong tự động thêm thông tin apikey trong header
 
 Kong -> AuthService: Chuyển tiếp yêu cầu xác thực tài khoản
 activate AuthService
