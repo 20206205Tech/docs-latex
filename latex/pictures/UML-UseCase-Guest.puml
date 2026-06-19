@@ -11,8 +11,8 @@ rectangle "Chức năng dành cho Guest" {
   usecase "Xem giới thiệu hệ thống" as UC_Intro #e5e7eb
   usecase "Xem bảng giá gói thuê bao VIP" as UC_Pricing #f59e0b
   usecase "Nghe thử giọng nói" as UC_SampleVoice #06b6d4
-  usecase "Đăng ký" as UC_Register #00a86b
-  usecase "Đăng nhập" as UC_Login #00a86b
+  usecase "Đăng ký với Email" as UC_Register #00a86b
+  usecase "Đăng nhập với Email hoặc Google" as UC_Login #00a86b
   usecase "Xem chia sẻ công khai" as UC_PublicShare #ec4899
 
   UC_Home ..> UC_Intro : <<include>>
