@@ -12,6 +12,7 @@ activate Frontend
 
 Frontend -> Kong: POST /supabase-auth-service/auth/v1/factors (TOTP)
 activate Kong
+note over Kong: Kong tự động thêm thông tin apikey trong header
 Kong -> AuthService: Chuyển tiếp yêu cầu enroll
 activate AuthService
 AuthService -> DB: Đăng ký factor mới (status = unverified)
@@ -32,6 +33,7 @@ deactivate AuthApp
 User -> Frontend: Nhập mã OTP và nhấn "Xác nhận"
 Frontend -> Kong: POST /supabase-auth-service/auth/v1/factors/{factorId}/challenge
 activate Kong
+note over Kong: Kong tự động thêm thông tin apikey trong header
 Kong -> AuthService: Yêu cầu tạo Challenge
 activate AuthService
 AuthService --> Kong: Trả về Challenge ID
@@ -41,6 +43,7 @@ deactivate Kong
 
 Frontend -> Kong: POST /supabase-auth-service/auth/v1/factors/{factorId}/verify
 activate Kong
+note over Kong: Kong tự động thêm thông tin apikey trong header
 Kong -> AuthService: Gửi Challenge ID & mã OTP
 activate AuthService
 AuthService -> DB: Cập nhật trạng thái factor thành 'verified'

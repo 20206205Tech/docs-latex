@@ -11,6 +11,7 @@ User -> Frontend: Thực hiện đăng nhập (Email / Google)
 activate Frontend
 Frontend -> Kong: Gửi credentials đăng nhập
 activate Kong
+note over Kong: Kong tự động thêm thông tin apikey trong header
 Kong -> AuthService: Xác thực tài khoản
 activate AuthService
 AuthService -> DB: Kiểm tra cấu hình 2FA
@@ -32,6 +33,7 @@ deactivate AuthApp
 User -> Frontend: Nhập mã OTP
 Frontend -> Kong: POST /supabase-auth-service/auth/v1/factors/{factorId}/challenge
 activate Kong
+note over Kong: Kong tự động thêm thông tin apikey trong header
 Kong -> AuthService: Tạo Challenge
 activate AuthService
 AuthService --> Kong: Challenge ID
@@ -41,6 +43,7 @@ deactivate Kong
 
 Frontend -> Kong: POST /supabase-auth-service/auth/v1/factors/{factorId}/verify (Challenge ID, OTP)
 activate Kong
+note over Kong: Kong tự động thêm thông tin apikey trong header
 Kong -> AuthService: Kiểm tra Challenge & mã OTP
 activate AuthService
 AuthService -> DB: Xác minh mã OTP hợp lệ

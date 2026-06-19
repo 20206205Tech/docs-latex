@@ -15,6 +15,7 @@ deactivate Frontend
 
 Guest -> Kong: GET /supabase-auth-service/auth/v1/authorize?provider=google&redirect_to=...
 activate Kong
+note over Kong: Kong tự động thêm thông tin apikey trong header
 Kong -> AuthService: Chuyển tiếp yêu cầu ủy quyền
 activate AuthService
 AuthService --> Kong: Trả về HTTP 302 Redirect (Google OAuth URL)
@@ -27,6 +28,7 @@ activate Google
 Google -> Kong: Redirect về Callback URL (chứa Auth Code)
 deactivate Google
 activate Kong
+note over Kong: Kong tự động thêm thông tin apikey trong header
 
 Kong -> AuthService: Chuyển tiếp Auth Code để callback
 activate AuthService

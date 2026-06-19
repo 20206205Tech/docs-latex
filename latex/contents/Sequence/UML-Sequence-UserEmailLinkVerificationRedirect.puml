@@ -8,6 +8,7 @@ participant "Web Frontend" as Frontend
 == Luồng Người dùng Click liên kết trong Email ==
 User -> Kong: Click link khôi phục trong Email (trỏ qua Kong)
 activate Kong
+note over Kong: Kong tự động thêm thông tin apikey trong header
 Kong -> AuthService: Gửi token xác minh khôi phục
 activate AuthService
 AuthService -> DB: Xác minh token khôi phục hợp lệ

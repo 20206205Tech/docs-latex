@@ -14,6 +14,7 @@ note over Frontend: Người dùng bắt buộc\nphải có phiên AAL2\ntrướ
 
 Frontend -> Kong: DELETE /supabase-auth-service/auth/v1/factors/{factorId}
 activate Kong
+note over Kong: Kong tự động thêm thông tin apikey trong header
 Kong -> AuthService: Yêu cầu hủy đăng ký factor (Unenroll Factor)
 activate AuthService
 AuthService -> DB: Xóa factor cũ / Cập nhật status = deleted
@@ -27,6 +28,7 @@ deactivate Kong
 
 Frontend -> Kong: GET /supabase-auth-service/auth/v1/user
 activate Kong
+note over Kong: Kong tự động thêm thông tin apikey trong header
 Kong -> AuthService: Lấy danh sách factors hiện tại
 activate AuthService
 AuthService --> Kong: Trả về danh sách factors rỗng
@@ -39,6 +41,7 @@ User -> Frontend: Chọn "Kích hoạt ngay" để sang /auth/mfa
 
 Frontend -> Kong: POST /supabase-auth-service/auth/v1/factors (TOTP)
 activate Kong
+note over Kong: Kong tự động thêm thông tin apikey trong header
 Kong -> AuthService: Yêu cầu enroll factor mới
 activate AuthService
 AuthService -> DB: Tạo factor mới (status = unverified)
@@ -59,6 +62,7 @@ deactivate AuthApp
 User -> Frontend: Nhập mã OTP mới và nhấn "Xác nhận thiết bị mới"
 Frontend -> Kong: POST /supabase-auth-service/auth/v1/factors/{newFactorId}/challenge
 activate Kong
+note over Kong: Kong tự động thêm thông tin apikey trong header
 Kong -> AuthService: Yêu cầu tạo Challenge mới
 activate AuthService
 AuthService --> Kong: Trả về Challenge ID mới
@@ -68,6 +72,7 @@ deactivate Kong
 
 Frontend -> Kong: POST /supabase-auth-service/auth/v1/factors/{newFactorId}/verify
 activate Kong
+note over Kong: Kong tự động thêm thông tin apikey trong header
 Kong -> AuthService: Gửi Challenge ID & mã OTP mới
 activate AuthService
 AuthService -> DB: Cập nhật trạng thái factor mới thành 'verified'
