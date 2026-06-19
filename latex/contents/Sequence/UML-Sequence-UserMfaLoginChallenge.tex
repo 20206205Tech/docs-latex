@@ -1,0 +1,35 @@
+\paragraph{Sơ đồ tuần tự Bắt buộc xác thực 2FA khi Đăng nhập (MFA Login Challenge)}
+
+Luồng nghiệp vụ này mô tả chi tiết quá trình bắt buộc xác thực mã OTP khi đăng nhập nếu người dùng đã bật bảo mật 2FA.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.18]{contents/Sequence/UML-Sequence-UserMfaLoginChallenge.png}
+\caption{Sơ đồ tuần tự Bắt buộc xác thực 2FA khi Đăng nhập}
+\end{figure}
+
+\subparagraph{Các thành phần tham gia}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|l|l|p{5cm}|}
+\hline
+\textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
+User & Actor & Người dùng thực hiện đăng nhập. \\ \hline
+Web Frontend & Component & Giao diện Next.js điều phối quá trình chặn quyền và chuyển hướng sang trang nhập OTP. \\ \hline
+API Gateway (Kong) & Component & Cổng trung gian chuyển tiếp thông tin đăng nhập và OTP. \\ \hline
+Auth Service (Supabase) & Microservice & Dịch vụ Supabase Auth kiểm tra và sinh challenge, nâng cấp token AAL1 lên AAL2. \\ \hline
+Supabase Database & Database & Lưu trạng thái và thông tin khóa bảo mật. \\ \hline
+Authenticator App & External Service & Ứng dụng di động sinh mã OTP dựa trên TOTP. \\ \hline
+\end{tabular}
+\caption{Các thành phần tham gia luồng Bắt buộc xác thực 2FA khi Đăng nhập}
+\end{table}
+
+\subparagraph{Mô tả chi tiết}
+\begin{itemize}
+\item Khi đăng nhập thông thường, Auth Service phát hiện User đã kích hoạt 2FA. Do đó, hệ thống chỉ cấp Access Token tạm thời ở cấp độ AAL1 (\texttt{aal = aal1}).
+\item Web Frontend phát hiện cấp độ token là AAL1, lập tức chặn quyền truy cập và chuyển hướng trình duyệt sang trang nhập mã OTP (\texttt{/auth/mfa}).
+\item User điền mã OTP lấy từ ứng dụng di động. Frontend thực hiện luồng thách thức/xác thực tương tự qua Gateway gửi tới Auth Service.
+\item Khi xác minh thành công, Auth Service nâng cấp phiên đăng nhập lên cấp độ AAL2 (\texttt{aal = aal2}), cấp Access Token mới và gửi về cho Web Frontend để cho phép người dùng đăng nhập chính thức vào hệ thống (\texttt{/chat}).
+\end{itemize}

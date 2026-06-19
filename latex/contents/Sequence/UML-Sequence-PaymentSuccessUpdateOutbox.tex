@@ -1,0 +1,32 @@
+\paragraph{Sơ đồ tuần tự Pha cập nhật giao dịch thành công và ghi Outbox}
+
+Pha này mô tả nhánh IPN hợp lệ, transaction còn ở trạng thái \texttt{pending} và Payment Gateway báo thanh toán thành công. Payment Service cập nhật transaction, kích hoạt hoặc gia hạn subscription, ghi \texttt{SubscriptionPurchasedEvent} vào Outbox trong cùng transaction lưu subscription, sau đó phát domain event nội bộ qua NestJS CQRS EventBus.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.18]{contents/Sequence/UML-Sequence-PaymentSuccessUpdateOutbox.png}
+\caption{Sơ đồ tuần tự Pha cập nhật giao dịch thành công và ghi Outbox}
+\end{figure}
+
+\subparagraph{Các thành phần tham gia}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|l|l|p{5cm}|}
+\hline
+\textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
+Payment Service & Microservice & Xử lý nhánh thanh toán thành công, gọi domain service để cập nhật transaction và subscription. \\ \hline
+Payment DB & Database & Lưu transaction, subscription và bản ghi Outbox \texttt{SubscriptionPurchasedEvent}. \\ \hline
+Event Bus (NestJS CQRS) & Component & Phát domain event nội bộ cho các local handler sau khi lưu dữ liệu thành công. \\ \hline
+\end{tabular}
+\caption{Các thành phần tham gia pha cập nhật giao dịch thành công và ghi Outbox}
+\end{table}
+
+\subparagraph{Mô tả chi tiết}
+\begin{itemize}
+\item \textbf{Tải dữ liệu liên quan:} Payment Service tải Subscription và Plan theo thông tin trên transaction, đồng thời tìm subscription active mới nhất của user để cộng dồn thời hạn nếu cần.
+\item \textbf{Hoàn tất thanh toán:} Service gọi \texttt{fulfillPayment} để chuyển transaction sang \texttt{success}, đặt \texttt{paidAt} và kích hoạt subscription thành \texttt{active}.
+\item \textbf{Ghi Outbox:} Khi lưu subscription, repository ghi \texttt{SubscriptionPurchasedEvent} vào bảng Outbox với trạng thái \texttt{PENDING}.
+\item \textbf{Phát event nội bộ:} Sau khi transaction lưu thành công, service gọi \texttt{eventBus.publishAll(events)} để các local event handler xử lý tiếp, rồi gọi \texttt{subscription.commit()}.
+\end{itemize}
