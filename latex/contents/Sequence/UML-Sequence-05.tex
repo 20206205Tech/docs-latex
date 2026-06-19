@@ -1,6 +1,6 @@
 \paragraph{Sơ đồ tuần tự Luồng Xác nhận Email kích hoạt tài khoản}
 
-Luồng nghiệp vụ này mô tả quá trình người dùng nhấp vào liên kết xác thực từ hòm thư điện tử cá nhân để kích hoạt tài khoản, chuyển hướng qua API Gateway (Kong) và nhận token JWT để đăng nhập chính thức.
+Luồng nghiệp vụ này mô tả quá trình người dùng nhấp vào liên kết xác thực từ hòm thư điện tử cá nhân để kích hoạt tài khoản, chuyển hướng qua API Gateway (Kong), nhận token JWT và tiếp tục hoàn tất bước xác thực MFA trước khi truy cập hệ thống.
 
 \begin{figure}[H]
 \centering
@@ -32,5 +32,5 @@ Supabase Database & Database & Cập nhật thời gian kích hoạt tài khoả
 \item API Gateway chuyển tiếp yêu cầu xác thực tài khoản tới Auth Service.
 \item Auth Service kiểm tra tính hợp lệ của token xác thực và cập nhật cơ sở dữ liệu để kích hoạt tài khoản (\texttt{email\_confirmed\_at = NOW}).
 \item Sau khi cập nhật thành công, Auth Service trả về phản hồi HTTP 302 Redirect, chuyển hướng trình duyệt của người dùng quay trở lại trang callback của Web Frontend (\texttt{/auth/callback}) kèm theo cặp token JWT trong phần URL Hash.
-\item Web Frontend trích xuất Access Token và Refresh Token từ URL Hash, lưu trữ cục bộ và chuyển hướng người dùng đăng nhập thành công vào giao diện chính (\texttt{/chat}).
+\item Web Frontend trích xuất Access Token và Refresh Token từ URL Hash, lưu trữ cục bộ và chuyển hướng người dùng sang \texttt{/auth/mfa} để hoàn tất bước xác thực bổ sung trước khi vào giao diện chính (\texttt{/chat}).
 \end{itemize}

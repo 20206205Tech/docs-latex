@@ -25,6 +25,6 @@ Kong --> Frontend: Trả về JSON chứa Access Token & Refresh Token
 deactivate Kong
 
 Frontend -> Frontend: Lưu trữ Token (Cookie/LocalStorage)
-Frontend --> Guest: Đăng nhập thành công, chuyển hướng vào hệ thống (/chat)
+Frontend --> Guest: Chuyển hướng đến /auth/mfa để xác thực bổ sung
 deactivate Frontend
 @enduml
