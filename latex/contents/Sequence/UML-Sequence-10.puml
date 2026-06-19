@@ -1,0 +1,42 @@
+@startuml
+actor "User" as User
+participant "Web Frontend" as Frontend
+participant "API Gateway\n(Kong)" as Kong
+participant "Auth Service\n(PostgREST)" as AuthService
+database "Supabase Database" as DB
+
+== Luồng 1: Xem và Cập nhật Tên hiển thị (Get & Update Profile) ==
+User -> Frontend: Truy cập trang Hồ sơ cá nhân
+activate Frontend
+
+Frontend -> Kong: GET /supabase-auth-service/rest/v1/profiles?id=eq.{userId}
+activate Kong
+Kong -> AuthService: Chuyển tiếp yêu cầu lấy Profile
+activate AuthService
+AuthService -> DB: Truy vấn thông tin profile theo ID
+activate DB
+DB --> AuthService: Trả về bản ghi profile (full_name, avatar_url)
+deactivate DB
+AuthService --> Kong: Trả về thông tin Profile (JSON Array)
+deactivate AuthService
+Kong --> Frontend: Trả về thông tin Profile
+deactivate Kong
+Frontend -> User: Hiển thị thông tin hồ sơ (Họ tên, Ảnh đại diện)
+
+User -> Frontend: Nhập Họ tên mới và nhấn "Lưu thay đổi"
+Frontend -> Kong: PATCH /supabase-auth-service/rest/v1/profiles?id=eq.{userId} (full_name)
+activate Kong
+Kong -> AuthService: Chuyển tiếp yêu cầu cập nhật Profile
+activate AuthService
+AuthService -> DB: Cập nhật thông tin Full Name
+activate DB
+DB --> AuthService: OK (representation)
+deactivate DB
+AuthService --> Kong: Trả về bản ghi đã cập nhật
+deactivate AuthService
+Kong --> Frontend: Trả về bản ghi đã cập nhật
+deactivate Kong
+
+Frontend --> User: Cập nhật thông tin thành công!
+deactivate Frontend
+@enduml

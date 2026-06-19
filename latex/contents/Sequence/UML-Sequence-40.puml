@@ -1,0 +1,61 @@
+@startuml
+actor "User" as User
+participant "Web Frontend" as Frontend
+participant "API Gateway\n(Kong)" as Kong
+participant "Conversation Service" as ConversationService
+participant "Chatbot Service\n(gRPC)" as ChatbotService
+participant "LangGraph RAG" as RAG
+database "Milvus\nUser Documents" as Milvus
+participant "Legal Knowledge Base" as LegalKB
+database "Chatbot DB" as ChatbotDB
+
+== Luồng nghiệp vụ: Phân tích tài liệu cá nhân bằng reasoning pháp lý ==
+
+User -> Frontend: Gửi câu hỏi kèm file_ids\nvà use_reasoning=true
+activate Frontend
+
+Frontend -> Kong: POST /code-conversation-service/chats/stream\n{ chat_id, query, file_ids, use_reasoning }
+activate Kong
+Kong -> ConversationService: Chuyển tiếp request SSE
+activate ConversationService
+
+ConversationService -> ChatbotService: AskAI(query, chat_id,\nfile_ids, use_reasoning)\n[gRPC metadata: authorization]
+activate ChatbotService
+
+ChatbotService -> ChatbotDB: save_chat_message(role='human')
+activate ChatbotDB
+ChatbotDB --> ChatbotService: OK
+deactivate ChatbotDB
+
+ChatbotService -> RAG: generation_stream(query, chat_id,\nuser_id, file_ids, use_reasoning)
+activate RAG
+
+RAG -> Milvus: RetrieveUserDocs\nexpr: doc_id in file_ids\nand user_id == current_user_id
+activate Milvus
+Milvus --> RAG: Uploaded document chunks
+deactivate Milvus
+
+RAG -> LegalKB: Retrieve legal sources\nVBPL / Pháp điển / legal corpus
+activate LegalKB
+LegalKB --> RAG: Điều khoản, văn bản,\nmetadata nguồn
+deactivate LegalKB
+
+RAG -> RAG: Rank, kiểm tra hiệu lực,\ntổng hợp lập luận và kết luận
+RAG --> ChatbotService: content_chunk,\nstatus_update,\nmetadata(full_answer, sources)
+deactivate RAG
+
+ChatbotService -> ChatbotDB: save_chat_message(role='ai',\nreasoning_steps, sources)
+activate ChatbotDB
+ChatbotDB --> ChatbotService: OK
+deactivate ChatbotDB
+
+ChatbotService --> ConversationService: AskResponse stream
+deactivate ChatbotService
+ConversationService --> Kong: SSE data\nstatus/content/metadata
+deactivate ConversationService
+Kong --> Frontend: Stream nội dung,\nreasoning steps và sources
+deactivate Kong
+Frontend --> User: Hiển thị phân tích tài liệu cá nhân
+deactivate Frontend
+
+@enduml

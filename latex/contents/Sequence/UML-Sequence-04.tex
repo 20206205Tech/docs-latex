@@ -1,0 +1,37 @@
+\paragraph{Sơ đồ tuần tự Luồng Đăng ký tài khoản bằng Email}
+
+Luồng nghiệp vụ này mô tả chi tiết quá trình đăng ký tài khoản mới sử dụng địa chỉ Email và mật khẩu. Yêu cầu đăng ký từ Web Frontend được gửi qua API Gateway trước khi tới Auth Service để tạo tài khoản ở trạng thái chờ xác thực email.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.18]{contents/Sequence/UML-Sequence-04.png}
+\caption{Sơ đồ tuần tự Luồng Đăng ký tài khoản bằng Email}
+\end{figure}
+
+\subparagraph{Các thành phần tham gia}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|l|l|p{5cm}|}
+\hline
+\textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
+Guest & Actor & Khách vãng lai thực hiện đăng ký tài khoản mới. \\ \hline
+Web Frontend & Component & Giao diện tiếp nhận thông tin đăng ký từ Guest. \\ \hline
+API Gateway (Kong) & Component & Cổng kết nối trung gian chuyển tiếp yêu cầu đăng ký đến Auth Service. \\ \hline
+Auth Service (Supabase) & Microservice & Dịch vụ xác thực chịu trách nhiệm tạo tài khoản mới ở trạng thái chờ kích hoạt và kích hoạt luồng gửi mail. \\ \hline
+Supabase Database & Database & Lưu trữ thông tin tài khoản người dùng ở trạng thái chưa kích hoạt. \\ \hline
+Supabase Email & External Service & Dịch vụ gửi thư điện tử chứa liên kết xác thực tài khoản. \\ \hline
+\end{tabular}
+\caption{Các thành phần tham gia luồng Đăng ký tài khoản bằng Email}
+\end{table}
+
+\subparagraph{Mô tả tổng quan}
+
+\begin{itemize}
+\item Guest nhập địa chỉ Email và mật khẩu, nhấn nút Đăng ký trên Web Frontend.
+\item Web Frontend gọi hàm đăng ký với Email và mật khẩu, gửi yêu cầu \texttt{POST /supabase-auth-service/auth/v1/signup?redirect\_to=...} qua API Gateway. Gateway thực hiện định tuyến và chuyển tiếp yêu cầu đến Auth Service.
+\item Auth Service khởi tạo tài khoản mới trong Database ở trạng thái chưa kích hoạt (\texttt{email\_confirmed\_at = null}).
+\item Auth Service yêu cầu Supabase Email gửi một thư điện tử chứa liên kết xác thực tài khoản, với \texttt{redirect\_to} trỏ về \texttt{/auth/callback} của Web Frontend.
+\item Auth Service phản hồi đăng ký thành công về cho Web Frontend thông qua API Gateway, Frontend chuyển sang trạng thái \texttt{verify-email} và hiển thị thông báo yêu cầu người dùng kiểm tra hòm thư điện tử.
+\end{itemize}

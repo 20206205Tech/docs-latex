@@ -1,0 +1,30 @@
+@startuml
+actor "Guest" as Guest
+participant "Web Frontend" as Frontend
+participant "API Gateway\n(Kong)" as Kong
+participant "Auth Service\n(Supabase)" as AuthService
+database "Supabase Database" as DB
+
+== Luồng Xác nhận email kích hoạt tài khoản ==
+Guest -> Kong: Click vào link xác thực trong Email (trỏ qua Kong)
+activate Kong
+
+Kong -> AuthService: Chuyển tiếp yêu cầu xác thực tài khoản
+activate AuthService
+
+AuthService -> DB: Cập nhật trạng thái xác thực (email_confirmed_at = NOW)
+activate DB
+DB --> AuthService: OK
+deactivate DB
+
+AuthService --> Kong: Redirect về Frontend (/auth/callback) kèm JWT Token trong URL Hash
+deactivate AuthService
+Kong --> Guest: Redirect về Frontend (/auth/callback) kèm JWT Token trong URL Hash
+deactivate Kong
+
+Guest -> Frontend: Tải trang Callback với URL Hash
+activate Frontend
+Frontend -> Frontend: Trích xuất Access Token & Refresh Token từ Hash
+Frontend --> Guest: Chuyển hướng đến /auth/mfa để xác thực bổ sung
+deactivate Frontend
+@enduml

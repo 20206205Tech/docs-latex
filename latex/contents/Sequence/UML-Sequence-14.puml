@@ -1,0 +1,27 @@
+@startuml
+actor "User" as User
+participant "Web Frontend" as Frontend
+participant "API Gateway\n(Kong)" as Kong
+participant "Auth Service\n(Supabase)" as AuthService
+database "Supabase Database" as DB
+
+== Luồng 2: Đặt lại / Đổi Mật khẩu (Reset / Change Password) ==
+User -> Frontend: Nhập mật khẩu mới và nhấn "Cập nhật mật khẩu"
+activate Frontend
+
+Frontend -> Kong: PUT /supabase-auth-service/auth/v1/user (password) \n[Headers: Authorization: Bearer <AccessToken>]
+activate Kong
+Kong -> AuthService: Yêu cầu cập nhật mật khẩu mới
+activate AuthService
+AuthService -> DB: Mã hóa và lưu mật khẩu mới
+activate DB
+DB --> AuthService: Cập nhật thành công
+deactivate DB
+AuthService --> Kong: Trả về thông tin User đã cập nhật
+deactivate AuthService
+Kong --> Frontend: Trả về thông tin User đã cập nhật
+deactivate Kong
+
+Frontend --> User: Đổi mật khẩu thành công! Chuyển hướng về /chat
+deactivate Frontend
+@enduml

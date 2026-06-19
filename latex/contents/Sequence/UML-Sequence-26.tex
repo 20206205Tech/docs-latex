@@ -1,0 +1,35 @@
+\paragraph{Sơ đồ tuần tự Luồng Theo dõi báo cáo Pháp Điển Pipeline}
+
+Luồng nghiệp vụ này mô tả quy trình Quản trị viên (Admin) theo dõi, kiểm tra báo cáo thống kê của luồng xử lý dữ liệu Pháp Điển Việt Nam tự động (Pháp Điển Pipeline) thông qua giao diện Bảng điều khiển (Admin Dashboard).
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.18]{contents/Sequence/UML-Sequence-26.png}
+\caption{Sơ đồ tuần tự Luồng Theo dõi báo cáo Pháp Điển Pipeline}
+\end{figure}
+
+\subparagraph{Các thành phần tham gia}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|l|l|p{5cm}|}
+\hline
+\textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
+Admin & Actor & Quản trị viên truy cập bảng điều khiển để giám sát hệ thống. \\ \hline
+Web Frontend & Component & Giao diện Admin Dashboard biểu diễn số liệu dưới dạng đồ thị và bảng số liệu. \\ \hline
+API Gateway (Kong) & Component & Định tuyến yêu cầu thống kê tới Pháp Điển Pipeline Service và kiểm tra quyền Admin. \\ \hline
+Pháp Điển Pipeline Service & Microservice & Dịch vụ xử lý dữ liệu Pháp Điển, cung cấp số liệu tổng hợp về chủ đề, đề mục. \\ \hline
+Pipeline Database & Database & Cơ sở dữ liệu lưu trữ kết quả thống kê cấu trúc cây Pháp Điển. \\ \hline
+\end{tabular}
+\caption{Các thành phần tham gia luồng Theo dõi báo cáo Pháp Điển Pipeline}
+\end{table}
+
+\subparagraph{Mô tả chi tiết}
+\begin{itemize}
+\item \textbf{Yêu cầu xem báo cáo:} Admin truy cập vào Dashboard quản trị. Web Frontend gửi yêu cầu lấy số liệu thống kê Pháp Điển bằng phương thức \texttt{GET /data-pipeline-phapdien-service/phapdien/summary} qua Kong API Gateway.
+\item \textbf{Kiểm tra và Định tuyến:} Kong Gateway xác thực Bearer Token của Admin, sau đó chuyển tiếp yêu cầu tới Pháp Điển Pipeline Service.
+\item \textbf{Thống kê dữ liệu:} Pháp Điển Pipeline Service thực hiện truy vấn cơ sở dữ liệu (Pipeline DB) để lấy tổng số chủ đề (\texttt{total\_chu\_de}), tổng số đề mục (\texttt{total\_de\_muc}), và tổng số nút thư mục (\texttt{total\_tree\_items}) thuộc bộ chỉ mục Pháp Điển. Dịch vụ tổng hợp các số liệu này và phản hồi về cho Web Frontend.
+\item \textbf{Lấy danh mục bổ sung:} Web Frontend gọi thêm \texttt{GET /data-pipeline-phapdien-service/phapdien/chu-de} và \texttt{GET /data-pipeline-phapdien-service/phapdien/de-muc} để hiển thị dữ liệu chủ đề, đề mục trên Dashboard.
+\item \textbf{Biểu diễn thông tin:} Web Frontend nhận dữ liệu phản hồi, tính toán tiến độ hoàn thành và vẽ biểu đồ trực quan giúp Admin dễ dàng theo dõi.
+\end{itemize}
