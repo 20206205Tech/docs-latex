@@ -1,0 +1,28 @@
+@startuml
+actor "User" as User
+participant "Web Frontend" as Frontend
+participant "API Gateway\n(Kong)" as Kong
+participant "Setting Service\n(Neon API)" as SettingService
+database "Setting Neon Database" as DB
+
+== Luồng 2: Cập nhật thông tin Cài đặt (Update Settings) ==
+User -> Frontend: Bật/Tắt các thiết lập (ví dụ: Dark Mode, Bật RAG) và bấm "Lưu"
+activate Frontend
+
+Frontend -> Kong: POST /neon-setting-service (SettingItem[]) \n[Headers: Authorization: Bearer <token>]
+activate Kong
+Kong -> SettingService: Chuyển tiếp cấu hình mới
+activate SettingService
+SettingService -> DB: Cập nhật hoặc thêm mới (Upsert) cấu hình của User
+activate DB
+DB --> SettingService: Ghi nhận thành công
+deactivate DB
+SettingService --> Kong: Phản hồi thành công (HTTP 200/201)
+deactivate SettingService
+Kong --> Frontend: Phản hồi thành công
+deactivate Kong
+
+Frontend -> Frontend: Áp dụng cài đặt cục bộ (ví dụ: Thay đổi theme màu tối)
+Frontend --> User: Lưu cài đặt thành công!
+deactivate Frontend
+@enduml
