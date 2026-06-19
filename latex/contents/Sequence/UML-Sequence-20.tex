@@ -35,5 +35,5 @@ R2 Object Storage & External Service & Dịch vụ lưu trữ đối tượng b�
 \item Dịch vụ phản hồi HTTP 200 OK để xác nhận thu hồi thành công cho người dùng ngay lập tức.
 \item Outbox Relay quét bảng outbox định kỳ, lấy ra các sự kiện ShareRevokedEvent chưa gửi và publish vào hàng đợi \texttt{share\_revoked} trên RabbitMQ Broker.
 \item Chatbot Service nhận thông điệp ShareRevokedEvent từ hàng đợi, thực hiện xóa tệp tin JSONL lưu trữ tương ứng trên R2 Object Storage.
-\item Chatbot Service cập nhật trạng thái bản ghi Share trong Chatbot DB (is_revoked=True) và gửi phản hồi Acknowledge hoàn tất.
+\item Chatbot Service cập nhật trạng thái bản ghi Share trong Chatbot DB (\texttt{is\_revoked=True}) và gửi phản hồi Acknowledge hoàn tất.
 \end{itemize}
