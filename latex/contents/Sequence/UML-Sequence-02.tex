@@ -1,0 +1,33 @@
+\paragraph{Sơ đồ tuần tự Luồng Nghe thử mẫu giọng nói của nhân vật}
+
+Luồng này mô tả quá trình Guest thực hiện click nghe thử giọng nói của nhân vật. Dữ liệu âm thanh sẽ được stream trực tiếp từ Storage Bucket (Cloudflare R2 / Supabase Storage) về Web Frontend.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.18]{contents/Sequence/UML-Sequence-02.png}
+\caption{Sơ đồ tuần tự Luồng Nghe thử mẫu giọng nói}
+\end{figure}
+
+\subparagraph{Các thành phần tham gia}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|l|l|p{5cm}|}
+\hline
+\textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
+Guest & Actor & Khách vãng lai tương tác nghe thử. \\ \hline
+Web Frontend & Component & Nhận và phát luồng âm thanh nghe thử. \\ \hline
+Cloudflare R2 / Supabase Storage & Storage Bucket & Lưu trữ và cung cấp tệp tin âm thanh của nhân vật thông qua URL công khai. \\ \hline
+\end{tabular}
+\caption{Các thành phần tham gia luồng nghe thử mẫu giọng nói}
+\end{table}
+
+\subparagraph{Mô tả tổng quan}
+
+\begin{itemize}
+\item Guest nhấn nút "Nghe thử" của một nhân vật bất kỳ trên trang chủ.
+\item Web Frontend gửi yêu cầu tải/stream file âm thanh trực tiếp đến địa chỉ URL của Cloudflare R2 hoặc Supabase Storage mà không cần qua API Gateway hay Backend.
+\item Cloudflare R2 / Supabase Storage trả về luồng dữ liệu âm thanh định dạng \texttt{.mp3} hoặc \texttt{.wav}.
+\item Web Frontend nhận dữ liệu và thực hiện phát âm thanh cho Guest nghe.
+\end{itemize}
