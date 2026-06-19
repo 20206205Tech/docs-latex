@@ -1,13 +1,21 @@
 \subsection{Khảo sát công nghệ xây dựng cốt lõi}
+
 \subsubsection{Mô hình ngôn ngữ lớn LLM (Large Language Model)}
 
-Năm 2017, các kỹ sư của Google
+Năm 2017, các kỹ sư của
+\textbf{
+\textcolor{blue}{G}%
+\textcolor{red}{o}%
+\textcolor{yellow}{o}%
+\textcolor{blue}{g}%
+\textcolor{green}{l}%
+\textcolor{red}{e}
+}
 đưa ra bài báo "Attention Is All You Need"
 khai sinh kiến trúc Transformer
 với cơ chế Self-Attention (Tự chú ý),
 mở đường cho hầu hết kiến trúc
 LLM (Large Language Model) hiện nay.
-
 Cách hoạt động của LLM
 là dự đoán xác suất của từ tiếp theo
 dựa theo các từ đã xuất hiện trước đó.
@@ -148,9 +156,7 @@ cluster/.style={dashed, draw=#1!50, fill=#1!5, rounded corners=8pt, inner sep=6p
 Khi dự đoán từ tiếp theo,
 mô hình không chỉ nhìn vào từ ngay trước nó,
 mà nó nhìn vào toàn bộ các từ đã xuất hiện và dùng cơ chế gọi là Self-Attention để xem từ nào quan trọng nhất.
-
 Ví dụ: Trong câu "Con mèo rượt đuổi con chuột vì nó chạy rất nhanh", cơ chế Attention sẽ giúp mô hình hiểu chữ "nó" ở đây có xác suất cao là đang chỉ "con chuột" chứ không phải "con mèo".
-
 Sau khi tính toán ngữ cảnh, mô hình sẽ quét qua toàn bộ kho từ vựng và gán cho mỗi từ một con số xác suất. Mô hình sẽ chọn từ tiếp theo dựa trên bảng xác suất này. Quá trình này lặp đi lặp lại liên tục cho đến khi nó tạo ra một ký tự đặc biệt ra lệnh dừng lại.
 
 \begin{figure}[H]

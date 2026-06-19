@@ -23,12 +23,12 @@ DATA = [
     {"abbr": "LLM", "eng": "Large Language Model", "vie": "Mô hình ngôn ngữ lớn"},
     {
         "abbr": "API",
-        "eng": "Application Programming Interface",
+        "eng": r"\makecell[l]{Application Programming \\ Interface}",
         "vie": "Giao diện lập trình ứng dụng",
     },
     {
         "abbr": "RAG",
-        "eng": "Retrieval Augmented Generation",
+        "eng": r"\makecell[l]{Retrieval Augmented \\ Generation}",
         "vie": "Tạo tăng cường truy xuất",
     },
     {"abbr": "DDD", "eng": "Domain Driven Design", "vie": "Thiết kế hướng miền"},
@@ -68,8 +68,8 @@ DATA = [
     {"abbr": "SSE", "eng": "Server-sent events", "vie": "Sự kiện máy chủ gửi"},
     {
         "abbr": "TOTP",
-        "eng": "Time-based One-Time Password",
-        "vie": "Mật khẩu dùng một lần dựa trên thời gian",
+        "eng": r"\makecell[l]{Time-based \\ One-Time Password}",
+        "vie": r"\makecell[l]{Mật khẩu dùng một lần \\ dựa trên thời gian}",
     },
     {"abbr": "2FA", "eng": "Two-Factor Authentication", "vie": "Xác thực hai yếu tố"},
     {"abbr": "MFA", "eng": "Multi-Factor Authentication", "vie": "Xác thực đa yếu tố"},
@@ -78,7 +78,7 @@ DATA = [
     {"abbr": "CI", "eng": "Continuous Integration", "vie": "Tích hợp liên tục"},
     {
         "abbr": "CD",
-        "eng": "Continuous Delivery / Deployment",
+        "eng": r"\makecell[l]{Continuous \\ Delivery / Deployment}",
         "vie": "Chuyển giao/Triển khai liên tục",
     },
     {
@@ -119,13 +119,14 @@ DATA = [
     {
         "abbr": "PSC",
         "eng": "Payment Service Consumer",
+        # "vie": r"\makecell[l]{Framework Gọi thủ tục từ xa \\ do Google phát triển}",
         "vie": "Đơn vị sử dụng dịch vụ thanh toán",
     },
     {"abbr": "UI", "eng": "User Interface", "vie": "Giao diện người dùng"},
     {
         "abbr": "gRPC",
         "eng": "gRPC Remote Procedure Call",
-        "vie": "Framework Gọi thủ tục từ xa do Google phát triển",
+        "vie": r"\makecell[l]{Framework Gọi thủ tục từ xa \\ do Google phát triển}",
     },
     {"abbr": "DLQ", "eng": "Dead Letter Queue", "vie": "Hàng đợi thư lỗi"},
     {"abbr": "QR Code", "eng": "Quick Response Code", "vie": "Mã phản hồi nhanh"},
@@ -172,12 +173,17 @@ TEX_PATH = os.path.join(
     "DANH_MUC_KY_HIEU.tex",
 )
 
-# Số ký tự tối đa trong một dòng của cột Mô tả trước khi xuống dòng (\\)
+# Số ký tự tối đa trong một dòng trước khi xuống dòng (\\)
 MAX_LINE_LENGTH = 40
+MAX_ENG_LINE_LENGTH = 40
+MAX_VIE_LINE_LENGTH = 40
 
 
 def wrap_text(text: str, max_length: int = MAX_LINE_LENGTH) -> str:
     """Tự động ngắt dòng dài thành makecell nếu vượt quá max_length ký tự."""
+    if r"\makecell" in text:
+        return text
+
     if len(text) <= max_length:
         return text
 
@@ -220,8 +226,9 @@ def generate_tex():
 
     rows = []
     for i, item in enumerate(sorted_data, start=1):
-        vie_cell = wrap_text(item["vie"])
-        row = f"{i} & {item['abbr']} & {item['eng']} & {vie_cell} \\\\ \\hline"
+        eng_cell = wrap_text(item["eng"], MAX_ENG_LINE_LENGTH)
+        vie_cell = wrap_text(item["vie"], MAX_VIE_LINE_LENGTH)
+        row = f"{i} & {item['abbr']} & {eng_cell} & {vie_cell} \\\\ \\hline"
         rows.append(row)
 
     rows_str = "\n".join(rows)
@@ -234,7 +241,8 @@ def generate_tex():
 
 \begin{{table}}[ht]
 \centering
-\begin{{tabular}}{{|c|c|c|l|}}
+\small
+\begin{{tabular}}{{|c|p{{2.1cm}}|p{{4.3cm}}|p{{5.4cm}}|}}
 \hline
 \textbf{{STT}} & \textbf{{Từ viết tắt}} & \textbf{{Từ viết đầy đủ}} & \textbf{{Mô tả}} \\ \hline
 {rows_str}
