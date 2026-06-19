@@ -1,0 +1,31 @@
+\paragraph{Sơ đồ tuần tự Pha người dùng thanh toán và Gateway gửi callback}
+
+Pha này mô tả bước User thanh toán trên Payment Gateway. Sau khi giao dịch được xử lý, Payment Gateway gửi callback/IPN về Payment Service để hệ thống bắt đầu xác minh giao dịch.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.18]{contents/Sequence/UML-Sequence-30.png}
+\caption{Sơ đồ tuần tự Pha người dùng thanh toán và Gateway gửi callback}
+\end{figure}
+
+\subparagraph{Các thành phần tham gia}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|l|l|p{5cm}|}
+\hline
+\textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
+User & Actor & Người dùng thực hiện thanh toán qua thẻ hoặc mã QR. \\ \hline
+Payment Gateway & External Service & Xử lý thanh toán và gửi callback/IPN về hệ thống. \\ \hline
+Payment Service & Microservice & Tiếp nhận callback để chuyển sang bước xác minh giao dịch. \\ \hline
+\end{tabular}
+\caption{Các thành phần tham gia pha người dùng thanh toán và Gateway gửi callback}
+\end{table}
+
+\subparagraph{Mô tả chi tiết}
+\begin{itemize}
+\item \textbf{Thanh toán:} User hoàn tất thao tác thanh toán trên Payment Gateway.
+\item \textbf{Thông báo kết quả:} Payment Gateway hiển thị trạng thái thanh toán thành công cho User.
+\item \textbf{Gửi IPN:} Gateway gọi endpoint \texttt{GET/POST /code-payment-service/subscriptions/payment-callback/\{provider\}} của Payment Service với \texttt{txnRef}, \texttt{secureHash}, \texttt{amount} và \texttt{responseCode}.
+\end{itemize}

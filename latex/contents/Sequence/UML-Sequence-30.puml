@@ -1,0 +1,17 @@
+@startuml
+actor "User" as User
+participant "Payment Gateway\n(VNPay/MoMo)" as Gateway
+participant "Payment Service" as PaymentService
+
+== Pha 2: Người dùng thanh toán và Payment Gateway gửi callback ==
+
+User -> Gateway: Thực hiện thanh toán\n(Nhập thẻ/Quét mã QR)
+activate Gateway
+Gateway --> User: Hiển thị thanh toán thành công
+
+Gateway -> PaymentService: GET/POST /code-payment-service/subscriptions/payment-callback/{provider}\n{ txnRef, secureHash, amount, responseCode }
+activate PaymentService
+PaymentService --> Gateway: Tiếp nhận callback để xác minh
+deactivate PaymentService
+deactivate Gateway
+@enduml
