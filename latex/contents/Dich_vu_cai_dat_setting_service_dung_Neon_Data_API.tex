@@ -48,6 +48,14 @@ Thay vì tạo một Route chung cho tất cả các request, hệ thống đư�
 
 Cấu hình Plugin xử lý Upsert tự động:
 
-Trong REST API dựa trên Postgres, để thực hiện hành động Upsert (chèn hoặc cập nhật), client cần gửi kèm các tham số cụ thể trên URL (\texttt{on\_conflict=user\_id,key}) và Header (\texttt{Prefer: resolution=merge-duplicates}).
+Trong REST API dựa trên Postgres,
+để thực hiện hành động Upsert
+(chèn hoặc cập nhật),
+client cần gửi kèm các tham số cụ thể trên URL
+(\texttt{on\_conflict=user\_id,key})
+và Header (\texttt{Prefer: resolution=merge-duplicates}).
 
-Sử dụng plugin \texttt{request-transformer} để Kong API Gateway tự động đính kèm các tham số và header phức tạp này trước khi gửi đến Neon.
+Sử dụng plugin \texttt{request-transformer}
+để Kong API Gateway
+tự động đính kèm các tham số
+và header phức tạp này trước khi gửi đến Neon.
