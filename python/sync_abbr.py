@@ -121,28 +121,16 @@ DATA = [
         "eng": "Payment Service Consumer",
         "vie": "Đơn vị sử dụng dịch vụ thanh toán",
     },
-    {
-        "abbr": "UI",
-        "eng": "User Interface",
-        "vie": "Giao diện người dùng",
-    },
+    {"abbr": "UI", "eng": "User Interface", "vie": "Giao diện người dùng"},
     {
         "abbr": "gRPC",
         "eng": "gRPC Remote Procedure Call",
         "vie": "Framework Gọi thủ tục từ xa do Google phát triển",
     },
-    {
-        "abbr": "DLQ",
-        "eng": "Dead Letter Queue",
-        "vie": "Hàng đợi thư lỗi",
-    },
-    {
-        "abbr": "QR Code",
-        "eng": "Quick Response Code",
-        "vie": "Mã phản hồi nhanh",
-    },
+    {"abbr": "DLQ", "eng": "Dead Letter Queue", "vie": "Hàng đợi thư lỗi"},
+    {"abbr": "QR Code", "eng": "Quick Response Code", "vie": "Mã phản hồi nhanh"},
+    {"abbr": "TTL", "eng": "Time To Live", "vie": "Thời gian tồn tại"},
 ]
-
 
 # OCR	Optical Character Recognition (Công nghệ nhận dạng chữ qua ảnh)
 
@@ -172,20 +160,16 @@ DATA = [
 
 
 # 12 & QR Code & Quick response code & Mã phản hồi nhanh \\ \hline
-# 16 & TTL & Time To Live & \makecell[l]{Thời gian bản ghi DNS \\ được lưu trữ trong\\ bộ nhớ cache} \\ \hline
-
-# 14 & DNS & Domain Name System & \makecell[l]{Hệ thống phân giải \\ tên miền} \\ \hline
-# 15 & FQDN & Fully Qualified Domain Name & Tên miền đầy đủ \\ \hline
-# 20 & XDR & Extended Detection and Response & \makecell[l]{Phát hiện và \\ ứng phó mở rộng} \\ \hline
-# 17 & BIND9 & Berkeley Internet Name Domain & \makecell[l]{Một phần mềm \\ máy chủ DNS} \\ \hline
 
 
 TEX_PATH = os.path.join(
     env.PATH_FOLDER_LATEX,
     "contents",
     "0",
-    "danh_sach_viet_tat",
-    "danh_sach_viet_tat.tex",
+    # "danh_sach_viet_tat",
+    # "danh_sach_viet_tat.tex",
+    "danh_muc",
+    "DANH_MUC_KY_HIEU.tex",
 )
 
 # Số ký tự tối đa trong một dòng của cột Mô tả trước khi xuống dòng (\\)
@@ -242,7 +226,9 @@ def generate_tex():
 
     rows_str = "\n".join(rows)
 
-    tex_content = rf"""\newpage
+    tex_content = rf"""% DANH MỤC KÝ HIỆU
+
+\newpage
 {{\centering \section*{{DANH MỤC KÝ HIỆU}}}} % Đặt tên tiêu đề
 \addcontentsline{{toc}}{{section}}{{DANH MỤC KÝ HIỆU}} % Thêm vào mục lục
 
