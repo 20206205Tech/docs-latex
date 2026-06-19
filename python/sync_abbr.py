@@ -23,12 +23,12 @@ DATA = [
     {"abbr": "LLM", "eng": "Large Language Model", "vie": "Mô hình ngôn ngữ lớn"},
     {
         "abbr": "API",
-        "eng": "Application Programming Interface",
+        "eng": r"\makecell[l]{Application Programming \\ Interface}",
         "vie": "Giao diện lập trình ứng dụng",
     },
     {
         "abbr": "RAG",
-        "eng": "Retrieval Augmented Generation",
+        "eng": r"\makecell[l]{Retrieval Augmented \\ Generation}",
         "vie": "Tạo tăng cường truy xuất",
     },
     {"abbr": "DDD", "eng": "Domain Driven Design", "vie": "Thiết kế hướng miền"},
@@ -78,7 +78,7 @@ DATA = [
     {"abbr": "CI", "eng": "Continuous Integration", "vie": "Tích hợp liên tục"},
     {
         "abbr": "CD",
-        "eng": "Continuous Delivery / Deployment",
+        "eng": r"\makecell[l]{Continuous \\ Delivery / Deployment}",
         "vie": "Chuyển giao/Triển khai liên tục",
     },
     {
