@@ -4,7 +4,7 @@ Luồng nghiệp vụ này mô tả chi tiết quá trình xác thực và đăn
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.18]{contents/Sequence/UML-Sequence-03.png}
+\includegraphics[scale = 0.18]{contents/Sequence/UML-Sequence-GuestGoogleOAuthLogin.png}
 \caption{Sơ đồ tuần tự Luồng Đăng nhập / Đăng ký bằng Google}
 \end{figure}
 
@@ -33,5 +33,5 @@ Google & External Service & Dịch vụ xác thực bên thứ ba của Google (
 \item Auth Service nhận yêu cầu và trả về phản hồi HTTP 302 Redirect trỏ tới trang xác thực Google OAuth. Trình duyệt của Guest tự động chuyển hướng sang Google để người dùng đăng nhập và ủy quyền.
 \item Sau khi xác thực thành công, Google chuyển hướng trình duyệt quay lại địa chỉ Callback của Auth Service thông qua API Gateway (Kong) cùng với mã xác thực (Auth Code).
 \item Auth Service trực tiếp trao đổi Auth Code với Google để nhận thông tin người dùng, lưu/cập nhật dữ liệu vào Database, sinh cặp mã JWT Token, sau đó thực hiện Redirect 302 trình duyệt quay lại địa chỉ Callback của Web Frontend (\texttt{/auth/callback}) chứa Access Token và Refresh Token trong phần URL Hash.
-\item Web Frontend trích xuất các mã token từ URL Hash, lưu trữ cục bộ và chuyển hướng Guest vào giao diện người dùng chính (\texttt{/chat}).
+\item Web Frontend trích xuất các mã token từ URL Hash, lưu trữ cục bộ và kiểm tra cấp độ xác thực AAL. Nếu tài khoản cần xác thực bổ sung, hệ thống chuyển sang \texttt{/auth/mfa}; ngược lại chuyển Guest vào giao diện người dùng chính (\texttt{/chat}).
 \end{itemize}
