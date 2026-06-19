@@ -48,6 +48,6 @@ deactivate Kong
 Guest -> Frontend: Tải trang Callback với URL Hash
 activate Frontend
 Frontend -> Frontend: Trích xuất Access Token & Refresh Token từ Hash
-Frontend --> Guest: Đăng nhập thành công, chuyển hướng MFA hoặc /chat
+Frontend --> Guest: Chuyển hướng đến /auth/mfa để xác thực bổ sung
 deactivate Frontend
 @enduml
