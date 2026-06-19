@@ -1,6 +1,6 @@
 \paragraph{Sơ đồ tuần tự Luồng Phân tích tài liệu cá nhân bằng reasoning pháp lý}
 
-Luồng này mô tả việc sử dụng tài liệu cá nhân đã upload trong truy vấn pháp lý. Chatbot Service gọi LangGraph RAG để truy vấn Milvus, kết hợp nguồn luật và thực hiện reasoning nâng cao trước khi trả kết quả cho người dùng.
+Luồng này mô tả việc sử dụng tài liệu cá nhân đã upload trong truy vấn pháp lý. Frontend gửi \texttt{file\_ids} và \texttt{use\_reasoning=true} qua SSE stream của Conversation Service. Chatbot Service gọi LangGraph RAG, truy vấn Milvus theo \texttt{doc\_id} và \texttt{user\_id}, kết hợp nguồn luật rồi stream kết quả về frontend.
 
 \begin{figure}[H]
 \centering
@@ -17,19 +17,23 @@ Luồng này mô tả việc sử dụng tài liệu cá nhân đã upload trong
 \hline
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
 User & Actor & Người dùng yêu cầu phân tích tài liệu cá nhân. \\ \hline
-Conversation Service & Microservice & Nhận yêu cầu stream chat và chuyển sang Chatbot Service. \\ \hline
-Chatbot Service & Microservice & Điều phối generation stream và lưu kết quả trò chuyện. \\ \hline
+Web Frontend & Component & Gửi yêu cầu \texttt{streamChat} kèm \texttt{file\_ids} và hiển thị stream kết quả. \\ \hline
+API Gateway (Kong) & Component & Định tuyến request tới Conversation Service. \\ \hline
+Conversation Service & Microservice & Nhận request SSE và gọi Chatbot Service qua gRPC. \\ \hline
+Chatbot Service & Microservice & Điều phối \texttt{generation\_stream}, lưu message, reasoning steps và sources. \\ \hline
 LangGraph RAG & AI Pipeline & Truy vấn tài liệu cá nhân, nguồn luật và thực hiện reasoning. \\ \hline
 Milvus & Vector Store & Cung cấp các đoạn nội dung liên quan từ tài liệu cá nhân của user. \\ \hline
 Legal Knowledge Base & Knowledge Base & Cung cấp văn bản pháp luật, điều khoản và nguồn tham chiếu. \\ \hline
+Chatbot DB & Database & Lưu human message, AI message, reasoning steps và sources. \\ \hline
 \end{tabular}
 \caption{Các thành phần tham gia luồng phân tích tài liệu cá nhân bằng reasoning pháp lý}
 \end{table}
 
 \subparagraph{Mô tả chi tiết}
 \begin{itemize}
-\item User gửi truy vấn kèm \texttt{file\_ids} và \texttt{use\_reasoning=true}.
-\item RAG truy vấn Milvus để lấy đoạn tài liệu cá nhân liên quan theo user và file được chọn.
-\item RAG kết hợp nội dung tài liệu với nguồn luật, thực hiện rank, kiểm tra hiệu lực và tổng hợp lập luận.
-\item Kết quả stream về frontend gồm nội dung trả lời, reasoning steps và metadata nguồn tham chiếu.
+\item User gửi truy vấn kèm \texttt{file\_ids} và \texttt{use\_reasoning=true} qua endpoint \texttt{POST /code-conversation-service/chats/stream}.
+\item Conversation Service chuyển request sang Chatbot Service bằng gRPC \texttt{AskAI} và truyền Bearer Token qua metadata \texttt{authorization}.
+\item RAG truy vấn Milvus bằng biểu thức \texttt{doc\_id in file\_ids} và \texttt{user\_id == current\_user\_id} để lấy đoạn tài liệu cá nhân liên quan.
+\item RAG kết hợp tài liệu cá nhân với nguồn luật, thực hiện rank, kiểm tra hiệu lực và tổng hợp lập luận.
+\item Kết quả stream về frontend gồm \texttt{status\_update}, \texttt{content\_chunk} và \texttt{metadata} chứa \texttt{full\_answer}, \texttt{sources}.
 \end{itemize}

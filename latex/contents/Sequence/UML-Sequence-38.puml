@@ -14,16 +14,23 @@ activate Frontend
 
 Frontend -> Kong: POST /code-document-service/documents/upload\nmultipart/form-data: file
 activate Kong
-Kong -> DocumentService: Chuyển tiếp file và userId
+Kong -> DocumentService: Chuyển tiếp file và user_id
 activate DocumentService
 
-DocumentService -> DocumentDB: Kiểm tra UserSubscription\nis_active=true và period_end còn hiệu lực
+opt ENVIRONMENT != development
+DocumentService -> DocumentDB: Kiểm tra UserSubscription\nis_active=true và period_end >= now
 activate DocumentDB
-DocumentDB --> DocumentService: Subscription hợp lệ
+DocumentDB --> DocumentService: Subscription hợp lệ hoặc null
 deactivate DocumentDB
+end
 
-DocumentService -> DocumentService: Validate loại file, tên file, kích thước
-DocumentService -> DocumentDB: INSERT Document(status=UPLOADED, has_file=false)
+alt #F2F4F7 Không có subscription hợp lệ
+DocumentService --> Kong: HTTP 403 Forbidden
+Kong --> Frontend: Từ chối upload
+Frontend --> User: Yêu cầu nâng cấp gói thuê bao
+else Được phép upload
+DocumentService -> DocumentService: validate_upload_file\nget_file_hash_and_size
+DocumentService -> DocumentDB: INSERT Document\nstatus=UPLOADED, has_file=false
 activate DocumentDB
 DocumentDB --> DocumentService: doc_id
 deactivate DocumentDB
@@ -33,12 +40,12 @@ activate R2
 R2 --> DocumentService: Upload OK
 deactivate R2
 
-DocumentService -> DocumentDB: UPDATE Document(has_file=true)
+DocumentService -> DocumentDB: UPDATE has_file=true
 activate DocumentDB
 DocumentDB --> DocumentService: OK
 deactivate DocumentDB
 
-DocumentService -> RabbitMQ: Publish process_document_task(doc_id)
+DocumentService -> RabbitMQ: send_task(process_document_task,\nargs=[doc_id], queue=CELERY_QUEUE_NAME)
 activate RabbitMQ
 RabbitMQ --> DocumentService: Task accepted
 deactivate RabbitMQ
@@ -48,12 +55,7 @@ deactivate DocumentService
 Kong --> Frontend: Trả kết quả upload
 deactivate Kong
 Frontend --> User: Hiển thị tài liệu đang xử lý nền
-deactivate Frontend
-
-alt #LightPink User chưa có gói thuê bao VIP hợp lệ
-    DocumentService --> Kong: HTTP 403 Forbidden
-    Kong --> Frontend: Từ chối upload
-    Frontend --> User: Yêu cầu nâng cấp gói thuê bao VIP
 end
 
+deactivate Frontend
 @enduml

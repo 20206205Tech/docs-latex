@@ -12,38 +12,40 @@ participant "LiveKit Cloud" as LiveKit
 User -> Frontend: Bấm bắt đầu đàm thoại bằng giọng nói
 activate Frontend
 
-Frontend -> Kong: GET /code-conversation-service/chats/{chat_id}/voice-token\n?persona_id={persona_id}&use_reasoning=true&file_ids[]={doc_id}
+Frontend -> Kong: GET /code-conversation-service/chats/{chat_id}/voice-token\n?file_ids[]={doc_id}&use_reasoning=true&persona_id={persona_id}
 activate Kong
 Kong -> ConversationService: Chuyển tiếp yêu cầu lấy voice token
 activate ConversationService
 
-ConversationService -> ConversationDB: Kiểm tra UserSubscription.isVip(userId)
+opt ENVIRONMENT != development
+ConversationService -> ConversationDB: isVip(userId)\ntrong user_subscriptions
 activate ConversationDB
-ConversationDB --> ConversationService: VIP hợp lệ
+ConversationDB --> ConversationService: true nếu subscription còn hiệu lực
 deactivate ConversationDB
+end
 
+alt #F2F4F7 User không có VIP hợp lệ
+ConversationService --> Kong: ForbiddenException
+Kong --> Frontend: HTTP 403
+Frontend --> User: Hiển thị yêu cầu nâng cấp VIP
+else Được phép cấp token
 ConversationService -> LiveKitSDK: Tạo AccessToken\nmetadata={chat_id,user_id,file_ids,use_reasoning,persona_id}
 activate LiveKitSDK
-LiveKitSDK --> ConversationService: JWT token có quyền roomJoin/canPublish/canSubscribe
+LiveKitSDK --> ConversationService: JWT có roomJoin, canPublish,\ncanSubscribe, canUpdateOwnMetadata
 deactivate LiveKitSDK
 
-ConversationService --> Kong: HTTP 200 {token, serverUrl}
+ConversationService --> Kong: HTTP 200 { token, serverUrl }
 deactivate ConversationService
 Kong --> Frontend: Trả token và LIVEKIT_URL
 deactivate Kong
 
-Frontend -> LiveKit: Connect WebRTC/WebSocket bằng token
+Frontend -> LiveKit: Join room chat_id bằng token
 activate LiveKit
 LiveKit --> Frontend: Join room thành công
 deactivate LiveKit
 
 Frontend --> User: Mở phiên voice chat
-deactivate Frontend
-
-alt #LightPink User chưa có gói thuê bao VIP
-    ConversationService --> Kong: HTTP 403 Forbidden
-    Kong --> Frontend: Không cấp token
-    Frontend --> User: Hiển thị yêu cầu nâng cấp gói thuê bao VIP
 end
 
+deactivate Frontend
 @enduml

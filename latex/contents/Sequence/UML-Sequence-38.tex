@@ -1,6 +1,6 @@
 \paragraph{Sơ đồ tuần tự Luồng Tải lên tài liệu cá nhân}
 
-Luồng này mô tả quá trình người dùng có gói thuê bao VIP tải lên tài liệu cá nhân. Document Service kiểm tra subscription, lưu file gốc vào Cloudflare R2, tạo bản ghi Document và đẩy tác vụ xử lý nền qua RabbitMQ.
+Luồng này mô tả quá trình người dùng tải lên tài liệu cá nhân. Document Service kiểm tra subscription khi không chạy ở môi trường \texttt{development}, validate file, lưu metadata, upload file gốc lên Cloudflare R2 và gửi task xử lý nền qua Celery/RabbitMQ.
 
 \begin{figure}[H]
 \centering
@@ -17,10 +17,12 @@ Luồng này mô tả quá trình người dùng có gói thuê bao VIP tải l�
 \hline
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
 User & Actor & Người dùng tải lên tài liệu cá nhân. \\ \hline
+Web Frontend & Component & Gọi \texttt{documentService.uploadDocument} bằng multipart form data. \\ \hline
+API Gateway (Kong) & Component & Định tuyến request tới Document Service. \\ \hline
 Document Service & Microservice & Kiểm tra quyền, validate file, lưu metadata và publish task xử lý nền. \\ \hline
-Document Database & Database & Lưu Document và trạng thái subscription cục bộ. \\ \hline
+Document Database & Database & Lưu Document và bảng \texttt{user\_subscriptions}. \\ \hline
 Cloudflare R2 & Object Storage & Lưu file gốc của người dùng. \\ \hline
-RabbitMQ & Message Broker & Nhận task \texttt{process\_document\_task} cho Document Worker. \\ \hline
+RabbitMQ & Message Broker & Nhận Celery task \texttt{process\_document\_task}. \\ \hline
 \end{tabular}
 \caption{Các thành phần tham gia luồng tải lên tài liệu cá nhân}
 \end{table}
@@ -28,7 +30,8 @@ RabbitMQ & Message Broker & Nhận task \texttt{process\_document\_task} cho Doc
 \subparagraph{Mô tả chi tiết}
 \begin{itemize}
 \item Web Frontend gọi \texttt{POST /code-document-service/documents/upload} với multipart file.
-\item Document Service kiểm tra \texttt{UserSubscription.is\_active=true} và \texttt{period\_end} còn hiệu lực.
-\item File được validate, lưu vào R2 theo đường dẫn \texttt{\{user\_id\}/document/\{doc\_id\}\{ext\}}.
-\item Sau khi upload thành công, service publish \texttt{process\_document\_task(doc\_id)} để xử lý tài liệu trong nền.
+\item Document Service kiểm tra \texttt{UserSubscription.is\_active=true} và \texttt{period\_end >= now} khi môi trường khác \texttt{development}.
+\item File được validate, tính hash/size và tạo bản ghi Document với \texttt{status=UPLOADED}, \texttt{has\_file=false}.
+\item File gốc được upload lên R2 theo đường dẫn \texttt{\{user\_id\}/document/\{doc\_id\}\{ext\}}, sau đó cập nhật \texttt{has\_file=true}.
+\item Service gửi Celery task \texttt{process\_document\_task(doc\_id)} vào \texttt{CELERY\_QUEUE\_NAME} để xử lý tài liệu trong nền.
 \end{itemize}
