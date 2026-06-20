@@ -23,7 +23,7 @@ và cập nhật tên hiển thị thông qua Auth Service (Supabase).
 User & Actor & Người dùng xem và thay đổi thông tin cá nhân. \\ \hline
 Web Frontend & Component & Giao diện web Next.js. \\ \hline %%%% Component & Giao diện Next.js hiển thị và tiếp nhận thông tin cập nhật từ người dùng. \\ \hline
 API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline %%%% Component & Định tuyến yêu cầu REST API tới PostgREST. \\ \hline
-Auth Service (Supabase) & Component & Dịch vụ thực hiện xác thực, truy vấn và cập nhật thông tin hồ sơ trong cơ sở dữ liệu. \\ \hline
+Auth Service (Supabase) & Component & Dịch vụ thực hiện xác thực, truy vấn và cập nhật thông tin hồ sơ trong CSDL. \\ \hline
 \end{tabular}
 \caption{Các thành phần tham gia luồng Xem và Cập nhật Tên hiển thị}
 \end{table}
@@ -32,5 +32,5 @@ Auth Service (Supabase) & Component & Dịch vụ thực hiện xác thực, tru
 
 \begin{itemize}
 \item \textbf{Tải thông tin hiện tại:} Người dùng truy cập trang thông tin cá nhân. Giao diện gửi yêu cầu lấy thông tin chi tiết của người dùng qua cổng API dựa trên mã định danh tài khoản.
-\item \textbf{Cập nhật tên hiển thị:} Người dùng nhập tên hiển thị mới và nhấn lưu. Giao diện gửi yêu cầu cập nhật tên hiển thị mới qua cổng API tới cơ sở dữ liệu để ghi nhận thay đổi.
+\item \textbf{Cập nhật tên hiển thị:} Người dùng nhập tên hiển thị mới và nhấn lưu. Giao diện gửi yêu cầu cập nhật tên hiển thị mới qua cổng API tới CSDL để ghi nhận thay đổi.
 \end{itemize}

@@ -29,7 +29,7 @@ Telegram Alert & External Service & Nhận cảnh báo khi outbox message vượ
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
-\item \textbf{Quét danh sách sự kiện:} Tiến trình định kỳ quét bảng sự kiện chờ gửi trong cơ sở dữ liệu để lấy danh sách các sự kiện giao dịch đang chờ xử lý hoặc đã thất bại nhưng chưa vượt quá số lần thử lại tối đa.
+\item \textbf{Quét danh sách sự kiện:} Tiến trình định kỳ quét bảng sự kiện chờ gửi trong CSDL để lấy danh sách các sự kiện giao dịch đang chờ xử lý hoặc đã thất bại nhưng chưa vượt quá số lần thử lại tối đa.
 \item \textbf{Kiểm tra dữ liệu:} Tiến trình kiểm tra thông tin sự kiện để đảm bảo dữ liệu hợp lệ.
 \item \textbf{Gửi thông điệp sự kiện:} Tiến trình gửi thông điệp sự kiện mua gói thuê bao VIP thành công vào hệ thống truyền tin trung tâm theo mã người dùng dưới định dạng nén dữ liệu.
 \item \textbf{Cập nhật kết quả:} Nếu gửi thành công, tiến trình cập nhật sự kiện sang trạng thái đã hoàn thành. Nếu xảy ra lỗi, hệ thống tăng số lần thử lại và chuyển trạng thái sự kiện thành thất bại; khi vượt quá số lần thử lại tối đa, sự kiện được đưa vào danh sách lỗi nghiêm trọng và gửi cảnh báo về nhóm hỗ trợ hệ thống.
