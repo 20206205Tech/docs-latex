@@ -1,11 +1,12 @@
-\paragraph{Sơ đồ tuần tự Hủy liên kết và thiết lập lại thiết bị MFA}
+\paragraph{Sơ đồ tuần tự luồng Hủy liên kết và thiết lập lại thiết bị MFA}
 
-Luồng nghiệp vụ này mô tả chi tiết quy trình người dùng hủy liên kết thiết bị MFA hiện tại trong trang cá nhân, sau đó thiết lập lại thiết bị xác thực mới thông qua trang \texttt{/auth/mfa} và Supabase Auth Service.
+Luồng nghiệp vụ này mô tả
+chi tiết quy trình người dùng hủy liên kết thiết bị MFA hiện tại trong trang cá nhân, sau đó thiết lập lại thiết bị xác thực mới thông qua trang \texttt{/auth/mfa} và Supabase Auth Service.
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.18]{contents/Sequence/UML-Sequence-UserMfaResetDevice.png}
-\caption{Sơ đồ tuần tự Hủy liên kết và thiết lập lại thiết bị MFA}
+\includegraphics[scale = 0.22]{contents/Sequence/UML-Sequence-UserMfaResetDevice.png}
+\caption{Sơ đồ tuần tự luồng Hủy liên kết và thiết lập lại thiết bị MFA}
 \end{figure}
 
 \subparagraph{Các thành phần tham gia}
@@ -13,24 +14,25 @@ Luồng nghiệp vụ này mô tả chi tiết quy trình người dùng hủy l
 \begin{table}[H]
 \centering
 \renewcommand{\arraystretch}{1.3}
+
 \begin{tabular}{|l|l|p{5cm}|}
 \hline
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
 User & Actor & Người dùng thực hiện thay đổi thiết bị bảo mật. \\ \hline
-Web Frontend & Component & Giao diện web Next.js. \\ \hline %%%% Component & Giao diện quản lý Next.js gọi API xóa factor cũ, tải lại trạng thái MFA và điều hướng người dùng sang trang thiết lập factor mới. \\ \hline
-API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline %%%% Component & Định tuyến các yêu cầu xóa factor (\texttt{DELETE}) và enroll mới. \\ \hline
-Auth Service (Supabase) & Microservice & Dịch vụ Supabase Auth thực hiện hủy đăng ký (unenroll) factor cũ, trả về danh sách factor hiện tại và xử lý enroll factor mới. \\ \hline
-Supabase Database & Database & Xóa thông tin factor cũ và lưu thông tin factor mới. \\ \hline
-Authenticator App & External Service & Ứng dụng di động mới của người dùng thực hiện quét QR và sinh OTP xác thực. \\ \hline
+Web Frontend & Component & Giao diện web Next.js. \\ \hline
+API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline
+Auth Service (Supabase) & Microservice & Dịch vụ thực hiện hủy đăng ký thiết bị cũ và xử lý thiết bị mới. \\ \hline
+Authenticator App & External Service & Ứng dụng di động mới của người dùng thực hiện quét QR và sinh TOTP xác thực. \\ \hline
 \end{tabular}
 \caption{Các thành phần tham gia luồng Hủy liên kết và thiết lập lại thiết bị MFA}
 \end{table}
 
-\subparagraph{Mô tả chi tiết}
+\subparagraph{Mô tả tổng quan}
+
 \begin{itemize}
 \item Để thay đổi thiết bị, User yêu cầu hủy liên kết thiết bị cũ thông qua giao diện Web Frontend trong trang cá nhân. Yêu cầu này chỉ được chấp nhận khi phiên xác thực hiện tại đã đạt cấp độ bảo mật cao nhất (AAL2).
 \item Frontend thực hiện cuộc gọi API \texttt{DELETE /factors/\{factorId\}} qua Kong Gateway gửi tới Auth Service.
-\item Auth Service tiến hành xóa (hoặc đánh dấu đã hủy kích hoạt) factor cũ trong Database và gửi phản hồi thành công về cho Frontend. Frontend tải lại danh sách factor; khi không còn factor đang hoạt động, giao diện hiển thị trạng thái chưa kích hoạt MFA cùng nút \texttt{Kích hoạt ngay}.
+\item Auth Service tiến hành xóa (hoặc đánh dấu đã hủy kích hoạt) factor cũ và gửi phản hồi thành công về cho Frontend. Frontend tải lại danh sách factor; khi không còn factor đang hoạt động, giao diện hiển thị trạng thái chưa kích hoạt MFA cùng nút \texttt{Kích hoạt ngay}.
 \item Khi User chọn \texttt{Kích hoạt ngay}, Frontend điều hướng sang trang \texttt{/auth/mfa} và bắt đầu lại quy trình kích hoạt (Enrollment) cho thiết bị mới: gửi \texttt{POST /factors} để nhận QR Code, Secret Key và Factor ID mới của thiết bị mới.
-\item User quét mã QR bằng ứng dụng Authenticator mới và nhập mã OTP mới. Frontend gửi các yêu cầu Challenge và Verify để hoàn tất xác minh. Khi thành công, Auth Service cập nhật trạng thái factor mới thành \texttt{verified} trong Database, đồng thời cấp lại token AAL2 mới để khôi phục hoàn toàn quyền truy cập.
+\item User quét mã QR bằng ứng dụng Authenticator mới và nhập mã TOTP mới. Frontend gửi các yêu cầu Challenge và Verify để hoàn tất xác minh. Khi thành công, Auth Service cập nhật trạng thái factor mới thành \texttt{verified}, đồng thời cấp lại token AAL2 mới để khôi phục hoàn toàn quyền truy cập.
 \end{itemize}

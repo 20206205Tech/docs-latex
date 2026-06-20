@@ -3,7 +3,6 @@ actor "User" as User
 participant "Web Frontend" as Frontend
 participant "API Gateway\n(Kong)" as Kong
 participant "Auth Service\n(Supabase)" as AuthService
-database "Supabase Database" as DB
 participant "Authenticator App" as AuthApp
 
 == Luồng 3: Hủy liên kết và thiết lập lại thiết bị MFA ==
@@ -17,10 +16,9 @@ activate Kong
 note over Kong: Kong tự động thêm thông tin apikey trong header
 Kong -> AuthService: Yêu cầu hủy đăng ký factor (Unenroll Factor)
 activate AuthService
-AuthService -> DB: Xóa factor cũ / Cập nhật status = deleted
-activate DB
-DB --> AuthService: OK
-deactivate DB
+
+AuthService -> AuthService: Xóa factor cũ\n(Cập nhật status = deleted)
+
 AuthService --> Kong: Xác nhận hủy đăng ký thành công
 deactivate AuthService
 Kong --> Frontend: Xác nhận hủy đăng ký thành công
@@ -44,10 +42,9 @@ activate Kong
 note over Kong: Kong tự động thêm thông tin apikey trong header
 Kong -> AuthService: Yêu cầu enroll factor mới
 activate AuthService
-AuthService -> DB: Tạo factor mới (status = unverified)
-activate DB
-DB --> AuthService: Trả về Factor ID & Secret Key mới
-deactivate DB
+
+AuthService -> AuthService: Tạo factor mới (status = unverified)\nvà sinh Secret Key
+
 AuthService --> Kong: QR Code mới, Secret & Factor ID mới
 deactivate AuthService
 Kong --> Frontend: QR Code mới, Secret & Factor ID mới
@@ -56,10 +53,10 @@ deactivate Kong
 Frontend -> User: Hiển thị QR Code mới & Secret Key mới
 User -> AuthApp: Quét mã QR bằng thiết bị mới
 activate AuthApp
-AuthApp --> User: Sinh mã OTP mới (6 chữ số)
+AuthApp --> User: Sinh mã TOTP mới (6 chữ số)
 deactivate AuthApp
 
-User -> Frontend: Nhập mã OTP mới và nhấn "Xác nhận thiết bị mới"
+User -> Frontend: Nhập mã TOTP mới và nhấn "Xác nhận thiết bị mới"
 Frontend -> Kong: POST /supabase-auth-service/auth/v1/factors/{newFactorId}/challenge
 activate Kong
 note over Kong: Kong tự động thêm thông tin apikey trong header
@@ -73,12 +70,11 @@ deactivate Kong
 Frontend -> Kong: POST /supabase-auth-service/auth/v1/factors/{newFactorId}/verify
 activate Kong
 note over Kong: Kong tự động thêm thông tin apikey trong header
-Kong -> AuthService: Gửi Challenge ID & mã OTP mới
+Kong -> AuthService: Gửi Challenge ID & mã TOTP mới
 activate AuthService
-AuthService -> DB: Cập nhật trạng thái factor mới thành 'verified'
-activate DB
-DB --> AuthService: OK
-deactivate DB
+
+AuthService -> AuthService: Xác thực TOTP và cập nhật\ntrạng thái factor mới thành 'verified'
+
 AuthService --> Kong: Trả về token nâng cấp AAL2 mới (aal = aal2)
 deactivate AuthService
 Kong --> Frontend: Trả về token nâng cấp AAL2 mới

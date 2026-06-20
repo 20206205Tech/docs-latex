@@ -3,7 +3,6 @@ actor "User" as User
 participant "Web Frontend" as Frontend
 participant "API Gateway\n(Kong)" as Kong
 participant "Setting Service\n(Neon API)" as SettingService
-database "Setting Neon Database" as DB
 
 == Luồng 1: Lấy thông tin Cài đặt (Get Settings) ==
 User -> Frontend: Chọn menu cài đặt cá nhân
@@ -11,14 +10,15 @@ activate Frontend
 
 Frontend -> Kong: GET /neon-setting-service \n[Headers: Authorization: Bearer <token>]
 activate Kong
+
 Kong -> SettingService: Chuyển tiếp yêu cầu lấy cài đặt
 activate SettingService
-SettingService -> DB: Truy vấn danh sách cài đặt của User
-activate DB
-DB --> SettingService: Trả về danh sách Key-Value cài đặt
-deactivate DB
+
+SettingService -> SettingService: Truy vấn danh sách cài đặt của User\n(dưới dạng Key-Value)
+
 SettingService --> Kong: Trả về JSON cài đặt (SettingItem[])
 deactivate SettingService
+
 Kong --> Frontend: Trả về JSON cài đặt
 deactivate Kong
 

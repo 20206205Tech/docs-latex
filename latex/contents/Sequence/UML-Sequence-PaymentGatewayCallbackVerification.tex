@@ -1,11 +1,12 @@
-\paragraph{Sơ đồ tuần tự Pha Gateway gửi callback/IPN và Payment Service xác minh giao dịch}
+\paragraph{Sơ đồ tuần tự luồng Pha Gateway gửi callback/IPN và Payment Service xác minh giao dịch}
 
-Pha này mô tả phần đầu của callback/IPN sau khi User thao tác thanh toán trên Payment Gateway. Payment Service nhận callback public, xác minh chữ ký qua Payment Gateway Selector, đối chiếu transaction theo \texttt{txnRef}, kiểm tra số tiền và trạng thái hiện tại. Nếu transaction đang \texttt{pending} và thanh toán thành công, luồng chuyển sang pha 3 để cập nhật transaction, subscription và outbox.
+Luồng nghiệp vụ này mô tả
+phần đầu của callback/IPN sau khi User thao tác thanh toán trên Payment Gateway. Payment Service nhận callback public, xác minh chữ ký qua Payment Gateway Selector, đối chiếu transaction theo \texttt{txnRef}, kiểm tra số tiền và trạng thái hiện tại. Nếu transaction đang \texttt{pending} và thanh toán thành công, luồng chuyển sang pha 3 để cập nhật transaction, subscription và outbox.
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.18]{contents/Sequence/UML-Sequence-PaymentGatewayCallbackVerification.png}
-\caption{Sơ đồ tuần tự Pha Gateway gửi callback/IPN và Payment Service xác minh giao dịch}
+\includegraphics[scale = 0.2]{contents/Sequence/UML-Sequence-PaymentGatewayCallbackVerification.png}
+\caption{Sơ đồ tuần tự luồng Pha Gateway gửi callback/IPN và Payment Service xác minh giao dịch}
 \end{figure}
 
 \subparagraph{Các thành phần tham gia}
@@ -13,6 +14,7 @@ Pha này mô tả phần đầu của callback/IPN sau khi User thao tác thanh 
 \begin{table}[H]
 \centering
 \renewcommand{\arraystretch}{1.3}
+
 \begin{tabular}{|l|l|p{5cm}|}
 \hline
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
@@ -20,16 +22,17 @@ User & Actor & Người dùng thực hiện thao tác thanh toán qua thẻ, ví
 Payment Gateway & External Service & Xử lý thao tác thanh toán và gửi callback/IPN về hệ thống. \\ \hline
 API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline %%%% Component & Định tuyến callback public tới Payment Service qua endpoint của \texttt{code-payment-service}. \\ \hline
 Payment Service & Microservice & Tiếp nhận callback, xác minh IPN, kiểm tra transaction, xử lý nhánh lỗi/thất bại hoặc chuyển tiếp sang pha cập nhật thành công. \\ \hline
-Payment Gateway Selector & Component & Chọn adapter tương ứng với \texttt{provider} để gọi \texttt{verifyIpn}. \\ \hline
+Payment Gateway Selector & Component & Chọn adapter tương ứng. \\ \hline
 Payment DB & Database & Cung cấp transaction cần đối chiếu bằng \texttt{txnRef}. \\ \hline
 \end{tabular}
-\caption{Các thành phần tham gia pha Gateway gửi callback/IPN}
+\caption{Các thành phần tham gia luồng pha Gateway gửi callback/IPN}
 \end{table}
 
-\subparagraph{Mô tả chi tiết}
+\subparagraph{Mô tả tổng quan}
+
 \begin{itemize}
-\item \textbf{Gửi callback/IPN:} Payment Gateway gọi \texttt{GET/POST /code-payment-service/subscriptions/payment-callback/\{provider\}}. Endpoint này là public và nhận dữ liệu qua query hoặc body tùy provider.
-\item \textbf{Xác minh IPN:} Payment Service gọi Payment Gateway Selector để thực hiện \texttt{verifyIpn(requestData, provider)} và nhận kết quả gồm \texttt{isValid}, \texttt{isSuccess}, \texttt{txnRef}, \texttt{amount}, \texttt{providerTransId}, \texttt{message}.
+\item \textbf{Gửi callback/IPN:} Payment Gateway gửi thông tin thông báo thanh toán.
+\item \textbf{Xác minh IPN:} Payment Service gọi Payment Gateway Selector để thực hiện nhận kết.
 \item \textbf{Đối chiếu transaction:} Nếu chữ ký không hợp lệ, không tìm thấy transaction hoặc số tiền không khớp với \texttt{finalAmount}, service trả lỗi theo định dạng provider. Nếu transaction đã \texttt{expired} hoặc không còn \texttt{pending}, service không xử lý lặp.
 \item \textbf{Nhánh thất bại:} Nếu IPN hợp lệ nhưng gateway báo thanh toán thất bại, service gọi \texttt{failPayment} để chuyển transaction sang \texttt{failed}, lưu transaction và trả phản hồi lỗi tương ứng cho provider.
 \item \textbf{Nhánh thành công:} Nếu IPN hợp lệ, transaction còn \texttt{pending} và gateway báo thành công, service lưu metadata thanh toán tạm thời rồi chuyển sang pha 3 để hoàn tất cập nhật transaction, subscription, outbox và domain event.

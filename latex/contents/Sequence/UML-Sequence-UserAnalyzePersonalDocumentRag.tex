@@ -1,11 +1,12 @@
-\paragraph{Sơ đồ tuần tự Luồng Phân tích tài liệu cá nhân bằng reasoning pháp lý}
+\paragraph{Sơ đồ tuần tự luồng Phân tích tài liệu cá nhân bằng reasoning pháp lý}
 
-Luồng này mô tả việc sử dụng tài liệu cá nhân đã upload trong truy vấn pháp lý. Frontend gửi \texttt{file\_ids} và \texttt{use\_reasoning=true} qua SSE stream của Conversation Service. Chatbot Service gọi LangGraph RAG, truy vấn Milvus theo \texttt{doc\_id} và \texttt{user\_id}, kết hợp nguồn luật rồi stream kết quả về frontend.
+Luồng nghiệp vụ này mô tả
+việc sử dụng tài liệu cá nhân đã upload trong truy vấn pháp lý. Frontend gửi \texttt{file\_ids} và \texttt{use\_reasoning=true} qua SSE stream của Conversation Service. Chatbot Service gọi LangGraph RAG, truy vấn Milvus theo \texttt{doc\_id} và \texttt{user\_id}, kết hợp nguồn luật rồi stream kết quả về frontend.
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale = 0.18]{contents/Sequence/UML-Sequence-UserAnalyzePersonalDocumentRag.png}
-\caption{Sơ đồ tuần tự Luồng Phân tích tài liệu cá nhân bằng reasoning pháp lý}
+\caption{Sơ đồ tuần tự luồng Phân tích tài liệu cá nhân bằng reasoning pháp lý}
 \end{figure}
 
 \subparagraph{Các thành phần tham gia}
@@ -29,11 +30,11 @@ Chatbot DB & Database & Lưu human message, AI message, reasoning steps và sour
 \caption{Các thành phần tham gia luồng phân tích tài liệu cá nhân bằng reasoning pháp lý}
 \end{table}
 
-\subparagraph{Mô tả chi tiết}
-\begin{itemize}
-\item User gửi truy vấn kèm \texttt{file\_ids} và \texttt{use\_reasoning=true} qua endpoint \texttt{POST /code-conversation-service/chats/stream}.
-\item Conversation Service chuyển request sang Chatbot Service bằng gRPC \texttt{AskAI} và truyền Bearer Token qua metadata \texttt{authorization}.
-\item RAG truy vấn Milvus bằng biểu thức \texttt{doc\_id in file\_ids} và \texttt{user\_id == current\_user\_id} để lấy đoạn tài liệu cá nhân liên quan.
-\item RAG kết hợp tài liệu cá nhân với nguồn luật, thực hiện rank, kiểm tra hiệu lực và tổng hợp lập luận.
-\item Kết quả stream về frontend gồm \texttt{status\_update}, \texttt{content\_chunk} và \texttt{metadata} chứa \texttt{full\_answer}, \texttt{sources}.
-\end{itemize}
+\subparagraph{Mô tả tổng quan}
+% \begin{itemize}
+% \item User gửi truy vấn kèm \texttt{file\_ids} và \texttt{use\_reasoning=true} qua endpoint \texttt{POST /code-conversation-service/chats/stream}.
+% \item Conversation Service chuyển request sang Chatbot Service bằng gRPC \texttt{AskAI} và truyền Bearer Token qua metadata \texttt{authorization}.
+% \item RAG truy vấn Milvus bằng biểu thức \texttt{doc\_id in file\_ids} và \texttt{user\_id == current\_user\_id} để lấy đoạn tài liệu cá nhân liên quan.
+% \item RAG kết hợp tài liệu cá nhân với nguồn luật, thực hiện rank, kiểm tra hiệu lực và tổng hợp lập luận.
+% \item Kết quả stream về frontend gồm \texttt{status\_update}, \texttt{content\_chunk} và \texttt{metadata} chứa \texttt{full\_answer}, \texttt{sources}.
+% \end{itemize}

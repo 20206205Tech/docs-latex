@@ -4,7 +4,6 @@ participant "Web Frontend" as Frontend
 participant "API Gateway\n(Kong)" as Kong
 participant "Auth Service\n(Supabase)" as AuthService
 participant "Google" as Google
-database "Supabase Database" as DB
 
 == Luồng Đăng nhập / Đăng ký bằng Google (OAuth Redirect Flow) ==
 Guest -> Frontend: Chọn "Đăng nhập bằng Google"
@@ -32,15 +31,13 @@ note over Kong: Kong tự động thêm thông tin apikey trong header
 
 Kong -> AuthService: Chuyển tiếp Auth Code để callback
 activate AuthService
+
 AuthService -> Google: Trao đổi Code lấy Access Token & User Info
 activate Google
 Google --> AuthService: Trả về User Info (Email, Name, Avatar...)
 deactivate Google
 
-AuthService -> DB: Lưu thông tin User mới / Cập nhật login
-activate DB
-DB --> AuthService: OK
-deactivate DB
+AuthService -> AuthService: Lưu thông tin User mới\nhoặc cập nhật phiên đăng nhập
 
 AuthService --> Kong: Redirect về Frontend (/auth/callback) kèm JWT Token
 deactivate AuthService
