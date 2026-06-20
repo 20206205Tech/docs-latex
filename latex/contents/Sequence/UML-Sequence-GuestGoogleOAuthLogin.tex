@@ -31,9 +31,18 @@ Google & External Service & Dịch vụ xác thực bên thứ ba của Google (
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
-\item Guest nhấp chọn Đăng nhập Google trên Frontend. Frontend thực hiện chuyển hướng trình duyệt (Redirect) trực tiếp đến endpoint authorize trên API Gateway (Kong) để chuyển tiếp yêu cầu đến Auth Service.
-\item Auth Service nhận yêu cầu và trả về phản hồi HTTP 302 Redirect trỏ tới trang xác thực Google OAuth. Trình duyệt của Guest tự động chuyển hướng sang Google để người dùng đăng nhập và ủy quyền.
-\item Sau khi xác thực thành công, Google chuyển hướng trình duyệt quay lại địa chỉ Callback của Auth Service thông qua API Gateway (Kong) cùng với mã xác thực (Auth Code).
-\item Auth Service trực tiếp trao đổi Auth Code với Google để nhận thông tin người dùng, lưu/cập nhật dữ liệu vào Database, sinh cặp mã JWT Token, sau đó thực hiện Redirect 302 trình duyệt quay lại địa chỉ Callback của Web Frontend (\texttt{/auth/callback}) chứa Access Token và Refresh Token trong phần URL Hash.
-\item Web Frontend trích xuất các mã token từ URL Hash, lưu trữ cục bộ và chuyển Guest sang \texttt{/auth/mfa} để hoàn tất bước xác thực bổ sung trước khi vào giao diện người dùng chính.
+\item Guest nhấp chọn Đăng nhập Google trên Frontend.
+Frontend thực hiện chuyển hướng trình duyệt (Redirect) trực tiếp đến endpoint authorize
+trên API Gateway (Kong) để chuyển tiếp yêu cầu đến Auth Service.
+\item Auth Service nhận yêu cầu
+và trả về phản hồi HTTP 302 Redirect trỏ tới trang xác thực Google OAuth.
+Trình duyệt của Guest tự động chuyển hướng sang Google để người dùng đăng nhập và ủy quyền.
+\item Sau khi xác thực thành công,
+Google chuyển hướng trình duyệt quay lại địa chỉ Callback của Auth Service thông qua API Gateway (Kong) cùng với mã xác thực (Auth Code).
+\item Auth Service trực tiếp trao đổi Auth Code
+với Google để nhận thông tin người dùng, lưu/cập nhật dữ liệu vào Database, sinh cặp mã JWT Token,
+sau đó thực hiện Redirect 302 trình duyệt quay lại địa chỉ Callback của Web Frontend (\texttt{/auth/callback}) chứa Access Token
+và Refresh Token trong phần URL Hash.
+\item Web Frontend trích xuất các mã token từ URL Hash, lưu trữ cục bộ và chuyển Guest sang \texttt{/auth/mfa}
+để hoàn tất bước xác thực bổ sung trước khi vào giao diện người dùng chính.
 \end{itemize}
