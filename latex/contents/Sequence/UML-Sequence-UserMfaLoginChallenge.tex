@@ -24,7 +24,7 @@ User & Actor & Người dùng thực hiện đăng nhập. \\ \hline
 Web Frontend & Component & Giao diện web Next.js. \\ \hline %%%% Component & Giao diện Next.js điều phối quá trình chặn quyền và chuyển hướng sang trang nhập TOTP. \\ \hline
 API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline %%%% Component & Cổng trung gian chuyển tiếp thông tin đăng nhập và TOTP. \\ \hline
 Auth Service (Supabase) & Microservice & Dịch vụ Supabase Auth kiểm tra và sinh challenge, nâng cấp token AAL1 lên AAL2. \\ \hline
-Authenticator App & External Service & Ứng dụng di động sinh mã TOTP dựa trên TOTP. \\ \hline
+Authenticator App & External App & Ứng dụng sinh mã TOTP. \\ \hline
 \end{tabular}
 \caption{Các thành phần tham gia luồng Bắt buộc xác thực 2FA khi Đăng nhập}
 \end{table}
