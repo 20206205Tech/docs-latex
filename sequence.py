@@ -17,7 +17,7 @@ file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence
 
 file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-UserForgotPasswordRequest.tex"
 file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-UserEmailLinkVerificationRedirect.tex"
-# file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-UserResetChangePassword.tex"
+file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-UserResetChangePassword.tex"
 
 
 # file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-UserGetSettings.tex"
