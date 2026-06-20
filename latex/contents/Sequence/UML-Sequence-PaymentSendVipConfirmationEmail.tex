@@ -5,7 +5,7 @@ Luồng nghiệp vụ này mô tả
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.18]{contents/Sequence/UML-Sequence-PaymentSendVipConfirmationEmail.png}
+\includegraphics[scale = 0.2]{contents/Sequence/UML-Sequence-PaymentSendVipConfirmationEmail.png}
 \caption{Sơ đồ tuần tự luồng Pha local handler gửi email xác nhận thanh toán VIP}
 \end{figure}
 
@@ -14,10 +14,11 @@ Luồng nghiệp vụ này mô tả
 \begin{table}[H]
 \centering
 \renewcommand{\arraystretch}{1.3}
+
 \begin{tabular}{|l|l|p{5cm}|}
 \hline
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
-Event Bus (NestJS CQRS) & Component & Phát \texttt{SubscriptionPurchasedEvent} cho local event handler. \\ \hline
+Event Bus (NestJS CQRS) & Component & Phát sự kiện thanh toán cho local event handler. \\ \hline
 SubscriptionPurchased Event Handler & Component & Lấy dữ liệu cần thiết và điều phối gửi email xác nhận thanh toán. \\ \hline
 Payment DB & Database & Cung cấp transaction metadata, transaction reference và thông tin plan. \\ \hline
 Supabase Profile Service & External Service & Cung cấp \texttt{fullName} của người dùng; email gửi thông báo được lấy từ transaction metadata. \\ \hline
@@ -28,9 +29,10 @@ User & Actor & Nhận email xác nhận giao dịch VIP. \\ \hline
 \end{table}
 
 \subparagraph{Mô tả tổng quan}
+
 \begin{itemize}
 \item \textbf{Nhận domain event:} EventBus gọi \texttt{handle(SubscriptionPurchasedEvent)} sau khi Payment Service publish event nội bộ.
-\item \textbf{Lấy transaction metadata:} Handler tìm transaction theo \texttt{subscriptionId} để lấy \texttt{paymentMetadata.customer\_email} và \texttt{transactionRef}. Nếu không có \texttt{customer\_email}, handler ghi log cảnh báo và bỏ qua gửi email.
+\item \textbf{Lấy transaction metadata:} Handler tìm transaction để lấy thông tin khách hàng thah toán và \texttt{transactionRef}. Nếu không có \texttt{customer\_email}, handler ghi log cảnh báo và bỏ qua gửi email.
 \item \textbf{Lấy thông tin bổ sung:} Handler gọi Supabase Profile Service để lấy \texttt{fullName}; nếu không có tên thì dùng giá trị mặc định. Sau đó handler lấy thông tin Plan để xác định \texttt{planName}.
-\item \textbf{Gửi email:} Handler gọi \texttt{sendPaymentSuccessEmail(customerEmail, customerName, planName, transactionRef)} thông qua Brevo Email Adapter.
+\item \textbf{Gửi email:} Handler gọi Brevo Email Adapter.
 \end{itemize}
