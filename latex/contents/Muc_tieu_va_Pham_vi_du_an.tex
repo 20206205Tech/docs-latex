@@ -1,41 +1,77 @@
 \subsection{Mục tiêu và Phạm vi dự án}
 
 \subsubsection{Mục tiêu tổng quan}
-Mục tiêu tổng quan của dự án là nghiên cứu và xây dựng một hệ thống trợ lý pháp luật thông minh ứng dụng công nghệ Trí tuệ nhân tạo (AI) và Kiến trúc vi dịch vụ (Microservices). Hệ thống nhằm hỗ trợ người dùng và các chuyên gia pháp lý tra cứu, giải đáp các câu hỏi về hệ thống văn bản pháp luật Việt Nam một cách nhanh chóng, chính xác, với các bước lập luận rõ ràng và trích dẫn nguồn văn bản pháp lý chính thống.
+Mục tiêu tổng quan của dự án
+là nghiên cứu và xây dựng
+một hệ thống trợ lý pháp luật
+thông minh ứng dụng công nghệ Trí tuệ nhân tạo (AI)
+và Kiến trúc vi dịch vụ (Microservices).
+Hệ thống nhằm hỗ trợ người dùng
+và các chuyên gia pháp lý tra cứu, giải đáp các câu hỏi
+về hệ thống văn bản pháp luật
+Việt Nam một cách nhanh chóng, chính xác,
+với các bước lập luận rõ ràng và trích dẫn nguồn văn bản pháp lý chính thống.
 
 \subsubsection{Mục tiêu cụ thể}
 
-Để đạt được mục tiêu tổng quan, dự án hướng tới hoàn thành các mục tiêu cụ thể về mặt tính năng và trải nghiệm người dùng như sau:
+Để đạt được mục tiêu tổng quan, dự án hướng tới hoàn thành các mục tiêu cụ thể
+về mặt tính năng và trải nghiệm người dùng như sau:
 
 \begin{itemize}
-\item \textbf{Đảm bảo an toàn thông tin và định danh chuẩn xác}:
-Xây dựng cơ chế quản lý tài khoản linh hoạt, tích hợp các phương thức xác thực đa yếu tố nhằm bảo vệ tối đa dữ liệu và quyền riêng tư của người dùng.
+\item \textbf{Đảm bảo an toàn thông tin và định danh tài khoản}:
+Xây dựng quản lý tài khoản,
+tích hợp các phương thức xác thực đa yếu tố
+nhằm bảo vệ tối đa dữ liệu
+và quyền riêng tư của người dùng.
 
 \item \textbf{Nâng cao tính minh bạch và độ tin cậy trong tư vấn pháp lý}:
-Xử lý các truy vấn pháp lý phức tạp bằng cách không chỉ đưa ra câu trả lời cuối cùng, mà còn phải diễn giải chi tiết quá trình suy luận và cung cấp chính xác các nguồn tài liệu tham khảo.
+Xử lý các truy vấn pháp lý phức tạp
+bằng cách không chỉ đưa ra câu trả lời cuối cùng,
+mà còn phải diễn giải chi tiết quá trình suy luận
+và cung cấp chính xác các nguồn tài liệu tham khảo.
 
-\item \textbf{Tối ưu hóa khả năng tiếp cận và tương tác đa giác quan}:
-Xóa bỏ rào cản nhập liệu truyền thống bằng cách cung cấp trải nghiệm đàm thoại rảnh tay, cho phép người dùng tương tác trực tiếp với hệ thống qua giọng nói tự nhiên.
+\item \textbf{Tối ưu hóa khả năng tiếp cận và tương tác}:
+Xóa bỏ rào cản nhập liệu
+bằng cách cung cấp trải nghiệm đàm thoại rảnh tay,
+cho phép người dùng tương tác trực tiếp với hệ thống qua giọng nói tự nhiên.
 
-\item \textbf{Xây dựng mô hình cung cấp dịch vụ bền vững}:
-Thiết lập hệ thống phân quyền linh hoạt giữa các nhóm người dùng, đi kèm với quy trình thanh toán tự động, liền mạch để quản lý các gói dịch vụ cao cấp.
+\item \textbf{Quy trình thanh toán tự động}:
+
+% đi kèm với q Quy trình thanh toán tự động,
+% liền mạch để quản lý các gói dịch vụ cao cấp.
+
 \end{itemize}
 
 \subsubsection{Phạm vi dự án}
-Dự án tập trung nghiên cứu, thiết kế và phát triển các thành phần cốt lõi trong một hệ thống vi dịch vụ, giới hạn trong các phạm vi sau:
+
+Dự án tập trung nghiên cứu, thiết kế
+và phát triển các thành phần cốt lõi
+trong một hệ thống vi dịch vụ,
+giới hạn trong các phạm vi sau:
 
 \begin{itemize}
+
 \item \textbf{Phân hệ Quản trị người dùng \& Bảo mật}:
-Cài đặt hệ thống xác thực thông qua Supabase Auth, hỗ trợ đăng nhập Email/Mật khẩu, Google OAuth và xác thực hai yếu tố (2FA - TOTP).
+Cài đặt hệ thống xác thực thông qua Supabase Auth,
+hỗ trợ đăng nhập Email/Mật khẩu,
+Google OAuth và xác thực hai yếu tố (2FA - TOTP).
 
 \item \textbf{Phân hệ Thu thập dữ liệu pháp luật}:
-Thiết lập đường ống (Data Pipeline) tự động thu thập và đồng bộ hóa văn bản quy phạm pháp luật chỉ từ hai nguồn chính là \url{https://vbpl.vn} và CSDL Pháp điển (\url{https://phapdien.moj.gov.vn}), có áp dụng thuật toán mã băm để bỏ qua tài liệu trùng lặp.
+Thiết lập đường ống (Data Pipeline)
+tự động thu thập và đồng bộ hóa văn bản quy phạm pháp luật
+từ hai nguồn là \url{https://vbpl.vn}
+và CSDL Pháp điển (\url{https://phapdien.moj.gov.vn}),
+có áp dụng thuật toán mã băm để bỏ qua tài liệu trùng lặp.
 
 \item \textbf{Phân hệ Trợ lý ảo AI \& Quản lý trò chuyện}:
-Phát triển Dịch vụ trò chuyện (NestJS) và Dịch vụ chatbot (Python) giao tiếp qua gRPC và RabbitMQ. Ứng dụng kỹ thuật RAG (Retrieval-Augmented Generation) và LLM để trả lời theo cơ chế streaming, xuất luồng suy luận (reasoning details). Giới hạn các tính năng quản lý ở mức: tạo thư mục, ghi chú, đánh dấu (bookmark) và chia sẻ liên kết trò chuyện.
+Phát triển Dịch vụ trò chuyện (NestJS) và Dịch vụ chatbot (Python) giao tiếp qua gRPC và RabbitMQ.
+Ứng dụng kỹ thuật RAG (Retrieval-Augmented Generation) và LLM để trả lời theo cơ chế streaming, xuất luồng suy luận (reasoning details).
+Giới hạn các tính năng quản lý ở mức: tạo thư mục, ghi chú, đánh dấu (bookmark) và chia sẻ liên kết trò chuyện.
 
-\item \textbf{Phân hệ Xử lý tài liệu cá nhân (Tính năng VIP)}:
-Quản lý xử lý các tài liệu do người dùng tải lên thông qua luồng tác vụ bất đồng bộ (Celery worker). Quy trình bao gồm: tải tệp từ Cloudflare R2, trích xuất cấu trúc và nội dung sang Markdown bằng thư viện \texttt{Docling}, phân đoạn văn bản bằng \texttt{RecursiveCharacterTextSplitter}, tạo vector biểu diễn ngữ nghĩa bằng mô hình \texttt{keepitreal/vietnamese-sbert} và lưu trữ vào cơ sở dữ liệu vector Qdrant để phục vụ truy xuất. Áp dụng cơ chế kiểm tra trùng lặp (Deduplication) để tối ưu hiệu năng hệ thống.
+\item \textbf{Phân hệ Xử lý tài liệu cá nhân}:
+Quản lý xử lý các tài liệu do người dùng tải lên thông qua luồng tác vụ bất đồng bộ (Celery worker).
+Tải tệp từ Cloudflare R2,
+trích xuất cấu trúc và nội dung sang Markdown bằng thư viện \texttt{Docling}, phân đoạn văn bản bằng \texttt{RecursiveCharacterTextSplitter}, tạo vector biểu diễn ngữ nghĩa bằng mô hình \texttt{keepitreal/vietnamese-sbert} và lưu trữ vào cơ sở dữ liệu vector Qdrant để phục vụ truy xuất. Áp dụng cơ chế kiểm tra trùng lặp (Deduplication) để tối ưu hiệu năng hệ thống.
 
 \item \textbf{Phân hệ Giao tiếp bằng Giọng nói (Voice AI)}:
 Tích hợp nền tảng LiveKit để thu phát âm thanh thời gian thực. Ứng dụng các giải pháp Text-to-Speech bao gồm edge-tts, piper-tts và elevenlabs để tổng hợp giọng nói phản hồi.
