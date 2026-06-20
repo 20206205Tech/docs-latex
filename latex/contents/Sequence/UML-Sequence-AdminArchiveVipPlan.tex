@@ -30,7 +30,17 @@ Payment Database & Database & Lưu trữ thông tin chi tiết về các gói th
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
-\item \textbf{Yêu cầu lưu trữ:} Quản trị viên tìm gói thuê bao VIP cần dừng hoạt động trong danh sách quản lý và chọn tính năng lưu trữ.
-\item \textbf{Gửi yêu cầu:} Giao diện gửi yêu cầu vô hiệu hóa gói thuê bao VIP qua cổng API kèm thông tin xác thực. Cổng API tiến hành xác thực tài khoản và phân quyền của quản trị viên trước khi chuyển tiếp yêu cầu.
-\item \textbf{Xử lý vô hiệu hóa:} Dịch vụ thanh toán nhận yêu cầu, cập nhật trạng thái gói thuê bao VIP thành ngừng hoạt động trong cơ sở dữ liệu thay vì xóa hẳn để bảo toàn dữ liệu lịch sử giao dịch. Gói thuê bao VIP này sẽ không còn hiển thị với người dùng thông thường, và hệ thống gửi thông báo thành công về giao diện.
+\item \textbf{Yêu cầu lưu trữ:} Quản trị viên tìm gói thuê bao VIP
+cần dừng hoạt động
+trong danh sách quản lý
+và chọn tính năng lưu trữ.
+\item \textbf{Gửi yêu cầu:}
+Giao diện gửi yêu cầu vô hiệu hóa gói thuê bao VIP qua cổng API kèm thông tin xác thực.
+% Cổng API tiến hành xác thực tài khoản và phân quyền của quản trị viên trước khi chuyển tiếp yêu cầu.
+\item \textbf{Xử lý vô hiệu hóa:} Dịch vụ thanh toán nhận yêu cầu,
+cập nhật trạng thái gói thuê bao VIP
+thành ngừng hoạt động trong cơ sở dữ liệu
+thay vì xóa hẳn để bảo toàn dữ liệu lịch sử giao dịch.
+Gói thuê bao VIP này sẽ không còn hiển thị và được lập lịch tự động xóa sau 30 ngày.
+và hệ thống gửi thông báo thành công về giao diện.
 \end{itemize}
