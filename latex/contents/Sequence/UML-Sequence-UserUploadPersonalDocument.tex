@@ -34,14 +34,19 @@ RabbitMQ & Message Broker & Nhận Celery task. \\ \hline
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
+
 \item \textbf{Yêu cầu tải lên:}
 Người dùng chọn tải lên tài liệu cá nhân. Giao diện gửi yêu cầu tải lên tệp tin qua cổng API tới dịch vụ quản lý tài liệu.
+
 \item \textbf{Kiểm tra gói thuê bao:}
 Dịch vụ tài liệu kiểm tra trạng thái hoạt động và thời hạn của gói thuê bao VIP của người dùng trong hệ thống.
+
 \item \textbf{Tạo bản ghi tài liệu:}
 Tệp tin được kiểm tra tính hợp lệ, tính toán mã băm kiểm tra, kích thước tệp và tạo bản ghi tài liệu mới trong CSDL tài liệu.
+
 \item \textbf{Tải tệp lên kho chứa:}
 Tệp tài liệu gốc được tải lên kho lưu trữ trực tuyến dưới thư mục riêng của người dùng và cập nhật trạng thái tài liệu đã có tệp tin.
+
 \item \textbf{Đăng ký tác vụ nền:}
 Dịch vụ gửi một tác vụ xử lý tài liệu vào hàng đợi công việc để thực hiện phân tích tài liệu trong nền.
 \end{itemize}

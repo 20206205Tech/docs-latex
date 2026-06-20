@@ -32,16 +32,22 @@ R2 Object Storage & External Service & Dịch vụ lưu trữ đối tượng l�
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
+
 \item \textbf{Yêu cầu hủy chia sẻ:}
 Người dùng gửi yêu cầu hủy quyền chia sẻ cuộc trò chuyện thông qua giao diện.
+
 \item \textbf{Cập nhật bản ghi chia sẻ:}
 Dịch vụ trò chuyện thực hiện cập nhật trạng thái liên kết chia sẻ thành ngừng hoạt động, đồng thời ghi nhận sự kiện hủy chia sẻ vào bảng sự kiện chờ gửi trong cùng một giao dịch CSDL để đảm bảo tính nhất quán.
+
 \item \textbf{Phản hồi kết quả:}
 Dịch vụ phản hồi kết quả hủy chia sẻ thành công về giao diện người dùng ngay lập tức để giảm thời gian chờ.
+
 \item \textbf{Gửi thông điệp hủy:}
 Tiến trình chuyển tin nhắn quét bảng sự kiện chờ gửi định kỳ, lấy sự kiện hủy chia sẻ và gửi thông điệp vào hàng đợi tin nhắn.
+
 \item \textbf{Xóa tệp tin chia sẻ:}
 Dịch vụ chatbot nhận thông điệp hủy chia sẻ từ hàng đợi tin nhắn, tiến hành xóa tệp tin lưu trữ cuộc trò chuyện tương ứng trên kho lưu trữ trực tuyến.
+
 \item \textbf{Hoàn tất cập nhật:}
 Dịch vụ chatbot cập nhật trạng thái liên kết chia sẻ trong CSDL chatbot thành đã hủy và gửi xác nhận hoàn thành xử lý.
 \end{itemize}

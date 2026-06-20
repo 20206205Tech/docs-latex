@@ -23,8 +23,8 @@ từ nền tảng ElevenLabs về CSDL của Persona Service.
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
 Admin & Actor & Quản trị viên
 khởi tạo yêu cầu đồng bộ. \\ \hline
-Web Frontend & Component & Giao diện web Next.js. \\ \hline %%%% Component & Giao diện Admin hiển thị nút đồng bộ và danh sách các giọng nói. \\ \hline
-API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline %%%% Component & Định tuyến yêu cầu an toàn tới Persona Service. \\ \hline
+Web Frontend & Component & Giao diện web Next.js. \\ \hline
+API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline
 Persona Service & Microservice & Tiếp nhận yêu cầu, gọi ElevenLabs API bên ngoài và thực hiện ghi dữ liệu. \\ \hline
 ElevenLabs API & External Service & Cổng dịch vụ TTS bên thứ ba cung cấp danh sách giọng nói mẫu. \\ \hline
 Persona Database & Database & Lưu trữ các bản ghi Voice để liên kết với các nhân vật. \\ \hline
@@ -35,13 +35,25 @@ Persona Database & Database & Lưu trữ các bản ghi Voice để liên kết 
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
+
 \item \textbf{Yêu cầu đồng bộ:}
 Quản trị viên
-chọn chức năng đồng bộ giọng nói từ giao diện. Giao diện gửi yêu cầu đồng bộ đến dịch vụ quản lý nhân vật.
+chọn chức năng đồng bộ giọng nói từ giao diện.
+Giao diện gửi yêu cầu đồng bộ đến dịch vụ quản lý nhân vật.
+
 \item \textbf{Gọi dịch vụ bên ngoài:}
-Dịch vụ nhân vật gửi yêu cầu lấy danh sách giọng nói từ nhà cung cấp dịch vụ giọng nói bên ngoài bằng khóa kết nối của hệ thống.
+Dịch vụ nhân vật
+gửi yêu cầu lấy danh sách giọng nói
+từ nhà cung cấp dịch vụ giọng nói bên ngoài ElevenLabs bằng khóa kết nối của hệ thống.
+
 \item \textbf{Xử lý và lưu trữ:}
-Nhà cung cấp phản hồi danh sách các giọng nói có sẵn. Dịch vụ nhân vật lọc theo mã nhà cung cấp, kiểm tra sự tồn tại của từng giọng nói trong CSDL dựa trên mã định danh: nếu chưa có thì thêm mới giọng nói vào CSDL , nếu đã có thì bỏ qua không cập nhật.
+Nhà cung cấp ElevenLabs phản hồi danh sách các giọng nói có sẵn.
+Dịch vụ nhân vật lọc theo mã nhà cung cấp, kiểm tra sự tồn tại của từng giọng nói
+trong CSDL dựa trên mã định danh: nếu chưa có thì thêm mới giọng nói vào CSDL,
+nếu đã có thì bỏ qua không cập nhật.
+
 \item \textbf{Hoàn tất:}
-Dịch vụ nhân vật phản hồi kết quả gồm số lượng giọng nói đã đồng bộ và danh sách mã giọng nói về giao diện để thông báo cho quản trị viên.
+Dịch vụ nhân vật phản hồi kết quả gồm số lượng giọng nói đã đồng bộ
+và danh sách mã giọng nói về giao diện để thông báo cho quản trị viên.
+
 \end{itemize}

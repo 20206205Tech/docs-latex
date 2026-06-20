@@ -1,6 +1,10 @@
 \paragraph{Sơ đồ tuần tự luồng Xử lý tài liệu trong nền}
+
 Luồng nghiệp vụ này mô tả
-phần xử lý bất đồng bộ sau khi Document Service đã gửi Celery task \texttt{process\_document\_task(doc\_id)} vào RabbitMQ. Worker tiêu thụ task, tải file gốc từ R2, trích xuất nội dung, tạo summary, ghi vector chunks vào Milvus và cập nhật trạng thái tài liệu. Trong repo API hiện tại, phần đã thể hiện rõ là hợp đồng gửi task, các cờ trạng thái \texttt{has\_content}, \texttt{has\_summary} và các đường dẫn R2 tương ứng.
+phần xử lý bất đồng bộ sau khi
+Document Service đã gửi Celery task \texttt{process\_document\_task(doc\_id)} vào RabbitMQ.
+Worker nhận công việc, tải file gốc từ R2, trích xuất nội dung, tạo summary,
+ghi vector chunks vào Milvus và cập nhật trạng thái tài liệu.
 
 \begin{figure}[H]
 \centering
@@ -30,14 +34,24 @@ Milvus & Vector Store & Lưu vector chunks theo user và document để truy v�
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
+
 \item \textbf{Nhận nhiệm vụ:}
-Tiến trình xử lý tài liệu nhận nhiệm vụ xử lý một tài liệu cụ thể từ hàng đợi tin nhắn.
+Tiến trình xử lý tài liệu nhận nhiệm vụ xử lý
+một tài liệu cụ thể từ hàng đợi tin nhắn.
+
 \item \textbf{Tải tài liệu:}
-Tiến trình cập nhật trạng thái tài liệu sang đang xử lý và tải tệp tài liệu gốc từ kho lưu trữ trực tuyến.
+Tiến trình cập nhật trạng thái tài liệu sang đang xử lý
+và tải tệp tài liệu gốc từ kho lưu trữ trực tuyến.
+
 \item \textbf{Phân tích và tóm tắt:}
-Tiến trình phân tích nội dung tài liệu và tạo phần tóm tắt, sau đó tải các nội dung này lên kho lưu trữ trực tuyến dưới dạng các thư mục nội dung và tóm tắt riêng biệt.
+Tiến trình phân tích nội dung tài liệu và tạo phần tóm tắt,
+sau đó tải các nội dung này lên kho lưu trữ trực tuyến dưới dạng các thư mục nội dung và tóm tắt riêng biệt.
+
 \item \textbf{Tạo mã nhúng tìm kiếm:}
-Các đoạn nhỏ của tài liệu được chuyển đổi sang dạng vector nhúng và lưu vào CSDL vector cùng thông tin người sở hữu, mã tài liệu và tên tệp tin để phục vụ tìm kiếm.
+Các đoạn nhỏ của tài liệu được chuyển đổi sang dạng vector nhúng
+và lưu vào CSDL vector cùng thông tin người sở hữu, mã tài liệu và tên tệp tin để phục vụ tìm kiếm.
+
 \item \textbf{Hoàn tất xử lý:}
-Khi hoàn tất, trạng thái tài liệu được cập nhật thành đã hoàn thành kèm thông tin xác nhận đã trích xuất nội dung và tóm tắt. Nếu xảy ra lỗi trong quá trình xử lý, trạng thái tài liệu sẽ chuyển sang thất bại.
+Khi hoàn tất, trạng thái tài liệu được cập nhật thành đã hoàn thành kèm thông tin xác nhận đã trích xuất nội dung và tóm tắt.
+Nếu xảy ra lỗi trong quá trình xử lý, trạng thái tài liệu sẽ chuyển sang thất bại.
 \end{itemize}
