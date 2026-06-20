@@ -42,12 +42,12 @@ file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence
 file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-AdminManageVoiceEngine.tex"
 
 
-# file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-UserCreateVipPaymentTransaction.tex"
-# file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-PaymentGatewayCallbackVerification.tex"
-# file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-PaymentSuccessUpdateOutbox.tex"
-# file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-PaymentOutboxRelayKafka.tex"
-# file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-PaymentSendVipConfirmationEmail.tex"
-# file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-UserTransactionHistoryLookup.tex"
+file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-UserCreateVipPaymentTransaction.tex"
+file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-PaymentGatewayCallbackVerification.tex"
+file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-PaymentSuccessUpdateOutbox.tex"
+file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-PaymentOutboxRelayKafka.tex"
+file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-PaymentSendVipConfirmationEmail.tex"
+file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-UserTransactionHistoryLookup.tex"
 
 
 # file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-UserVoiceLiveKitToken.tex"
