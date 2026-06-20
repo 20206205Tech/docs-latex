@@ -24,7 +24,6 @@ Guest & Actor & Khách vãng lai thực hiện đăng nhập hoặc đăng ký t
 Web Frontend & Component & Giao diện web Next.js. \\ \hline %%%% Component & Giao diện ứng dụng tiếp nhận tương tác và hiển thị trạng thái đăng nhập. \\ \hline
 API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline
 Auth Service (Supabase) & Microservice & Dịch vụ xác thực xử lý đăng ký, đăng nhập, giao tiếp Google và cấp phát JWT. \\ \hline
-Supabase Database & Database & Lưu trữ dữ liệu người dùng (bảng users). \\ \hline
 Google & External Service & Dịch vụ xác thực bên thứ ba của Google (OAuth 2.0). \\ \hline
 \end{tabular}
 \caption{Các thành phần tham gia luồng Đăng nhập / Đăng ký bằng Google}
@@ -42,7 +41,7 @@ Trình duyệt của Guest tự động chuyển hướng sang Google để ngư
 \item Sau khi xác thực thành công,
 Google chuyển hướng trình duyệt quay lại địa chỉ Callback của Auth Service thông qua API Gateway (Kong) cùng với mã xác thực (Auth Code).
 \item Auth Service trực tiếp trao đổi Auth Code
-với Google để nhận thông tin người dùng, lưu/cập nhật dữ liệu vào Database, sinh cặp mã JWT Token,
+với Google để nhận thông tin người dùng, tự thực hiện lưu thông tin User mới hoặc cập nhật phiên đăng nhập, sinh cặp mã JWT Token,
 sau đó thực hiện Redirect 302 trình duyệt quay lại địa chỉ Callback của Web Frontend (\texttt{/auth/callback}) chứa Access Token
 và Refresh Token trong phần URL Hash.
 \item Web Frontend trích xuất các mã token từ URL Hash, lưu trữ cục bộ và chuyển Guest sang \texttt{/auth/mfa}
