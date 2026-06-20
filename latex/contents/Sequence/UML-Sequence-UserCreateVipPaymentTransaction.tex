@@ -33,7 +33,7 @@ Payment Gateway & External Service & Cổng thanh toán bên thứ ba sinh Payme
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
-\item \textbf{Yêu cầu nâng cấp:} Người dùng chọn nâng cấp gói thuê bao VIP trên giao diện, giao diện gửi yêu cầu đăng ký mua gói thuê bao VIP qua cổng kết nối kèm theo thông tin xác thực tài khoản, mã gói dịch vụ và địa chỉ chuyển hướng sau khi thanh toán.
+\item \textbf{Yêu cầu nâng cấp:} Người dùng chọn nâng cấp gói thuê bao VIP trên giao diện, giao diện gửi yêu cầu đăng ký mua gói thuê bao VIP qua cổng API kèm theo thông tin xác thực tài khoản, mã gói dịch vụ và địa chỉ chuyển hướng sau khi thanh toán.
 \item \textbf{Kiểm tra gói dịch vụ:} Dịch vụ thanh toán kiểm tra gói dịch vụ còn đang hoạt động hay không, tìm kiếm gói thuê bao VIP hiện tại của người dùng để cập nhật hoặc tạo mới gói thuê bao VIP ở trạng thái chờ thanh toán nếu chưa có.
 \item \textbf{Khởi tạo giao dịch thanh toán:} Dịch vụ thiết lập cổng thanh toán mặc định, tạo một giao dịch thanh toán mới trong cơ sở dữ liệu và đăng ký một tác vụ kiểm tra hết hạn giao dịch sau mười phút vào hàng đợi công việc.
 \item \textbf{Tạo liên kết thanh toán:} Dịch vụ kết nối với cổng thanh toán để tạo liên kết thanh toán. Giao diện tiếp nhận thông tin và nhận trực tiếp liên kết thanh toán để điều hướng người dùng.

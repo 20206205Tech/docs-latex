@@ -30,8 +30,8 @@ Pipeline Database & Database & Cơ sở dữ liệu lưu trữ kết quả thố
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
-\item \textbf{Yêu cầu xem báo cáo:} Quản trị viên truy cập màn hình báo cáo. Giao diện gửi yêu cầu lấy số liệu thống kê về tiến trình xử lý dữ liệu pháp điển qua cổng kết nối.
-\item \textbf{Kiểm tra và định tuyến:} Cổng kết nối xác thực thông tin đăng nhập của quản trị viên và chuyển tiếp yêu cầu đến dịch vụ xử lý dữ liệu pháp điển.
+\item \textbf{Yêu cầu xem báo cáo:} Quản trị viên truy cập màn hình báo cáo. Giao diện gửi yêu cầu lấy số liệu thống kê về tiến trình xử lý dữ liệu pháp điển qua cổng API.
+\item \textbf{Kiểm tra và định tuyến:} Cổng API xác thực thông tin đăng nhập của quản trị viên và chuyển tiếp yêu cầu đến dịch vụ xử lý dữ liệu pháp điển.
 \item \textbf{Thống kê dữ liệu:} Dịch vụ xử lý dữ liệu pháp điển truy vấn cơ sở dữ liệu thống kê để lấy tổng số chủ đề, tổng số đề mục và tổng số nút thư mục trong hệ thống pháp điển, sau đó phản hồi số liệu tổng hợp về giao diện.
 \item \textbf{Lấy danh mục bổ sung:} Giao diện gửi thêm yêu cầu lấy chi tiết danh mục chủ đề và đề mục để hiển thị thông tin trực quan.
 \item \textbf{Biểu diễn thông tin:} Giao diện nhận dữ liệu, tính toán tiến độ hoàn thành và vẽ biểu đồ trực quan giúp quản trị viên dễ dàng theo dõi tiến trình.

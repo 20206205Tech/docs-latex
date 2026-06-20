@@ -30,7 +30,7 @@ Payment DB & Database & Lưu thông tin Transaction của người dùng. \\ \hl
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
-\item \textbf{Yêu cầu xem lịch sử:} Người dùng mở trang lịch sử giao dịch. Giao diện gửi yêu cầu lấy danh sách lịch sử qua cổng kết nối kèm theo các tham số phân trang và mã đăng nhập.
+\item \textbf{Yêu cầu xem lịch sử:} Người dùng mở trang lịch sử giao dịch. Giao diện gửi yêu cầu lấy danh sách lịch sử qua cổng API kèm theo các tham số phân trang và mã đăng nhập.
 \item \textbf{Truy vấn lịch sử giao dịch:} Dịch vụ thanh toán tiếp nhận yêu cầu, truy vấn cơ sở dữ liệu để lấy danh sách các giao dịch thanh toán và tổng số lượng giao dịch của người dùng.
 \item \textbf{Chuyển đổi dữ liệu:} Dịch vụ thanh toán chuyển đổi danh sách các giao dịch sang cấu trúc dữ liệu hiển thị.
 \item \textbf{Hiển thị kết quả:} Dịch vụ thanh toán phản hồi danh sách giao dịch cùng tổng số lượng về giao diện. Giao diện tiếp nhận dữ liệu và hiển thị chi tiết số tiền thanh toán thực tế cùng trạng thái của từng giao dịch lên màn hình lịch sử.
