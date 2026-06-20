@@ -1,7 +1,6 @@
 \paragraph{Sơ đồ tuần tự luồng tra cứu lịch sử giao dịch}
 
 Luồng nghiệp vụ này mô tả
-
 quy trình User tra cứu danh sách giao dịch thanh toán mua gói thuê bao VIP. Web Frontend gọi Payment Service qua API Gateway, backend truy vấn transaction theo \texttt{userId}, trả về \texttt{BaseResponse} chứa \texttt{items} và \texttt{total}, sau đó Frontend bóc \texttt{data} bằng \texttt{apiHelper}.
 
 \begin{figure}[H]

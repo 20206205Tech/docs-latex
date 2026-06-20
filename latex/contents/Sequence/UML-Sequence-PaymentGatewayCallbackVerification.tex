@@ -1,7 +1,6 @@
 \paragraph{Sơ đồ tuần tự luồng Pha Gateway gửi callback/IPN và Payment Service xác minh giao dịch}
 
 Luồng nghiệp vụ này mô tả
-
 phần đầu của callback/IPN sau khi User thao tác thanh toán trên Payment Gateway. Payment Service nhận callback public, xác minh chữ ký qua Payment Gateway Selector, đối chiếu transaction theo \texttt{txnRef}, kiểm tra số tiền và trạng thái hiện tại. Nếu transaction đang \texttt{pending} và thanh toán thành công, luồng chuyển sang pha 3 để cập nhật transaction, subscription và outbox.
 
 \begin{figure}[H]
