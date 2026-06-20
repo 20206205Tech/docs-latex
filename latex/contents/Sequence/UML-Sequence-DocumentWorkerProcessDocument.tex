@@ -1,6 +1,6 @@
 \paragraph{Sơ đồ tuần tự luồng Xử lý tài liệu trong nền}
-
-Luồng này mô tả phần xử lý bất đồng bộ sau khi Document Service đã gửi Celery task \texttt{process\_document\_task(doc\_id)} vào RabbitMQ. Worker tiêu thụ task, tải file gốc từ R2, trích xuất nội dung, tạo summary, ghi vector chunks vào Milvus và cập nhật trạng thái tài liệu. Trong repo API hiện tại, phần đã thể hiện rõ là hợp đồng gửi task, các cờ trạng thái \texttt{has\_content}, \texttt{has\_summary} và các đường dẫn R2 tương ứng.
+Luồng nghiệp vụ này mô tả
+phần xử lý bất đồng bộ sau khi Document Service đã gửi Celery task \texttt{process\_document\_task(doc\_id)} vào RabbitMQ. Worker tiêu thụ task, tải file gốc từ R2, trích xuất nội dung, tạo summary, ghi vector chunks vào Milvus và cập nhật trạng thái tài liệu. Trong repo API hiện tại, phần đã thể hiện rõ là hợp đồng gửi task, các cờ trạng thái \texttt{has\_content}, \texttt{has\_summary} và các đường dẫn R2 tương ứng.
 
 \begin{figure}[H]
 \centering

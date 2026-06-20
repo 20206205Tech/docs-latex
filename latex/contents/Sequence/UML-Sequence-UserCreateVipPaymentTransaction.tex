@@ -1,6 +1,6 @@
 \paragraph{Sơ đồ tuần tự luồng Pha khởi tạo giao dịch mua gói thuê bao VIP}
 
-Pha này mô tả bước User chọn gói thuê bao VIP trên Web Frontend, hệ thống kiểm tra gói dịch vụ, chuẩn bị Subscription, tạo Transaction ở trạng thái \texttt{pending}, đăng ký job timeout trên Redis BullMQ, sau đó gọi Payment Gateway để sinh đường link thanh toán.
+Luồng nghiệp vụ này mô tả bước User chọn gói thuê bao VIP trên Web Frontend, hệ thống kiểm tra gói dịch vụ, chuẩn bị Subscription, tạo Transaction ở trạng thái \texttt{pending}, đăng ký job timeout trên Redis BullMQ, sau đó gọi Payment Gateway để sinh đường link thanh toán.
 
 \begin{figure}[H]
 \centering

@@ -1,6 +1,6 @@
 \paragraph{Sơ đồ tuần tự luồng Pha Outbox Relay publish sự kiện mua VIP lên Kafka}
 
-Pha này mô tả \texttt{OutboxRelayCron} của Payment Service đọc các bản ghi Outbox chưa xử lý, kiểm tra payload của \texttt{SubscriptionPurchasedEvent}, publish sự kiện mua gói VIP lên Kafka thông qua \texttt{MessageBrokerPort}, rồi cập nhật trạng thái Outbox.
+Luồng nghiệp vụ này mô tả \texttt{OutboxRelayCron} của Payment Service đọc các bản ghi Outbox chưa xử lý, kiểm tra payload của \texttt{SubscriptionPurchasedEvent}, publish sự kiện mua gói VIP lên Kafka thông qua \texttt{MessageBrokerPort}, rồi cập nhật trạng thái Outbox.
 
 \begin{figure}[H]
 \centering
