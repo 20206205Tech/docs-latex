@@ -56,10 +56,10 @@ deactivate Kong
 Frontend -> User: Hiển thị QR Code mới & Secret Key mới
 User -> AuthApp: Quét mã QR bằng thiết bị mới
 activate AuthApp
-AuthApp --> User: Sinh mã OTP mới (6 chữ số)
+AuthApp --> User: Sinh mã TOTP mới (6 chữ số)
 deactivate AuthApp
 
-User -> Frontend: Nhập mã OTP mới và nhấn "Xác nhận thiết bị mới"
+User -> Frontend: Nhập mã TOTP mới và nhấn "Xác nhận thiết bị mới"
 Frontend -> Kong: POST /supabase-auth-service/auth/v1/factors/{newFactorId}/challenge
 activate Kong
 note over Kong: Kong tự động thêm thông tin apikey trong header
@@ -73,7 +73,7 @@ deactivate Kong
 Frontend -> Kong: POST /supabase-auth-service/auth/v1/factors/{newFactorId}/verify
 activate Kong
 note over Kong: Kong tự động thêm thông tin apikey trong header
-Kong -> AuthService: Gửi Challenge ID & mã OTP mới
+Kong -> AuthService: Gửi Challenge ID & mã TOTP mới
 activate AuthService
 AuthService -> DB: Cập nhật trạng thái factor mới thành 'verified'
 activate DB

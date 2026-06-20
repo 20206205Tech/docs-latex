@@ -17,11 +17,11 @@ Luồng nghiệp vụ này mô tả chi tiết quá trình người dùng thiế
 \hline
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
 User & Actor & Người dùng thực hiện kích hoạt xác thực 2 lớp. \\ \hline
-Web Frontend & Component & Giao diện web Next.js. \\ \hline %%%% Component & Giao diện Next.js hiển thị mã QR và tiếp nhận mã xác nhận OTP. \\ \hline
+Web Frontend & Component & Giao diện web Next.js. \\ \hline
 API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline
 Auth Service (Supabase) & Microservice & Dịch vụ xác thực sinh mã bí mật và xác minh TOTP. \\ \hline
 Supabase Database & Database & Lưu trữ thông tin thiết lập xác thực đa yếu tố của User ở trạng thái unverified/verified. \\ \hline
-Authenticator App & External Service & Ứng dụng di động (Google Authenticator...) quét QR sinh mã OTP. \\ \hline
+Authenticator App & External Service & Ứng dụng di động (Google Authenticator...) quét QR sinh mã TOTP. \\ \hline
 \end{tabular}
 \caption{Các thành phần tham gia luồng Kích hoạt xác thực 2 lớp}
 \end{table}
@@ -29,7 +29,7 @@ Authenticator App & External Service & Ứng dụng di động (Google Authentic
 \subparagraph{Mô tả tổng quan}
 \begin{itemize}
 \item User chọn kích hoạt 2FA. Frontend gọi API \texttt{POST /factors} qua Gateway (Kong) để Auth Service sinh thông tin bí mật và trả về mã QR Code.
-\item User quét mã QR bằng Authenticator App để cấu hình đồng bộ. Ứng dụng này sẽ sinh mã OTP cập nhật liên tục mỗi 30 giây.
-\item User nhập OTP thử nghiệm. Frontend gửi yêu cầu qua Gateway để tạo mã thách thức (\texttt{POST /factors/\{id\}/challenge}) và gửi mã OTP kèm mã thách thức để xác thực kích hoạt (\texttt{POST /factors/\{id\}/verify}).
-\item Nếu mã OTP chính xác, Auth Service lưu cấu hình và kích hoạt trạng thái \texttt{verified} trong Database, đồng thời cấp lại Access Token mới nâng cấp mức độ bảo mật.
+\item User quét mã QR bằng Authenticator App để cấu hình đồng bộ. Ứng dụng này sẽ sinh mã TOTP cập nhật liên tục mỗi 30 giây.
+\item User nhập TOTP thử nghiệm. Frontend gửi yêu cầu qua Gateway để tạo mã thách thức (\texttt{POST /factors/\{id\}/challenge}) và gửi mã TOTP kèm mã thách thức để xác thực kích hoạt (\texttt{POST /factors/\{id\}/verify}).
+\item Nếu mã TOTP chính xác, Auth Service lưu cấu hình và kích hoạt trạng thái \texttt{verified} trong Database, đồng thời cấp lại Access Token mới nâng cấp mức độ bảo mật.
 \end{itemize}

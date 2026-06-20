@@ -145,7 +145,7 @@ Trong đó:
 \begin{itemize}
 \item $T$ là thời gian hiện tại
 \item $T_0$ là thời gian đầu tiên
-\item $T_X$ là thời gian của OTP (mặc định là 30 giây)
+\item $T_X$ là chu kỳ của mã TOTP (mặc định là 30 giây)
 \end{itemize}
 
 Sau khi thực hiện xong thuật toán TOTP, lần đầu tiên máy chủ cần trao đổi khóa bí mật với người dùng. Vì hiện nay điện thoại thông minh đều được trang bị camera, máy chủ có thể chuyển đổi khóa bí mật thành mã QR và yêu cầu người dùng phần mềm Authenticator quét mã QR để lấy khóa bí mật.
@@ -157,7 +157,7 @@ Sau khi thực hiện xong thuật toán TOTP, lần đầu tiên máy chủ c�
 \label{fig:why-totp}
 \end{figure}
 
-Tóm lại, TOTP sử dụng khóa bí mật có thể hiển thị dưới dạng mã QR cho người dùng. Từ đó, máy chủ và phần mềm Authenticator đều có thể tính được giá trị của OTP theo thuật toán. Cuối cùng, khi cần xác thực OTP thì người dùng nhập giá trị OTP của phần mềm Authenticator để máy chủ tiến hành so sánh.
+Tóm lại, TOTP sử dụng khóa bí mật có thể hiển thị dưới dạng mã QR cho người dùng. Từ đó, máy chủ và phần mềm Authenticator đều có thể tính được giá trị của mã TOTP theo thuật toán. Cuối cùng, khi cần xác thực thì người dùng nhập giá trị TOTP hiển thị trên phần mềm Authenticator để máy chủ tiến hành so sánh.
 
 \begin{figure}[H]
 \centering
@@ -187,7 +187,7 @@ Trang tài liệu này hướng dẫn cách triển khai tính năng Xác thực
 \begin{enumerate}
 \item Trích xuất danh sách các yếu tố MFA đã được người dùng đăng ký để lấy \texttt{factorId}.
 \item Khi đã có \texttt{factorId}, ứng dụng tiếp tục gọi \texttt{challenge()} để mở phiên thử thách.
-\item Dùng \texttt{verify()} cùng với mã OTP người dùng nhập vào để hoàn tất đăng nhập và nâng cấp phiên làm việc lên \texttt{aal2}.
+\item Dùng \texttt{verify()} cùng với mã TOTP người dùng nhập vào để hoàn tất đăng nhập và nâng cấp phiên làm việc lên \texttt{aal2}.
 \end{enumerate}
 
 \begin{figure}[H]

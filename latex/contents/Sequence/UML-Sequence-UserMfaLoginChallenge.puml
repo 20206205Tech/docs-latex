@@ -23,14 +23,14 @@ deactivate AuthService
 Kong --> Frontend: Trả về token với cấp độ AAL1
 deactivate Kong
 
-Frontend -> Frontend: Phát hiện AAL1, chuyển hướng sang trang nhập OTP (/auth/mfa)
-Frontend -> User: Hiển thị giao diện nhập mã OTP
-User -> AuthApp: Lấy mã OTP mới
+Frontend -> Frontend: Phát hiện AAL1, chuyển hướng sang trang nhập TOTP (/auth/mfa)
+Frontend -> User: Hiển thị giao diện nhập mã TOTP
+User -> AuthApp: Lấy mã TOTP mới
 activate AuthApp
-AuthApp --> User: Sinh mã OTP mới (6 chữ số)
+AuthApp --> User: Sinh mã TOTP mới (6 chữ số)
 deactivate AuthApp
 
-User -> Frontend: Nhập mã OTP
+User -> Frontend: Nhập mã TOTP
 Frontend -> Kong: POST /supabase-auth-service/auth/v1/factors/{factorId}/challenge
 activate Kong
 note over Kong: Kong tự động thêm thông tin apikey trong header
@@ -41,12 +41,12 @@ deactivate AuthService
 Kong --> Frontend: Challenge ID
 deactivate Kong
 
-Frontend -> Kong: POST /supabase-auth-service/auth/v1/factors/{factorId}/verify (Challenge ID, OTP)
+Frontend -> Kong: POST /supabase-auth-service/auth/v1/factors/{factorId}/verify (Challenge ID, TOTP)
 activate Kong
 note over Kong: Kong tự động thêm thông tin apikey trong header
-Kong -> AuthService: Kiểm tra Challenge & mã OTP
+Kong -> AuthService: Kiểm tra Challenge & mã TOTP
 activate AuthService
-AuthService -> DB: Xác minh mã OTP hợp lệ
+AuthService -> DB: Xác minh mã TOTP hợp lệ
 activate DB
 DB --> AuthService: Hợp lệ
 deactivate DB
