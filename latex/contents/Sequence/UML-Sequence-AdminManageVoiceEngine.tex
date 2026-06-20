@@ -1,7 +1,8 @@
 \paragraph{Sơ đồ tuần tự luồng Quản lý Engine giọng nói}
 
 Luồng nghiệp vụ này mô tả
-quy trình Quản trị viên (Admin) tạo mới hoặc cập nhật Engine giọng nói trong Persona Service. Theo code hiện tại, Engine là cấu hình nội bộ gồm \texttt{code}, \texttt{name} và \texttt{is\_active}; bước đồng bộ dữ liệu ElevenLabs được mô tả riêng ở luồng đồng bộ Voices. Không phải mọi Engine hoặc Voice đều thuộc ElevenLabs; hệ thống chỉ gọi ElevenLabs khi Admin thực hiện đồng bộ hoặc khi nhân vật sử dụng Voice thuộc Engine ElevenLabs.
+quy trình Quản trị viên (Admin)
+tạo mới hoặc cập nhật Engine giọng nói trong Persona Service.
 
 \begin{figure}[H]
 \centering
@@ -31,9 +32,9 @@ Persona Database & Database & Lưu trữ thông tin Engine gồm \texttt{code}, 
 
 \begin{itemize}
 \item \textbf{Nhập cấu hình:}
-Quản trị viên nhập thông tin cấu hình của công cụ chuyển đổi giọng nói bao gồm mã công cụ, tên hiển thị và trạng thái hoạt động trên giao diện quản trị.
+Quản trị viên nhập thông tin cấu hình của công cụ chuyển đổi giọng nói trên giao diện quản trị.
 \item \textbf{Gửi yêu cầu lưu:}
-Giao diện gửi yêu cầu tạo mới hoặc cập nhật cấu hình công cụ giọng nói qua cổng API kèm theo mã xác thực.
+Giao diện gửi yêu cầu tạo mới hoặc cập nhật cấu hình công cụ giọng nói qua cổng API.
 \item \textbf{Lưu cấu hình:}
 Dịch vụ nhân vật thực hiện lưu trữ hoặc cập nhật thông tin của công cụ giọng nói vào CSDL nhân vật.
 \item \textbf{Hoàn tất:}
