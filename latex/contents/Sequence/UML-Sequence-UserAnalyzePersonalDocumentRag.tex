@@ -31,10 +31,10 @@ Chatbot DB & Database & Lưu human message, AI message, reasoning steps và sour
 \end{table}
 
 \subparagraph{Mô tả tổng quan}
-\begin{itemize}
-\item User gửi truy vấn kèm \texttt{file\_ids} và \texttt{use\_reasoning=true} qua endpoint \texttt{POST /code-conversation-service/chats/stream}.
-\item Conversation Service chuyển request sang Chatbot Service bằng gRPC \texttt{AskAI} và truyền Bearer Token qua metadata \texttt{authorization}.
-\item RAG truy vấn Milvus bằng biểu thức \texttt{doc\_id in file\_ids} và \texttt{user\_id == current\_user\_id} để lấy đoạn tài liệu cá nhân liên quan.
-\item RAG kết hợp tài liệu cá nhân với nguồn luật, thực hiện rank, kiểm tra hiệu lực và tổng hợp lập luận.
-\item Kết quả stream về frontend gồm \texttt{status\_update}, \texttt{content\_chunk} và \texttt{metadata} chứa \texttt{full\_answer}, \texttt{sources}.
-\end{itemize}
+% \begin{itemize}
+% \item User gửi truy vấn kèm \texttt{file\_ids} và \texttt{use\_reasoning=true} qua endpoint \texttt{POST /code-conversation-service/chats/stream}.
+% \item Conversation Service chuyển request sang Chatbot Service bằng gRPC \texttt{AskAI} và truyền Bearer Token qua metadata \texttt{authorization}.
+% \item RAG truy vấn Milvus bằng biểu thức \texttt{doc\_id in file\_ids} và \texttt{user\_id == current\_user\_id} để lấy đoạn tài liệu cá nhân liên quan.
+% \item RAG kết hợp tài liệu cá nhân với nguồn luật, thực hiện rank, kiểm tra hiệu lực và tổng hợp lập luận.
+% \item Kết quả stream về frontend gồm \texttt{status\_update}, \texttt{content\_chunk} và \texttt{metadata} chứa \texttt{full\_answer}, \texttt{sources}.
+% \end{itemize}

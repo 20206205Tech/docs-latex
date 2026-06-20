@@ -18,7 +18,7 @@ phần xử lý bất đồng bộ sau khi Document Service đã gửi Celery ta
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
 RabbitMQ & Message Broker & Phân phối Celery task xử lý tài liệu cho worker. \\ \hline
 Document Worker & Background Worker & Xử lý file, cập nhật trạng thái và ghi dữ liệu phục vụ RAG. \\ \hline
-Document Database & Database & Lưu metadata, \texttt{status}, \texttt{has\_content} và \texttt{has\_summary}. \\ \hline
+Document Database & Database & Lưu thông tin xử lý tài liệu. \\ \hline
 Cloudflare R2 & Object Storage & Lưu file gốc, parsed content và summary. \\ \hline
 Text Extractor / Summarizer & Processing Component & Trích xuất text, chia chunk và tạo summary. \\ \hline
 Milvus & Vector Store & Lưu vector chunks theo user và document để truy vấn về sau. \\ \hline
@@ -29,7 +29,7 @@ Milvus & Vector Store & Lưu vector chunks theo user và document để truy v�
 \subparagraph{Mô tả tổng quan}
 \begin{itemize}
 \item Worker consume \texttt{process\_document\_task(doc\_id)} từ RabbitMQ/Celery.
-\item Worker chuyển trạng thái tài liệu sang \texttt{PROCESSING}, tải file gốc từ R2 theo khóa \texttt{\{user\_id\}/document/\{doc\_id\}\{ext\}}.
+\item Worker chuyển trạng thái tài liệu sang \texttt{PROCESSING}, tải file gốc từ R2.
 \item Nội dung đã parse và summary được upload lại lên R2 theo \texttt{\{user\_id\}/content/\{doc\_id\}} và \texttt{\{user\_id\}/summary/\{doc\_id\}}.
 \item Các chunk được embedding và upsert vào Milvus kèm metadata \texttt{user\_id}, \texttt{doc\_id}, \texttt{filename}.
 \item Khi hoàn tất, Document được cập nhật \texttt{COMPLETED}, \texttt{has\_content=true}, \texttt{has\_summary=true}; nếu lỗi thì cập nhật \texttt{FAILED}.
