@@ -67,6 +67,7 @@ def process_latex_file(path):
         content = content.replace("\n\\begin", "\n" * 10 + "\n\\begin")
         content = content.replace("\n\\paragraph", "\n" * 10 + "\n\\paragraph")
         content = content.replace("\n\\subparagraph", "\n" * 10 + "\n\\subparagraph")
+        content = content.replace("scale = 0.18", "scale = 0.2")
 
         # Ghi lại nội dung đã thay thế vào file
         with open(path, "w", encoding="utf-8") as file:
