@@ -1,11 +1,13 @@
 \paragraph{Sơ đồ tuần tự luồng Lấy thông tin Cài đặt}
 
 Luồng nghiệp vụ này mô tả
-quy trình Web Frontend truy vấn danh sách cài đặt cá nhân của người dùng từ Setting Service (Neon API) thông qua API Gateway.
+quy trình Web Frontend
+truy vấn danh sách cài đặt cá nhân của người dùng
+từ Setting Service (Neon API) thông qua API Gateway.
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.18]{contents/Sequence/UML-Sequence-UserGetSettings.png}
+\includegraphics[scale = 0.2]{contents/Sequence/UML-Sequence-UserGetSettings.png}
 \caption{Sơ đồ tuần tự luồng Lấy thông tin Cài đặt}
 \end{figure}
 
@@ -14,20 +16,21 @@ quy trình Web Frontend truy vấn danh sách cài đặt cá nhân của ngư�
 \begin{table}[H]
 \centering
 \renewcommand{\arraystretch}{1.3}
+
 \begin{tabular}{|l|l|p{5cm}|}
 \hline
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
 User & Actor & Người dùng thực hiện xem cấu hình cài đặt. \\ \hline
 Web Frontend & Component & Giao diện web Next.js. \\ \hline %%%% Component & Giao diện Next.js hiển thị trạng thái các tùy chọn cấu hình. \\ \hline
 API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline %%%% Component & Định tuyến yêu cầu lấy cấu hình cài đặt. \\ \hline
-Setting Service (Neon API) & Microservice & Dịch vụ quản lý các cấu hình cài đặt của người dùng. \\ \hline
-Setting Neon Database & Database & Cơ sở dữ liệu Neon lưu trữ các bản ghi cài đặt dưới dạng Key-Value. \\ \hline
+Setting Service (Neon API) & Microservice & Dịch vụ quản lý và truy vấn các cấu hình cài đặt của người dùng. \\ \hline
 \end{tabular}
 \caption{Các thành phần tham gia luồng Lấy thông tin Cài đặt}
 \end{table}
 
 \subparagraph{Mô tả tổng quan}
+
 \begin{itemize}
 \item Người dùng chọn trang cài đặt. Frontend thực hiện gửi yêu cầu \texttt{GET /neon-setting-service} qua Kong Gateway tới Setting Service (Neon API) (kèm Access Token).
-\item Setting Service (Neon API) truy vấn dữ liệu cài đặt từ Setting Neon Database, sau đó trả về danh sách Key-Value (SettingItem) cho Frontend hiển thị.
+\item Setting Service (Neon API) tự truy vấn danh sách cài đặt của người dùng (dưới dạng Key-Value) và trả về dữ liệu cấu hình cho Frontend hiển thị.
 \end{itemize}
