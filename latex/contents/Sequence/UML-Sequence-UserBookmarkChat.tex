@@ -18,7 +18,7 @@ Luồng nghiệp vụ này mô tả quy trình người dùng thực hiện đá
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
 User & Actor & Người dùng chọn cuộc trò chuyện cần lưu trữ và ghi chú thêm. \\ \hline
 Web Frontend & Component & Giao diện web Next.js. \\ \hline %%%% Component & Giao diện Next.js hiển thị form chọn thư mục, nhập ghi chú và thực hiện gọi các API tương ứng. \\ \hline
-API Gateway (Kong) & Component & Định tuyến các yêu cầu GET, POST và PUT giữa Frontend và dịch vụ backend. \\ \hline
+API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline %%%% Component & Định tuyến các yêu cầu GET, POST và PUT giữa Frontend và dịch vụ backend. \\ \hline
 Conversation Service & Microservice & Tiếp nhận yêu cầu lấy danh sách thư mục, tạo thư mục mới và liên kết cuộc trò chuyện vào thư mục bookmark. \\ \hline
 Conversation Database & Database & Lưu trữ các thư mục bookmark (BookmarkFolder) và các bản ghi liên kết bookmark (Bookmark) của người dùng. \\ \hline
 \end{tabular}

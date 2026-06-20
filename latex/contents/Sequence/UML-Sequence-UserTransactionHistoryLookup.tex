@@ -18,7 +18,7 @@ Luồng nghiệp vụ này mô tả quy trình User tra cứu danh sách giao d�
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
 User & Actor & Người dùng yêu cầu tra cứu lịch sử giao dịch cá nhân. \\ \hline
 Web Frontend & Component & Giao diện web Next.js. \\ \hline %%%% Component & Gọi \texttt{paymentService.getTransactionHistory}, bóc dữ liệu trả về và hiển thị bảng lịch sử. \\ \hline
-API Gateway (Kong) & Component & Xác thực token người dùng và định tuyến yêu cầu tới Payment Service. \\ \hline
+API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline %%%% Component & Xác thực token người dùng và định tuyến yêu cầu tới Payment Service. \\ \hline
 Payment Service & Microservice & Tiếp nhận query, lấy danh sách transaction và tổng số bản ghi theo \texttt{userId}. \\ \hline
 Payment DB & Database & Lưu thông tin Transaction của người dùng. \\ \hline
 \end{tabular}
