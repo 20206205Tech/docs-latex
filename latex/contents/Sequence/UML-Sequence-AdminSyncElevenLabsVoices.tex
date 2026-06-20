@@ -1,8 +1,10 @@
 \paragraph{Sơ đồ tuần tự luồng Thiết lập và đồng bộ giọng nói từ ElevenLabs}
 
 Luồng nghiệp vụ này mô tả
-cách thức Quản trị viên (Admin)
-kích hoạt quá trình đồng bộ các mẫu giọng nói (Voices) từ nền tảng ElevenLabs về CSDL của Persona Service để sử dụng cho tính năng Voice Agent.
+cách thức Quản trị viên
+(Admin)
+kích hoạt quá trình đồng bộ các mẫu giọng nói (Voices)
+từ nền tảng ElevenLabs về CSDL của Persona Service.
 
 \begin{figure}[H]
 \centering
@@ -19,7 +21,8 @@ kích hoạt quá trình đồng bộ các mẫu giọng nói (Voices) từ nề
 \begin{tabular}{|l|l|p{5cm}|}
 \hline
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
-Admin & Actor & Quản trị viên khởi tạo yêu cầu đồng bộ. \\ \hline
+Admin & Actor & Quản trị viên
+khởi tạo yêu cầu đồng bộ. \\ \hline
 Web Frontend & Component & Giao diện web Next.js. \\ \hline %%%% Component & Giao diện Admin hiển thị nút đồng bộ và danh sách các giọng nói. \\ \hline
 API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline %%%% Component & Định tuyến yêu cầu an toàn tới Persona Service. \\ \hline
 Persona Service & Microservice & Tiếp nhận yêu cầu, gọi ElevenLabs API bên ngoài và thực hiện ghi dữ liệu. \\ \hline
@@ -33,7 +36,8 @@ Persona Database & Database & Lưu trữ các bản ghi Voice để liên kết 
 
 \begin{itemize}
 \item \textbf{Yêu cầu đồng bộ:}
-Quản trị viên chọn chức năng đồng bộ giọng nói từ giao diện. Giao diện gửi yêu cầu đồng bộ đến dịch vụ quản lý nhân vật.
+Quản trị viên
+chọn chức năng đồng bộ giọng nói từ giao diện. Giao diện gửi yêu cầu đồng bộ đến dịch vụ quản lý nhân vật.
 \item \textbf{Gọi dịch vụ bên ngoài:}
 Dịch vụ nhân vật gửi yêu cầu lấy danh sách giọng nói từ nhà cung cấp dịch vụ giọng nói bên ngoài bằng khóa kết nối của hệ thống.
 \item \textbf{Xử lý và lưu trữ:}

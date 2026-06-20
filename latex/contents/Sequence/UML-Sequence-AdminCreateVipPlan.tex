@@ -1,7 +1,8 @@
 \paragraph{Sơ đồ tuần tự luồng Tạo mới gói thuê bao VIP}
 
 Luồng nghiệp vụ này mô tả
-quy trình Quản trị viên (Admin)
+quy trình Quản trị viên
+(Admin)
 thực hiện tạo mới một gói thuê bao VIP (Plan)
 trong hệ thống.
 
@@ -20,7 +21,8 @@ trong hệ thống.
 \begin{tabular}{|l|l|p{5cm}|}
 \hline
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
-Admin & Actor & Quản trị viên thực hiện quản lý danh mục gói thuê bao VIP. \\ \hline
+Admin & Actor & Quản trị viên
+thực hiện quản lý danh mục gói thuê bao VIP. \\ \hline
 Web Frontend & Component & Giao diện web Next.js. \\ \hline %%%% Component & Giao diện Admin hiển thị form tạo mới gói thuê bao VIP. \\ \hline
 API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline %%%% Component & Định tuyến yêu cầu an toàn đến Payment Service và kiểm tra quyền Admin. \\ \hline
 Payment Service & Microservice & Tiếp nhận yêu cầu, xử lý và tạo gói thuê bao VIP. \\ \hline
@@ -33,7 +35,8 @@ Payment Database & Database & Lưu trữ thông tin chi tiết về các gói th
 
 \begin{itemize}
 \item \textbf{Yêu cầu tạo mới:}
-Quản trị viên điền thông tin gói thuê bao VIP
+Quản trị viên
+điền thông tin gói thuê bao VIP
 mới.
 \item \textbf{Gửi yêu cầu:}
 Giao diện gửi yêu cầu tạo gói thuê bao VIP mới
