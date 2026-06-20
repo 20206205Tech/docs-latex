@@ -6,7 +6,7 @@ chi tiết quy trình người dùng hủy liên kết thiết bị MFA hiện t
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.18]{contents/Sequence/UML-Sequence-UserMfaResetDevice.png}
+\includegraphics[scale = 0.2]{contents/Sequence/UML-Sequence-UserMfaResetDevice.png}
 \caption{Sơ đồ tuần tự luồng Hủy liên kết và thiết lập lại thiết bị MFA}
 \end{figure}
 
@@ -15,6 +15,7 @@ chi tiết quy trình người dùng hủy liên kết thiết bị MFA hiện t
 \begin{table}[H]
 \centering
 \renewcommand{\arraystretch}{1.3}
+
 \begin{tabular}{|l|l|p{5cm}|}
 \hline
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
@@ -29,6 +30,7 @@ Authenticator App & External Service & Ứng dụng di động mới của ngư�
 \end{table}
 
 \subparagraph{Mô tả tổng quan}
+
 \begin{itemize}
 \item Để thay đổi thiết bị, User yêu cầu hủy liên kết thiết bị cũ thông qua giao diện Web Frontend trong trang cá nhân. Yêu cầu này chỉ được chấp nhận khi phiên xác thực hiện tại đã đạt cấp độ bảo mật cao nhất (AAL2).
 \item Frontend thực hiện cuộc gọi API \texttt{DELETE /factors/\{factorId\}} qua Kong Gateway gửi tới Auth Service.
