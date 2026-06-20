@@ -34,9 +34,14 @@ Auth Service (Supabase) & Microservice & Dịch vụ xác thực cập nhật tr
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
-\item \textbf{Nhấp liên kết xác thực:} Khách vãng lai mở thư cá nhân và nhấn vào đường dẫn xác thực được gửi từ hệ thống.
-\item \textbf{Chuyển tiếp yêu cầu:} Cổng API chuyển tiếp yêu cầu xác thực tài khoản tới dịch vụ chứng thực.
-\item \textbf{Kích hoạt tài khoản:} Dịch vụ chứng thực kiểm tra tính hợp lệ của mã xác nhận và cập nhật trạng thái kích hoạt tài khoản bằng cách ghi nhận thời gian xác nhận thư điện tử thành công.
-\item \textbf{Chuyển hướng đăng nhập:} Sau khi kích hoạt thành công, dịch vụ chứng thực gửi yêu cầu chuyển hướng trình duyệt của người dùng về trang xử lý của giao diện kèm theo mã phiên đăng nhập và mã làm mới phiên trong địa chỉ trang web.
-\item \textbf{Lưu trữ mã đăng nhập:} Giao diện trích xuất các mã đăng nhập, lưu trữ cục bộ và chuyển người dùng đến trang xác thực hai lớp để hoàn thành các bước bảo mật bổ sung trước khi vào màn hình trò chuyện chính.
+\item \textbf{Nhấp liên kết xác thực:}
+Khách vãng lai mở thư cá nhân và nhấn vào đường dẫn xác thực được gửi từ hệ thống.
+\item \textbf{Chuyển tiếp yêu cầu:}
+Cổng API chuyển tiếp yêu cầu xác thực tài khoản tới dịch vụ chứng thực.
+\item \textbf{Kích hoạt tài khoản:}
+Dịch vụ chứng thực kiểm tra tính hợp lệ của mã xác nhận và cập nhật trạng thái kích hoạt tài khoản bằng cách ghi nhận thời gian xác nhận thư điện tử thành công.
+\item \textbf{Chuyển hướng đăng nhập:}
+Sau khi kích hoạt thành công, dịch vụ chứng thực gửi yêu cầu chuyển hướng trình duyệt của người dùng về trang xử lý của giao diện kèm theo mã phiên đăng nhập và mã làm mới phiên trong địa chỉ trang web.
+\item \textbf{Lưu trữ mã đăng nhập:}
+Giao diện trích xuất các mã đăng nhập, lưu trữ cục bộ và chuyển người dùng đến trang xác thực hai lớp để hoàn thành các bước bảo mật bổ sung trước khi vào màn hình trò chuyện chính.
 \end{itemize}
