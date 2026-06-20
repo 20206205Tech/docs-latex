@@ -5,7 +5,7 @@ quy trình người dùng thực hiện đánh dấu (bookmark) một cuộc tr�
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.18]{contents/Sequence/UML-Sequence-UserBookmarkChat.png}
+\includegraphics[scale = 0.2]{contents/Sequence/UML-Sequence-UserBookmarkChat.png}
 \caption{Sơ đồ tuần tự luồng Đánh dấu cuộc trò chuyện}
 \end{figure}
 
@@ -14,6 +14,7 @@ quy trình người dùng thực hiện đánh dấu (bookmark) một cuộc tr�
 \begin{table}[H]
 \centering
 \renewcommand{\arraystretch}{1.3}
+
 \begin{tabular}{|l|l|p{5cm}|}
 \hline
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
@@ -27,6 +28,7 @@ Conversation Database & Database & Lưu trữ các thư mục bookmark (Bookmark
 \end{table}
 
 \subparagraph{Mô tả tổng quan}
+
 \begin{itemize}
 \item Khi người dùng nhấn nút "Bookmark" trên giao diện, Web Frontend gửi yêu cầu \texttt{GET /bookmarks} để lấy danh sách thư mục hiện có của người dùng và hiển thị lên giao diện.
 \item Nếu người dùng muốn tạo thư mục mới, người dùng nhập tên thư mục và Frontend gửi yêu cầu \texttt{POST /bookmarks} với dữ liệu \texttt{folderName}. Hệ thống sẽ tạo thư mục mới trong Conversation Database và cập nhật lại danh sách trên màn hình.
