@@ -25,7 +25,7 @@ file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence
 
 
 file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-UserTextChatSse.tex"
-# file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-UserDeleteChat.tex"
+file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-UserDeleteChat.tex"
 
 
 # file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-UserCreateSharedChat.tex"

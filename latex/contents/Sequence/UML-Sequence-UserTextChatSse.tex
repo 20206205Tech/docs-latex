@@ -35,7 +35,7 @@ Chatbot DB & Database & Lưu human message, AI message, reasoning steps, sources
 \item \textbf{Gửi yêu cầu stream:} Frontend gọi \texttt{POST /code-conversation-service/chats/stream} với \texttt{chat\_id}, \texttt{query}, \texttt{file\_ids}, \texttt{use\_reasoning} và Bearer Token.
 \item \textbf{Kiểm tra VIP:} Khi \texttt{use\_reasoning=true}, Conversation Service gọi \texttt{isVip(userId)} trên bảng \texttt{user\_subscriptions}. Subscription hợp lệ khi \texttt{is\_active=true} và \texttt{period\_end >= now}; nếu không hợp lệ, service trả \texttt{ForbiddenException}.
 \item \textbf{Kiểm tra chat:} Conversation Service kiểm tra \texttt{findById(chat\_id)} để đảm bảo phiên chat còn active; nếu không có thì trả \texttt{ChatNotFoundException}.
-\item \textbf{Gọi Chatbot Service:} Conversation Service gọi gRPC \texttt{AskAI(query, chat\_id, file\_ids, use\_reasoning)} và truyền token qua metadata \texttt{authorization}.
-\item \textbf{Streaming kết quả:} Chatbot Service verify token, lưu human message, gọi \texttt{generation\_stream}, rồi stream các gói \texttt{status}, \texttt{content} và \texttt{metadata}. Controller chuyển chúng thành SSE; Frontend cập nhật reasoning steps, nội dung, \texttt{full\_answer}, sources và \texttt{pending\_confirmation}.
+\item \textbf{Gọi Chatbot Service:} Conversation Service gọi gRPC và truyền token qua metadata.
+\item \textbf{Streaming kết quả:} Chatbot Service verify token, lưu human message, rồi stream các gói thông tin trả lời.
 \item \textbf{Lưu lịch sử:} Khi có câu trả lời cuối, Chatbot Service lưu AI message kèm \texttt{reasoning\_steps}, sources và \texttt{pending\_confirmation}, sau đó cập nhật topic hoặc chạy background task tóm tắt lịch sử nếu cần.
 \end{itemize}
