@@ -6,7 +6,7 @@ participant "Telegram Alert" as Telegram
 
 == Pha 4: Outbox Relay publish sự kiện mua VIP lên Kafka ==
 
-note over Relay: Cron chạy định kỳ\nproduction: mỗi 5 phút\ndevelopment: mỗi 10 phút
+note over Relay: Cron chạy định kỳ
 activate Relay
 
 Relay -> DB: Load Outbox\nstatus='PENDING'\nhoặc FAILED còn lượt retry

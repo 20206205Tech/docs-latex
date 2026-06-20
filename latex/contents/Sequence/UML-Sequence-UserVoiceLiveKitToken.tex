@@ -1,7 +1,10 @@
 \paragraph{Sơ đồ tuần tự luồng Cấp token voice chat qua LiveKit}
 
 Luồng nghiệp vụ này mô tả
-quá trình Web Frontend xin Access Token để người dùng tham gia phòng voice chat trên LiveKit. Conversation Service kiểm tra quyền VIP khi không chạy ở môi trường \texttt{development}, tạo token bằng LiveKit SDK và nhúng metadata để Voice Agent sử dụng khi xử lý cuộc trò chuyện.
+quá trình Web Frontend xin Access Token
+để người dùng tham gia phòng voice chat trên LiveKit.
+Conversation Service kiểm tra quyền VIP,
+tạo token bằng LiveKit SDK và nhúng metadata để Voice Agent sử dụng khi xử lý cuộc trò chuyện.
 
 \begin{figure}[H]
 \centering
@@ -30,7 +33,7 @@ LiveKit Cloud & External Service & Hạ tầng WebRTC/WebSocket cho phiên đàm
 \subparagraph{Mô tả tổng quan}
 \begin{itemize}
 \item Web Frontend gọi \texttt{GET /code-conversation-service/chats/\{chat\_id\}/voice-token} kèm \texttt{file\_ids[]}, \texttt{use\_reasoning} và \texttt{persona\_id}.
-\item Conversation Service kiểm tra VIP khi môi trường khác \texttt{development}; nếu không hợp lệ thì trả \texttt{ForbiddenException}.
+\item Conversation Service kiểm tra VIP, nếu không hợp lệ thì trả \texttt{ForbiddenException}.
 \item Access Token chứa metadata \texttt{chat\_id}, \texttt{user\_id}, \texttt{file\_ids}, \texttt{use\_reasoning} và \texttt{persona\_id}.
 \item Token có quyền \texttt{roomJoin}, \texttt{canPublish}, \texttt{canSubscribe} và \texttt{canUpdateOwnMetadata}. Client dùng token và \texttt{LIVEKIT\_URL} để join room tương ứng với \texttt{chat\_id}.
 \end{itemize}

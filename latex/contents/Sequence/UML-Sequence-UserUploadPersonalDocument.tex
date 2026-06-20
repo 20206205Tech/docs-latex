@@ -1,7 +1,9 @@
 \paragraph{Sơ đồ tuần tự luồng Tải lên tài liệu cá nhân}
 
 Luồng nghiệp vụ này mô tả
-quá trình người dùng tải lên tài liệu cá nhân. Document Service kiểm tra subscription khi không chạy ở môi trường \texttt{development}, validate file, lưu metadata, upload file gốc lên Cloudflare R2 và gửi task xử lý nền qua Celery/RabbitMQ.
+quá trình người dùng tải lên tài liệu cá nhân.
+Document Service kiểm tra subscription, validate file, lưu metadata, upload file gốc lên Cloudflare R2
+và gửi task xử lý nền qua Celery/RabbitMQ.
 
 \begin{figure}[H]
 \centering
@@ -31,7 +33,7 @@ RabbitMQ & Message Broker & Nhận Celery task \texttt{process\_document\_task}.
 \subparagraph{Mô tả tổng quan}
 \begin{itemize}
 \item Web Frontend gọi \texttt{POST /code-document-service/documents/upload} với multipart file.
-\item Document Service kiểm tra \texttt{UserSubscription.is\_active=true} và \texttt{period\_end >= now} khi môi trường khác \texttt{development}.
+\item Document Service kiểm tra \texttt{UserSubscription.is\_active=true} và \texttt{period\_end >= now}.
 \item File được validate, tính hash/size và tạo bản ghi Document với \texttt{status=UPLOADED}, \texttt{has\_file=false}.
 \item File gốc được upload lên R2 theo đường dẫn \texttt{\{user\_id\}/document/\{doc\_id\}\{ext\}}, sau đó cập nhật \texttt{has\_file=true}.
 \item Service gửi Celery task \texttt{process\_document\_task(doc\_id)} vào \texttt{CELERY\_QUEUE\_NAME} để xử lý tài liệu trong nền.

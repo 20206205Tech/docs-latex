@@ -17,7 +17,7 @@ activate Kong
 Kong -> ConversationService: Chuyển tiếp request SSE
 activate ConversationService
 
-opt use_reasoning=true và không phải development
+opt use_reasoning=true
 ConversationService -> ConversationDB: isVip(userId)\ntrong user_subscriptions
 activate ConversationDB
 ConversationDB --> ConversationService: true nếu is_active=true\nvà period_end >= now
