@@ -20,8 +20,8 @@ file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence
 file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-UserResetChangePassword.tex"
 
 
-# file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-UserGetSettings.tex"
-# file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-UserUpdateSettings.tex"
+file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-UserGetSettings.tex"
+file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-UserUpdateSettings.tex"
 
 
 # file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-UserTextChatSse.tex"
