@@ -1,6 +1,8 @@
 \paragraph{Sơ đồ tuần tự luồng Phân tích tài liệu cá nhân bằng reasoning pháp lý}
 
-Luồng nghiệp vụ này mô tả việc sử dụng tài liệu cá nhân đã upload trong truy vấn pháp lý. Frontend gửi \texttt{file\_ids} và \texttt{use\_reasoning=true} qua SSE stream của Conversation Service. Chatbot Service gọi LangGraph RAG, truy vấn Milvus theo \texttt{doc\_id} và \texttt{user\_id}, kết hợp nguồn luật rồi stream kết quả về frontend.
+Luồng nghiệp vụ này mô tả
+
+việc sử dụng tài liệu cá nhân đã upload trong truy vấn pháp lý. Frontend gửi \texttt{file\_ids} và \texttt{use\_reasoning=true} qua SSE stream của Conversation Service. Chatbot Service gọi LangGraph RAG, truy vấn Milvus theo \texttt{doc\_id} và \texttt{user\_id}, kết hợp nguồn luật rồi stream kết quả về frontend.
 
 \begin{figure}[H]
 \centering

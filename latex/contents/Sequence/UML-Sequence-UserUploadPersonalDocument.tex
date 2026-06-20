@@ -1,6 +1,8 @@
 \paragraph{Sơ đồ tuần tự luồng Tải lên tài liệu cá nhân}
 
-Luồng nghiệp vụ này mô tả quá trình người dùng tải lên tài liệu cá nhân. Document Service kiểm tra subscription khi không chạy ở môi trường \texttt{development}, validate file, lưu metadata, upload file gốc lên Cloudflare R2 và gửi task xử lý nền qua Celery/RabbitMQ.
+Luồng nghiệp vụ này mô tả
+
+quá trình người dùng tải lên tài liệu cá nhân. Document Service kiểm tra subscription khi không chạy ở môi trường \texttt{development}, validate file, lưu metadata, upload file gốc lên Cloudflare R2 và gửi task xử lý nền qua Celery/RabbitMQ.
 
 \begin{figure}[H]
 \centering

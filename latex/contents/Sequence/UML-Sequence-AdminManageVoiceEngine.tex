@@ -1,6 +1,8 @@
 \paragraph{Sơ đồ tuần tự luồng Quản lý Engine giọng nói}
 
-Luồng nghiệp vụ này mô tả quy trình Quản trị viên (Admin) tạo mới hoặc cập nhật Engine giọng nói trong Persona Service. Theo code hiện tại, Engine là cấu hình nội bộ gồm \texttt{code}, \texttt{name} và \texttt{is\_active}; bước đồng bộ dữ liệu ElevenLabs được mô tả riêng ở luồng đồng bộ Voices. Không phải mọi Engine hoặc Voice đều thuộc ElevenLabs; hệ thống chỉ gọi ElevenLabs khi Admin thực hiện đồng bộ hoặc khi nhân vật sử dụng Voice thuộc Engine ElevenLabs.
+Luồng nghiệp vụ này mô tả
+
+quy trình Quản trị viên (Admin) tạo mới hoặc cập nhật Engine giọng nói trong Persona Service. Theo code hiện tại, Engine là cấu hình nội bộ gồm \texttt{code}, \texttt{name} và \texttt{is\_active}; bước đồng bộ dữ liệu ElevenLabs được mô tả riêng ở luồng đồng bộ Voices. Không phải mọi Engine hoặc Voice đều thuộc ElevenLabs; hệ thống chỉ gọi ElevenLabs khi Admin thực hiện đồng bộ hoặc khi nhân vật sử dụng Voice thuộc Engine ElevenLabs.
 
 \begin{figure}[H]
 \centering
