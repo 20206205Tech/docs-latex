@@ -1,11 +1,11 @@
-\paragraph{Sơ đồ tuần tự Pha khởi tạo giao dịch mua gói thuê bao VIP}
+\paragraph{Sơ đồ tuần tự luồng Pha khởi tạo giao dịch mua gói thuê bao VIP}
 
 Pha này mô tả bước User chọn gói thuê bao VIP trên Web Frontend, hệ thống kiểm tra gói dịch vụ, chuẩn bị Subscription, tạo Transaction ở trạng thái \texttt{pending}, đăng ký job timeout trên Redis BullMQ, sau đó gọi Payment Gateway để sinh đường link thanh toán.
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale = 0.18]{contents/Sequence/UML-Sequence-UserCreateVipPaymentTransaction.png}
-\caption{Sơ đồ tuần tự Pha khởi tạo giao dịch mua gói thuê bao VIP}
+\caption{Sơ đồ tuần tự luồng Pha khởi tạo giao dịch mua gói thuê bao VIP}
 \end{figure}
 
 \subparagraph{Các thành phần tham gia}

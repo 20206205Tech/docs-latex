@@ -1,11 +1,11 @@
-\paragraph{Sơ đồ tuần tự Luồng Thu hồi chia sẻ cuộc trò chuyện}
+\paragraph{Sơ đồ tuần tự luồng Thu hồi chia sẻ cuộc trò chuyện}
 
 Luồng nghiệp vụ này mô tả vòng đời của một yêu cầu thu hồi quyền chia sẻ cuộc trò chuyện từ người dùng, đảm bảo tính nhất quán dữ liệu giữa các dịch vụ thông qua mẫu thiết kế Transactional Outbox và giao tiếp bất đồng bộ qua RabbitMQ.
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale = 0.18]{contents/Sequence/UML-Sequence-UserRevokeSharedChat.png}
-\caption{Sơ đồ tuần tự Luồng Thu hồi chia sẻ cuộc trò chuyện}
+\caption{Sơ đồ tuần tự luồng Thu hồi chia sẻ cuộc trò chuyện}
 \end{figure}
 
 \subparagraph{Các thành phần tham gia}
@@ -24,7 +24,7 @@ Chatbot Service & Microservice & Dịch vụ đóng vai trò là Consumer, lắn
 Chatbot DB & Database & Cơ sở dữ liệu của Chatbot Service, dùng để lưu trữ trạng thái bản ghi chia sẻ và cơ chế kiểm soát phiên bản. \\ \hline
 R2 Object Storage & External Service & Dịch vụ lưu trữ đối tượng bên ngoài, chịu trách nhiệm lưu trữ vật lý các tệp tin dữ liệu cuộc trò chuyện định dạng JSONL. \\ \hline
 \end{tabular}
-\caption{Danh sách các thành phần và vai trò trong Sơ đồ tuần tự Luồng Thu hồi chia sẻ cuộc trò chuyện}
+\caption{Danh sách các thành phần và vai trò trong Sơ đồ tuần tự luồng Thu hồi chia sẻ cuộc trò chuyện}
 \end{table}
 
 \subparagraph{Mô tả tổng quan}

@@ -1,11 +1,11 @@
-\paragraph{Sơ đồ tuần tự Luồng Phân tích tài liệu cá nhân bằng reasoning pháp lý}
+\paragraph{Sơ đồ tuần tự luồng Phân tích tài liệu cá nhân bằng reasoning pháp lý}
 
 Luồng này mô tả việc sử dụng tài liệu cá nhân đã upload trong truy vấn pháp lý. Frontend gửi \texttt{file\_ids} và \texttt{use\_reasoning=true} qua SSE stream của Conversation Service. Chatbot Service gọi LangGraph RAG, truy vấn Milvus theo \texttt{doc\_id} và \texttt{user\_id}, kết hợp nguồn luật rồi stream kết quả về frontend.
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale = 0.18]{contents/Sequence/UML-Sequence-UserAnalyzePersonalDocumentRag.png}
-\caption{Sơ đồ tuần tự Luồng Phân tích tài liệu cá nhân bằng reasoning pháp lý}
+\caption{Sơ đồ tuần tự luồng Phân tích tài liệu cá nhân bằng reasoning pháp lý}
 \end{figure}
 
 \subparagraph{Các thành phần tham gia}

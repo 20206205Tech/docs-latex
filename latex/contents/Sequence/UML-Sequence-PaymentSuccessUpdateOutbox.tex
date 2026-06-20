@@ -1,11 +1,11 @@
-\paragraph{Sơ đồ tuần tự Pha cập nhật giao dịch thành công và ghi Outbox}
+\paragraph{Sơ đồ tuần tự luồng Pha cập nhật giao dịch thành công và ghi Outbox}
 
 Pha này mô tả nhánh IPN hợp lệ, transaction còn ở trạng thái \texttt{pending} và Payment Gateway báo thanh toán thành công. Payment Service cập nhật transaction, kích hoạt hoặc gia hạn subscription, ghi \texttt{SubscriptionPurchasedEvent} vào Outbox trong cùng transaction lưu subscription, sau đó phát domain event nội bộ qua NestJS CQRS EventBus.
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale = 0.18]{contents/Sequence/UML-Sequence-PaymentSuccessUpdateOutbox.png}
-\caption{Sơ đồ tuần tự Pha cập nhật giao dịch thành công và ghi Outbox}
+\caption{Sơ đồ tuần tự luồng Pha cập nhật giao dịch thành công và ghi Outbox}
 \end{figure}
 
 \subparagraph{Các thành phần tham gia}

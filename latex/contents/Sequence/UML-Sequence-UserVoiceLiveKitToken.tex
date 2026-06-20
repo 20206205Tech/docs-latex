@@ -1,11 +1,11 @@
-\paragraph{Sơ đồ tuần tự Luồng Cấp token voice chat qua LiveKit}
+\paragraph{Sơ đồ tuần tự luồng Cấp token voice chat qua LiveKit}
 
 Luồng này mô tả quá trình Web Frontend xin Access Token để người dùng tham gia phòng voice chat trên LiveKit. Conversation Service kiểm tra quyền VIP khi không chạy ở môi trường \texttt{development}, tạo token bằng LiveKit SDK và nhúng metadata để Voice Agent sử dụng khi xử lý cuộc trò chuyện.
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale = 0.18]{contents/Sequence/UML-Sequence-UserVoiceLiveKitToken.png}
-\caption{Sơ đồ tuần tự Luồng Cấp token voice chat qua LiveKit}
+\caption{Sơ đồ tuần tự luồng Cấp token voice chat qua LiveKit}
 \end{figure}
 
 \subparagraph{Các thành phần tham gia}

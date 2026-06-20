@@ -1,11 +1,11 @@
-\paragraph{Sơ đồ tuần tự Pha Outbox Relay publish sự kiện mua VIP lên Kafka}
+\paragraph{Sơ đồ tuần tự luồng Pha Outbox Relay publish sự kiện mua VIP lên Kafka}
 
 Pha này mô tả \texttt{OutboxRelayCron} của Payment Service đọc các bản ghi Outbox chưa xử lý, kiểm tra payload của \texttt{SubscriptionPurchasedEvent}, publish sự kiện mua gói VIP lên Kafka thông qua \texttt{MessageBrokerPort}, rồi cập nhật trạng thái Outbox.
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale = 0.18]{contents/Sequence/UML-Sequence-PaymentOutboxRelayKafka.png}
-\caption{Sơ đồ tuần tự Pha Outbox Relay publish sự kiện mua VIP lên Kafka}
+\caption{Sơ đồ tuần tự luồng Pha Outbox Relay publish sự kiện mua VIP lên Kafka}
 \end{figure}
 
 \subparagraph{Các thành phần tham gia}

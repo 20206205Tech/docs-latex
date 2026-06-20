@@ -1,11 +1,11 @@
-\paragraph{Sơ đồ tuần tự Pha local handler gửi email xác nhận thanh toán VIP}
+\paragraph{Sơ đồ tuần tự luồng Pha local handler gửi email xác nhận thanh toán VIP}
 
 Pha này mô tả \texttt{SubscriptionPurchasedEventHandler} trong Payment Service xử lý domain event nội bộ sau khi thanh toán thành công. Handler lấy email từ metadata của transaction, lấy tên người dùng từ Supabase Profile Service, lấy tên gói từ Payment DB và gọi Brevo Email Adapter để gửi email xác nhận.
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale = 0.18]{contents/Sequence/UML-Sequence-PaymentSendVipConfirmationEmail.png}
-\caption{Sơ đồ tuần tự Pha local handler gửi email xác nhận thanh toán VIP}
+\caption{Sơ đồ tuần tự luồng Pha local handler gửi email xác nhận thanh toán VIP}
 \end{figure}
 
 \subparagraph{Các thành phần tham gia}

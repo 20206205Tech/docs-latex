@@ -1,11 +1,11 @@
-\paragraph{Sơ đồ tuần tự Luồng nhắn tin văn bản qua SSE}
+\paragraph{Sơ đồ tuần tự luồng nhắn tin văn bản qua SSE}
 
 Luồng nghiệp vụ này mô tả vòng đời của một yêu cầu chat văn bản từ Web Frontend tới Conversation Service, qua Chatbot Service bằng gRPC streaming và trả kết quả về client bằng Server-Sent Events (SSE). Luồng bao gồm kiểm tra quyền VIP khi bật reasoning, kiểm tra phiên chat active, truyền token qua gRPC metadata, stream các gói \texttt{status}, \texttt{content}, \texttt{metadata}, đồng thời lưu lịch sử chat ở Chatbot Service.
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale = 0.18]{contents/Sequence/UML-Sequence-UserTextChatSse.png}
-\caption{Sơ đồ tuần tự Luồng nhắn tin văn bản qua SSE}
+\caption{Sơ đồ tuần tự luồng nhắn tin văn bản qua SSE}
 \end{figure}
 
 \subparagraph{Các thành phần tham gia}

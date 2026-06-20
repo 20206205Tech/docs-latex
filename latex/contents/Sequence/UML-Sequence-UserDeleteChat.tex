@@ -1,11 +1,11 @@
-\paragraph{Sơ đồ tuần tự Luồng Xóa cuộc trò chuyện}
+\paragraph{Sơ đồ tuần tự luồng Xóa cuộc trò chuyện}
 
 Luồng nghiệp vụ này mô tả quá trình người dùng thực hiện xóa một cuộc trò chuyện, đảm bảo tính nhất quán dữ liệu giữa các dịch vụ thông qua mẫu thiết kế Outbox Pattern và giao tiếp qua RabbitMQ.
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale = 0.18]{contents/Sequence/UML-Sequence-UserDeleteChat.png}
-\caption{Sơ đồ tuần tự Luồng Xóa cuộc trò chuyện}
+\caption{Sơ đồ tuần tự luồng Xóa cuộc trò chuyện}
 \end{figure}
 
 \subparagraph{Các thành phần tham gia}
@@ -23,7 +23,7 @@ RabbitMQ Broker & Message Broker & Message Broker nhận sự kiện và phân p
 Chatbot Service & Microservice & Dịch vụ AI đóng vai trò tiêu thụ (Consumer), lắng nghe sự kiện xóa để đồng bộ hóa dữ liệu. \\ \hline
 Chatbot DB & Database & Cơ sở dữ liệu lưu trữ chi tiết các tin nhắn của cuộc trò chuyện. \\ \hline
 \end{tabular}
-\caption{Danh sách các thành phần và vai trò trong Sơ đồ tuần tự Luồng Xóa cuộc trò chuyện}
+\caption{Danh sách các thành phần và vai trò trong Sơ đồ tuần tự luồng Xóa cuộc trò chuyện}
 \end{table}
 
 \subparagraph{Mô tả tổng quan}
