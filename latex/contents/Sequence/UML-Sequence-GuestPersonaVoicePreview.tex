@@ -1,11 +1,15 @@
-\paragraph{Sơ đồ tuần tự Luồng Nghe thử mẫu giọng nói của nhân vật}
+\paragraph{Sơ đồ tuần tự luồng nghe thử mẫu giọng nói của nhân vật}
 
-Luồng này mô tả quá trình Guest thực hiện click nghe thử giọng nói của nhân vật. Dữ liệu âm thanh được phát trực tiếp trên Web Frontend từ public URL lưu trong thông tin nhân vật.
+Luồng này mô tả
+quá trình Khách vãng lai (Guest)
+thực hiện click nghe thử giọng nói của nhân vật.
+Dữ liệu âm thanh được phát trực tiếp trên Web Frontend
+từ public URL lưu trong thông tin nhân vật.
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.18]{contents/Sequence/UML-Sequence-GuestPersonaVoicePreview.png}
-\caption{Sơ đồ tuần tự Luồng Nghe thử mẫu giọng nói}
+\includegraphics[scale = 0.5]{contents/Sequence/UML-Sequence-GuestPersonaVoicePreview.png}
+\caption{Sơ đồ tuần tự luồng nghe thử mẫu giọng nói}
 \end{figure}
 
 \subparagraph{Các thành phần tham gia}
@@ -13,6 +17,7 @@ Luồng này mô tả quá trình Guest thực hiện click nghe thử giọng n
 \begin{table}[H]
 \centering
 \renewcommand{\arraystretch}{1.3}
+
 \begin{tabular}{|l|l|p{5cm}|}
 \hline
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
@@ -27,7 +32,7 @@ Storage Bucket & Storage & Lưu trữ và cung cấp tệp tin âm thanh của n
 
 \begin{itemize}
 \item Guest nhấn nút "Nghe thử" của một nhân vật bất kỳ trên trang chủ.
-\item Web Frontend gửi yêu cầu tải/stream file âm thanh trực tiếp đến public URL trong trường \texttt{greeting\_audio\_url} của nhân vật mà không cần qua API Gateway hay Backend.
+\item Web Frontend gửi yêu cầu tải/stream file âm thanh trực tiếp đến URL công khai của nhân vật mà không cần qua API Gateway hay Backend.
 \item Storage Bucket trả về luồng dữ liệu âm thanh định dạng \texttt{.mp3} hoặc \texttt{.wav}.
 \item Web Frontend nhận dữ liệu và thực hiện phát âm thanh cho Guest nghe.
 \end{itemize}

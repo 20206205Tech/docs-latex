@@ -4,7 +4,8 @@ Luồng này mô tả quá trình
 Web Frontend
 yêu cầu các thông tin cần thiết
 từ các dịch vụ thông qua
-API Gateway để hiển thị đầy đủ giao diện trang chủ cho
+API Gateway
+để hiển thị đầy đủ giao diện trang chủ cho
 Khách vãng lai (Guest).
 
 \begin{figure}[H]
@@ -35,7 +36,12 @@ Payment Service & Microservice & Cung cấp thông tin các gói thuê bao VIP v
 
 \begin{itemize}
 \item Guest truy cập vào trang chủ trên Web Frontend.
-\item Web Frontend hiển thị nội dung giới thiệu tĩnh trên trang chủ và gửi yêu cầu tải bảng giá/gói thuê bao VIP từ Payment Service thông qua API Gateway.
-\item Web Frontend gửi yêu cầu tải danh sách nhân vật kèm đường dẫn âm thanh mẫu từ Persona Service thông qua API Gateway.
-\item Web Frontend hiển thị các thông tin này lên giao diện để Guest tìm hiểu.
+\item Web Frontend hiển thị nội dung giới thiệu tĩnh trên trang chủ
+và gửi yêu cầu
+tải bảng giá gói thuê bao VIP
+từ Payment Service thông qua API Gateway.
+\item Web Frontend gửi yêu cầu
+tải danh sách nhân vật kèm đường dẫn âm thanh mẫu
+từ Persona Service thông qua API Gateway.
+\item Web Frontend hiển thị các thông tin này lên giao diện để Khách vãng lai (Guest) tìm hiểu.
 \end{itemize}

@@ -1,6 +1,6 @@
 file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-GuestHomeOverview.tex"
-# file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-GuestPersonaVoicePreview.tex"
-# file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-GuestGoogleOAuthLogin.tex"
+file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-GuestPersonaVoicePreview.tex"
+file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-GuestGoogleOAuthLogin.tex"
 # file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-GuestEmailPasswordSignup.tex"
 # file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-GuestEmailConfirmation.tex"
 # file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-UserEmailPasswordLogin.tex"
