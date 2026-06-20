@@ -21,7 +21,7 @@ Payment DB & Database & Lưu bảng Outbox với trạng thái \texttt{PENDING},
 Kafka & Message Broker & Nhận sự kiện \texttt{SubscriptionPurchased} trên topic \texttt{dev-payment-events} hoặc \texttt{prod-payment-events}. \\ \hline
 Telegram Alert & External Service & Nhận cảnh báo khi outbox message vượt quá số lần retry tối đa. \\ \hline
 \end{tabular}
-\caption{Các thành phần tham gia pha Outbox Relay publish sự kiện mua VIP lên Kafka}
+\caption{Các thành phần tham gia luồng pha Outbox Relay publish sự kiện mua VIP lên Kafka}
 \end{table}
 
 \subparagraph{Mô tả tổng quan}
