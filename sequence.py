@@ -33,13 +33,13 @@ file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence
 file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-UserBookmarkChat.tex"
 
 
-# file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-AdminManagePersona.tex"
-# file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-AdminSyncElevenLabsVoices.tex"
-# file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-AdminCreateVipPlan.tex"
-# file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-AdminArchiveVipPlan.tex"
-# file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-AdminPhapDienPipelineReport.tex"
-# file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-AdminVbplPipelineReport.tex"
-# file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-AdminManageVoiceEngine.tex"
+file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-AdminManagePersona.tex"
+file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-AdminSyncElevenLabsVoices.tex"
+file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-AdminCreateVipPlan.tex"
+file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-AdminArchiveVipPlan.tex"
+file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-AdminPhapDienPipelineReport.tex"
+file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-AdminVbplPipelineReport.tex"
+file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-AdminManageVoiceEngine.tex"
 
 
 # file_path = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-UserCreateVipPaymentTransaction.tex"
