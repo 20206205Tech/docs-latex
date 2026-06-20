@@ -1,12 +1,13 @@
 \paragraph{Sơ đồ tuần tự luồng Xem và Cập nhật Tên hiển thị (Get \& Update Profile)}
 
 Luồng nghiệp vụ này mô tả
-
-quy trình người dùng tải thông tin cá nhân và cập nhật họ tên hiển thị thông qua PostgREST của Supabase.
+quy trình người dùng
+tải thông tin cá nhân
+và cập nhật tên hiển thị thông qua Auth Service (Supabase).
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.18]{contents/Sequence/UML-Sequence-UserProfileUpdateDisplayName.png}
+\includegraphics[scale = 0.2]{contents/Sequence/UML-Sequence-UserProfileUpdateDisplayName.png}
 \caption{Sơ đồ tuần tự luồng Xem và Cập nhật Tên hiển thị}
 \end{figure}
 
@@ -15,19 +16,20 @@ quy trình người dùng tải thông tin cá nhân và cập nhật họ tên 
 \begin{table}[H]
 \centering
 \renewcommand{\arraystretch}{1.3}
+
 \begin{tabular}{|l|l|p{5cm}|}
 \hline
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
 User & Actor & Người dùng xem và thay đổi thông tin cá nhân. \\ \hline
 Web Frontend & Component & Giao diện web Next.js. \\ \hline %%%% Component & Giao diện Next.js hiển thị và tiếp nhận thông tin cập nhật từ người dùng. \\ \hline
 API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline %%%% Component & Định tuyến yêu cầu REST API tới PostgREST. \\ \hline
-Auth Service (PostgREST) & Component & Dịch vụ truy vấn và cập nhật dữ liệu trực tiếp trong Supabase Database. \\ \hline
-Supabase Database & Database & Cơ sở dữ liệu Postgres lưu bảng \texttt{profiles}. \\ \hline
+Auth Service (Supabase) & Component & Dịch vụ thực hiện xác thực, truy vấn và cập nhật thông tin hồ sơ trong cơ sở dữ liệu. \\ \hline
 \end{tabular}
 \caption{Các thành phần tham gia luồng Xem và Cập nhật Tên hiển thị}
 \end{table}
 
 \subparagraph{Mô tả tổng quan}
+
 \begin{itemize}
 \item Người dùng truy cập trang Hồ sơ. Frontend gửi yêu cầu \texttt{GET /profiles?id=eq.\{userId\}} qua Gateway để lấy thông tin hiển thị.
 \item Người dùng sửa tên hiển thị và nhấn Lưu. Frontend thực hiện cuộc gọi API \texttt{PATCH /profiles?id=eq.\{userId\}} kèm tham số \texttt{full\_name} để thực hiện cập nhật.

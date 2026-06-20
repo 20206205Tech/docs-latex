@@ -1,8 +1,11 @@
 \paragraph{Sơ đồ tuần tự luồng Tải lên và Cập nhật Ảnh đại diện (Upload Avatar)}
 
 Luồng nghiệp vụ này mô tả
-
-quy trình người dùng tải ảnh đại diện lên bộ lưu trữ của Supabase và cập nhật lại đường dẫn hình ảnh trong hồ sơ của mình.
+quy trình người dùng
+tải ảnh đại diện lên bộ lưu trữ
+của Supabase và
+cập nhật lại đường dẫn hình ảnh
+trong hồ sơ của mình.
 
 \begin{figure}[H]
 \centering
@@ -21,15 +24,13 @@ quy trình người dùng tải ảnh đại diện lên bộ lưu trữ của S
 User & Actor & Người dùng thực hiện chọn ảnh và lưu ảnh đại diện mới. \\ \hline
 Web Frontend & Component & Giao diện web Next.js. \\ \hline %%%% Component & Giao diện Next.js sinh tên tệp tin ngẫu nhiên, thực hiện tải ảnh và cập nhật địa chỉ ảnh mới vào hồ sơ. \\ \hline
 API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline %%%% Component & Định tuyến các yêu cầu liên quan tới Storage và PostgREST. \\ \hline
-Supabase Storage & Microservice & Dịch vụ quản lý lưu trữ tập tin vật lý của Supabase. \\ \hline
-Auth Service (PostgREST) & Component & Cập nhật lại thuộc tính \texttt{avatar\_url} của bản ghi người dùng. \\ \hline
-Supabase Database & Database & Lưu trữ thông tin thay đổi. \\ \hline
+Supabase Backend (Storage, DB, Auth) & Component & Dịch vụ backend tích hợp của Supabase quản lý lưu trữ tệp tin (Storage), cơ sở dữ liệu (Database) và xác thực/truy vấn (Auth). \\ \hline
 \end{tabular}
 \caption{Các thành phần tham gia luồng Tải lên và Cập nhật Ảnh đại diện}
 \end{table}
 
 \subparagraph{Mô tả tổng quan}
 \begin{itemize}
-\item Người dùng tải tệp ảnh lên. Frontend sinh tên tệp tin độc nhất (\texttt{userId\_random.ext}) rồi gửi trực tiếp tệp tin nhị phân qua Gateway đến \texttt{Supabase Storage} (bucket \texttt{avatars}).
-\item Sau khi upload thành công, Frontend khởi tạo đường dẫn ảnh công khai (\texttt{avatar\_url}) và thực hiện gửi yêu cầu \texttt{PATCH /profiles?id=eq.\{userId\}} qua Gateway để cập nhật thông tin ảnh đại diện của người dùng trong Supabase Database.
+\item Người dùng tải tệp ảnh lên. Frontend sinh tên tệp tin (\texttt{userId\_random.ext}) rồi gửi tệp tin qua Gateway đến \texttt{Supabase Backend} để lưu trữ trong bucket \texttt{avatars} qua đường dẫn \texttt{/avatars/\{fileName\}}.
+\item Sau khi tải lên thành công, Frontend khởi tạo đường dẫn ảnh công khai (\texttt{avatar\_url}) và thực hiện gửi yêu cầu \texttt{PATCH /profiles?id=eq.\{userId\}} qua Gateway để cập nhật thông tin ảnh đại diện của người dùng trong bảng \texttt{profiles} của Supabase Backend.
 \end{itemize}
