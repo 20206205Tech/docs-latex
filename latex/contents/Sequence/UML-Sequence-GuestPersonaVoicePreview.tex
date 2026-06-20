@@ -31,8 +31,8 @@ Storage Bucket & Storage & Lưu trữ và cung cấp tệp tin âm thanh của n
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
-\item Guest nhấn nút "Nghe thử" của một nhân vật bất kỳ trên trang chủ.
-\item Web Frontend gửi yêu cầu tải/stream file âm thanh trực tiếp đến URL công khai của nhân vật mà không cần qua API Gateway hay Backend.
-\item Storage Bucket trả về luồng dữ liệu âm thanh định dạng \texttt{.mp3} hoặc \texttt{.wav}.
-\item Web Frontend nhận dữ liệu và thực hiện phát âm thanh cho Guest nghe.
+\item \textbf{Yêu cầu nghe thử:} Khách vãng lai chọn chức năng nghe thử giọng nói của một nhân vật trên trang chủ.
+\item \textbf{Tải luồng âm thanh:} Giao diện gửi yêu cầu tải luồng âm thanh trực tiếp đến địa chỉ kho chứa tệp công khai của nhân vật mà không cần qua cổng kết nối hay dịch vụ máy chủ.
+\item \textbf{Nhận âm thanh:} Kho chứa trả về dữ liệu luồng âm thanh của nhân vật dưới dạng tệp âm thanh thông dụng.
+\item \textbf{Phát âm thanh:} Giao diện tiếp nhận luồng dữ liệu và phát âm thanh trực tiếp cho người dùng nghe.
 \end{itemize}

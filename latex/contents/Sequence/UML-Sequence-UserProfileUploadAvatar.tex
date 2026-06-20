@@ -33,6 +33,6 @@ Supabase Backend & Component & Dịch vụ tích hợp quản lý lưu trữ t�
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
-\item Người dùng tải tệp ảnh lên. Frontend sinh tên tệp tin (\texttt{userId\_random.ext}) rồi gửi tệp tin qua Gateway đến \texttt{Supabase Backend} để lưu trữ trong bucket \texttt{avatars} qua đường dẫn \texttt{/avatars/\{fileName\}}.
-\item Sau khi tải lên thành công, Frontend khởi tạo đường dẫn ảnh công khai (\texttt{avatar\_url}) và thực hiện gửi yêu cầu \texttt{PATCH /profiles?id=eq.\{userId\}} qua Gateway để cập nhật thông tin ảnh đại diện của người dùng trong bảng \texttt{profiles} của Supabase Backend.
+\item \textbf{Tải ảnh lên kho chứa:} Người dùng chọn tải lên tệp ảnh đại diện mới. Giao diện tạo tên tệp ngẫu nhiên theo mã người dùng và gửi tệp ảnh qua cổng kết nối đến kho lưu trữ trực tuyến để lưu vào thư mục ảnh đại diện.
+\item \textbf{Cập nhật thông tin tài khoản:} Sau khi tải tệp lên kho lưu trữ thành công, giao diện thiết lập liên kết ảnh công khai mới và gửi yêu cầu cập nhật liên kết ảnh đại diện này qua cổng kết nối đến cơ sở dữ liệu thông tin cá nhân của người dùng.
 \end{itemize}

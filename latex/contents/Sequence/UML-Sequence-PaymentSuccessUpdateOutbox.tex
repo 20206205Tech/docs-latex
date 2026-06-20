@@ -28,8 +28,8 @@ Event Bus (NestJS CQRS) & Component & Phát domain event nội bộ cho các loc
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
-\item \textbf{Tải dữ liệu liên quan:} Payment Service tải Subscription và Plan theo thông tin trên transaction, đồng thời tìm subscription active mới nhất của user để cộng dồn thời hạn nếu cần.
-\item \textbf{Hoàn tất thanh toán:} Service gọi \texttt{fulfillPayment} để chuyển transaction sang \texttt{success}, đặt \texttt{paidAt} và kích hoạt subscription thành \texttt{active}.
-\item \textbf{Ghi Outbox:} Khi lưu subscription, repository ghi \texttt{SubscriptionPurchasedEvent} vào bảng Outbox với trạng thái \texttt{PENDING}.
-\item \textbf{Phát event nội bộ:} Sau khi transaction lưu thành công, service gọi eventBus để các local event handler xử lý tiếp, rồi gọi \texttt{subscription.commit()}.
+\item \textbf{Chuẩn bị thông tin kích hoạt:} Dịch vụ thanh toán lấy thông tin gói thuê bao VIP và gói dịch vụ tương ứng dựa trên mã giao dịch, đồng thời tìm kiếm gói thuê bao VIP đang hoạt động gần nhất của người dùng để cộng dồn thời hạn sử dụng nếu cần.
+\item \textbf{Hoàn tất thanh toán:} Dịch vụ cập nhật trạng thái giao dịch thành thành công, ghi nhận thời điểm thanh toán và chuyển trạng thái gói thuê bao VIP thành đang hoạt động.
+\item \textbf{Lưu sự kiện hệ thống:} Dịch vụ ghi nhận sự kiện mua gói thuê bao VIP thành công vào bảng sự kiện chờ gửi trong cơ sở dữ liệu ở trạng thái chờ xử lý.
+\item \textbf{Phát sự kiện nội bộ:} Sau khi giao dịch được lưu thành công, dịch vụ phát sự kiện nội bộ để các bộ phận khác trong hệ thống tiếp tục xử lý và hoàn tất phiên giao dịch.
 \end{itemize}

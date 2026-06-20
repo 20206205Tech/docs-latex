@@ -30,8 +30,8 @@ Conversation Database & Database & Lưu trữ các thư mục bookmark (Bookmark
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
-\item Khi người dùng nhấn nút "Bookmark" trên giao diện, Web Frontend gửi yêu cầu API để lấy danh sách thư mục hiện có của người dùng và hiển thị lên giao diện.
-\item Nếu người dùng muốn tạo thư mục mới, người dùng nhập tên thư mục và Frontend gửi yêu cầu \texttt{POST /bookmarks} với dữ liệu \texttt{folderName}. Hệ thống sẽ tạo thư mục mới trong Conversation Database và cập nhật lại danh sách trên màn hình.
-\item Người dùng chọn thư mục mục tiêu, điền ghi chú cá nhân và nhấn nút "Lưu". Frontend gửi yêu cầu \texttt{PUT /bookmarks/:folderId/item} kèm theo tham số \texttt{chatId} và \texttt{note}.
-\item Conversation Service kiểm tra sự tồn tại của cuộc trò chuyện và thực hiện lưu trữ hoặc cập nhật bản ghi Bookmark vào Conversation Database, sau đó trả về phản hồi thành công để cập nhật giao diện của người dùng.
+\item \textbf{Yêu cầu danh sách thư mục:} Khi người dùng chọn đánh dấu cuộc trò chuyện trên giao diện, giao diện gửi yêu cầu lấy danh sách thư mục lưu trữ hiện có của người dùng để hiển thị lên màn hình.
+\item \textbf{Tạo thư mục mới (nếu cần):} Nếu người dùng muốn tạo thư mục mới, người dùng nhập tên thư mục và giao diện gửi yêu cầu tạo thư mục. Hệ thống lưu thư mục mới vào cơ sở dữ liệu trò chuyện và cập nhật lại danh sách hiển thị.
+\item \textbf{Lưu thông tin đánh dấu:} Người dùng chọn thư mục lưu trữ, điền ghi chú cá nhân và nhấn lưu. Giao diện gửi yêu cầu đính kèm cuộc trò chuyện vào thư mục đã chọn kèm ghi chú.
+\item \textbf{Cập nhật cơ sở dữ liệu:} Dịch vụ trò chuyện kiểm tra sự tồn tại của cuộc trò chuyện và thực hiện lưu hoặc cập nhật thông tin đánh dấu vào cơ sở dữ liệu trò chuyện, sau đó trả về thông báo thành công để cập nhật giao diện của người dùng.
 \end{itemize}

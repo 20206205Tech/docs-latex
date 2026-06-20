@@ -30,9 +30,9 @@ Pipeline Database & Database & Cơ sở dữ liệu lưu trữ kết quả thố
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
-\item \textbf{Yêu cầu xem báo cáo:} Admin truy cập vào Dashboard quản trị. Web Frontend gửi yêu cầu lấy số liệu thống kê Pháp Điển qua Kong API Gateway.
-\item \textbf{Kiểm tra và Định tuyến:} Kong Gateway xác thực Bearer Token của Admin, sau đó chuyển tiếp yêu cầu tới Pháp Điển Pipeline Service.
-\item \textbf{Thống kê dữ liệu:} Pháp Điển Pipeline Service thực hiện truy vấn cơ sở dữ liệu (Pipeline DB) để lấy tổng số chủ đề (\texttt{total\_chu\_de}), tổng số đề mục (\texttt{total\_de\_muc}), và tổng số nút thư mục (\texttt{total\_tree\_items}) thuộc bộ chỉ mục Pháp Điển. Dịch vụ tổng hợp các số liệu này và phản hồi về cho Web Frontend.
-\item \textbf{Lấy danh mục bổ sung:} Web Frontend gọi thêm API để hiển thị dữ liệu chủ đề, đề mục trên Dashboard.
-\item \textbf{Biểu diễn thông tin:} Web Frontend nhận dữ liệu phản hồi, tính toán tiến độ hoàn thành và vẽ biểu đồ trực quan giúp Admin dễ dàng theo dõi.
+\item \textbf{Yêu cầu xem báo cáo:} Quản trị viên truy cập màn hình báo cáo. Giao diện gửi yêu cầu lấy số liệu thống kê về tiến trình xử lý dữ liệu pháp điển qua cổng kết nối.
+\item \textbf{Kiểm tra và định tuyến:} Cổng kết nối xác thực thông tin đăng nhập của quản trị viên và chuyển tiếp yêu cầu đến dịch vụ xử lý dữ liệu pháp điển.
+\item \textbf{Thống kê dữ liệu:} Dịch vụ xử lý dữ liệu pháp điển truy vấn cơ sở dữ liệu thống kê để lấy tổng số chủ đề, tổng số đề mục và tổng số nút thư mục trong hệ thống pháp điển, sau đó phản hồi số liệu tổng hợp về giao diện.
+\item \textbf{Lấy danh mục bổ sung:} Giao diện gửi thêm yêu cầu lấy chi tiết danh mục chủ đề và đề mục để hiển thị thông tin trực quan.
+\item \textbf{Biểu diễn thông tin:} Giao diện nhận dữ liệu, tính toán tiến độ hoàn thành và vẽ biểu đồ trực quan giúp quản trị viên dễ dàng theo dõi tiến trình.
 \end{itemize}

@@ -34,9 +34,9 @@ Auth Service (Supabase) & Microservice & Dịch vụ xác thực cập nhật tr
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
-\item Guest mở hòm thư cá nhân và nhấp chọn liên kết xác thực được gửi từ hệ thống.
-\item API Gateway chuyển tiếp yêu cầu xác thực tài khoản tới Auth Service.
-\item Auth Service kiểm tra tính hợp lệ của token xác thực và tự động cập nhật trạng thái xác thực để kích hoạt tài khoản (\texttt{email\_confirmed\_at = NOW}).
-\item Sau khi xác thực và cập nhật thành công, Auth Service trả về phản hồi HTTP 302 Redirect, chuyển hướng trình duyệt của người dùng quay trở lại trang callback của Web Frontend (\texttt{/auth/callback}) kèm theo cặp token JWT trong phần URL Hash.
-\item Web Frontend trích xuất Access Token và Refresh Token từ URL Hash, lưu trữ cục bộ và chuyển hướng người dùng sang \texttt{/auth/mfa} để hoàn tất bước xác thực bổ sung trước khi vào giao diện chính (\texttt{/chat}).
+\item \textbf{Nhấp liên kết xác thực:} Khách vãng lai mở thư cá nhân và nhấn vào đường dẫn xác thực được gửi từ hệ thống.
+\item \textbf{Chuyển tiếp yêu cầu:} Cổng kết nối chuyển tiếp yêu cầu xác thực tài khoản tới dịch vụ chứng thực.
+\item \textbf{Kích hoạt tài khoản:} Dịch vụ chứng thực kiểm tra tính hợp lệ của mã xác nhận và cập nhật trạng thái kích hoạt tài khoản bằng cách ghi nhận thời gian xác nhận thư điện tử thành công.
+\item \textbf{Chuyển hướng đăng nhập:} Sau khi kích hoạt thành công, dịch vụ chứng thực gửi yêu cầu chuyển hướng trình duyệt của người dùng về trang xử lý của giao diện kèm theo mã phiên đăng nhập và mã làm mới phiên trong địa chỉ trang web.
+\item \textbf{Lưu trữ mã đăng nhập:} Giao diện trích xuất các mã đăng nhập, lưu trữ cục bộ và chuyển người dùng đến trang xác thực hai lớp để hoàn thành các bước bảo mật bổ sung trước khi vào màn hình trò chuyện chính.
 \end{itemize}

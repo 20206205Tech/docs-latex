@@ -31,10 +31,11 @@ Chatbot DB & Database & Lưu human message, AI message, reasoning steps và sour
 \end{table}
 
 \subparagraph{Mô tả tổng quan}
-% \begin{itemize}
-% \item User gửi truy vấn kèm \texttt{file\_ids} và \texttt{use\_reasoning=true} qua endpoint \texttt{POST /code-conversation-service/chats/stream}.
-% \item Conversation Service chuyển request sang Chatbot Service bằng gRPC \texttt{AskAI} và truyền Bearer Token qua metadata \texttt{authorization}.
-% \item RAG truy vấn Milvus bằng biểu thức \texttt{doc\_id in file\_ids} và \texttt{user\_id == current\_user\_id} để lấy đoạn tài liệu cá nhân liên quan.
-% \item RAG kết hợp tài liệu cá nhân với nguồn luật, thực hiện rank, kiểm tra hiệu lực và tổng hợp lập luận.
-% \item Kết quả stream về frontend gồm \texttt{status\_update}, \texttt{content\_chunk} và \texttt{metadata} chứa \texttt{full\_answer}, \texttt{sources}.
-% \end{itemize}
+
+\begin{itemize}
+\item \textbf{Gửi yêu cầu phân tích:} Người dùng gửi câu hỏi kèm theo danh sách tài liệu chọn phân tích và yêu cầu kích hoạt lập luận nâng cao thông qua giao diện trò chuyện.
+\item \textbf{Chuyển tiếp yêu cầu:} Dịch vụ trò chuyện chuyển tiếp yêu cầu đến dịch vụ chatbot thông qua giao thức kết nối nội bộ và đính kèm thông tin xác thực tài khoản.
+\item \textbf{Tìm kiếm tài liệu cá nhân:} Hệ thống tìm kiếm văn bản truy vấn cơ sở dữ liệu vector để tìm các đoạn tài liệu cá nhân phù hợp của chính người dùng đó dựa trên mã tài liệu và mã người dùng.
+\item \textbf{Tổng hợp thông tin:} Hệ thống kết hợp dữ liệu từ tài liệu cá nhân với các văn bản pháp luật liên quan, thực hiện xếp hạng kết quả, kiểm tra hiệu lực văn bản và tổng hợp các bước lập luận để đưa ra câu trả lời.
+\item \textbf{Truyền dữ liệu kết quả:} Kết quả được truyền trực tiếp từng phần về giao diện bao gồm cập nhật trạng thái xử lý, các phân đoạn nội dung câu trả lời và thông tin nguồn tài liệu trích dẫn.
+\end{itemize}

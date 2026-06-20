@@ -32,10 +32,10 @@ Chatbot DB & Database & Lưu human message, AI message, reasoning steps, sources
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
-\item \textbf{Gửi yêu cầu stream:} Frontend gọi \texttt{POST /code-conversation-service/chats/stream} với \texttt{chat\_id}, \texttt{query}, \texttt{file\_ids}, \texttt{use\_reasoning} và Bearer Token.
-\item \textbf{Kiểm tra VIP:} Khi \texttt{use\_reasoning=true}, Conversation Service gọi \texttt{isVip(userId)} trên bảng \texttt{user\_subscriptions}. Subscription hợp lệ khi \texttt{is\_active=true} và \texttt{period\_end >= now}; nếu không hợp lệ, service trả \texttt{ForbiddenException}.
-\item \textbf{Kiểm tra chat:} Conversation Service kiểm tra \texttt{findById(chat\_id)} để đảm bảo phiên chat còn active; nếu không có thì trả \texttt{ChatNotFoundException}.
-\item \textbf{Gọi Chatbot Service:} Conversation Service gọi gRPC và truyền token qua metadata.
-\item \textbf{Streaming kết quả:} Chatbot Service verify token, lưu human message, rồi stream các gói thông tin trả lời.
-\item \textbf{Lưu lịch sử:} Khi có câu trả lời cuối, Chatbot Service lưu AI message kèm \texttt{reasoning\_steps}, sources và \texttt{pending\_confirmation}, sau đó cập nhật topic hoặc chạy background task tóm tắt lịch sử nếu cần.
+\item \textbf{Gửi yêu cầu trò chuyện:} Giao diện gửi yêu cầu trò chuyện truyền dữ liệu liên tục kèm mã cuộc trò chuyện, nội dung câu hỏi, danh sách tài liệu chọn phân tích, tùy chọn sử dụng lập luận nâng cao và mã đăng nhập.
+\item \textbf{Kiểm tra quyền hạn:} Dịch vụ trò chuyện nhận yêu cầu: nếu người dùng muốn sử dụng lập luận nâng cao, dịch vụ kiểm tra trạng thái gói thuê bao VIP của người dùng trong cơ sở dữ liệu xem có đang hoạt động và còn thời hạn hay không; nếu không hợp lệ sẽ trả về lỗi từ chối quyền truy cập.
+\item \textbf{Kiểm tra cuộc trò chuyện:} Dịch vụ trò chuyện kiểm tra mã cuộc trò chuyện để đảm bảo cuộc trò chuyện còn tồn tại và đang hoạt động; nếu không tìm thấy sẽ trả về thông báo lỗi.
+\item \textbf{Kết nối dịch vụ chatbot:} Dịch vụ trò chuyện gọi dịch vụ chatbot và chuyển tiếp thông tin cuộc trò chuyện.
+\item \textbf{Truyền dữ liệu trực tiếp:} Dịch vụ chatbot kiểm tra thông tin, lưu tin nhắn của người dùng vào cơ sở dữ liệu chatbot, sau đó truyền trực tiếp từng phân đoạn kết quả câu trả lời về cho dịch vụ trò chuyện.
+\item \textbf{Lưu lịch sử và lập luận:} Khi hoàn thành câu trả lời cuối cùng, dịch vụ chatbot lưu câu trả lời của hệ thống cùng các bước lập luận, nguồn tài liệu tham khảo và trạng thái chờ xác nhận vào cơ sở dữ liệu chatbot, đồng thời cập nhật chủ đề cuộc trò chuyện hoặc chạy tác vụ tóm tắt nội dung cuộc trò chuyện trong nền nếu cần.
 \end{itemize}

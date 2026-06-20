@@ -33,9 +33,9 @@ Payment Gateway & External Service & Cổng thanh toán bên thứ ba sinh Payme
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
-\item \textbf{Gửi yêu cầu mua gói thuê bao VIP:} User chọn nâng cấp VIP, Frontend gọi \texttt{POST /code-payment-service/subscriptions/purchase} qua Kong kèm Bearer Token và body gồm \texttt{plan\_id}, \texttt{redirect\_url}.
-\item \textbf{Chuẩn bị dữ liệu thanh toán:} Payment Service kiểm tra plan còn active, tìm subscription hiện tại của user, tái sử dụng subscription nếu đã có hoặc tạo mới subscription trạng thái \texttt{pending} nếu chưa có.
-\item \textbf{Tạo transaction và timeout job:} Service lấy \texttt{PAYMENT\_DEFAULT\_PROVIDER} với mặc định \texttt{vnpay}, tạo transaction mới, rồi đăng ký job timeout trên BullMQ với delay 10 phút.
-\item \textbf{Tạo link thanh toán:} Service gọi Payment Gateway Selector để chọn provider tương ứng và tạo \texttt{payment\_url}. Frontend dùng \texttt{apiHelper} bóc \texttt{data} để nhận trực tiếp \texttt{\{ payment\_url \}}.
-\item \textbf{Xử lý timeout:} Nếu sau 10 phút transaction vẫn ở trạng thái \texttt{pending}, Payment Timeout Processor cập nhật Transaction và Subscription liên quan thành \texttt{expired}; nếu transaction đã ở trạng thái \texttt{success}, \texttt{failed} hoặc \texttt{expired} thì bỏ qua job timeout.
+\item \textbf{Yêu cầu nâng cấp:} Người dùng chọn nâng cấp gói thuê bao VIP trên giao diện, giao diện gửi yêu cầu đăng ký mua gói thuê bao VIP qua cổng kết nối kèm theo thông tin xác thực tài khoản, mã gói dịch vụ và địa chỉ chuyển hướng sau khi thanh toán.
+\item \textbf{Kiểm tra gói dịch vụ:} Dịch vụ thanh toán kiểm tra gói dịch vụ còn đang hoạt động hay không, tìm kiếm gói thuê bao VIP hiện tại của người dùng để cập nhật hoặc tạo mới gói thuê bao VIP ở trạng thái chờ thanh toán nếu chưa có.
+\item \textbf{Khởi tạo giao dịch thanh toán:} Dịch vụ thiết lập cổng thanh toán mặc định, tạo một giao dịch thanh toán mới trong cơ sở dữ liệu và đăng ký một tác vụ kiểm tra hết hạn giao dịch sau mười phút vào hàng đợi công việc.
+\item \textbf{Tạo liên kết thanh toán:} Dịch vụ kết nối với cổng thanh toán để tạo liên kết thanh toán. Giao diện tiếp nhận thông tin và nhận trực tiếp liên kết thanh toán để điều hướng người dùng.
+\item \textbf{Xử lý hết hạn:} Bộ xử lý tác vụ hết hạn sẽ kiểm tra sau mười phút: nếu giao dịch vẫn ở trạng thái chờ thanh toán thì cập nhật giao dịch và gói thuê bao VIP liên quan thành hết hạn; nếu giao dịch đã ở các trạng thái thành công, thất bại hoặc đã hết hạn trước đó thì bỏ qua tác vụ này.
 \end{itemize}

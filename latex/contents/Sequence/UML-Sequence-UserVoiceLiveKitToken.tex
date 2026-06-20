@@ -30,10 +30,13 @@ LiveKit Cloud & External Service & Hạ tầng cho phiên đàm thoại thời g
 \caption{Các thành phần tham gia luồng cấp token voice chat qua LiveKit}
 \end{table}
 
-% \subparagraph{Mô tả tổng quan}
-% \begin{itemize}
-% \item Web Frontend gọi \texttt{GET /code-conversation-service/chats/\{chat\_id\}/voice-token} kèm \texttt{file\_ids[]}, \texttt{use\_reasoning} và \texttt{persona\_id}.
-% \item Conversation Service kiểm tra VIP, nếu không hợp lệ thì trả \texttt{ForbiddenException}.
-% \item Access Token chứa metadata \texttt{chat\_id}, \texttt{user\_id}, \texttt{file\_ids}, \texttt{use\_reasoning} và \texttt{persona\_id}.
-% \item Token có quyền \texttt{roomJoin}, \texttt{canPublish}, \texttt{canSubscribe} và \texttt{canUpdateOwnMetadata}. Client dùng token và \texttt{LIVEKIT\_URL} để join room tương ứng với \texttt{chat\_id}.
-% \end{itemize}
+%
+
+\subparagraph{Mô tả tổng quan}
+
+\begin{itemize}
+\item \textbf{Yêu cầu cấp quyền đàm thoại:} Giao diện gửi yêu cầu cấp quyền tham gia đàm thoại giọng nói kèm mã cuộc trò chuyện, danh sách tài liệu phân tích, cấu hình lập luận nâng cao và mã nhân vật qua cổng kết nối.
+\item \textbf{Kiểm tra gói dịch vụ:} Dịch vụ trò chuyện kiểm tra thông tin gói thuê bao VIP của người dùng; nếu không hợp lệ hoặc hết hạn sẽ trả về thông báo lỗi từ chối quyền truy cập.
+\item \textbf{Tạo mã quyền truy cập:} Dịch vụ trò chuyện tạo mã quyền truy cập đàm thoại thời gian thực đính kèm thông tin mã cuộc trò chuyện, mã người dùng, danh sách tài liệu phân tích, cấu hình lập luận nâng cao và mã nhân vật.
+\item \textbf{Tham gia đàm thoại:} Mã quyền truy cập này bao gồm các quyền tham gia phòng, truyền phát âm thanh, tiếp nhận âm thanh và cập nhật thông tin cá nhân. Giao diện người dùng sử dụng mã quyền này cùng địa chỉ máy chủ đàm thoại để tham gia vào phòng đàm thoại thời gian thực tương ứng với cuộc trò chuyện.
+\end{itemize}

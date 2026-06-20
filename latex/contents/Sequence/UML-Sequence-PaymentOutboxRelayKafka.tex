@@ -29,8 +29,8 @@ Telegram Alert & External Service & Nhận cảnh báo khi outbox message vượ
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
-\item \textbf{Quét Outbox:} Cron định kỳ tải tối đa 50 bản ghi \texttt{PENDING} hoặc \texttt{FAILED} còn lượt retry, có khóa \texttt{pessimistic\_write} và \texttt{skip\_locked}.
-\item \textbf{Validate payload:} Với \texttt{SubscriptionPurchasedEvent}, service kiểm tra các thông tin sự kiện.
-\item \textbf{Publish Kafka:} Service gọi \texttt{publishSubscriptionPurchased}, Kafka producer gửi message với \texttt{key=userId}, payload JSON và nén GZIP.
-\item \textbf{Cập nhật trạng thái:} Nếu publish thành công, Outbox được chuyển sang \texttt{DONE}. Nếu lỗi, service tăng \texttt{retryCount} và chuyển sang \texttt{FAILED}; khi vượt \texttt{maxRetry=10}, chuyển sang \texttt{DEAD\_LETTER} và gửi cảnh báo Telegram.
+\item \textbf{Quét danh sách sự kiện:} Tiến trình định kỳ quét bảng sự kiện chờ gửi trong cơ sở dữ liệu để lấy danh sách các sự kiện giao dịch đang chờ xử lý hoặc đã thất bại nhưng chưa vượt quá số lần thử lại tối đa.
+\item \textbf{Kiểm tra dữ liệu:} Tiến trình kiểm tra thông tin sự kiện để đảm bảo dữ liệu hợp lệ.
+\item \textbf{Gửi thông điệp sự kiện:} Tiến trình gửi thông điệp sự kiện mua gói thuê bao VIP thành công vào hệ thống truyền tin trung tâm theo mã người dùng dưới định dạng nén dữ liệu.
+\item \textbf{Cập nhật kết quả:} Nếu gửi thành công, tiến trình cập nhật sự kiện sang trạng thái đã hoàn thành. Nếu xảy ra lỗi, hệ thống tăng số lần thử lại và chuyển trạng thái sự kiện thành thất bại; khi vượt quá số lần thử lại tối đa, sự kiện được đưa vào danh sách lỗi nghiêm trọng và gửi cảnh báo về nhóm hỗ trợ hệ thống.
 \end{itemize}

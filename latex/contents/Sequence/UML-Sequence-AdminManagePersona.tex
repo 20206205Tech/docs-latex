@@ -31,8 +31,8 @@ Persona Database & Database & Cơ sở dữ liệu lưu trữ thông tin cấu h
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
-\item \textbf{Tải lên Avatar (Tùy chọn):} Admin chọn ảnh đại diện. Frontend gửi file qua Kong tới Persona Service bằng \texttt{POST /code-persona-service/personas/upload-avatar}. Dịch vụ lưu file vào Supabase Storage và trả về đường dẫn \texttt{avatar\_url} cho Frontend.
-\item \textbf{Tải lên Âm thanh (Tùy chọn):} Admin chọn file âm thanh giới thiệu. Frontend gửi yêu cầu \texttt{POST /code-persona-service/personas/upload-audio}; Persona Service lưu file vào Supabase Storage và phản hồi lại \texttt{greeting\_audio\_url}.
-\item \textbf{Lưu thông tin nhân vật:} Admin điền các thông tin cấu hình. Frontend gửi yêu cầu \texttt{POST /personas} hoặc \texttt{PUT /personas/\{persona\_id\}}.
-\item \textbf{Xử lý và Lưu trữ:} Persona Service kiểm tra sự tồn tại của \texttt{voice\_uuid} trong cơ sở dữ liệu. Nếu có \texttt{greeting\_text} hoặc thay đổi giọng nói, hệ thống có thể tự sinh lại audio giới thiệu và cập nhật \texttt{greeting\_audio\_url}, sau đó ghi dữ liệu nhân vật vào Persona Database.
+\item \textbf{Tải lên ảnh đại diện (Tùy chọn):} Quản trị viên tải lên ảnh đại diện mới cho nhân vật. Giao diện gửi tệp tin qua cổng kết nối tới dịch vụ nhân vật. Dịch vụ lưu trữ ảnh vào kho chứa trực tuyến và trả lại liên kết ảnh đại diện.
+\item \textbf{Tải lên âm thanh giới thiệu (Tùy chọn):} Quản trị viên tải lên tệp âm thanh giới thiệu. Giao diện gửi yêu cầu tải âm thanh, dịch vụ nhân vật lưu tệp vào kho chứa trực tuyến và phản hồi liên kết âm thanh giới thiệu.
+\item \textbf{Lưu thông tin nhân vật:} Quản trị viên điền các cấu hình của nhân vật và gửi yêu cầu lưu hoặc cập nhật thông tin qua giao diện.
+\item \textbf{Xử lý và lưu trữ:} Dịch vụ nhân vật kiểm tra tính hợp lệ của giọng nói được chọn. Nếu có nội dung văn bản giới thiệu hoặc thay đổi giọng nói, hệ thống tự động tạo lại tệp âm thanh giới thiệu tương ứng, cập nhật liên kết âm thanh và lưu toàn bộ thông tin nhân vật vào cơ sở dữ liệu.
 \end{itemize}

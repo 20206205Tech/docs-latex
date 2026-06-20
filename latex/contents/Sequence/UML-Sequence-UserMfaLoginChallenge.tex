@@ -32,8 +32,8 @@ Authenticator App & External App & Ứng dụng sinh mã TOTP. \\ \hline
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
-\item Khi đăng nhập, hệ thống chỉ cấp Access Token tạm thời ở cấp độ AAL1 (\texttt{aal = aal1}).
-\item Web Frontend phát hiện cấp độ token là AAL1, lập tức chặn quyền truy cập và chuyển hướng trình duyệt sang trang nhập mã TOTP (\texttt{/auth/mfa}).
-\item User điền mã TOTP lấy từ ứng dụng di động. Frontend thực hiện luồng thách thức/xác thực tương tự qua Gateway gửi tới Auth Service.
-\item Khi xác minh thành công, Auth Service nâng cấp phiên đăng nhập lên cấp độ AAL2 (\texttt{aal = aal2}), cấp Access Token mới và gửi về cho Web Frontend để cho phép người dùng đăng nhập chính thức vào hệ thống (\texttt{/chat}).
+\item \textbf{Đăng nhập bước đầu:} Khi người dùng đăng nhập bằng tài khoản và mật khẩu thông thường, hệ thống chỉ cấp mã phiên đăng nhập ở mức độ bảo mật cơ bản.
+\item \textbf{Yêu cầu xác thực lớp thứ hai:} Giao diện phát hiện mức độ bảo mật của phiên đăng nhập chưa đạt yêu cầu bảo mật cao nhất, lập tức chặn quyền truy cập và chuyển hướng người dùng sang trang yêu cầu nhập mã xác thực hai lớp.
+\item \textbf{Nhập mã xác thực:} Người dùng điền mã xác thực lấy từ ứng dụng trên điện thoại di động. Giao diện gửi yêu cầu xác minh qua cổng kết nối tới dịch vụ chứng thực.
+\item \textbf{Nâng cấp phiên đăng nhập:} Sau khi xác minh thành công, dịch vụ chứng thực nâng cấp phiên đăng nhập lên mức độ bảo mật cao nhất, cấp mã đăng nhập mới gửi về giao diện để người dùng có thể truy cập đầy đủ các chức năng trò chuyện chính của hệ thống.
 \end{itemize}

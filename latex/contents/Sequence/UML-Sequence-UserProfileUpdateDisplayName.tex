@@ -31,6 +31,6 @@ Auth Service (Supabase) & Component & Dịch vụ thực hiện xác thực, tru
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
-\item Người dùng truy cập trang Hồ sơ. Frontend gửi yêu cầu \texttt{GET /profiles?id=eq.\{userId\}} qua Gateway để lấy thông tin hiển thị.
-\item Người dùng sửa tên hiển thị và nhấn Lưu. Frontend thực hiện gọi API \texttt{PATCH} kèm tham số \texttt{full\_name} để thực hiện cập nhật.
+\item \textbf{Tải thông tin hiện tại:} Người dùng truy cập trang thông tin cá nhân. Giao diện gửi yêu cầu lấy thông tin chi tiết của người dùng qua cổng kết nối dựa trên mã định danh tài khoản.
+\item \textbf{Cập nhật tên hiển thị:} Người dùng nhập tên hiển thị mới và nhấn lưu. Giao diện gửi yêu cầu cập nhật tên hiển thị mới qua cổng kết nối tới cơ sở dữ liệu để ghi nhận thay đổi.
 \end{itemize}

@@ -33,8 +33,8 @@ Authenticator App & External Service & Ứng dụng di động (Google Authentic
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
-\item User chọn kích hoạt 2FA. Frontend gọi API \texttt{POST /factors} qua Gateway (Kong) đến Auth Service. Auth Service thực hiện đăng ký yếu tố xác thực mới ở trạng thái chưa kiểm chứng (\texttt{unverified}) và sinh thông tin khóa bí mật cùng mã QR Code để trả về.
-\item User quét mã QR bằng Authenticator App để cấu hình đồng bộ. Ứng dụng này sẽ sinh mã TOTP cập nhật liên tục mỗi 30 giây.
-\item User nhập TOTP thử nghiệm. Frontend gửi yêu cầu qua Gateway để tạo mã thách thức (\texttt{POST /factors/\{id\}/challenge}) và gửi mã TOTP kèm mã thách thức để xác thực kích hoạt (\texttt{POST /factors/\{id\}/verify}).
-\item Nếu mã TOTP chính xác, Auth Service xác thực và kích hoạt trạng thái \texttt{verified} cho thiết bị xác thực, đồng thời cấp lại Access Token mới nâng cấp mức độ bảo mật lên \texttt{aal2}.
+\item \textbf{Yêu cầu thiết lập 2 lớp:} Người dùng chọn kích hoạt xác thực hai lớp. Giao diện gửi yêu cầu đăng ký qua cổng kết nối đến dịch vụ chứng thực. Dịch vụ chứng thực đăng ký thiết bị xác thực mới ở trạng thái chưa kiểm chứng, đồng thời tạo mã khóa bảo mật và hình ảnh mã phản hồi nhanh gửi về giao diện.
+\item \textbf{Đồng bộ hóa ứng dụng:} Người dùng quét hình ảnh mã phản hồi nhanh bằng ứng dụng xác thực trên điện thoại để thiết lập đồng bộ thời gian. Ứng dụng này sẽ liên tục tạo ra các mã xác thực gồm sáu chữ số thay đổi mỗi ba mươi giây.
+\item \textbf{Nhập mã kiểm chứng:} Người dùng nhập mã xác thực hiển thị trên ứng dụng để kiểm tra. Giao diện gửi yêu cầu tạo mã thách thức và gửi mã xác thực kèm mã thách thức qua cổng kết nối tới dịch vụ chứng thực để xác minh.
+\item \textbf{Kích hoạt thành công:} Nếu mã xác thực chính xác, dịch vụ chứng thực chuyển trạng thái thiết bị xác thực thành đã xác minh, đồng thời cấp lại mã đăng nhập mới với mức độ bảo mật cao hơn cho người dùng.
 \end{itemize}

@@ -31,6 +31,6 @@ Setting Service (Neon API) & Microservice & Dịch vụ quản lý và truy vấ
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
-\item Người dùng chọn trang cài đặt. Frontend thực hiện gửi yêu cầu \texttt{GET /neon-setting-service} qua Kong Gateway tới Setting Service (Neon API) (kèm Access Token).
-\item Setting Service (Neon API) tự truy vấn danh sách cài đặt của người dùng (dưới dạng Key-Value) và trả về dữ liệu cấu hình cho Frontend hiển thị.
+\item \textbf{Yêu cầu lấy cài đặt:} Người dùng truy cập vào trang cấu hình cài đặt. Giao diện gửi yêu cầu lấy thông tin cài đặt qua cổng kết nối tới dịch vụ cấu hình cài đặt kèm theo mã phiên đăng nhập.
+\item \textbf{Phản hồi cấu hình:} Dịch vụ cấu hình cài đặt truy vấn danh sách các cài đặt cá nhân của người dùng dưới dạng các cặp khóa và giá trị từ cơ sở dữ liệu cài đặt và phản hồi về giao diện để hiển thị cho người dùng.
 \end{itemize}

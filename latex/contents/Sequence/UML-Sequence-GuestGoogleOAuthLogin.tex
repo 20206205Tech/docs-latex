@@ -31,18 +31,9 @@ Google & External Service & Dịch vụ xác thực bên thứ ba của Google (
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
-\item Guest nhấp chọn Đăng nhập Google trên Frontend.
-Frontend thực hiện chuyển hướng trình duyệt (Redirect) trực tiếp đến endpoint authorize
-trên API Gateway (Kong) để chuyển tiếp yêu cầu đến Auth Service.
-\item Auth Service nhận yêu cầu
-và trả về phản hồi HTTP 302 Redirect tới trang xác thực Google OAuth.
-Trình duyệt của Guest tự động chuyển hướng sang Google để người dùng đăng nhập và ủy quyền.
-\item Sau khi xác thực thành công,
-Google chuyển hướng trình duyệt quay lại địa chỉ Callback của Auth Service thông qua API Gateway (Kong) cùng với mã xác thực (Auth Code).
-\item Auth Service trực tiếp trao đổi Auth Code
-với Google để nhận thông tin người dùng, tự thực hiện lưu thông tin User mới hoặc cập nhật phiên đăng nhập, sinh cặp mã JWT Token,
-sau đó thực hiện Redirect 302 trình duyệt quay lại địa chỉ Callback của Web Frontend (\texttt{/auth/callback}) chứa Access Token
-và Refresh Token trong phần URL Hash.
-\item Web Frontend trích xuất các mã token từ URL Hash, lưu trữ cục bộ và chuyển Guest sang \texttt{/auth/mfa}
-để hoàn tất bước xác thực bổ sung trước khi vào giao diện người dùng chính.
+\item \textbf{Chọn đăng nhập:} Khách vãng lai chọn đăng nhập bằng tài khoản liên kết bên ngoài trên giao diện. Giao diện chuyển hướng trình duyệt đến cổng kết nối để gửi yêu cầu xác thực với dịch vụ chứng thực.
+\item \textbf{Chuyển hướng trang đăng nhập:} Dịch vụ chứng thực phản hồi yêu cầu chuyển hướng người dùng sang trang đăng nhập của nhà cung cấp liên kết. Trình duyệt tự động chuyển sang giao diện của nhà cung cấp để người dùng đăng nhập và cấp quyền.
+\item \textbf{Nhận mã xác thực:} Sau khi người dùng đồng ý, nhà cung cấp chuyển hướng trình duyệt quay lại địa chỉ xử lý của dịch vụ chứng thực qua cổng kết nối kèm theo mã xác thực tạm thời.
+\item \textbf{Đổi mã lấy thông tin:} Dịch vụ chứng thực trao đổi mã này với nhà cung cấp để lấy thông tin tài khoản người dùng, tiến hành tạo mới tài khoản (nếu là lần đầu) hoặc cập nhật thông tin đăng nhập, tạo mã phiên đăng nhập và mã làm mới, sau đó chuyển hướng trình duyệt về trang tiếp nhận của giao diện kèm các mã đăng nhập trong địa chỉ trang web.
+\item \textbf{Lưu trữ mã đăng nhập:} Giao diện trích xuất các mã này, lưu trữ cục bộ và chuyển hướng người dùng đến trang xác thực hai lớp để hoàn tất xác minh trước khi vào màn hình chính.
 \end{itemize}

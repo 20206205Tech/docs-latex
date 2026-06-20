@@ -36,13 +36,8 @@ Payment Service & Microservice & Cung cấp thông tin các gói thuê bao VIP v
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
-\item Guest truy cập vào trang chủ trên Web Frontend.
-\item Web Frontend hiển thị nội dung giới thiệu tĩnh trên trang chủ
-và gửi yêu cầu
-tải bảng giá gói thuê bao VIP
-từ Payment Service thông qua API Gateway.
-\item Web Frontend gửi yêu cầu
-tải danh sách nhân vật kèm đường dẫn âm thanh mẫu
-từ Persona Service thông qua API Gateway.
-\item Web Frontend hiển thị các thông tin này lên giao diện để Khách vãng lai (Guest) tìm hiểu.
+\item \textbf{Truy cập trang chủ:} Khách vãng lai truy cập vào trang chủ của hệ thống.
+\item \textbf{Tải bảng giá:} Giao diện hiển thị thông tin giới thiệu tĩnh và gửi yêu cầu lấy bảng giá các gói thuê bao VIP từ dịch vụ thanh toán qua cổng kết nối.
+\item \textbf{Tải danh sách nhân vật:} Giao diện gửi yêu cầu lấy danh sách các nhân vật kèm tệp âm thanh mẫu từ dịch vụ nhân vật qua cổng kết nối.
+\item \textbf{Hiển thị thông tin:} Giao diện hiển thị bảng giá dịch vụ và danh sách nhân vật lên màn hình để khách vãng lai tìm hiểu thông tin.
 \end{itemize}
