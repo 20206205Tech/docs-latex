@@ -27,6 +27,8 @@ Dự án tập trung nghiên cứu, thiết kế và phát triển các thành p
 
 \item \textbf{Phân hệ Trợ lý ảo AI \& Quản lý trò chuyện}: Phát triển Dịch vụ trò chuyện (NestJS) và Dịch vụ chatbot (Python) giao tiếp qua gRPC và RabbitMQ. Ứng dụng kỹ thuật RAG (Retrieval-Augmented Generation) và LLM để trả lời theo cơ chế streaming, xuất luồng suy luận (reasoning details). Giới hạn các tính năng quản lý ở mức: tạo thư mục, ghi chú, đánh dấu (bookmark) và chia sẻ liên kết trò chuyện.
 
+\item \textbf{Phân hệ Xử lý tài liệu cá nhân (Tính năng VIP)}: Quản lý xử lý các tài liệu do người dùng tải lên thông qua luồng tác vụ bất đồng bộ (Celery worker). Quy trình bao gồm: tải tệp từ Cloudflare R2, trích xuất cấu trúc và nội dung sang Markdown bằng thư viện \texttt{Docling}, phân đoạn văn bản bằng \texttt{RecursiveCharacterTextSplitter}, tạo vector biểu diễn ngữ nghĩa bằng mô hình \texttt{keepitreal/vietnamese-sbert} và lưu trữ vào cơ sở dữ liệu vector Qdrant để phục vụ truy xuất. Áp dụng cơ chế kiểm tra trùng lặp (Deduplication) để tối ưu hiệu năng hệ thống.
+
 \item \textbf{Phân hệ Giao tiếp bằng Giọng nói (Voice AI)}: Tích hợp nền tảng LiveKit để thu phát âm thanh thời gian thực. Ứng dụng các giải pháp Text-to-Speech bao gồm edge-tts, piper-tts và elevenlabs để tổng hợp giọng nói phản hồi.
 
 \item \textbf{Phân hệ Quản lý thanh toán nội địa}: Xây dựng một dịch vụ thanh toán độc lập triển khai trên Heroku, giao tiếp bất đồng bộ qua Kafka. Chỉ hỗ trợ quản lý trạng thái thuê bao (Subscriptions) qua các cổng thanh toán nội địa Việt Nam bao gồm: SePay, VNPAY, ZaloPay và MoMo.
