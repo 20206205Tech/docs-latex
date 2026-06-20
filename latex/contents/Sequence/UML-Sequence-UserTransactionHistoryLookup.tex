@@ -25,7 +25,7 @@ Payment DB & Database & Lưu thông tin Transaction của người dùng. \\ \hl
 \caption{Các thành phần tham gia luồng tra cứu lịch sử giao dịch}
 \end{table}
 
-\subparagraph{Mô tả chi tiết}
+\subparagraph{Mô tả tổng quan}
 \begin{itemize}
 \item \textbf{Yêu cầu tra cứu:} User mở trang Lịch sử giao dịch. Web Frontend gọi \texttt{GET /code-payment-service/subscriptions/history} với tham số \texttt{skip}, \texttt{limit} và Bearer Token.
 \item \textbf{Xử lý truy vấn:} Payment Service tạo \texttt{GetTransactionHistoryQuery}, truy vấn \texttt{findAllByUserId(userId, skip, limit)} để lấy danh sách transaction và \texttt{countAllByUserId(userId)} để lấy \texttt{total}.

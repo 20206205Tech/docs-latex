@@ -26,7 +26,7 @@ Payment DB & Database & Cung cấp transaction cần đối chiếu bằng \text
 \caption{Các thành phần tham gia pha Gateway gửi callback/IPN}
 \end{table}
 
-\subparagraph{Mô tả chi tiết}
+\subparagraph{Mô tả tổng quan}
 \begin{itemize}
 \item \textbf{Gửi callback/IPN:} Payment Gateway gọi \texttt{GET/POST /code-payment-service/subscriptions/payment-callback/\{provider\}}. Endpoint này là public và nhận dữ liệu qua query hoặc body tùy provider.
 \item \textbf{Xác minh IPN:} Payment Service gọi Payment Gateway Selector để thực hiện \texttt{verifyIpn(requestData, provider)} và nhận kết quả gồm \texttt{isValid}, \texttt{isSuccess}, \texttt{txnRef}, \texttt{amount}, \texttt{providerTransId}, \texttt{message}.

@@ -25,7 +25,7 @@ Payment Database & Database & Lưu trữ thông tin chi tiết về các gói th
 \caption{Các thành phần tham gia luồng Tạo mới gói thuê bao VIP}
 \end{table}
 
-\subparagraph{Mô tả chi tiết}
+\subparagraph{Mô tả tổng quan}
 \begin{itemize}
 \item \textbf{Yêu cầu tạo mới:} Admin điền đầy đủ các thông tin gói thuê bao VIP bao gồm tên, thời hạn (số tháng), mức giá và các đặc quyền đi kèm (như RAG nâng cao, đàm thoại trực tiếp thời gian thực).
 \item \textbf{Gửi yêu cầu:} Web Frontend gửi yêu cầu \texttt{POST /code-payment-service/plans} mang theo token xác thực qua Kong API Gateway. Kong xác thực token và kiểm tra quyền của tài khoản Admin trước khi chuyển tiếp yêu cầu.

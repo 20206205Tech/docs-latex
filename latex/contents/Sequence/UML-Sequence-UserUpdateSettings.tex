@@ -25,7 +25,7 @@ Setting Neon Database & Database & Lưu trữ cấu hình cài đặt của User
 \caption{Các thành phần tham gia luồng Cập nhật thông tin Cài đặt}
 \end{table}
 
-\subparagraph{Mô tả chi tiết}
+\subparagraph{Mô tả tổng quan}
 \begin{itemize}
 \item Người dùng thay đổi các tuỳ chọn trên giao diện. Frontend cập nhật trạng thái cục bộ và gửi yêu cầu \texttt{POST /neon-setting-service} chứa danh sách cài đặt mới qua Gateway đến Setting Service (Neon API).
 \item Setting Service (Neon API) thực hiện cập nhật hoặc thêm mới (Upsert) cấu hình của người dùng trong Setting Neon Database.

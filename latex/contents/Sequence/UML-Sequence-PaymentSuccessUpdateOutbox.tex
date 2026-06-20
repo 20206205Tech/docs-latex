@@ -23,7 +23,7 @@ Event Bus (NestJS CQRS) & Component & Phát domain event nội bộ cho các loc
 \caption{Các thành phần tham gia pha cập nhật giao dịch thành công và ghi Outbox}
 \end{table}
 
-\subparagraph{Mô tả chi tiết}
+\subparagraph{Mô tả tổng quan}
 \begin{itemize}
 \item \textbf{Tải dữ liệu liên quan:} Payment Service tải Subscription và Plan theo thông tin trên transaction, đồng thời tìm subscription active mới nhất của user để cộng dồn thời hạn nếu cần.
 \item \textbf{Hoàn tất thanh toán:} Service gọi \texttt{fulfillPayment} để chuyển transaction sang \texttt{success}, đặt \texttt{paidAt} và kích hoạt subscription thành \texttt{active}.

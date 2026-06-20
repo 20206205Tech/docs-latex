@@ -25,7 +25,7 @@ Web Frontend & Component & Giao diện web Next.js. \\ \hline %%%% Component & �
 \caption{Các thành phần tham gia luồng Xác nhận liên kết từ Email}
 \end{table}
 
-\subparagraph{Mô tả chi tiết}
+\subparagraph{Mô tả tổng quan}
 \begin{itemize}
 \item Người dùng click vào link trong email. Yêu cầu chuyển qua Kong Gateway tới Auth Service để đối chiếu token trong Supabase Database.
 \item Nếu hợp lệ, Auth Service trả về HTTP 302 Redirect hướng trình duyệt của người dùng đến địa chỉ \texttt{/auth/callback?type=recovery} của Web Frontend kèm theo token tạm trong URL Hash.

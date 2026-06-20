@@ -26,7 +26,7 @@ Persona Database & Database & Cơ sở dữ liệu lưu trữ thông tin cấu h
 \caption{Các thành phần tham gia luồng Quản lý nhân vật}
 \end{table}
 
-\subparagraph{Mô tả chi tiết}
+\subparagraph{Mô tả tổng quan}
 \begin{itemize}
 \item \textbf{Tải lên Avatar (Tùy chọn):} Admin chọn ảnh đại diện. Frontend gửi file qua Kong tới Persona Service bằng \texttt{POST /code-persona-service/personas/upload-avatar}. Dịch vụ lưu file vào Supabase Storage và trả về đường dẫn \texttt{avatar\_url} cho Frontend.
 \item \textbf{Tải lên Âm thanh (Tùy chọn):} Admin chọn file âm thanh giới thiệu. Frontend gửi yêu cầu \texttt{POST /code-persona-service/personas/upload-audio}; Persona Service lưu file vào Supabase Storage và phản hồi lại \texttt{greeting\_audio\_url}.

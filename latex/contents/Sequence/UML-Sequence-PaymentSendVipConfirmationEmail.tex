@@ -26,7 +26,7 @@ User & Actor & Nhận email xác nhận giao dịch VIP. \\ \hline
 \caption{Các thành phần tham gia pha local handler gửi email xác nhận thanh toán VIP}
 \end{table}
 
-\subparagraph{Mô tả chi tiết}
+\subparagraph{Mô tả tổng quan}
 \begin{itemize}
 \item \textbf{Nhận domain event:} EventBus gọi \texttt{handle(SubscriptionPurchasedEvent)} sau khi Payment Service publish event nội bộ.
 \item \textbf{Lấy transaction metadata:} Handler tìm transaction theo \texttt{subscriptionId} để lấy \texttt{paymentMetadata.customer\_email} và \texttt{transactionRef}. Nếu không có \texttt{customer\_email}, handler ghi log cảnh báo và bỏ qua gửi email.

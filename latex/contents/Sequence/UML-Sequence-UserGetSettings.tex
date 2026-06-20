@@ -26,7 +26,7 @@ Setting Neon Database & Database & Cơ sở dữ liệu Neon lưu trữ các b�
 \caption{Các thành phần tham gia luồng Lấy thông tin Cài đặt}
 \end{table}
 
-\subparagraph{Mô tả chi tiết}
+\subparagraph{Mô tả tổng quan}
 \begin{itemize}
 \item Người dùng chọn trang cài đặt. Frontend thực hiện gửi yêu cầu \texttt{GET /neon-setting-service} qua Kong Gateway tới Setting Service (Neon API) (kèm Access Token).
 \item Setting Service (Neon API) truy vấn dữ liệu cài đặt từ Setting Neon Database, sau đó trả về danh sách Key-Value (SettingItem) cho Frontend hiển thị.

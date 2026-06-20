@@ -24,7 +24,7 @@ Telegram Alert & External Service & Nhận cảnh báo khi outbox message vượ
 \caption{Các thành phần tham gia pha Outbox Relay publish sự kiện mua VIP lên Kafka}
 \end{table}
 
-\subparagraph{Mô tả chi tiết}
+\subparagraph{Mô tả tổng quan}
 \begin{itemize}
 \item \textbf{Quét Outbox:} Cron định kỳ tải tối đa 50 bản ghi \texttt{PENDING} hoặc \texttt{FAILED} còn lượt retry, có khóa \texttt{pessimistic\_write} và \texttt{skip\_locked}.
 \item \textbf{Validate payload:} Với \texttt{SubscriptionPurchasedEvent}, service kiểm tra các trường \texttt{subscriptionId}, \texttt{userId}, \texttt{planId}, \texttt{periodStart}, \texttt{periodEnd}, \texttt{version}.

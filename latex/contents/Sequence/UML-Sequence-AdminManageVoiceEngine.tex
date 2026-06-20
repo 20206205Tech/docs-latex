@@ -25,7 +25,7 @@ Persona Database & Database & Lưu trữ thông tin Engine gồm \texttt{code}, 
 \caption{Các thành phần tham gia luồng Quản lý Engine giọng nói}
 \end{table}
 
-\subparagraph{Mô tả chi tiết}
+\subparagraph{Mô tả tổng quan}
 \begin{itemize}
 \item \textbf{Nhập cấu hình:} Admin mở trang Engine trong Admin Panel và nhập mã Engine, tên hiển thị cùng trạng thái hoạt động.
 \item \textbf{Gửi yêu cầu lưu:} Web Frontend gửi yêu cầu \texttt{POST /code-persona-service/engines} hoặc yêu cầu cập nhật \texttt{PUT /code-persona-service/engines/\{engine\_id\}} qua Kong API Gateway kèm Bearer Token.

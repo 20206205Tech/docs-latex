@@ -25,7 +25,7 @@ Payment Database & Database & Lưu trữ thông tin chi tiết về các gói th
 \caption{Các thành phần tham gia luồng Lưu trữ gói thuê bao VIP}
 \end{table}
 
-\subparagraph{Mô tả chi tiết}
+\subparagraph{Mô tả tổng quan}
 \begin{itemize}
 \item \textbf{Yêu cầu lưu trữ:} Admin tìm gói thuê bao VIP cần ngưng kinh doanh trong danh sách Admin Panel và click nút "Lưu trữ" (Archive/Deactivate).
 \item \textbf{Gửi yêu cầu:} Web Frontend gửi yêu cầu \texttt{DELETE /code-payment-service/plans/\{plan\_id\}} qua Kong API Gateway với Bearer Token thích hợp. Kong xác thực và ủy quyền truy cập cho tài khoản Admin trước khi chuyển tiếp yêu cầu lưu trữ gói.

@@ -25,7 +25,7 @@ Conversation Database & Database & Lưu trữ các thư mục bookmark (Bookmark
 \caption{Các thành phần tham gia luồng Đánh dấu cuộc trò chuyện}
 \end{table}
 
-\subparagraph{Mô tả chi tiết}
+\subparagraph{Mô tả tổng quan}
 \begin{itemize}
 \item Khi người dùng nhấn nút "Bookmark" trên giao diện, Web Frontend gửi yêu cầu \texttt{GET /bookmarks} để lấy danh sách thư mục hiện có của người dùng và hiển thị lên giao diện.
 \item Nếu người dùng muốn tạo thư mục mới, họ nhập tên thư mục và Frontend gửi yêu cầu \texttt{POST /bookmarks} với dữ liệu \texttt{folderName}. Hệ thống sẽ tạo thư mục mới trong Conversation Database và cập nhật lại danh sách trên màn hình.

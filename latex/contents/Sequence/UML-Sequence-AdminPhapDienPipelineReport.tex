@@ -25,7 +25,7 @@ Pipeline Database & Database & Cơ sở dữ liệu lưu trữ kết quả thố
 \caption{Các thành phần tham gia luồng Theo dõi báo cáo Pháp Điển Pipeline}
 \end{table}
 
-\subparagraph{Mô tả chi tiết}
+\subparagraph{Mô tả tổng quan}
 \begin{itemize}
 \item \textbf{Yêu cầu xem báo cáo:} Admin truy cập vào Dashboard quản trị. Web Frontend gửi yêu cầu lấy số liệu thống kê Pháp Điển bằng phương thức \texttt{GET /data-pipeline-phapdien-service/phapdien/summary} qua Kong API Gateway.
 \item \textbf{Kiểm tra và Định tuyến:} Kong Gateway xác thực Bearer Token của Admin, sau đó chuyển tiếp yêu cầu tới Pháp Điển Pipeline Service.

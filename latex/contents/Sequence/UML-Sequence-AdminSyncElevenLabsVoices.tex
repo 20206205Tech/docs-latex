@@ -26,7 +26,7 @@ Persona Database & Database & Lưu trữ các bản ghi Voice để liên kết 
 \caption{Các thành phần tham gia luồng Thiết lập và đồng bộ giọng nói}
 \end{table}
 
-\subparagraph{Mô tả chi tiết}
+\subparagraph{Mô tả tổng quan}
 \begin{itemize}
 \item \textbf{Yêu cầu đồng bộ:} Admin chọn chức năng đồng bộ trên giao diện. Frontend gửi yêu cầu \texttt{POST /voices/sync-elevenlabs} qua Kong tới Persona Service.
 \item \textbf{Gọi API ElevenLabs:} Persona Service gửi yêu cầu \texttt{GET /v1/voices} tới ElevenLabs API kèm theo khóa xác thực API Key của hệ thống được lưu trong biến môi trường.

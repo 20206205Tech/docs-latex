@@ -26,7 +26,7 @@ Supabase Database & Database & Lưu trữ thông tin thay đổi. \\ \hline
 \caption{Các thành phần tham gia luồng Tải lên và Cập nhật Ảnh đại diện}
 \end{table}
 
-\subparagraph{Mô tả chi tiết}
+\subparagraph{Mô tả tổng quan}
 \begin{itemize}
 \item Người dùng tải tệp ảnh lên. Frontend sinh tên tệp tin độc nhất (\texttt{userId\_random.ext}) rồi gửi trực tiếp tệp tin nhị phân qua Gateway đến \texttt{Supabase Storage} (bucket \texttt{avatars}).
 \item Sau khi upload thành công, Frontend khởi tạo đường dẫn ảnh công khai (\texttt{avatar\_url}) và thực hiện gửi yêu cầu \texttt{PATCH /profiles?id=eq.\{userId\}} qua Gateway để cập nhật thông tin ảnh đại diện của người dùng trong Supabase Database.

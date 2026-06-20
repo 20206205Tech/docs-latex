@@ -28,7 +28,7 @@ Payment Gateway & External Service & Cổng thanh toán bên thứ ba sinh Payme
 \caption{Các thành phần tham gia pha khởi tạo giao dịch mua gói thuê bao VIP}
 \end{table}
 
-\subparagraph{Mô tả chi tiết}
+\subparagraph{Mô tả tổng quan}
 \begin{itemize}
 \item \textbf{Gửi yêu cầu mua gói thuê bao VIP:} User chọn nâng cấp VIP, Frontend gọi \texttt{POST /code-payment-service/subscriptions/purchase} qua Kong kèm Bearer Token và body gồm \texttt{plan\_id}, \texttt{redirect\_url}.
 \item \textbf{Chuẩn bị dữ liệu thanh toán:} Payment Service kiểm tra plan còn active, tìm subscription hiện tại của user, tái sử dụng subscription nếu đã có hoặc tạo mới subscription trạng thái \texttt{pending} nếu chưa có.

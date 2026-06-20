@@ -26,7 +26,7 @@ Authenticator App & External Service & Ứng dụng di động sinh mã OTP dự
 \caption{Các thành phần tham gia luồng Bắt buộc xác thực 2FA khi Đăng nhập}
 \end{table}
 
-\subparagraph{Mô tả chi tiết}
+\subparagraph{Mô tả tổng quan}
 \begin{itemize}
 \item Khi đăng nhập thông thường, Auth Service phát hiện User đã kích hoạt 2FA. Do đó, hệ thống chỉ cấp Access Token tạm thời ở cấp độ AAL1 (\texttt{aal = aal1}).
 \item Web Frontend phát hiện cấp độ token là AAL1, lập tức chặn quyền truy cập và chuyển hướng trình duyệt sang trang nhập mã OTP (\texttt{/auth/mfa}).

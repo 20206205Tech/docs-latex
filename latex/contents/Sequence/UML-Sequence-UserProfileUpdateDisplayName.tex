@@ -25,7 +25,7 @@ Supabase Database & Database & Cơ sở dữ liệu Postgres lưu bảng \texttt
 \caption{Các thành phần tham gia luồng Xem và Cập nhật Tên hiển thị}
 \end{table}
 
-\subparagraph{Mô tả chi tiết}
+\subparagraph{Mô tả tổng quan}
 \begin{itemize}
 \item Người dùng truy cập trang Hồ sơ. Frontend gửi yêu cầu \texttt{GET /profiles?id=eq.\{userId\}} qua Gateway để lấy thông tin hiển thị.
 \item Người dùng sửa tên hiển thị và nhấn Lưu. Frontend thực hiện cuộc gọi API \texttt{PATCH /profiles?id=eq.\{userId\}} kèm tham số \texttt{full\_name} để thực hiện cập nhật.

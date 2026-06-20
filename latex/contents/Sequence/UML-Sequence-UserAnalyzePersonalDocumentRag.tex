@@ -29,7 +29,7 @@ Chatbot DB & Database & Lưu human message, AI message, reasoning steps và sour
 \caption{Các thành phần tham gia luồng phân tích tài liệu cá nhân bằng reasoning pháp lý}
 \end{table}
 
-\subparagraph{Mô tả chi tiết}
+\subparagraph{Mô tả tổng quan}
 \begin{itemize}
 \item User gửi truy vấn kèm \texttt{file\_ids} và \texttt{use\_reasoning=true} qua endpoint \texttt{POST /code-conversation-service/chats/stream}.
 \item Conversation Service chuyển request sang Chatbot Service bằng gRPC \texttt{AskAI} và truyền Bearer Token qua metadata \texttt{authorization}.

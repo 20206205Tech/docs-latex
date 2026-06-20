@@ -27,7 +27,7 @@ Chatbot DB & Database & Lưu transcript, reasoning steps, sources và persona. \
 \caption{Các thành phần tham gia luồng đàm thoại trực tiếp với AI}
 \end{table}
 
-\subparagraph{Mô tả chi tiết}
+\subparagraph{Mô tả tổng quan}
 \begin{itemize}
 \item Voice Agent nhận metadata từ LiveKit participant gồm \texttt{chat\_id}, \texttt{user\_id}, \texttt{file\_ids}, \texttt{use\_reasoning} và \texttt{persona\_id}.
 \item Khi \texttt{persona\_id} thay đổi hoặc chưa được resolve, agent gọi public persona endpoint để lấy \texttt{voice\_code} và \texttt{tts\_engine}, sau đó gọi \texttt{DynamicTTS.update\_voice}.

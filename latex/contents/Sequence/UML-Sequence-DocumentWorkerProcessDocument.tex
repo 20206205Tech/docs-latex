@@ -26,7 +26,7 @@ Milvus & Vector Store & Lưu vector chunks theo user và document để truy v�
 \caption{Các thành phần tham gia luồng xử lý tài liệu trong nền}
 \end{table}
 
-\subparagraph{Mô tả chi tiết}
+\subparagraph{Mô tả tổng quan}
 \begin{itemize}
 \item Worker consume \texttt{process\_document\_task(doc\_id)} từ RabbitMQ/Celery.
 \item Worker chuyển trạng thái tài liệu sang \texttt{PROCESSING}, tải file gốc từ R2 theo khóa \texttt{\{user\_id\}/document/\{doc\_id\}\{ext\}}.

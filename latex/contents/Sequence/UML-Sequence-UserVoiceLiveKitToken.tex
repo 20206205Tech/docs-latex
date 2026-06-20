@@ -26,7 +26,7 @@ LiveKit Cloud & External Service & Hạ tầng WebRTC/WebSocket cho phiên đàm
 \caption{Các thành phần tham gia luồng cấp token voice chat qua LiveKit}
 \end{table}
 
-\subparagraph{Mô tả chi tiết}
+\subparagraph{Mô tả tổng quan}
 \begin{itemize}
 \item Web Frontend gọi \texttt{GET /code-conversation-service/chats/\{chat\_id\}/voice-token} kèm \texttt{file\_ids[]}, \texttt{use\_reasoning} và \texttt{persona\_id}.
 \item Conversation Service kiểm tra VIP khi môi trường khác \texttt{development}; nếu không hợp lệ thì trả \texttt{ForbiddenException}.

@@ -26,7 +26,7 @@ Authenticator App & External Service & Ứng dụng di động (Google Authentic
 \caption{Các thành phần tham gia luồng Kích hoạt xác thực 2 lớp}
 \end{table}
 
-\subparagraph{Mô tả chi tiết}
+\subparagraph{Mô tả tổng quan}
 \begin{itemize}
 \item User chọn kích hoạt 2FA. Frontend gọi API \texttt{POST /factors} qua Gateway (Kong) để Auth Service sinh thông tin bí mật và trả về mã QR Code.
 \item User quét mã QR bằng Authenticator App để cấu hình đồng bộ. Ứng dụng này sẽ sinh mã OTP cập nhật liên tục mỗi 30 giây.

@@ -27,7 +27,7 @@ RabbitMQ & Message Broker & Nhận Celery task \texttt{process\_document\_task}.
 \caption{Các thành phần tham gia luồng tải lên tài liệu cá nhân}
 \end{table}
 
-\subparagraph{Mô tả chi tiết}
+\subparagraph{Mô tả tổng quan}
 \begin{itemize}
 \item Web Frontend gọi \texttt{POST /code-document-service/documents/upload} với multipart file.
 \item Document Service kiểm tra \texttt{UserSubscription.is\_active=true} và \texttt{period\_end >= now} khi môi trường khác \texttt{development}.
