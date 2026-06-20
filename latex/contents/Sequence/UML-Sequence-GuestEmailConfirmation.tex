@@ -34,7 +34,7 @@ Auth Service (Supabase) & Microservice & Dịch vụ xác thực cập nhật tr
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
-\item Guest mở hòm thư cá nhân và nhấp chọn liên kết xác thực được gửi từ hệ thống (liên kết được trỏ qua API Gateway Kong).
+\item Guest mở hòm thư cá nhân và nhấp chọn liên kết xác thực được gửi từ hệ thống.
 \item API Gateway chuyển tiếp yêu cầu xác thực tài khoản tới Auth Service.
 \item Auth Service kiểm tra tính hợp lệ của token xác thực và tự động cập nhật trạng thái xác thực để kích hoạt tài khoản (\texttt{email\_confirmed\_at = NOW}).
 \item Sau khi xác thực và cập nhật thành công, Auth Service trả về phản hồi HTTP 302 Redirect, chuyển hướng trình duyệt của người dùng quay trở lại trang callback của Web Frontend (\texttt{/auth/callback}) kèm theo cặp token JWT trong phần URL Hash.

@@ -37,7 +37,7 @@ Google & External Service & Dịch vụ xác thực bên thứ ba của Google (
 Frontend thực hiện chuyển hướng trình duyệt (Redirect) trực tiếp đến endpoint authorize
 trên API Gateway (Kong) để chuyển tiếp yêu cầu đến Auth Service.
 \item Auth Service nhận yêu cầu
-và trả về phản hồi HTTP 302 Redirect trỏ tới trang xác thực Google OAuth.
+và trả về phản hồi HTTP 302 Redirect tới trang xác thực Google OAuth.
 Trình duyệt của Guest tự động chuyển hướng sang Google để người dùng đăng nhập và ủy quyền.
 \item Sau khi xác thực thành công,
 Google chuyển hướng trình duyệt quay lại địa chỉ Callback của Auth Service thông qua API Gateway (Kong) cùng với mã xác thực (Auth Code).

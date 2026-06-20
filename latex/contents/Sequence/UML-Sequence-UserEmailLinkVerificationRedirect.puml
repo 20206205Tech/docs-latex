@@ -6,7 +6,7 @@ database "Supabase Database" as DB
 participant "Web Frontend" as Frontend
 
 == Luồng Người dùng Click liên kết trong Email ==
-User -> Kong: Click link khôi phục trong Email (trỏ qua Kong)
+User -> Kong: Click link khôi phục trong Email
 activate Kong
 note over Kong: Kong tự động thêm thông tin apikey trong header
 Kong -> AuthService: Gửi token xác minh khôi phục
