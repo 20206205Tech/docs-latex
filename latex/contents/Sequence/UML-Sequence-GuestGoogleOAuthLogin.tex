@@ -17,7 +17,7 @@ Luồng nghiệp vụ này mô tả chi tiết quá trình xác thực và đăn
 \hline
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
 Guest & Actor & Khách vãng lai thực hiện đăng nhập hoặc đăng ký tài khoản. \\ \hline
-Web Frontend & Component & Giao diện ứng dụng tiếp nhận tương tác và hiển thị trạng thái đăng nhập. \\ \hline
+Web Frontend & Component & Giao diện web Next.js. \\ \hline %%%% Component & Giao diện ứng dụng tiếp nhận tương tác và hiển thị trạng thái đăng nhập. \\ \hline
 API Gateway (Kong) & Component & Cổng kết nối trung gian chịu trách nhiệm định tuyến các yêu cầu API từ client đến dịch vụ Auth Service. \\ \hline
 Auth Service (Supabase) & Microservice & Dịch vụ xác thực chịu trách nhiệm xử lý thông tin đăng ký/đăng nhập, giao tiếp với Google và cấp phát JWT Token. \\ \hline
 Supabase Database & Database & Lưu trữ dữ liệu người dùng (bảng users). \\ \hline

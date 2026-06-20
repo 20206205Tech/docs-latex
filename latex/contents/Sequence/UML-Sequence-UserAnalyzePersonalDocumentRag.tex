@@ -17,7 +17,7 @@ Luồng này mô tả việc sử dụng tài liệu cá nhân đã upload trong
 \hline
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
 User & Actor & Người dùng yêu cầu phân tích tài liệu cá nhân. \\ \hline
-Web Frontend & Component & Gửi yêu cầu \texttt{streamChat} kèm \texttt{file\_ids} và hiển thị stream kết quả. \\ \hline
+Web Frontend & Component & Giao diện web Next.js. \\ \hline %%%% Component & Gửi yêu cầu \texttt{streamChat} kèm \texttt{file\_ids} và hiển thị stream kết quả. \\ \hline
 API Gateway (Kong) & Component & Định tuyến request tới Conversation Service. \\ \hline
 Conversation Service & Microservice & Nhận request SSE và gọi Chatbot Service qua gRPC. \\ \hline
 Chatbot Service & Microservice & Điều phối \texttt{generation\_stream}, lưu message, reasoning steps và sources. \\ \hline

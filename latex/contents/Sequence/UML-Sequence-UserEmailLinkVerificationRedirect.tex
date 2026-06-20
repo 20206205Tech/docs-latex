@@ -20,7 +20,7 @@ User & Actor & Người dùng click liên kết xác nhận. \\ \hline
 API Gateway (Kong) & Component & Chuyển tiếp yêu cầu xác nhận token và nhận phản hồi chuyển hướng. \\ \hline
 Auth Service (Supabase) & Microservice & Dịch vụ Supabase Auth xác minh token khôi phục và trả về HTTP 302 Redirect. \\ \hline
 Supabase Database & Database & Xác thực sự tồn tại và tính hợp lệ của token. \\ \hline
-Web Frontend & Component & Ứng dụng Next.js nhận callback, lưu Access Token từ URL Hash và chuyển sang trang MFA với tham số điều hướng tới trang reset password. \\ \hline
+Web Frontend & Component & Giao diện web Next.js. \\ \hline %%%% Component & Ứng dụng Next.js nhận callback, lưu Access Token từ URL Hash và chuyển sang trang MFA với tham số điều hướng tới trang reset password. \\ \hline
 \end{tabular}
 \caption{Các thành phần tham gia luồng Xác nhận liên kết từ Email}
 \end{table}

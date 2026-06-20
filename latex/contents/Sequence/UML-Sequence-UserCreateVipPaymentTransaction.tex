@@ -17,7 +17,7 @@ Pha này mô tả bước User chọn gói thuê bao VIP trên Web Frontend, h�
 \hline
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
 User & Actor & Người dùng đã đăng nhập và chọn mua gói thuê bao VIP. \\ \hline
-Web Frontend & Component & Gửi yêu cầu mua gói thuê bao VIP, nhận \texttt{payment\_url} sau khi \texttt{apiHelper} bóc \texttt{data}, rồi chuyển hướng người dùng đến link thanh toán. \\ \hline
+Web Frontend & Component & Giao diện web Next.js. \\ \hline %%%% Component & Gửi yêu cầu mua gói thuê bao VIP, nhận \texttt{payment\_url} sau khi \texttt{apiHelper} bóc \texttt{data}, rồi chuyển hướng người dùng đến link thanh toán. \\ \hline
 API Gateway (Kong) & Component & Kiểm tra xác thực token và định tuyến yêu cầu đến Payment Service. \\ \hline
 Payment Service & Microservice & Kiểm tra plan, chuẩn bị subscription, tạo transaction, đăng ký timeout job và yêu cầu link thanh toán từ gateway provider mặc định. \\ \hline
 Payment DB & Database & Lưu thông tin gói thuê bao VIP, subscription và transaction. \\ \hline
