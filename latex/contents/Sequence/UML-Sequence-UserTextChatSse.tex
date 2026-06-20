@@ -17,8 +17,8 @@ Luồng nghiệp vụ này mô tả vòng đời của một yêu cầu chat vă
 \hline
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
 User & Actor & Người dùng nhập truy vấn, chọn tài liệu đính kèm và tùy chọn bật reasoning. \\ \hline
-Web Frontend & Component & Gọi \texttt{conversationService.streamChat}, xử lý SSE và hiển thị status, nội dung, reasoning steps, sources. \\ \hline
-API Gateway (Kong) & Component & Định tuyến request stream có Bearer Token tới Conversation Service. \\ \hline
+Web Frontend & Component & Giao diện web Next.js. \\ \hline %%%% Component & Gọi \texttt{conversationService.streamChat}, xử lý SSE và hiển thị status, nội dung, reasoning steps, sources. \\ \hline
+API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline %%%% Component & Định tuyến request stream có Bearer Token tới Conversation Service. \\ \hline
 Conversation Service & Microservice & Kiểm tra quyền VIP khi cần, kiểm tra chat active, mở SSE stream và gọi Chatbot Service qua gRPC. \\ \hline
 Conversation DB & Database & Lưu chat session và bảng \texttt{user\_subscriptions} dùng để kiểm tra VIP. \\ \hline
 Chatbot Service (gRPC + LangGraph) & Microservice & Verify token từ gRPC metadata, xử lý RAG/reasoning, stream kết quả và lưu lịch sử chat. \\ \hline

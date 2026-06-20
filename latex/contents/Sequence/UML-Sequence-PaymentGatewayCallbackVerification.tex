@@ -18,7 +18,7 @@ Pha này mô tả phần đầu của callback/IPN sau khi User thao tác thanh 
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
 User & Actor & Người dùng thực hiện thao tác thanh toán qua thẻ, ví điện tử hoặc mã QR trên Payment Gateway. \\ \hline
 Payment Gateway & External Service & Xử lý thao tác thanh toán và gửi callback/IPN về hệ thống. \\ \hline
-API Gateway (Kong) & Component & Định tuyến callback public tới Payment Service qua endpoint của \texttt{code-payment-service}. \\ \hline
+API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline %%%% Component & Định tuyến callback public tới Payment Service qua endpoint của \texttt{code-payment-service}. \\ \hline
 Payment Service & Microservice & Tiếp nhận callback, xác minh IPN, kiểm tra transaction, xử lý nhánh lỗi/thất bại hoặc chuyển tiếp sang pha cập nhật thành công. \\ \hline
 Payment Gateway Selector & Component & Chọn adapter tương ứng với \texttt{provider} để gọi \texttt{verifyIpn}. \\ \hline
 Payment DB & Database & Cung cấp transaction cần đối chiếu bằng \texttt{txnRef}. \\ \hline

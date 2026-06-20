@@ -17,8 +17,8 @@ Luồng nghiệp vụ này mô tả chi tiết quá trình người dùng thiế
 \hline
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
 User & Actor & Người dùng thực hiện kích hoạt xác thực 2 lớp. \\ \hline
-Web Frontend & Component & Giao diện Next.js hiển thị mã QR và tiếp nhận mã xác nhận OTP. \\ \hline
-API Gateway (Kong) & Component & Cổng trung gian chịu trách nhiệm định tuyến các yêu cầu \texttt{/factors}. \\ \hline
+Web Frontend & Component & Giao diện web Next.js. \\ \hline %%%% Component & Giao diện Next.js hiển thị mã QR và tiếp nhận mã xác nhận OTP. \\ \hline
+API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline %%%% Component & Cổng trung gian chịu trách nhiệm định tuyến các yêu cầu \texttt{/factors}. \\ \hline
 Auth Service (Supabase) & Microservice & Dịch vụ xác thực Supabase Auth chịu trách nhiệm sinh mã bí mật và xác minh mã OTP. \\ \hline
 Supabase Database & Database & Lưu trữ thông tin thiết lập xác thực đa yếu tố của User ở trạng thái unverified/verified. \\ \hline
 Authenticator App & External Service & Ứng dụng di động (Google Authenticator...) quét QR sinh mã OTP. \\ \hline

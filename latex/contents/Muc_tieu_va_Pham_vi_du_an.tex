@@ -3,76 +3,95 @@
 \subsubsection{Mục tiêu tổng quan}
 
 Mục tiêu tổng quan của dự án
-là nghiên cứu
-và xây dựng
-một hệ thống trợ lý pháp luật thông minh ứng dụng công nghệ Trí tuệ nhân tạo (AI)
-và Kiến trúc vi dịch vụ (Microservices).
-Hệ thống nhằm hỗ trợ người dùng
-và các chuyên gia pháp lý tra cứu, giải đáp các câu hỏi về hệ thống văn bản pháp luật Việt Nam một cách nhanh chóng, chính xác,
-với các bước lập luận rõ ràng và trích dẫn nguồn văn bản pháp lý chính thống.
+là nghiên cứu, thiết kế và xây dựng
+một hệ thống trợ lý pháp luật
+thông minh, ứng dụng công nghệ Trí tuệ nhân tạo (AI)
+kết hợp cùng nền tảng Kiến trúc vi dịch vụ (Microservices).
+Hệ thống được phát triển nhằm giải quyết
+những khó khăn trong việc tra cứu thủ công,
+qua đó hỗ trợ người dùng phổ thông và
+các chuyên gia pháp lý tiếp cận, truy vấn và
+giải đáp các vấn đề liên quan đến
+hệ thống văn bản pháp luật
+Việt Nam một cách nhanh chóng, chính xác.
+Đặc biệt, dự án hướng tới việc xây dựng một trợ lý AI
+không chỉ cung cấp câu trả lời cuối cùng
+mà còn đưa ra các bước lập luận logic,
+minh bạch, kèm theo trích dẫn
+nguồn văn bản pháp lý chính thống,
+giúp giảm thiểu tối đa hiện tượng "ảo giác AI" (hallucination) thường gặp trong các mô hình ngôn ngữ lớn.
 
-% Mục tiêu cụ thể:
 \subsubsection{Mục tiêu cụ thể}
 
-Để đạt được mục tiêu tổng quan, dự án hướng tới hoàn thành các mục tiêu cụ thể sau:
+Để đạt được mục tiêu tổng quan, dự án hướng tới hoàn thành các mục tiêu cụ thể
+về mặt tính năng và trải nghiệm người dùng như sau:
 
 \begin{itemize}
-\item \textbf{Ứng dụng công nghệ AI vào pháp luật với các bước suy luận phức tạp}:
-Tích hợp mô hình ngôn ngữ lớn (LLM)
-và kỹ thuật RAG (Retrieval-Augmented Generation) để trả lời các câu hỏi pháp lý,
-đồng thời cung cấp chi tiết luồng suy luận (reasoning details)
-để tăng tính minh bạch và độ tin cậy.
+\item \textbf{Đảm bảo an toàn thông tin và định danh tài khoản}:
+Xây dựng quản lý tài khoản,
+tích hợp các phương thức xác thực đa yếu tố
+nhằm bảo vệ tối đa dữ liệu
+và quyền riêng tư của người dùng.
 
-\item \textbf{Cung cấp khả năng bảo mật và xác thực mạnh mẽ}:
-Triển khai hệ thống quản lý tài khoản và xác thực qua Supabase Auth,
-hỗ trợ đăng nhập linh hoạt bằng tài khoản Google (OAuth)
-hoặc tài khoản Email truyền thống,
-đồng thời tích hợp xác thực hai yếu tố (MFA - TOTP) bảo mật cao.
+\item \textbf{Nâng cao tính minh bạch và độ tin cậy trong tư vấn pháp lý}:
+Xử lý các truy vấn pháp lý phức tạp
+bằng cách không chỉ đưa ra câu trả lời cuối cùng,
+mà còn phải diễn giải chi tiết quá trình suy luận
+và cung cấp chính xác các nguồn tài liệu tham khảo.
 
-\item \textbf{Tích hợp linh hoạt các cổng thanh toán nội địa Việt Nam}:
-Xây dựng một dịch vụ thanh toán (payment service) riêng biệt chạy trên Heroku,
-hỗ trợ quản lý các gói dịch vụ (Plans),
-thuê bao người dùng (Subscriptions)
-và các cổng thanh toán phổ biến như SePay, VNPAY, ZaloPay, MoMo,
-giao tiếp bất đồng bộ qua Kafka
-để cập nhật trạng thái VIP của người dùng.
+\item \textbf{Quy trình thanh toán tự động}:
+Tích hợp các cổng thanh toán
+để tự động hóa việc quản lý các gói dịch vụ thuê bao,
+xử lý giao dịch
+mang lại trải nghiệm nâng cấp dịch vụ an toàn, tự động.
 
-\item \textbf{Tích hợp công nghệ Text-to-Speech (TTS) nâng cao trải nghiệm}:
-Tích hợp các giải pháp chuyển đổi văn bản thành giọng nói
-(edge-tts, piper-tts, elevenlabs) tăng sự thân thiện với người dùng.
+\item \textbf{Xử lý tài liệu người dùng}:
+Phát triển module tiếp nhận
+và xử lý đa dạng các định dạng văn bản được tải lên,
+tự động trích xuất thông tin, vector hóa tài liệu
+một cách nhanh chóng, chính xác và bảo mật.
+
+\item \textbf{Tối ưu hóa khả năng tiếp cận và tương tác}:
+Xóa bỏ rào cản nhập liệu
+bằng cách cung cấp trải nghiệm đàm thoại rảnh tay,
+cho phép người dùng tương tác trực tiếp với hệ thống qua giọng nói tự nhiên.
 
 \end{itemize}
 
 \subsubsection{Phạm vi dự án}
 
-Phạm vi nghiên cứu, thiết kế và phát triển của dự án bao gồm các thành phần sau:
+Dự án tập trung nghiên cứu, thiết kế
+và phát triển các thành phần cốt lõi
+trong một hệ thống vi dịch vụ,
+giới hạn trong các phạm vi sau:
 
 \begin{itemize}
-\item \textbf{Đường ống thu thập dữ liệu pháp luật tự động}:
-Tự động hóa quá trình
-thu thập dữ liệu văn bản quy phạm pháp luật Việt Nam
-từ trang CSDL quốc gia (\url{https://vbpl.vn})
-và CSDL Pháp điển (\url{https://phapdien.moj.gov.vn}).
-Áp dụng thuật toán so sánh mã băm
-đối với tệp tin
-và nội dung để bỏ qua các tài liệu không thay đổi, giúp tối ưu hóa băng thông và tài nguyên.
-% \item % \textbf{Hệ thống cơ sở dữ liệu Vector và xử lý tài liệu (Vector Database \& Document Processing)}:
-% Xử lý tài liệu người dùng tải lên (tính năng VIP) thông qua một Celery worker chạy bất đồng bộ. Quy trình bao gồm: tải tệp tin từ Cloudflare R2, trích xuất cấu trúc và nội dung sang Markdown bằng thư viện \texttt{Docling}, phân đoạn văn bản bằng \texttt{RecursiveCharacterTextSplitter}, tạo vector biểu diễn ngữ nghĩa bằng mô hình \texttt{keepitreal/vietnamese-sbert} và lưu trữ vector vào cơ sở dữ liệu Milvus phục vụ tìm kiếm ngữ nghĩa. Áp dụng cơ chế kiểm tra trùng lặp (Deduplication) để tối ưu hiệu năng.
-\item \textbf{Hệ thống trò chuyện thông minh (Smart Chatbot \& Conversation System)}:
-Phát triển Dịch vụ trò chuyện (NestJS)
-và Dịch vụ chatbot (Python) giao tiếp thông qua gRPC và RabbitMQ Message Broker.
-Hỗ trợ tương tác trò chuyện theo cơ chế Streaming,
-hiển thị chi tiết các bước suy luận
-và danh sách tài liệu tham khảo.
-Người dùng có thể quản lý cuộc trò chuyện
-theo cấu trúc thư mục, ghi chú, đánh dấu cuộc trò chuyện quan trọng
-và tạo các trang chia sẻ trò chuyện công khai.
-\item \textbf{Trải nghiệm hỗ trợ giọng nói}:
-Phát triển
-hệ thống
-giọng nói
-thu nhận âm thanh từ người dùng,
-chuyển dịch sang văn bản,
-xử lý phản hồi qua LangGraph.
 
+\item \textbf{Phân hệ Quản trị người dùng \& Bảo mật}:
+Cài đặt hệ thống xác thực thông qua Supabase Auth,
+hỗ trợ đăng nhập Email/Mật khẩu,
+Google OAuth và xác thực hai yếu tố (2FA - TOTP).
+
+\item \textbf{Phân hệ Thu thập dữ liệu pháp luật}:
+Thiết lập đường ống (Data Pipeline)
+tự động thu thập và đồng bộ hóa văn bản quy phạm pháp luật
+từ hai nguồn là \url{https://vbpl.vn}
+và CSDL Pháp điển (\url{https://phapdien.moj.gov.vn}),
+có áp dụng thuật toán mã băm để bỏ qua tài liệu trùng lặp.
+
+\item \textbf{Phân hệ Trợ lý ảo AI \& Quản lý trò chuyện}:
+Phát triển Dịch vụ trò chuyện (NestJS) và Dịch vụ chatbot (Python) giao tiếp qua gRPC và RabbitMQ.
+Ứng dụng kỹ thuật RAG (Retrieval-Augmented Generation) và LLM để trả lời theo cơ chế streaming, xuất luồng suy luận (reasoning details).
+Giới hạn các tính năng quản lý ở mức: tạo thư mục, ghi chú, đánh dấu (bookmark) và chia sẻ liên kết trò chuyện.
+
+\item \textbf{Phân hệ Xử lý tài liệu cá nhân}:
+Quản lý xử lý các tài liệu do người dùng tải lên thông qua luồng tác vụ bất đồng bộ (Celery worker).
+Tải tệp từ Cloudflare R2,
+trích xuất cấu trúc và nội dung sang Markdown bằng thư viện \texttt{Docling}, phân đoạn văn bản bằng \texttt{RecursiveCharacterTextSplitter}, tạo vector biểu diễn ngữ nghĩa bằng mô hình \texttt{keepitreal/vietnamese-sbert} và lưu trữ vào cơ sở dữ liệu vector Qdrant để phục vụ truy xuất. Áp dụng cơ chế kiểm tra trùng lặp (Deduplication) để tối ưu hiệu năng hệ thống.
+
+\item \textbf{Phân hệ Giao tiếp bằng Giọng nói (Voice AI)}:
+Tích hợp nền tảng LiveKit để thu phát âm thanh thời gian thực. Ứng dụng các giải pháp Text-to-Speech bao gồm edge-tts, piper-tts và elevenlabs để tổng hợp giọng nói phản hồi.
+
+\item \textbf{Phân hệ Quản lý thanh toán nội địa}:
+Xây dựng một dịch vụ thanh toán độc lập triển khai trên Heroku, giao tiếp bất đồng bộ qua Kafka. Chỉ hỗ trợ quản lý trạng thái thuê bao (Subscriptions) qua các cổng thanh toán nội địa Việt Nam bao gồm: SePay, VNPAY, ZaloPay và MoMo.
 \end{itemize}

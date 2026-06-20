@@ -17,8 +17,8 @@ Luồng nghiệp vụ này mô tả quy trình người dùng tải ảnh đại
 \hline
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
 User & Actor & Người dùng thực hiện chọn ảnh và lưu ảnh đại diện mới. \\ \hline
-Web Frontend & Component & Giao diện Next.js sinh tên tệp tin ngẫu nhiên, thực hiện tải ảnh và cập nhật địa chỉ ảnh mới vào hồ sơ. \\ \hline
-API Gateway (Kong) & Component & Định tuyến các yêu cầu liên quan tới Storage và PostgREST. \\ \hline
+Web Frontend & Component & Giao diện web Next.js. \\ \hline %%%% Component & Giao diện Next.js sinh tên tệp tin ngẫu nhiên, thực hiện tải ảnh và cập nhật địa chỉ ảnh mới vào hồ sơ. \\ \hline
+API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline %%%% Component & Định tuyến các yêu cầu liên quan tới Storage và PostgREST. \\ \hline
 Supabase Storage & Microservice & Dịch vụ quản lý lưu trữ tập tin vật lý của Supabase. \\ \hline
 Auth Service (PostgREST) & Component & Cập nhật lại thuộc tính \texttt{avatar\_url} của bản ghi người dùng. \\ \hline
 Supabase Database & Database & Lưu trữ thông tin thay đổi. \\ \hline

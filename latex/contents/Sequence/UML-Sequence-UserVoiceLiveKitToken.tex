@@ -17,8 +17,8 @@ Luồng này mô tả quá trình Web Frontend xin Access Token để người d
 \hline
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
 User & Actor & Người dùng bắt đầu phiên voice chat. \\ \hline
-Web Frontend & Component & Gọi API lấy token và kết nối tới LiveKit Cloud. \\ \hline
-API Gateway (Kong) & Component & Định tuyến request tới Conversation Service. \\ \hline
+Web Frontend & Component & Giao diện web Next.js. \\ \hline %%%% Component & Gọi API lấy token và kết nối tới LiveKit Cloud. \\ \hline
+API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline %%%% Component & Định tuyến request tới Conversation Service. \\ \hline
 Conversation Service & Microservice & Kiểm tra VIP và tạo Access Token bằng LiveKit SDK. \\ \hline
 Conversation Database & Database & Lưu trạng thái subscription được đồng bộ từ Payment Service. \\ \hline
 LiveKit Cloud & External Service & Hạ tầng WebRTC/WebSocket cho phiên đàm thoại thời gian thực. \\ \hline
