@@ -1,7 +1,7 @@
 \paragraph{Sơ đồ tuần tự luồng tra cứu lịch sử giao dịch}
 
 Luồng nghiệp vụ này mô tả
-quy trình User tra cứu danh sách giao dịch thanh toán mua gói thuê bao VIP. Web Frontend gọi Payment Service qua API Gateway, backend truy vấn transaction theo \texttt{userId}, trả về \texttt{BaseResponse} chứa \texttt{items} và \texttt{total}, sau đó Frontend bóc \texttt{data} bằng \texttt{apiHelper}.
+quy trình User tra cứu danh sách giao dịch thanh toán mua gói thuê bao VIP. Web Frontend gọi dịch vụ thanh toán qua API Gateway, backend truy vấn transaction theo \texttt{userId}, trả về \texttt{BaseResponse} chứa \texttt{items} và \texttt{total}, sau đó Frontend bóc \texttt{data} bằng \texttt{apiHelper}.
 
 \begin{figure}[H]
 \centering
@@ -19,8 +19,8 @@ quy trình User tra cứu danh sách giao dịch thanh toán mua gói thuê bao 
 \hline
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
 User & Actor & Người dùng yêu cầu tra cứu lịch sử giao dịch cá nhân. \\ \hline
-Web Frontend & Component & Giao diện web Next.js. \\ \hline %%%% Component & Gọi \texttt{paymentService.getTransactionHistory}, bóc dữ liệu trả về và hiển thị bảng lịch sử. \\ \hline
-API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline %%%% Component & Xác thực token người dùng và định tuyến yêu cầu tới Payment Service. \\ \hline
+Web Frontend & Component & Giao diện web Next.js. \\ \hline
+API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline
 Payment Service & Microservice & Tiếp nhận query, lấy danh sách transaction và tổng số bản ghi theo \texttt{userId}. \\ \hline
 Payment DB & Database & Lưu thông tin Transaction của người dùng. \\ \hline
 \end{tabular}

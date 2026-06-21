@@ -1,7 +1,8 @@
 \paragraph{Sơ đồ tuần tự luồng Pha cập nhật giao dịch thành công và ghi Outbox}
 
 Luồng nghiệp vụ này mô tả
-nhánh IPN hợp lệ, transaction còn ở trạng thái \texttt{pending} và Payment Gateway báo thanh toán thành công. Payment Service cập nhật transaction, kích hoạt hoặc gia hạn subscription, ghi \texttt{SubscriptionPurchasedEvent} vào Outbox trong cùng transaction lưu subscription, sau đó phát domain event nội bộ qua NestJS CQRS EventBus.
+nhánh IPN hợp lệ, transaction còn ở trạng thái \texttt{pending} và Payment Gateway báo thanh toán thành công.
+Dịch vụ thanh toán cập nhật transaction, kích hoạt hoặc gia hạn subscription, ghi \texttt{SubscriptionPurchasedEvent} vào Outbox trong cùng transaction lưu subscription, sau đó phát domain event nội bộ qua NestJS CQRS EventBus.
 
 \begin{figure}[H]
 \centering

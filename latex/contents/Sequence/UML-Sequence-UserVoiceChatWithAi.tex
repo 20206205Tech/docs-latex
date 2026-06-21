@@ -20,7 +20,7 @@ phiên voice chat sau khi client đã join LiveKit room. Voice Agent trong Chatb
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
 User & Actor & Người dùng nói chuyện trực tiếp với AI. \\ \hline
 LiveKit Cloud & External Service & Chuyển tiếp audio và data channel giữa client và Voice Agent. \\ \hline
-Voice Agent & Component & Xử lý STT/VAD, gọi tool RAG, publish trạng thái và lưu transcript. \\ \hline
+Voice Agent & Component & Xử lý STT/VAD, gọi tool RAG, xuất bản trạng thái và lưu transcript. \\ \hline
 Persona Service & Microservice & Cung cấp TTS và thông tin persona. \\ \hline
 DynamicTTS & Component & Chọn TTS theo engine hiện tại: Persona TTS qua API OpenAI-compatible hoặc ElevenLabs. \\ \hline
 RAG / LangGraph & AI Pipeline & Tra cứu pháp luật, tài liệu cá nhân và sinh trạng thái reasoning. \\ \hline
