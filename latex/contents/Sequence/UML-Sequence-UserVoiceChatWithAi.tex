@@ -5,7 +5,8 @@ phiên giọng nói voice.
 Voice Agent trong Chatbot Service nhận audio,
 đọc metadata từ participant,
 resolve persona để cập nhật DynamicTTS,
-gọi công cụ RAG khi câu hỏi liên quan pháp luật hoặc tài liệu cá nhân, sau đó phát audio phản hồi qua LiveKit.
+gọi công cụ RAG,
+sau đó phát audio phản hồi qua LiveKit.
 
 \begin{figure}[H]
 \centering
@@ -33,34 +34,41 @@ Chatbot DB & Database & Lưu transcript, reasoning steps, sources và persona. \
 \caption{Các thành phần tham gia luồng đàm thoại trực tiếp với AI}
 \end{table}
 
-%
-
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
 
 \item \textbf{Nhận thông tin đàm thoại:}
-Bộ xử lý đàm thoại giọng nói nhận thông tin phòng họp thời gian thực của người dùng
+Bộ xử lý đàm thoại giọng nói
+nhận thông tin phòng họp thời gian thực của người dùng
 bao gồm định danh cuộc trò chuyện, định danh người dùng, danh sách tài liệu phân tích, tùy chọn lập luận nâng cao và định danh nhân vật.
 
 \item \textbf{Cấu hình nhân vật:}
 Khi nhân vật được thay đổi, bộ xử lý gọi địa chỉ nhân vật công khai
 để lấy định danh giọng nói
-và cấu hình công cụ chuyển đổi văn bản thành giọng nói, sau đó cập nhật giọng nói cho bộ phát âm thanh.
+và cấu hình công cụ
+chuyển đổi văn bản thành giọng nói,
+sau đó cập nhật giọng nói cho bộ phát âm thanh.
 
 \item \textbf{Nhận dạng giọng nói:}
-Bộ phận nhận dạng giọng nói chuyển âm thanh nói của người dùng thành văn bản.
-Nếu câu hỏi liên quan đến pháp luật hoặc là phản hồi xác nhận thông tin,
-bộ xử lý sẽ kích hoạt công cụ tìm kiếm CSDL luật.
+Bộ phận nhận dạng giọng nói
+chuyển âm thanh nói
+của người dùng thành văn bản.
+Nếu câu hỏi liên quan
+đến pháp luật
+hoặc là phản hồi xác nhận thông tin,
+bộ xử lý sẽ kích hoạt công cụ RAG.
 
 \item \textbf{Tìm kiếm tài liệu và luật:}
-Công cụ tìm kiếm tài liệu kết hợp thông tin tài liệu cá nhân
+Công cụ RAG tìm kiếm tài liệu kết hợp thông tin tài liệu cá nhân
 và nguồn luật để xếp hạng, kiểm tra hiệu lực văn bản, tổng hợp lập luận
 và trả về kết quả từng phần bao gồm cập nhật trạng thái
 và nguồn tài liệu tham khảo qua kênh truyền dữ liệu của phòng họp.
 
 \item \textbf{Phát âm thanh phản hồi:}
-Câu trả lời dạng văn bản được chuyển thành tệp âm thanh bằng công cụ chuyển đổi giọng nói
+Câu trả lời dạng văn bản được chuyển thành tệp âm thanh
+bằng công cụ chuyển đổi giọng nói
 và phát lại phòng họp thời gian thực cho người dùng nghe,
-đồng thời nội dung văn bản cuộc trò chuyện được lưu trữ vào CSDL chatbot.
+đồng thời nội dung văn bản cuộc trò chuyện
+được lưu trữ vào CSDL chatbot.
 \end{itemize}
