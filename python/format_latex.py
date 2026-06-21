@@ -20,6 +20,7 @@ def format_latex(directory):
                 while "\n\n\n" in contents:
                     contents = contents.replace("\n\n\n", "\n\n")
                 contents = contents.replace("\n\n\n", "\n\n")
+                contents = contents.replace(", và", " và")
 
                 with open(file_path, "w", encoding="utf-8") as f:
                     f.write(contents)
