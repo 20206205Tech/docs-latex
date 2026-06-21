@@ -87,7 +87,7 @@ Giới hạn các tính năng quản lý ở mức: tạo thư mục, ghi chú, 
 \item \textbf{Phân hệ Xử lý tài liệu cá nhân}:
 Quản lý xử lý các tài liệu do người dùng tải lên thông qua luồng tác vụ bất đồng bộ (Celery worker).
 Tải tệp từ Cloudflare R2,
-trích xuất cấu trúc và nội dung sang Markdown bằng thư viện \texttt{Docling}, phân đoạn văn bản bằng \texttt{RecursiveCharacterTextSplitter}, tạo vector biểu diễn ngữ nghĩa bằng mô hình \texttt{keepitreal/vietnamese-sbert} và lưu trữ vào cơ sở dữ liệu vector Qdrant để phục vụ truy xuất. Áp dụng cơ chế kiểm tra trùng lặp (Deduplication) để tối ưu hiệu năng hệ thống.
+trích xuất cấu trúc và nội dung sang Markdown bằng thư viện \texttt{Docling}, phân đoạn văn bản bằng \texttt{RecursiveCharacterTextSplitter}, tạo vector biểu diễn ngữ nghĩa bằng mô hình \texttt{keepitreal/vietnamese-sbert} và lưu trữ vào CSDL vector Qdrant để phục vụ truy xuất. Áp dụng cơ chế kiểm tra trùng lặp (Deduplication) để tối ưu hiệu năng hệ thống.
 
 \item \textbf{Phân hệ Giao tiếp bằng Giọng nói (Voice AI)}:
 Tích hợp nền tảng LiveKit để thu phát âm thanh thời gian thực. Ứng dụng các giải pháp Text-to-Speech bao gồm edge-tts, piper-tts và elevenlabs để tổng hợp giọng nói phản hồi.

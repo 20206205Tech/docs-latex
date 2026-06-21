@@ -98,7 +98,7 @@ Hệ thống hỗ trợ phương thức xác thực hai yếu tố TOTP (Time-ba
 
 \subsubsection{III. Quản lý Hồ sơ người dùng (Supabase Database - PostgREST API)}
 
-Hệ thống sử dụng cơ chế RESTful API tự động sinh từ PostgreSQL của Supabase (PostgREST) để thực hiện các thao tác CRUD trên bảng cơ sở dữ liệu \texttt{profiles}:
+Hệ thống sử dụng cơ chế RESTful API tự động sinh từ PostgreSQL của Supabase (PostgREST) để thực hiện các thao tác CRUD trên bảng CSDL \texttt{profiles}:
 
 \begin{itemize}
 \item \textbf{Lấy thông tin hồ sơ}:
@@ -212,7 +212,7 @@ Tự động tạo các dự án cho dev và prod dựa trên \texttt{project\_n
 
 Cấu hình mã vùng (region) là \texttt{ap-southeast-1} tại Singapore để tối ưu tốc độ kết nối cho người dùng tại Việt Nam.
 
-Bỏ qua sự thay đổi của mật khẩu nhằm tránh việc Terraform yêu cầu cập nhật hoặc thay đổi mật khẩu cơ sở dữ liệu sau mỗi lần chạy cấu hình.
+Bỏ qua sự thay đổi của mật khẩu nhằm tránh việc Terraform yêu cầu cập nhật hoặc thay đổi mật khẩu CSDL sau mỗi lần chạy cấu hình.
 
 Tích hợp đăng nhập qua Google OAuth (Client ID và Client Secret).
 
@@ -236,9 +236,9 @@ Ghi đè các mẫu email HTML cho "Xác nhận tài khoản" và "Đặt lại 
 \label{fig:auth-terraform-supabase-diagram}
 \end{figure}
 
-Chi tiết về cấu hình migration cơ sở dữ liệu Supabase:
+Chi tiết về cấu hình migration CSDL Supabase:
 
-Sử dụng Supabase CLI tạo dự án quản lý migration cơ sở dữ liệu bằng lệnh \texttt{npx supabase init}.
+Sử dụng Supabase CLI tạo dự án quản lý migration CSDL bằng lệnh \texttt{npx supabase init}.
 
 Trong thư mục migrations, các file SQL được thiết kế kết hợp với chính sách Bảo mật cấp hàng RLS (Row-Level Security):
 
@@ -259,12 +259,12 @@ Kết quả bucket cấu hình trên Supabase:
 \label{fig:auth-supabase-bucket}
 \end{figure}
 
-Kết quả cơ sở dữ liệu trên Supabase:
+Kết quả CSDL trên Supabase:
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/auth-supabase-database.png}
-\caption{Cấu hình bảng cơ sở dữ liệu trên Supabase}
+\caption{Cấu hình bảng CSDL trên Supabase}
 \label{fig:auth-supabase-database}
 \end{figure}
 

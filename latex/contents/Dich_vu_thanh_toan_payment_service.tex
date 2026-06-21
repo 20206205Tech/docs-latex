@@ -30,7 +30,7 @@ Cho phép hệ thống định nghĩa và cung cấp các gói dịch vụ khác
 \begin{itemize}
 \item Lưu thông tin cache danh sách các plan vào Redis.
 \item Khi người dùng yêu cầu xem danh sách gói đăng ký, hệ thống sẽ ưu tiên đọc từ Redis.
-\item Nếu cache trống (cache miss), hệ thống sẽ truy xuất cơ sở dữ liệu, trả về kết quả cho client và lưu lại kết quả đó vào Redis cho các yêu cầu sau.
+\item Nếu cache trống (cache miss), hệ thống sẽ truy xuất CSDL, trả về kết quả cho client và lưu lại kết quả đó vào Redis cho các yêu cầu sau.
 \end{itemize}
 
 \item \textbf{Lưu trữ/Vô hiệu hóa gói}:
@@ -97,7 +97,7 @@ Quy trình đóng gói và vận hành:
 \begin{itemize}
 \item Dịch vụ được đóng gói tự động bằng Docker.
 \item Tự động chạy và triển khai lên Heroku khi vượt qua các bước kiểm thử (tests) trong CI/CD của GitHub Actions.
-\item Kết nối trực tiếp với cơ sở dữ liệu Postgres (Neon), Kafka và Redis để vận hành hàng đợi BullMQ.
+\item Kết nối trực tiếp với CSDL Postgres (Neon), Kafka và Redis để vận hành hàng đợi BullMQ.
 \end{itemize}
 
 Triển khai Dịch vụ thanh toán (payment service) độc lập trên Heroku:
@@ -131,7 +131,7 @@ Hàng đợi tác vụ bất đồng bộ \textbf{BullMQ} (vận hành trên Red
 \label{fig:payment-test}
 \end{figure}
 
-Quản lý migrations cơ sở dữ liệu tự động trong GitHub Actions:
+Quản lý migrations CSDL tự động trong GitHub Actions:
 
 \begin{figure}[H]
 \centering
@@ -140,12 +140,12 @@ Quản lý migrations cơ sở dữ liệu tự động trong GitHub Actions:
 \label{fig:payment-database-migration}
 \end{figure}
 
-Các bảng trong cơ sở dữ liệu của Dịch vụ thanh toán (payment service):
+Các bảng trong CSDL của Dịch vụ thanh toán (payment service):
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/payment-database.png}
-\caption{Cấu hình các bảng cơ sở dữ liệu của dịch vụ thanh toán}
+\caption{Cấu hình các bảng CSDL của dịch vụ thanh toán}
 \label{fig:payment-database}
 \end{figure}
 
@@ -210,7 +210,7 @@ Sự kiện này được tiêu thụ (consume) bởi hai dịch vụ: \textbf{D
 \item Consumer lắng nghe sự kiện từ topic, phân tích JSON payload sang kiểu \texttt{dict}.
 \item Hệ thống kiểm tra phiên bản (\textbf{Version Control}):
 \begin{itemize}
-\item Lấy thông tin thuê bao hiện tại của người dùng trong cơ sở dữ liệu bảng \texttt{user\_subscriptions}.
+\item Lấy thông tin thuê bao hiện tại của người dùng trong CSDL bảng \texttt{user\_subscriptions}.
 \item Nếu \texttt{version\_nhận\_được} $>$ \texttt{version\_hiện\_tại}: Tiến hành cập nhật thông tin thuê bao (\texttt{period\_start}, \texttt{period\_end}, \texttt{subscription\_id}, \texttt{version}) và đặt trạng thái \texttt{is\_active = True}.
 \item Nếu \texttt{version\_nhận\_được} $\le$ \texttt{version\_hiện\_tại}: Bỏ qua (SKIP) sự kiện vì đã tồn tại bản cập nhật mới hơn trong DB (ngăn chặn lỗi out-of-order event).
 \end{itemize}
@@ -225,7 +225,7 @@ Sự kiện này được tiêu thụ (consume) bởi hai dịch vụ: \textbf{D
 \item \textbf{Luồng xử lý}:
 \begin{enumerate}
 \item Consumer lắng nghe và giải mã JSON payload nhận được.
-\item Khởi tạo một giao dịch cơ sở dữ liệu (\textbf{Database Transaction}) để thực hiện cập nhật bảng \texttt{UserSubscriptionEntity}.
+\item Khởi tạo một giao dịch CSDL (\textbf{Database Transaction}) để thực hiện cập nhật bảng \texttt{UserSubscriptionEntity}.
 \item Kích hoạt khóa ghi bi quan (\textbf{Pessimistic Write Lock}) trên dòng dữ liệu của \texttt{userId} đó để ngăn chặn tranh chấp dữ liệu (Race Condition) trong trường hợp có nhiều sự kiện của cùng một user được xử lý song song.
 \item Thực hiện kiểm tra phiên bản (\textbf{Version Control}):
 \begin{itemize}

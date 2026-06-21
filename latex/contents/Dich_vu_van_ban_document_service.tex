@@ -18,7 +18,7 @@ Mục đích: Tiếp nhận, lưu trữ và quản lý luồng xử lý tài li�
 \label{fig:document-swagger}
 \end{figure}
 
-Vì chức năng tải lên tài liệu chỉ dành riêng cho người dùng sở hữu gói VIP, dịch vụ văn bản (document service) thực hiện lắng nghe sự kiện thanh toán thành công từ Kafka, lưu thông tin vào cơ sở dữ liệu để kiểm tra và xác thực quyền VIP của người dùng hiện tại.
+Vì chức năng tải lên tài liệu chỉ dành riêng cho người dùng sở hữu gói VIP, dịch vụ văn bản (document service) thực hiện lắng nghe sự kiện thanh toán thành công từ Kafka, lưu thông tin vào CSDL để kiểm tra và xác thực quyền VIP của người dùng hiện tại.
 
 \begin{itemize}
 \item \textbf{Tải lên tài liệu mới}:
@@ -46,7 +46,7 @@ Dịch vụ văn bản kết hợp với \textbf{Document Worker} (nhận các t
 \item \textbf{Tóm tắt văn bản}: Sử dụng mô hình ngôn ngữ trên Cloudflare Workers AI để tự động tạo bản tóm tắt nội dung tài liệu bằng tiếng Việt.
 \item \textbf{Chia nhỏ văn bản (Chunking)}: Sử dụng bộ chia \texttt{RecursiveCharacterTextSplitter} của LangChain để chia nhỏ văn bản thành các đoạn phù hợp.
 \item \textbf{Trích xuất đặc trưng (Embedding)}: Tạo vector biểu diễn ngữ nghĩa cho từng đoạn văn bản bằng mô hình \texttt{keepitreal/vietnamese-sbert}.
-\item \textbf{Lưu trữ Vector}: Quản lý và lưu trữ các vector embedding vào cơ sở dữ liệu vector Milvus để phục vụ tìm kiếm ngữ nghĩa sau này.
+\item \textbf{Lưu trữ Vector}: Quản lý và lưu trữ các vector embedding vào CSDL vector Milvus để phục vụ tìm kiếm ngữ nghĩa sau này.
 \end{enumerate}
 
 \subsubsection{Cơ chế tối ưu \& Độ bền bỉ (Optimization \& Resilience)}
@@ -91,20 +91,20 @@ Quản lý nội dung tóm tắt lưu trữ trên Cloudflare R2:
 \label{fig:r2summmmmm}
 \end{figure}
 
-Quản lý migration cơ sở dữ liệu của dịch vụ văn bản:
+Quản lý migration CSDL của dịch vụ văn bản:
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/document-database-migration.png}
-\caption{Quản lý migration cơ sở dữ liệu của dịch vụ văn bản}
+\caption{Quản lý migration CSDL của dịch vụ văn bản}
 \label{fig:document-database-migration}
 \end{figure}
 
-Sơ đồ cấu trúc các bảng trong cơ sở dữ liệu document:
+Sơ đồ cấu trúc các bảng trong CSDL document:
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/document-database.png}
-\caption{Cấu hình các bảng trong cơ sở dữ liệu document}
+\caption{Cấu hình các bảng trong CSDL document}
 \label{fig:document-database}
 \end{figure}

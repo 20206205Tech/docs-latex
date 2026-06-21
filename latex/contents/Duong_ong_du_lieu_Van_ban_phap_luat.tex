@@ -36,7 +36,7 @@ Quá trình Data pipeline được chia thành 3 giai đoạn: Thu thập dữ l
 \begin{itemize}
 \item Giai đoạn Khởi tạo:
 \begin{itemize}
-\item \texttt{step\_setup\_workflow} cập nhật danh sách và thứ tự các bước (workflow) vào cơ sở dữ liệu PostgreSQL.
+\item \texttt{step\_setup\_workflow} cập nhật danh sách và thứ tự các bước (workflow) vào CSDL PostgreSQL.
 \end{itemize}
 
 \item Giai đoạn Thu thập Dữ liệu:
@@ -59,7 +59,7 @@ Quá trình Data pipeline được chia thành 3 giai đoạn: Thu thập dữ l
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/data-pipeline-vbplnew-step-load-document-list.png}
-\caption{Nạp danh sách văn bản vào cơ sở dữ liệu}
+\caption{Nạp danh sách văn bản vào CSDL}
 \label{fig:step-load-document-list}
 \end{figure}
 
@@ -115,7 +115,7 @@ Quá trình Data pipeline được chia thành 3 giai đoạn: Thu thập dữ l
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/data-pipeline-vbplnew-step-rag-embedding.png}
-\caption{Nhúng văn bản (Embedding) và lưu vào cơ sở dữ liệu Pinecone}
+\caption{Nhúng văn bản (Embedding) và lưu vào CSDL Pinecone}
 \label{fig:step-rag-embedding-vbplnew}
 \end{figure}
 \end{itemize}
