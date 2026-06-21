@@ -1,8 +1,10 @@
 \paragraph{Sơ đồ tuần tự luồng Tạo Chia sẻ cuộc trò chuyện}
 
 Luồng nghiệp vụ này mô tả
-vòng đời của một yêu cầu chia sẻ cuộc trò chuyện, lưu trữ dữ liệu trò chuyện dưới dạng tệp tin JSONL trên Cloud Storage
-và đồng bộ trạng thái giữa các dịch vụ thông qua mô hình Transactional Outbox kết hợp Message Broker.
+vòng đời của một yêu cầu chia sẻ cuộc trò chuyện,
+lưu trữ dữ liệu trò chuyện dưới dạng tệp tin JSONL trên Cloud Storage
+và đồng bộ trạng thái giữa các dịch vụ thông qua mô hình
+Transactional Outbox kết hợp Message Broker.
 
 \begin{figure}[H]
 \centering
@@ -35,7 +37,9 @@ R2 Object Storage & External Service & Hạ tầng lưu trữ đối tượng (O
 \begin{itemize}
 
 \item \textbf{Yêu cầu chia sẻ:}
-Người dùng yêu cầu chia sẻ cuộc trò chuyện kèm mã cuộc trò chuyện và mã tin nhắn cuối cùng muốn chia sẻ.
+Người dùng yêu cầu
+chia sẻ cuộc trò chuyện
+kèm mã tin nhắn cuối cùng muốn chia sẻ.
 
 \item \textbf{Khởi tạo bản ghi chia sẻ:}
 Dịch vụ trò chuyện tạo một bản ghi liên kết chia sẻ ở trạng thái chờ xử lý và lưu sự kiện chia sẻ vào bảng sự kiện chờ gửi trong cùng một giao dịch CSDL để đảm bảo tính đồng bộ dữ liệu.
