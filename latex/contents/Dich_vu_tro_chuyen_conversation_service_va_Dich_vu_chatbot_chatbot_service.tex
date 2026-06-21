@@ -20,7 +20,7 @@ Vì chức năng trò chuyện văn bản suy luận (reasoning) và trò chuy�
 \label{fig:conversation-swagger}
 \end{figure}
 
-Mục đích: Chịu trách nhiệm quản lý luồng giao tiếp giữa người dùng và hệ thống Agentic RAG. Dịch vụ này xử lý trực tiếp các cuộc trò chuyện văn bản theo cơ chế streaming, cấp phát token truy cập cho luồng giao tiếp giọng nói, và cung cấp các tiện ích lưu trữ, chia sẻ trò chuyện.
+Mục đích: Chịu trách nhiệm quản lý luồng giao tiếp giữa người dùng và hệ thống Agentic RAG. Dịch vụ này xử lý trực tiếp các cuộc trò chuyện văn bản theo cơ chế streaming, cấp phát token truy cập cho luồng giao tiếp giọng nói và cung cấp các tiện ích lưu trữ, chia sẻ trò chuyện.
 
 Các tính năng chính:
 \begin{itemize}
@@ -320,7 +320,7 @@ arguments={'x-max-priority': 10}
 \item \textbf{Tiêu thụ DLQ và Cảnh báo}:
 \begin{itemize}
 \item Một consumer chuyên biệt (\texttt{process\_share\_generated\_dlq}) sẽ lắng nghe hàng đợi DLQ.
-\item Khi có tin nhắn đi vào DLQ, consumer này sẽ trích xuất thông tin lỗi, payload của sự kiện, và thời gian xảy ra sự cố.
+\item Khi có tin nhắn đi vào DLQ, consumer này sẽ trích xuất thông tin lỗi, payload của sự kiện và thời gian xảy ra sự cố.
 \item Thực hiện gửi yêu cầu HTTP POST tới Telegram Bot API thông qua endpoint:\\
 \url{https://api.telegram.org/bot<TOKEN>/sendMessage}
 \item Nhóm Telegram của đội ngũ phát triển sẽ lập tức nhận được tin nhắn định dạng Markdown hiển thị biểu tượng cảnh báo màu đỏ kèm thông tin chi tiết về payload lỗi và stacktrace để nhanh chóng xử lý.
@@ -397,7 +397,7 @@ Quản lý các sự kiện trong luồng đàm thoại giữa người dùng v�
 \item \textbf{\texttt{user\_input\_transcribed}}:
 \begin{itemize}
 \item Nhận văn bản sau khi hệ thống Speech-to-Text (STT) chuyển đổi thành công giọng nói của người dùng.
-\item Áp dụng bộ lọc \texttt{clean\_transcript} để loại bỏ các đoạn văn bản ảo giác của Whisper, bỏ qua nếu chuỗi rỗng, và gọi \texttt{send\_and\_save\_transcript} để hiển thị nội dung văn bản tương ứng lên giao diện UI và lưu vào cơ sở dữ liệu.
+\item Áp dụng bộ lọc \texttt{clean\_transcript} để loại bỏ các đoạn văn bản ảo giác của Whisper, bỏ qua nếu chuỗi rỗng và gọi \texttt{send\_and\_save\_transcript} để hiển thị nội dung văn bản tương ứng lên giao diện UI và lưu vào cơ sở dữ liệu.
 \end{itemize}
 
 \item \textbf{\texttt{conversation\_item\_added}}:

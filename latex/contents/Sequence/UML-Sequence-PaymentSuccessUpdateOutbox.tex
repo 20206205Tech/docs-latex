@@ -1,8 +1,12 @@
 \paragraph{Sơ đồ tuần tự luồng Pha cập nhật giao dịch thành công và ghi Outbox}
 
 Luồng nghiệp vụ này mô tả
-nhánh IPN hợp lệ, transaction còn ở trạng thái \texttt{pending} và Payment Gateway báo thanh toán thành công.
-Dịch vụ thanh toán cập nhật transaction, kích hoạt hoặc gia hạn subscription, ghi \texttt{SubscriptionPurchasedEvent} vào Outbox trong cùng transaction lưu subscription, sau đó phát domain event nội bộ qua NestJS CQRS EventBus.
+nhánh IPN hợp lệ, transaction còn ở trạng thái \texttt{pending}
+và Payment Gateway báo thanh toán thành công.
+Dịch vụ thanh toán cập nhật transaction,
+kích hoạt gói thuê bao VIP,
+ghi sự kiện vào Outbox trong cùng transaction lưu subscription,
+sau đó phát sự kiện miền qua NestJS CQRS EventBus.
 
 \begin{figure}[H]
 \centering
@@ -31,14 +35,25 @@ Event Bus (NestJS CQRS) & Component & Phát domain event nội bộ cho các loc
 \begin{itemize}
 
 \item \textbf{Chuẩn bị thông tin kích hoạt:}
-Dịch vụ thanh toán lấy thông tin gói thuê bao VIP và gói dịch vụ tương ứng dựa trên mã giao dịch, đồng thời tìm kiếm gói thuê bao VIP đang hoạt động gần nhất của người dùng để cộng dồn thời hạn sử dụng nếu cần.
+Dịch vụ thanh toán
+lấy thông tin gói thuê bao VIP
+và gói dịch vụ tương ứng dựa trên mã giao dịch,
+đồng thời tìm kiếm gói thuê bao VIP
+đang hoạt động gần nhất của người dùng để cộng dồn thời hạn sử dụng nếu cần.
 
 \item \textbf{Hoàn tất thanh toán:}
-Dịch vụ cập nhật trạng thái giao dịch thành thành công, ghi nhận thời điểm thanh toán và chuyển trạng thái gói thuê bao VIP thành đang hoạt động.
+Dịch vụ cập nhật
+trạng thái giao dịch thành công,
+ghi nhận thời điểm thanh toán
+và chuyển trạng thái gói thuê bao VIP thành đang hoạt động.
 
 \item \textbf{Lưu sự kiện hệ thống:}
-Dịch vụ ghi nhận sự kiện mua gói thuê bao VIP thành công vào bảng sự kiện chờ gửi trong CSDL ở trạng thái chờ xử lý.
+Dịch vụ ghi nhận sự kiện mua gói thuê bao VIP thành công
+vào bảng sự kiện chờ gửi trong CSDL ở trạng thái chờ xử lý.
 
 \item \textbf{Phát sự kiện nội bộ:}
-Sau khi giao dịch được lưu thành công, dịch vụ phát sự kiện nội bộ để các bộ phận khác trong hệ thống tiếp tục xử lý và hoàn tất phiên giao dịch.
+Sau khi giao dịch được lưu thành công,
+dịch vụ phát sự kiện nội bộ để các bộ phận khác
+trong hệ thống tiếp tục xử lý và hoàn tất giao dịch.
+
 \end{itemize}

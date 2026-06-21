@@ -1,7 +1,8 @@
 \paragraph{Sơ đồ tuần tự luồng Phân tích tài liệu cá nhân bằng reasoning pháp lý}
 
 Luồng nghiệp vụ này mô tả
-việc sử dụng tài liệu cá nhân đã upload trong truy vấn pháp lý. Frontend gửi \texttt{file\_ids} và \texttt{use\_reasoning=true} qua SSE stream của Conversation Service. Chatbot Service gọi LangGraph RAG, truy vấn Milvus theo \texttt{doc\_id} và \texttt{user\_id}, kết hợp nguồn luật rồi stream kết quả về frontend.
+việc sử dụng tài liệu cá nhân
+đã upload trong truy vấn pháp lý.
 
 \begin{figure}[H]
 \centering
@@ -36,17 +37,33 @@ Chatbot DB & Database & Lưu human message, AI message, reasoning steps và sour
 \begin{itemize}
 
 \item \textbf{Gửi yêu cầu phân tích:}
-Người dùng gửi câu hỏi kèm theo danh sách tài liệu chọn phân tích và yêu cầu kích hoạt lập luận nâng cao thông qua giao diện trò chuyện.
+Người dùng gửi câu hỏi
+kèm theo danh sách tài liệu
+thông qua giao diện trò chuyện.
 
 \item \textbf{Chuyển tiếp yêu cầu:}
-Dịch vụ trò chuyện chuyển tiếp yêu cầu đến dịch vụ chatbot thông qua giao thức kết nối nội bộ và đính kèm thông tin xác thực tài khoản.
+Dịch vụ trò chuyện chuyển tiếp yêu cầu
+đến dịch vụ chatbot
+thông qua giao thức kết nối gRPC
+và đính kèm thông tin xác thực tài khoản.
 
 \item \textbf{Tìm kiếm tài liệu cá nhân:}
-Hệ thống tìm kiếm văn bản truy vấn CSDL vector để tìm các đoạn tài liệu cá nhân phù hợp của chính người dùng đó dựa trên mã tài liệu và mã người dùng.
+Dịch vụ chatbot
+tìm kiếm văn bản truy vấn vector database
+để tìm các đoạn tài liệu cá nhân phù hợp
+của chính người dùng đó dựa trên mã tài liệu và mã người dùng.
 
 \item \textbf{Tổng hợp thông tin:}
-Hệ thống kết hợp dữ liệu từ tài liệu cá nhân với các văn bản pháp luật liên quan, thực hiện xếp hạng kết quả, kiểm tra hiệu lực văn bản và tổng hợp các bước lập luận để đưa ra câu trả lời.
+Dịch vụ chatbot
+kết hợp dữ liệu từ tài liệu cá nhân
+với các văn bản pháp luật liên quan,
+thực hiện xếp hạng kết quả,
+kiểm tra hiệu lực văn bản
+và tổng hợp các bước lập luận để đưa ra câu trả lời.
 
 \item \textbf{Truyền dữ liệu kết quả:}
-Kết quả được truyền trực tiếp từng phần về giao diện bao gồm cập nhật trạng thái xử lý, các phân đoạn nội dung câu trả lời và thông tin nguồn tài liệu trích dẫn.
+Kết quả được truyền trực tiếp từng phần
+về giao diện
+bao gồm cập nhật trạng thái xử lý, các phân đoạn nội dung câu trả lời và thông tin nguồn tài liệu trích dẫn.
+
 \end{itemize}

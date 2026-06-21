@@ -74,7 +74,7 @@ Quá trình Data pipeline được chia thành 3 giai đoạn: Thu thập dữ l
 
 \item Giai đoạn Tiền xử lý Dữ liệu:
 \begin{itemize}
-\item \texttt{step\_extract\_document\_info}: từ file HTML, bóc tách các siêu dữ liệu quan trọng (Metadata) như: Số hiệu, Cơ quan ban hành, Ngày có hiệu lực, Người ký, v.v., và lưu vào database.
+\item \texttt{step\_extract\_document\_info}: từ file HTML, bóc tách các siêu dữ liệu quan trọng (Metadata) như: Số hiệu, Cơ quan ban hành, Ngày có hiệu lực, Người ký, v.v. và lưu vào database.
 \item \texttt{step\_extract\_document\_content}: Làm sạch file HTML, cắt bỏ các phần thừa (header, footer, menu) và chỉ giữ lại phần nội dung (thẻ \texttt{div\#toanvancontent}).
 \item \texttt{step\_extract\_document\_markdown}: Chuyển đổi file HTML đã làm sạch sang định dạng Markdown.
 \begin{figure}[H]
