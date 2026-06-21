@@ -20,8 +20,8 @@ thông qua Setting Service (Neon API).
 \hline
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
 User & Actor & Người dùng thực hiện thay đổi cấu hình thiết lập. \\ \hline
-Web Frontend & Component & Giao diện web Next.js. \\ \hline %%%% Component & Giao diện Next.js ghi nhận thay đổi, gửi yêu cầu API lưu trữ và áp dụng cài đặt cục bộ. \\ \hline
-API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline %%%% Component & Định tuyến yêu cầu cập nhật cài đặt. \\ \hline
+Web Frontend & Component & Giao diện web Next.js. \\ \hline
+API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline
 Setting Service (Neon API) & Microservice & Dịch vụ tiếp nhận các thiết lập mới, thực hiện cập nhật hoặc thêm mới (Upsert) cấu hình của người dùng. \\ \hline
 \end{tabular}
 \caption{Các thành phần tham gia luồng Cập nhật thông tin Cài đặt}

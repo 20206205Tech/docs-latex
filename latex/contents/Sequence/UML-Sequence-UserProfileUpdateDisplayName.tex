@@ -21,13 +21,12 @@ và cập nhật tên hiển thị thông qua Auth Service (Supabase).
 \hline
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
 User & Actor & Người dùng xem và thay đổi thông tin cá nhân. \\ \hline
-Web Frontend & Component & Giao diện web Next.js. \\ \hline %%%% Component & Giao diện Next.js hiển thị và tiếp nhận thông tin cập nhật từ người dùng. \\ \hline
-API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline %%%% Component & Định tuyến yêu cầu REST API tới PostgREST. \\ \hline
+Web Frontend & Component & Giao diện web Next.js. \\ \hline
+API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline
 Auth Service (Supabase) & Component & Dịch vụ thực hiện xác thực, truy vấn và cập nhật thông tin hồ sơ trong CSDL. \\ \hline
 \end{tabular}
 \caption{Các thành phần tham gia luồng Xem và Cập nhật Tên hiển thị}
 \end{table}
-
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}

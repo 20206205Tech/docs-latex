@@ -21,8 +21,8 @@ và gửi task xử lý nền qua Celery (RabbitMQ).
 \hline
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
 User & Actor & Người dùng tải lên tài liệu cá nhân. \\ \hline
-Web Frontend & Component & Giao diện web Next.js. \\ \hline %%%% Component & Gọi \texttt{documentService.uploadDocument} bằng multipart form data. \\ \hline
-API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline %%%% Component & Định tuyến request tới Document Service. \\ \hline
+Web Frontend & Component & Giao diện web Next.js. \\ \hline
+API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline
 Document Service & Microservice & Kiểm tra quyền, validate file, lưu metadata và xuất bản công việc xử lý nền. \\ \hline
 Document Database & Database & Lưu tài liệu và gói thuê bao người dùng. \\ \hline
 Cloudflare R2 & Object Storage & Lưu file gốc của người dùng. \\ \hline
