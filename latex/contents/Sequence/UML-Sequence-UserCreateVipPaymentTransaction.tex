@@ -4,7 +4,9 @@ Luồng nghiệp vụ này mô tả
 bước người dùng
 chọn gói thuê bao VIP trên Web Frontend,
 hệ thống kiểm tra gói dịch vụ,
-chuẩn bị Subscription, tạo Transaction ở trạng thái \texttt{pending}, đăng ký job timeout trên Redis BullMQ, sau đó gọi cổng thanh toán để sinh đường link thanh toán.
+chuẩn bị Subscription, tạo Transaction ở trạng thái \texttt{pending},
+đăng ký job timeout trên Redis BullMQ,
+sau đó gọi cổng thanh toán để sinh đường link thanh toán.
 
 \begin{figure}[H]
 \centering
@@ -38,7 +40,9 @@ Payment Gateway & External Service & Cổng thanh toán bên thứ ba sinh Payme
 \begin{itemize}
 
 \item \textbf{Yêu cầu nâng cấp:}
-Người dùng chọn nâng cấp gói thuê bao VIP trên giao diện, giao diện gửi yêu cầu đăng ký mua gói thuê bao VIP qua cổng API kèm theo thông tin xác thực tài khoản, định danh gói dịch vụ và địa chỉ chuyển hướng sau khi thanh toán.
+Người dùng chọn nâng cấp gói thuê bao VIP trên giao diện,
+giao diện gửi yêu cầu đăng ký mua gói thuê bao VIP
+qua cổng API với thông tin định danh gói dịch vụ và địa chỉ chuyển hướng sau khi thanh toán.
 
 \item \textbf{Kiểm tra gói dịch vụ:}
 Dịch vụ thanh toán kiểm tra gói dịch vụ còn đang hoạt động hay không, tìm kiếm gói thuê bao VIP hiện tại của người dùng để cập nhật hoặc tạo mới gói thuê bao VIP ở trạng thái chờ thanh toán nếu chưa có.

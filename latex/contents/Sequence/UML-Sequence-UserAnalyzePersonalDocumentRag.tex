@@ -20,8 +20,8 @@ việc sử dụng tài liệu cá nhân
 \hline
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
 User & Actor & Người dùng yêu cầu phân tích tài liệu cá nhân. \\ \hline
-Web Frontend & Component & Giao diện web Next.js. \\ \hline %%%% Component & Gửi yêu cầu \texttt{streamChat} kèm \texttt{file\_ids} và hiển thị stream kết quả. \\ \hline
-API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline %%%% Component & Định tuyến request tới Conversation Service. \\ \hline
+Web Frontend & Component & Giao diện web Next.js. \\ \hline
+API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline
 Conversation Service & Microservice & Nhận request SSE và gọi Chatbot Service qua gRPC. \\ \hline
 Chatbot Service & Microservice & Điều phối \texttt{generation\_stream}, lưu message, reasoning steps và sources. \\ \hline
 LangGraph RAG & AI Pipeline & Truy vấn tài liệu cá nhân, nguồn luật và thực hiện reasoning. \\ \hline
