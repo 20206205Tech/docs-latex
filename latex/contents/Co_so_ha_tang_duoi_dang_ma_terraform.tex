@@ -1,0 +1,90 @@
+
+
+\subsubsection{Cơ sở hạ tầng dưới dạng mã (terraform)}
+
+% \begin{figure}[H]
+% \centering
+% \includegraphics[scale = 0.2]{pictures/cloudflare-R2.png}
+% \caption{Cấu hình chia nhỏ bí mật theo từng nhu cầu sử dụng trong doppler}
+% \end{figure}
+
+Trong công nghệ phần mềm việc cấu hình các cơ sở hạ tầng thủ công có thể gây sai sót, mất nhiều thời gian hoặc khi muốn tạo lại chính xác rất khó và khi cần xóa thì cũng sẽ phải ấn thủ công dẫn đến thiếu sót, gây rủi ro. Việc sử dụng Infrastructure as Code (IaC) sẽ khắc phục được vấn đề đó.
+
+\begin{block}{Ứng dụng trong đồ án}
+
+Trong đồ án này,
+em sử dụng Terraform
+để quản lý cấu hình một số hạ tầng của các nhà cung cấp
+có hỗ trợ terraform giúp định nghĩa
+và quản lý hạ tầng của dự án một cách tự động thay
+vì thao tác thủ công.
+
+\end{block}
+
+\begin{itemize}
+
+\item langsmith: theo dõi RAG
+\item oracle: tạo vps
+\item cloudflare: cấu hình DNS, bucket R2 file, tunnel
+\item aiven: kafka
+\item supabase: auth google
+\item Neon: database postgres VBPL=>
+\item digitalocean xxxxxxxxxxxxxx: database postgres VBPL
+\item heroku: payment service
+\end{itemize}
+
+Kết quả kafka trong aiven được tạo tự động từ terraform
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.2]{pictures/kafka-aiven-terraform.png}
+\caption{Cấu hình chia nhỏ bí mật theo từng nhu cầu sử dụng trong doppler}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.2]{pictures/cloudflare-r2-terraform.png}
+\caption{Cấu hình chia nhỏ bí mật theo từng nhu cầu sử dụng trong doppler}
+\end{figure}
+
+% TODO: tttt NEON tạo hẳn project cho riêng, độc lập, tránh giới hạn
+% neon-limit-free.png
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.2]{pictures/neon-limit-free.png}
+\caption{Cấu hình chia nhỏ bí mật theo từng nhu cầu sử dụng trong doppler}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.1]{pictures/infrastructure-as-code-IaC-terraform.excalidraw.png}
+\caption{Cấu hình chia nhỏ bí mật theo từng nhu cầu sử dụng trong doppler}
+\end{figure}
+
+Tại dự án
+\url{https://github.com/20206205Tech/infra-by-terraform}
+dùng root module lớn truyền biến
+vào các module nằm trong thư mục modules.
+Tuy nhiên việc chạy CI/CD có thể xảy ra lỗi vì provider bị lỗi,
+hoặc mất thời gian chỉ vì thay đổi nhỏ cần terraform init
+với nhiều provider không thay đổi.
+Vì vậy, trong đồ án này,
+em sử dụng mỗi provider trong folder riêng Tại dự án
+\url{https://github.com/20206205Tech/infrastructure}.
+Kết hợp github action chỉ chạy terraform khi có sự thay đổi của folder.
+
+Cấu trúc dự án terraform với các folder riêng
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.2]{pictures/infrastructure-project.png}
+\caption{Cấu hình chia nhỏ bí mật theo từng nhu cầu sử dụng trong doppler}
+\end{figure}
+
+Sử dụng Terraform Cloud để làm Remote Backend
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.2]{pictures/terraform-hub-web-ui.png}
+\caption{Cấu hình chia nhỏ bí mật theo từng nhu cầu sử dụng trong doppler}
+\end{figure}
