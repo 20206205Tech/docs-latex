@@ -26,10 +26,10 @@ và giao tiếp qua RabbitMQ.
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
 User & Actor & Người dùng thực hiện thao tác gửi yêu cầu để xóa một cuộc trò chuyện. \\ \hline
 Conversation Service & Microservice & Dịch vụ trò chuyện tiếp nhận yêu cầu từ người dùng, cập nhật trạng thái xóa, ghi nhận sự kiện vào Outbox và dùng Cron job để relay sự kiện. \\ \hline
-Conversation DB & Database & CSDL lưu trữ thông tin trò chuyện và bảng Outbox. \\ \hline
+Conversation DB & Database & CSDL lưu trò chuyện và bảng Outbox. \\ \hline
 RabbitMQ Broker & Message Broker & Message Broker nhận sự kiện và phân phối đến các dịch vụ theo dõi. \\ \hline
 Chatbot Service & Microservice & Dịch vụ AI đóng vai trò tiêu thụ (Consumer), lắng nghe sự kiện xóa để đồng bộ hóa dữ liệu. \\ \hline
-Chatbot DB & Database & CSDL lưu trữ chi tiết các tin nhắn của cuộc trò chuyện. \\ \hline
+Chatbot DB & Database & CSDL lưu chi tiết các tin nhắn của cuộc trò chuyện. \\ \hline
 \end{tabular}
 \caption{Các thành phần tham gia luồng Xóa cuộc trò chuyện}
 \end{table}
