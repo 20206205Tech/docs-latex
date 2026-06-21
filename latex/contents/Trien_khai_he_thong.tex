@@ -1,17 +1,16 @@
 \section{Triển khai hệ thống}
 \subsection{Triển khai các dịch vụ}
 
-\subsection{Tổng quan các Microservice của hệ thống}
+\subsubsection{Tổng quan các dịch vụ của hệ thống}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/Microservice-all.excalidraw.png}
-\caption{Sơ đồ tổng quan các Microservice}
+\caption{Sơ đồ tổng quan các dịch vụ của hệ thống}
 \label{fig:microservice-all}
 \end{figure}
 
-Tất cả các dịch vụ đều dùng \url{https://[PROJECT_REF].supabase.co/auth/v1/.well-known/jwks.json} để xác thực thông tin JWT của người dùng.
-
+Tất cả các dịch vụ đều dùng supabase để xác thực thông tin JWT của người dùng.
 Tất cả các dịch vụ đều dùng CSDL Postgres của Neon để làm CSDL riêng theo đúng mẫu CSDL cho mỗi dịch vụ (database per service pattern). Mỗi dịch vụ sẽ sở hữu và quản lý hoàn toàn CSDL của riêng nó.
 
 \begin{figure}[H]
@@ -21,14 +20,23 @@ Tất cả các dịch vụ đều dùng CSDL Postgres của Neon để làm CSD
 \label{fig:neon-database-all}
 \end{figure}
 
-Các dịch vụ ngoại trừ auth và setting được cấu hình trong Kong API Gateway đơn giản chỉ cần tạo Service và Route để định tuyến request. Dịch vụ auth và setting sẽ được mô tả chi tiết về cách cấu hình trong Kong API Gateway trong nội dung trình bày của chính dịch vụ đó.
-
-Trang thống kê thông tin đường ống dữ liệu (Data Pipeline) dành cho quản trị viên (ADMIN) có tần suất truy vấn thấp nên sẽ được triển khai trên Vercel.
+Các dịch vụ ngoại trừ auth
+và setting được cấu hình
+trong Kong API Gateway đơn giản
+chỉ cần tạo Service và Route để định tuyến request.
+Dịch vụ auth và setting sẽ được mô tả chi tiết
+về cách cấu hình Kong API Gateway
+trong nội dung trình bày của chính dịch vụ đó.
+Vì trang thống kê thông tin
+đường ống dữ liệu (Data Pipeline)
+dành cho quản trị viên (ADMIN)
+có tần suất truy vấn thấp
+nên sẽ được triển khai trên Vercel.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/vercel-project.png}
-\caption{Dự án trên Vercel}
+\caption{Bảng điều khiển các dự án trên Vercel}
 \label{fig:vercel-project}
 \end{figure}
 
@@ -37,7 +45,7 @@ Các dịch vụ NestJS sử dụng Codecov để theo dõi độ bao phủ ki�
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/test-codecov2.png}
-\caption{Thống kê độ bao phủ kiểm thử trên Codecov}
+\caption{Thống kê độ bao phủ kiểm thử trên CodeCov}
 \label{fig:test-codecov}
 \end{figure}
 
@@ -50,10 +58,10 @@ Tích hợp SonarQube để phân tích chất lượng mã nguồn và các l�
 \label{fig:sonarqube}
 \end{figure}
 
-\subsubsection{Tracing và Quan sát hệ thống (Observability)}
-Hệ thống sử dụng \textbf{OpenTelemetry (OTel)} tích hợp trong tất cả các dịch vụ để tự động thu thập dấu vết phân tán (distributed traces) và gửi dữ liệu về Honeycomb.
-
-Tích hợp Honeycomb để theo dõi vết (distributed tracing) giữa các dịch vụ.
+% \subsubsection{Tracing và Quan sát hệ thống (Observability)}
+% Hệ thống sử dụng \textbf{OpenTelemetry (OTel)} tích hợp trong tất cả các dịch vụ để tự động thu thập dấu vết phân tán (distributed traces) và gửi dữ liệu về Honeycomb.
+Hệ thống
+tích hợp Honeycomb để theo dõi vết (distributed tracing) giữa các dịch vụ.
 
 \begin{figure}[H]
 \centering
