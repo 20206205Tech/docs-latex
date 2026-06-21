@@ -37,8 +37,8 @@ Authenticator App & External Service & Ứng dụng di động (Google Authentic
 \item \textbf{Yêu cầu thiết lập 2 lớp:}
 Người dùng
 chọn kích hoạt xác thực hai lớp.
-Giao diện gửi yêu cầu đăng ký qua cổng API đến auth service.
-Auth service đăng ký thiết bị xác thực mới
+Giao diện gửi yêu cầu đăng ký qua cổng API đến Auth Service.
+Auth Service đăng ký thiết bị xác thực mới
 ở trạng thái chưa kiểm chứng,
 đồng thời tạo mã khóa bảo mật và hình ảnh mã QR gửi về giao diện.
 
@@ -53,11 +53,11 @@ bằng ứng dụng xác thực trên điện thoại
 Người dùng
 nhập mã xác thực hiển thị trên ứng dụng để kiểm tra.
 Giao diện gửi yêu cầu tạo mã thách thức
-và gửi mã xác thực kèm mã thách thức qua cổng API tới auth service để xác minh.
+và gửi mã xác thực kèm mã thách thức qua cổng API tới Auth Service để xác minh.
 
 \item \textbf{Kích hoạt thành công:}
 Nếu mã xác thực chính xác,
-auth service chuyển trạng thái
+Auth Service chuyển trạng thái
 thiết bị xác thực thành đã xác minh,
 đồng thời cấp lại mã đăng nhập mới
 với mức độ bảo mật cao hơn cho người dùng.

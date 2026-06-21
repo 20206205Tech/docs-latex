@@ -35,18 +35,18 @@ Google & External Service & Dịch vụ xác thực bên thứ ba của Google (
 
 \item \textbf{Chọn đăng nhập:}
 Khách vãng lai chọn đăng nhập bằng tài khoản Google trên giao diện.
-Giao diện chuyển hướng trình duyệt đến cổng API để gửi yêu cầu xác thực với auth service.
+Giao diện chuyển hướng trình duyệt đến cổng API để gửi yêu cầu xác thực với Auth Service.
 
 \item \textbf{Chuyển hướng trang đăng nhập:}
-auth service phản hồi yêu cầu chuyển hướng người dùng sang trang đăng nhập của Google.
+Auth Service phản hồi yêu cầu chuyển hướng người dùng sang trang đăng nhập của Google.
 Trình duyệt tự động chuyển sang giao diện của Google để người dùng đăng nhập và cấp quyền.
 
 \item \textbf{Nhận mã xác thực:}
 Sau khi người dùng đồng ý,
-Google chuyển hướng trình duyệt quay lại địa chỉ xử lý của auth service qua cổng API kèm theo mã xác thực tạm thời.
+Google chuyển hướng trình duyệt quay lại địa chỉ xử lý của Auth Service qua cổng API kèm theo mã xác thực tạm thời.
 
 \item \textbf{Đổi mã lấy thông tin:}
-auth service trao đổi mã này với Google để lấy thông tin tài khoản người dùng,
+Auth Service trao đổi mã này với Google để lấy thông tin tài khoản người dùng,
 tiến hành tạo mới tài khoản (nếu là lần đầu)
 hoặc cập nhật thông tin đăng nhập,
 tạo mã phiên đăng nhập và mã làm mới,
