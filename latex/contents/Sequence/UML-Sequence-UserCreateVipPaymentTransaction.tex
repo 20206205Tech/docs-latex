@@ -1,12 +1,15 @@
-\paragraph{Sơ đồ tuần tự luồng Pha khởi tạo giao dịch mua gói thuê bao VIP}
+\paragraph{Sơ đồ tuần tự luồng khởi tạo giao dịch mua gói thuê bao VIP}
 
 Luồng nghiệp vụ này mô tả
-bước User chọn gói thuê bao VIP trên Web Frontend, hệ thống kiểm tra gói dịch vụ, chuẩn bị Subscription, tạo Transaction ở trạng thái \texttt{pending}, đăng ký job timeout trên Redis BullMQ, sau đó gọi Payment Gateway để sinh đường link thanh toán.
+bước người dùng
+chọn gói thuê bao VIP trên Web Frontend,
+hệ thống kiểm tra gói dịch vụ,
+chuẩn bị Subscription, tạo Transaction ở trạng thái \texttt{pending}, đăng ký job timeout trên Redis BullMQ, sau đó gọi cổng thanh toán để sinh đường link thanh toán.
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale = 0.2]{contents/Sequence/UML-Sequence-UserCreateVipPaymentTransaction.png}
-\caption{Sơ đồ tuần tự luồng Pha khởi tạo giao dịch mua gói thuê bao VIP}
+\caption{Sơ đồ tuần tự luồng khởi tạo giao dịch mua gói thuê bao VIP}
 \end{figure}
 
 \subparagraph{Các thành phần tham gia}
@@ -27,7 +30,7 @@ Redis (BullMQ) & Component & Quản lý job để hết hạn giao dịch sau 10
 Payment Selector & Component & Chọn cổng thanh toán, mặc định là \texttt{vnpay}. \\ \hline
 Payment Gateway & External Service & Cổng thanh toán bên thứ ba sinh Payment URL, hiện có các adapter VNPay, MoMo, ZaloPay và SePay. \\ \hline
 \end{tabular}
-\caption{Các thành phần tham gia luồng pha khởi tạo giao dịch mua gói thuê bao VIP}
+\caption{Các thành phần tham gia luồng khởi tạo giao dịch mua gói thuê bao VIP}
 \end{table}
 
 \subparagraph{Mô tả tổng quan}

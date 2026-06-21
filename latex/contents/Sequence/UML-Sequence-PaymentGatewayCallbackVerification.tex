@@ -1,8 +1,8 @@
-\paragraph{Sơ đồ tuần tự luồng Pha Gateway gửi callback/IPN và dịch vụ thanh toán xác minh giao dịch}
+\paragraph{Sơ đồ tuần tự luồng cổng thanh toán gửi IPN và dịch vụ thanh toán xác minh giao dịch}
 
 Luồng nghiệp vụ này mô tả
 phần đầu của thông báo IPN
-sau khi người dùng thao tác thanh toán trên Payment Gateway.
+sau khi người dùng thao tác thanh toán trên cổng thanh toán.
 dịch vụ thanh toán nhận callback public,
 xác minh chữ ký qua Payment Selector, đối chiếu transaction theo \texttt{txnRef},
 kiểm tra số tiền và trạng thái hiện tại.
@@ -12,7 +12,7 @@ và thanh toán thành công, luồng chuyển sang cập nhật transaction, su
 \begin{figure}[H]
 \centering
 \includegraphics[scale = 0.2]{contents/Sequence/UML-Sequence-PaymentGatewayCallbackVerification.png}
-\caption{Sơ đồ tuần tự luồng Pha Gateway gửi callback/IPN và dịch vụ thanh toán xác minh giao dịch}
+\caption{Sơ đồ tuần tự luồng cổng thanh toán gửi IPN và dịch vụ thanh toán xác minh giao dịch}
 \end{figure}
 
 \subparagraph{Các thành phần tham gia}
@@ -24,14 +24,14 @@ và thanh toán thành công, luồng chuyển sang cập nhật transaction, su
 \begin{tabular}{|l|l|p{5cm}|}
 \hline
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
-User & Actor & Người dùng thực hiện thao tác thanh toán qua thẻ, ví điện tử hoặc mã QR trên Payment Gateway. \\ \hline
+User & Actor & Người dùng thực hiện thao tác thanh toán qua thẻ, ví điện tử hoặc mã QR trên cổng thanh toán. \\ \hline
 Payment Gateway & External Service & Xử lý thao tác thanh toán và gửi callback/IPN về hệ thống. \\ \hline
 API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline
-Payment Service & Microservice & Tiếp nhận callback, xác minh IPN, kiểm tra transaction, xử lý nhánh lỗi/thất bại hoặc chuyển tiếp sang pha cập nhật thành công. \\ \hline
+Payment Service & Microservice & Tiếp nhận callback, xác minh IPN, kiểm tra transaction, xử lý nhánh lỗi/thất bại hoặc chuyển tiếp sang cập nhật thành công. \\ \hline
 Payment Gateway Selector & Component & Chọn adapter tương ứng. \\ \hline
 Payment DB & Database & Cung cấp transaction cần đối chiếu bằng \texttt{txnRef}. \\ \hline
 \end{tabular}
-\caption{Các thành phần tham gia luồng pha Gateway gửi callback/IPN}
+\caption{Các thành phần tham gia luồng cổng thanh toán gửi callback/IPN}
 \end{table}
 
 \subparagraph{Mô tả tổng quan}
