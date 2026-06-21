@@ -20,8 +20,8 @@ thông qua Setting Service (Neon API).
 \hline
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
 User & Actor & Người dùng thực hiện thay đổi cấu hình thiết lập. \\ \hline
-Web Frontend & Component & Giao diện web Next.js. \\ \hline %%%% Component & Giao diện Next.js ghi nhận thay đổi, gửi yêu cầu API lưu trữ và áp dụng cài đặt cục bộ. \\ \hline
-API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline %%%% Component & Định tuyến yêu cầu cập nhật cài đặt. \\ \hline
+Web Frontend & Component & Giao diện web Next.js. \\ \hline
+API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline
 Setting Service (Neon API) & Microservice & Dịch vụ tiếp nhận các thiết lập mới, thực hiện cập nhật hoặc thêm mới (Upsert) cấu hình của người dùng. \\ \hline
 \end{tabular}
 \caption{Các thành phần tham gia luồng Cập nhật thông tin Cài đặt}
@@ -30,7 +30,17 @@ Setting Service (Neon API) & Microservice & Dịch vụ tiếp nhận các thi�
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
-\item Người dùng thay đổi các tuỳ chọn trên giao diện. Frontend cập nhật trạng thái cục bộ và gửi yêu cầu \texttt{POST /neon-setting-service} chứa danh sách cài đặt mới qua Gateway đến Setting Service (Neon API).
-\item Setting Service (Neon API) tự thực hiện cập nhật hoặc thêm mới (Upsert) cấu hình của người dùng.
-\item Frontend hiển thị trạng thái cài đặt mới theo dữ liệu đã được cập nhật.
+
+\item \textbf{Thay đổi cài đặt:}
+Người dùng điều chỉnh các tùy chọn cấu hình trên giao diện cài đặt.
+Giao diện cập nhật các cài đặt này ở trình duyệt
+và gửi yêu cầu cập nhật cài đặt qua cổng API đến dịch vụ cấu hình cài đặt.
+
+\item \textbf{Cập nhật CSDL:}
+Dịch vụ cấu hình cài đặt thực hiện thêm mới
+hoặc cập nhật thông tin cài đặt của người dùng vào CSDL cài đặt.
+
+\item \textbf{Đồng bộ giao diện:}
+Giao diện cập nhật
+và hiển thị trạng thái cài đặt mới theo thông tin đã được ghi nhận.
 \end{itemize}

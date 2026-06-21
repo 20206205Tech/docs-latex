@@ -67,7 +67,7 @@ Quá trình Data pipeline được chia thành 3 giai đoạn: Thu thập dữ l
 
 - Giai đoạn Tiền xử lý Dữ liệu:
 
-- step\_extract\_json và step\_load\_json: Từ file \texttt{jsonData.js}, tiến hành bóc tách (parse) các biến cấu trúc dữ liệu để lấy danh sách Chủ đề (\texttt{jdChuDe}), Đề mục (\texttt{jdDeMuc}), và Cây mục lục (\texttt{jdAllTree}), sau đó xuất ra định dạng JSON.
+- step\_extract\_json và step\_load\_json: Từ file \texttt{jsonData.js}, tiến hành bóc tách (parse) các biến cấu trúc dữ liệu để lấy danh sách Chủ đề (\texttt{jdChuDe}), Đề mục (\texttt{jdDeMuc}) và Cây mục lục (\texttt{jdAllTree}), sau đó xuất ra định dạng JSON.
 
 \begin{figure}[H]
 \centering
@@ -94,7 +94,7 @@ Quá trình Data pipeline được chia thành 3 giai đoạn: Thu thập dữ l
 \label{fig:step-rag-chunking-phapdien}
 \end{figure}
 
-- step\_rag\_embedding: Làm giàu ngữ cảnh bằng cách nối trực tiếp tên Chủ đề và Đề mục vào phần đầu của mỗi đoạn văn bản chunk. Sau đó, nội dung được đưa qua mô hình HuggingFace (\texttt{keepitreal/vietnamese-sbert}) để biến đổi thành các vector và lưu vào cơ sở dữ liệu vector Qdrant.
+- step\_rag\_embedding: Làm giàu ngữ cảnh bằng cách nối trực tiếp tên Chủ đề và Đề mục vào phần đầu của mỗi đoạn văn bản chunk. Sau đó, nội dung được đưa qua mô hình HuggingFace (\texttt{keepitreal/vietnamese-sbert}) để biến đổi thành các vector và lưu vào CSDL vector Qdrant.
 
 \begin{figure}[H]
 \centering

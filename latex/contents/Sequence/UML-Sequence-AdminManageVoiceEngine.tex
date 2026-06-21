@@ -1,7 +1,9 @@
 \paragraph{Sơ đồ tuần tự luồng Quản lý Engine giọng nói}
 
 Luồng nghiệp vụ này mô tả
-quy trình Quản trị viên (Admin) tạo mới hoặc cập nhật Engine giọng nói trong Persona Service. Theo code hiện tại, Engine là cấu hình nội bộ gồm \texttt{code}, \texttt{name} và \texttt{is\_active}; bước đồng bộ dữ liệu ElevenLabs được mô tả riêng ở luồng đồng bộ Voices. Không phải mọi Engine hoặc Voice đều thuộc ElevenLabs; hệ thống chỉ gọi ElevenLabs khi Admin thực hiện đồng bộ hoặc khi nhân vật sử dụng Voice thuộc Engine ElevenLabs.
+quy trình Quản trị viên
+(Admin)
+tạo mới hoặc cập nhật Engine giọng nói trong Persona Service.
 
 \begin{figure}[H]
 \centering
@@ -18,9 +20,10 @@ quy trình Quản trị viên (Admin) tạo mới hoặc cập nhật Engine gi�
 \begin{tabular}{|l|l|p{5cm}|}
 \hline
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
-Admin & Actor & Quản trị viên cấu hình mã Engine, tên hiển thị và trạng thái hoạt động. \\ \hline
-Web Frontend & Component & Giao diện web Next.js. \\ \hline %%%% Component & Giao diện quản trị cho phép nhập và cập nhật cấu hình Engine. \\ \hline
-API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline %%%% Component & Định tuyến yêu cầu tới Persona Service và kiểm tra quyền Admin. \\ \hline
+Admin & Actor & Quản trị viên
+cấu hình mã Engine, tên hiển thị và trạng thái hoạt động. \\ \hline
+Web Frontend & Component & Giao diện web Next.js. \\ \hline
+API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline
 Persona Service & Microservice & Xử lý nghiệp vụ tạo/cập nhật Engine. \\ \hline
 Persona Database & Database & Lưu trữ thông tin Engine gồm \texttt{code}, \texttt{name} và \texttt{is\_active}. \\ \hline
 \end{tabular}
@@ -30,8 +33,17 @@ Persona Database & Database & Lưu trữ thông tin Engine gồm \texttt{code}, 
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
-\item \textbf{Nhập cấu hình:} Admin mở trang Engine trong Admin Panel và nhập mã Engine, tên hiển thị cùng trạng thái hoạt động.
-\item \textbf{Gửi yêu cầu lưu:} Web Frontend gửi yêu cầu \texttt{POST /code-persona-service/engines} hoặc yêu cầu cập nhật \texttt{PUT /code-persona-service/engines/\{engine\_id\}} qua Kong API Gateway kèm Bearer Token.
-\item \textbf{Lưu cấu hình:} Persona Service thực hiện tạo mới hoặc cập nhật bản ghi Engine trong Persona Database.
-\item \textbf{Hoàn tất:} Hệ thống phản hồi cấu hình đã lưu về Frontend để Admin nhìn thấy trạng thái cập nhật thành công.
+
+\item \textbf{Nhập cấu hình:}
+Quản trị viên
+nhập thông tin cấu hình của công cụ chuyển đổi giọng nói trên giao diện quản trị.
+
+\item \textbf{Gửi yêu cầu lưu:}
+Giao diện gửi yêu cầu tạo mới hoặc cập nhật cấu hình công cụ giọng nói qua cổng API.
+
+\item \textbf{Lưu cấu hình:}
+Dịch vụ nhân vật thực hiện lưu trữ hoặc cập nhật thông tin của công cụ giọng nói vào CSDL nhân vật.
+
+\item \textbf{Hoàn tất:}
+Hệ thống phản hồi kết quả lưu cấu hình thành công về giao diện hiển thị cho quản trị viên.
 \end{itemize}

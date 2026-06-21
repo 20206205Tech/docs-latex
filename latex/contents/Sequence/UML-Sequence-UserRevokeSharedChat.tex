@@ -1,7 +1,9 @@
 \paragraph{Sơ đồ tuần tự luồng Thu hồi chia sẻ cuộc trò chuyện}
 
 Luồng nghiệp vụ này mô tả
-vòng đời của một yêu cầu thu hồi quyền chia sẻ cuộc trò chuyện từ người dùng, đảm bảo tính nhất quán dữ liệu giữa các dịch vụ thông qua mẫu thiết kế Transactional Outbox và giao tiếp bất đồng bộ qua RabbitMQ.
+vòng đời của một yêu cầu thu hồi quyền chia sẻ cuộc trò chuyện từ người dùng,
+đảm bảo tính nhất quán dữ liệu giữa
+các dịch vụ thông qua mẫu thiết kế Transactional Outbox và giao tiếp bất đồng bộ qua RabbitMQ.
 
 \begin{figure}[H]
 \centering
@@ -19,11 +21,11 @@ vòng đời của một yêu cầu thu hồi quyền chia sẻ cuộc trò chuy
 \hline
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
 User & Actor & Người dùng khởi tạo yêu cầu thu hồi quyền chia sẻ cuộc trò chuyện. \\ \hline
-Conversation Service & Microservice & Dịch vụ tiếp nhận yêu cầu từ người dùng, thực hiện cập nhật cơ sở dữ liệu và ghi lại sự kiện vào bảng Outbox. \\ \hline
-Conversation DB & Database & Cơ sở dữ liệu chính của Conversation Service, lưu trữ trạng thái bản ghi chia sẻ (Share) và bảng hàng đợi sự kiện (Outbox). \\ \hline
+Conversation Service & Microservice & Dịch vụ tiếp nhận yêu cầu từ người dùng, thực hiện cập nhật CSDL và ghi lại sự kiện vào bảng Outbox. \\ \hline
+Conversation DB & Database & CSDL chính của Conversation Service, lưu trữ trạng thái bản ghi chia sẻ (Share) và bảng hàng đợi sự kiện (Outbox). \\ \hline
 RabbitMQ Broker & Message Broker & Message Broker nhận sự kiện và phân phối đến các dịch vụ theo dõi. \\ \hline
-Chatbot Service & Microservice & Dịch vụ đóng vai trò là Consumer, lắng nghe sự kiện từ RabbitMQ, thực thi nghiệp vụ xóa file và cập nhật cơ sở dữ liệu. \\ \hline
-Chatbot DB & Database & Cơ sở dữ liệu của Chatbot Service, dùng để lưu trữ trạng thái bản ghi chia sẻ và cơ chế kiểm soát phiên bản. \\ \hline
+Chatbot Service & Microservice & Dịch vụ đóng vai trò là Consumer, lắng nghe sự kiện từ RabbitMQ, thực thi nghiệp vụ xóa file và cập nhật CSDL. \\ \hline
+Chatbot DB & Database & CSDL của Chatbot Service, dùng để lưu trữ trạng thái bản ghi chia sẻ và cơ chế kiểm soát phiên bản. \\ \hline
 R2 Object Storage & External Service & Dịch vụ lưu trữ đối tượng lưu trữ vật lý các tệp tin dữ liệu cuộc trò chuyện định dạng JSONL. \\ \hline
 \end{tabular}
 \caption{Các thành phần tham gia luồng Thu hồi chia sẻ cuộc trò chuyện}
@@ -32,10 +34,31 @@ R2 Object Storage & External Service & Dịch vụ lưu trữ đối tượng l�
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
-\item Người dùng gửi yêu cầu thu hồi chia sẻ qua phương thức DELETE tới Conversation Service.
-\item Conversation Service cập nhật trạng thái bản ghi Share (isActive=false) đồng thời chèn (insert) sự kiện ShareRevokedEvent vào bảng Outbox cùng transaction trong database đảm bảo tính nguyên tử (atomic).
-\item Dịch vụ phản hồi HTTP 200 OK để xác nhận thu hồi thành công cho người dùng ngay lập tức.
-\item Outbox Relay quét bảng outbox định kỳ, lấy ra các sự kiện ShareRevokedEvent chưa gửi và publish vào hàng đợi \texttt{share\_revoked} trên RabbitMQ Broker.
-\item Chatbot Service nhận thông điệp ShareRevokedEvent từ hàng đợi, thực hiện xóa tệp tin JSONL lưu trữ tương ứng trên R2 Object Storage.
-\item Chatbot Service cập nhật trạng thái bản ghi Share trong Chatbot DB (\texttt{is\_revoked=True}) và gửi phản hồi Acknowledge hoàn tất.
+
+\item \textbf{Yêu cầu hủy chia sẻ:}
+Người dùng gửi yêu cầu hủy quyền chia sẻ
+cuộc trò chuyện thông qua giao diện.
+
+\item \textbf{Cập nhật bản ghi chia sẻ:}
+Dịch vụ trò chuyện
+thực hiện cập nhật trạng thái liên kết chia sẻ thành ngừng hoạt động,
+đồng thời ghi nhận sự kiện hủy chia sẻ vào
+bảng sự kiện chờ gửi trong cùng một giao dịch CSDL để đảm bảo tính nhất quán.
+
+\item \textbf{Phản hồi kết quả:}
+Dịch vụ phản hồi kết quả hủy chia sẻ thành công
+về giao diện người dùng ngay lập tức để giảm thời gian chờ.
+
+\item \textbf{Gửi thông điệp hủy:}
+Tiến trình chuyển tin nhắn
+quét bảng sự kiện chờ gửi định kỳ,
+lấy sự kiện hủy chia sẻ và gửi thông điệp vào hàng đợi tin nhắn.
+
+\item \textbf{Xóa tệp tin chia sẻ:}
+Dịch vụ chatbot nhận thông điệp hủy chia sẻ từ hàng đợi tin nhắn,
+tiến hành xóa tệp tin lưu trữ cuộc trò chuyện tương ứng trên kho lưu trữ trực tuyến ngay lập tức.
+
+\item \textbf{Hoàn tất cập nhật:}
+Dịch vụ chatbot cập nhật trạng thái liên kết chia sẻ
+trong CSDL chatbot thành đã hủy và gửi xác nhận hoàn thành xử lý.
 \end{itemize}

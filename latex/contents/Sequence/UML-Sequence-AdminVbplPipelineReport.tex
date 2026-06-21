@@ -1,7 +1,11 @@
 \paragraph{Sơ đồ tuần tự luồng Theo dõi báo cáo VBPL Pipeline}
 
 Luồng nghiệp vụ này mô tả
-quy trình Quản trị viên (Admin) theo dõi, giám sát số lượng văn bản pháp luật (VBPL) được thu thập từ vbpl.vn và tiến độ xử lý của các bước trong đường ống dữ liệu (workflows) qua giao diện Bảng điều khiển (Admin Dashboard).
+quy trình Quản trị viên
+(Admin)
+theo dõi, giám sát số lượng văn bản pháp luật (VBPL) được thu thập từ vbpl.vn
+và tiến độ xử lý của các bước trong đường ống dữ liệu
+qua giao diện Bảng điều khiển (Admin Dashboard).
 
 \begin{figure}[H]
 \centering
@@ -18,11 +22,12 @@ quy trình Quản trị viên (Admin) theo dõi, giám sát số lượng văn b
 \begin{tabular}{|l|l|p{5cm}|}
 \hline
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
-Admin & Actor & Quản trị viên truy cập bảng điều khiển để giám sát hệ thống. \\ \hline
-Web Frontend & Component & Giao diện web Next.js. \\ \hline %%%% Component & Giao diện Admin Dashboard biểu diễn số liệu thống kê. \\ \hline
-API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline %%%% Component & Định tuyến các yêu cầu thống kê tới VBPL Pipeline Service và kiểm tra quyền Admin. \\ \hline
+Admin & Actor & Quản trị viên
+truy cập bảng điều khiển để giám sát hệ thống. \\ \hline
+Web Frontend & Component & Giao diện web Next.js. \\ \hline
+API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline
 VBPL Pipeline Service & Microservice & Dịch vụ thu thập văn bản pháp luật, cung cấp số liệu tổng hợp về tổng số văn bản, trạng thái workflow. \\ \hline
-Pipeline Database & Database & Cơ sở dữ liệu lưu trữ kết quả thống kê tiến độ các bước workflow. \\ \hline
+Pipeline Database & Database & CSDL lưu trữ kết quả thống kê tiến độ các bước workflow. \\ \hline
 \end{tabular}
 \caption{Các thành phần tham gia luồng Theo dõi báo cáo VBPL Pipeline}
 \end{table}
@@ -30,16 +35,23 @@ Pipeline Database & Database & Cơ sở dữ liệu lưu trữ kết quả thố
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
-\item \textbf{Yêu cầu xem báo cáo:} Admin truy cập vào Dashboard quản trị. Web Frontend gửi hai yêu cầu qua Kong Gateway tới VBPL Pipeline Service, mỗi yêu cầu đều kèm Bearer Token của tài khoản Admin:
 
-\begin{itemize}
-\item \texttt{GET /documents/total}: Lấy tổng số văn bản luật đã thu thập và mốc thời gian cập nhật gần nhất.
-\item \texttt{GET /workflows/summary}: Lấy số lượng văn bản đang nằm ở các bước xử lý (như cào dữ liệu, trích xuất text, chia nhỏ chunk, tạo nhúng vector RAG).
-\item \texttt{GET /documents/status}: Lấy thống kê văn bản theo trạng thái xử lý.
-\item \texttt{GET /documents/issue-date}: Lấy thống kê văn bản theo năm ban hành.
-\item \texttt{GET /documents/doc-types}: Lấy thống kê theo loại văn bản.
-\item \texttt{GET /documents/eff-statuses}: Lấy thống kê theo trạng thái hiệu lực.
-\end{itemize}
-\item \textbf{Xử lý thống kê:} VBPL Pipeline Service truy vấn các bảng thống kê và đếm số lượng bản ghi theo từng trạng thái bước trong Pipeline Database, sau đó phản hồi số liệu tổng hợp về cho Web Frontend.
-\item \textbf{Biểu diễn thông tin:} Web Frontend nhận dữ liệu phản hồi, tổng hợp và vẽ biểu đồ trực quan (biểu đồ cột hoặc hình tròn) để Admin theo dõi trực tiếp sức khỏe của các workflow.
+\item \textbf{Yêu cầu xem báo cáo:}
+Quản trị viên
+truy cập màn hình báo cáo.
+Giao diện gửi các yêu cầu thống kê qua
+cổng API tới dịch vụ xử lý dữ liệu văn bản pháp luật
+lấy tổng số văn bản đã thu thập và thời gian cập nhật mới nhất, lấy số lượng văn bản
+ở từng bước xử lý dữ liệu,
+lấy thống kê theo trạng thái xử lý, theo năm ban hành, theo loại văn bản và theo trạng thái hiệu lực.
+
+\item \textbf{Xử lý thống kê:}
+Dịch vụ xử lý dữ liệu
+văn bản pháp luật truy vấn CSDL,
+tổng hợp số lượng văn bản theo các tiêu chí và phản hồi về giao diện.
+
+\item \textbf{Biểu diễn thông tin:}
+Giao diện nhận dữ liệu, tổng hợp và hiển thị dưới dạng các biểu đồ
+giúp Quản trị viên
+theo dõi chi tiết trạng thái xử lý của toàn hệ thống.
 \end{itemize}

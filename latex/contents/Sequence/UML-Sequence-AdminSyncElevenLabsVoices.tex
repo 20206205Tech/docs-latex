@@ -1,7 +1,10 @@
 \paragraph{Sơ đồ tuần tự luồng Thiết lập và đồng bộ giọng nói từ ElevenLabs}
 
 Luồng nghiệp vụ này mô tả
-cách thức Quản trị viên (Admin) kích hoạt quá trình đồng bộ các mẫu giọng nói (Voices) từ nền tảng ElevenLabs về cơ sở dữ liệu của Persona Service để sử dụng cho tính năng Voice Agent.
+cách thức Quản trị viên
+(Admin)
+kích hoạt quá trình đồng bộ các mẫu giọng nói (Voices)
+từ nền tảng ElevenLabs về CSDL của Persona Service.
 
 \begin{figure}[H]
 \centering
@@ -18,9 +21,10 @@ cách thức Quản trị viên (Admin) kích hoạt quá trình đồng bộ c�
 \begin{tabular}{|l|l|p{5cm}|}
 \hline
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
-Admin & Actor & Quản trị viên khởi tạo yêu cầu đồng bộ. \\ \hline
-Web Frontend & Component & Giao diện web Next.js. \\ \hline %%%% Component & Giao diện Admin hiển thị nút đồng bộ và danh sách các giọng nói. \\ \hline
-API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline %%%% Component & Định tuyến yêu cầu an toàn tới Persona Service. \\ \hline
+Admin & Actor & Quản trị viên
+khởi tạo yêu cầu đồng bộ. \\ \hline
+Web Frontend & Component & Giao diện web Next.js. \\ \hline
+API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline
 Persona Service & Microservice & Tiếp nhận yêu cầu, gọi ElevenLabs API bên ngoài và thực hiện ghi dữ liệu. \\ \hline
 ElevenLabs API & External Service & Cổng dịch vụ TTS bên thứ ba cung cấp danh sách giọng nói mẫu. \\ \hline
 Persona Database & Database & Lưu trữ các bản ghi Voice để liên kết với các nhân vật. \\ \hline
@@ -31,13 +35,25 @@ Persona Database & Database & Lưu trữ các bản ghi Voice để liên kết 
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
-\item \textbf{Yêu cầu đồng bộ:} Admin chọn chức năng đồng bộ trên giao diện. Frontend gửi yêu cầu \texttt{POST /voices/sync-elevenlabs} qua Kong tới Persona Service.
-\item \textbf{Gọi API ElevenLabs:} Persona Service gửi yêu cầu tới ElevenLabs API kèm theo khóa xác thực API Key của hệ thống được lưu trong biến môi trường.
-\item \textbf{Xử lý và Lưu trữ:} ElevenLabs trả về danh sách giọng nói dưới dạng JSON. Persona Service lấy Engine có mã \texttt{elevenlabs}, duyệt qua từng giọng nói và kiểm tra sự tồn tại trong Persona Database dựa trên \texttt{voice\_code}:
 
-\begin{itemize}
-\item Nếu chưa tồn tại, chèn mới bản ghi Voice mới.
-\item Nếu đã tồn tại, bỏ qua bản ghi đó; code hiện tại chưa cập nhật lại thông tin Voice đã có.
-\end{itemize}
-\item \textbf{Hoàn tất:} Persona Service phản hồi mã trạng thái HTTP 200 OK với \texttt{synced\_count} và \texttt{synced\_codes} để hiển thị thông báo lên màn hình Admin.
+\item \textbf{Yêu cầu đồng bộ:}
+Quản trị viên
+chọn chức năng đồng bộ giọng nói từ giao diện.
+Giao diện gửi yêu cầu đồng bộ đến dịch vụ quản lý nhân vật.
+
+\item \textbf{Gọi dịch vụ bên ngoài:}
+Dịch vụ nhân vật
+gửi yêu cầu lấy danh sách giọng nói
+từ nhà cung cấp dịch vụ giọng nói bên ngoài ElevenLabs bằng khóa kết nối của hệ thống.
+
+\item \textbf{Xử lý và lưu trữ:}
+Nhà cung cấp ElevenLabs phản hồi danh sách các giọng nói có sẵn.
+Dịch vụ nhân vật lọc theo định danh nhà cung cấp, kiểm tra sự tồn tại của từng giọng nói
+trong CSDL dựa trên định danh: nếu chưa có thì thêm mới giọng nói vào CSDL,
+nếu đã có thì bỏ qua không cập nhật.
+
+\item \textbf{Hoàn tất:}
+Dịch vụ nhân vật phản hồi kết quả gồm số lượng giọng nói đã đồng bộ
+và danh sách định danh giọng nói về giao diện để thông báo cho quản trị viên.
+
 \end{itemize}

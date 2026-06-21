@@ -1,7 +1,7 @@
 \paragraph{Sơ đồ tuần tự luồng tra cứu lịch sử giao dịch}
 
 Luồng nghiệp vụ này mô tả
-quy trình User tra cứu danh sách giao dịch thanh toán mua gói thuê bao VIP. Web Frontend gọi Payment Service qua API Gateway, backend truy vấn transaction theo \texttt{userId}, trả về \texttt{BaseResponse} chứa \texttt{items} và \texttt{total}, sau đó Frontend bóc \texttt{data} bằng \texttt{apiHelper}.
+quy trình User tra cứu danh sách giao dịch thanh toán mua gói thuê bao VIP. Web Frontend gọi dịch vụ thanh toán qua API Gateway, backend truy vấn transaction.
 
 \begin{figure}[H]
 \centering
@@ -19,8 +19,8 @@ quy trình User tra cứu danh sách giao dịch thanh toán mua gói thuê bao 
 \hline
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
 User & Actor & Người dùng yêu cầu tra cứu lịch sử giao dịch cá nhân. \\ \hline
-Web Frontend & Component & Giao diện web Next.js. \\ \hline %%%% Component & Gọi \texttt{paymentService.getTransactionHistory}, bóc dữ liệu trả về và hiển thị bảng lịch sử. \\ \hline
-API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline %%%% Component & Xác thực token người dùng và định tuyến yêu cầu tới Payment Service. \\ \hline
+Web Frontend & Component & Giao diện web Next.js. \\ \hline
+API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline
 Payment Service & Microservice & Tiếp nhận query, lấy danh sách transaction và tổng số bản ghi theo \texttt{userId}. \\ \hline
 Payment DB & Database & Lưu thông tin Transaction của người dùng. \\ \hline
 \end{tabular}
@@ -30,8 +30,22 @@ Payment DB & Database & Lưu thông tin Transaction của người dùng. \\ \hl
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
-\item \textbf{Yêu cầu tra cứu:} User mở trang Lịch sử giao dịch. Web Frontend gọi API với tham số \texttt{skip}, \texttt{limit} và Bearer Token.
-\item \textbf{Xử lý truy vấn:} Payment Service tạo lấy danh sách transaction và lấy total.
-\item \textbf{Ánh xạ DTO:} Backend ánh xạ mỗi transaction thành item.
-\item \textbf{Phản hồi dữ liệu:} Payment Service trả \texttt{BaseResponse} với \texttt{data=\{ items, total \}}. Frontend dùng \texttt{apiHelper} bóc \texttt{data}; \texttt{HistoryList} hiển thị số tiền từ \texttt{final\_amount} và trạng thái từ \texttt{payment\_status}.
+
+\item \textbf{Yêu cầu xem lịch sử:}
+Người dùng mở trang lịch sử giao dịch.
+Giao diện gửi yêu cầu lấy danh sách lịch sử qua cổng API kèm theo các tham số phân trang.
+
+\item \textbf{Truy vấn lịch sử giao dịch:}
+Dịch vụ thanh toán
+tiếp nhận yêu cầu, truy vấn CSDL để lấy danh sách các giao dịch thanh toán và tổng số lượng giao dịch của người dùng.
+
+\item \textbf{Chuyển đổi dữ liệu:}
+Dịch vụ thanh toán
+chuyển đổi danh sách các giao dịch sang cấu trúc dữ liệu hiển thị.
+
+\item \textbf{Hiển thị kết quả:}
+Dịch vụ thanh toán
+phản hồi danh sách giao dịch cùng tổng số lượng về giao diện.
+Giao diện tiếp nhận dữ liệu
+và hiển thị chi tiết số tiền thanh toán thực tế cùng trạng thái của từng giao dịch lên màn hình lịch sử.
 \end{itemize}

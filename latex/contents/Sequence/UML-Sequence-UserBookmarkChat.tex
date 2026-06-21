@@ -1,7 +1,8 @@
 \paragraph{Sơ đồ tuần tự luồng Đánh dấu cuộc trò chuyện}
 
 Luồng nghiệp vụ này mô tả
-quy trình người dùng thực hiện đánh dấu (bookmark) một cuộc trò chuyện cụ thể, sắp xếp theo thư mục tự chọn và đính kèm ghi chú cá nhân vào Conversation Database.
+quy trình người dùng thực hiện đánh dấu (bookmark)
+một cuộc trò chuyện và đính kèm ghi chú cá nhân.
 
 \begin{figure}[H]
 \centering
@@ -19,8 +20,8 @@ quy trình người dùng thực hiện đánh dấu (bookmark) một cuộc tr�
 \hline
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
 User & Actor & Người dùng chọn cuộc trò chuyện cần lưu trữ và ghi chú thêm. \\ \hline
-Web Frontend & Component & Giao diện web Next.js. \\ \hline %%%% Component & Giao diện Next.js hiển thị form chọn thư mục, nhập ghi chú và thực hiện gọi các API tương ứng. \\ \hline
-API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline %%%% Component & Định tuyến các yêu cầu GET, POST và PUT giữa Frontend và dịch vụ backend. \\ \hline
+Web Frontend & Component & Giao diện web Next.js. \\ \hline
+API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline
 Conversation Service & Microservice & Tiếp nhận yêu cầu lấy danh sách thư mục, tạo thư mục mới và liên kết cuộc trò chuyện vào thư mục bookmark. \\ \hline
 Conversation Database & Database & Lưu trữ các thư mục bookmark (BookmarkFolder) và các bản ghi liên kết bookmark (Bookmark) của người dùng. \\ \hline
 \end{tabular}
@@ -30,8 +31,33 @@ Conversation Database & Database & Lưu trữ các thư mục bookmark (Bookmark
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
-\item Khi người dùng nhấn nút "Bookmark" trên giao diện, Web Frontend gửi yêu cầu API để lấy danh sách thư mục hiện có của người dùng và hiển thị lên giao diện.
-\item Nếu người dùng muốn tạo thư mục mới, người dùng nhập tên thư mục và Frontend gửi yêu cầu \texttt{POST /bookmarks} với dữ liệu \texttt{folderName}. Hệ thống sẽ tạo thư mục mới trong Conversation Database và cập nhật lại danh sách trên màn hình.
-\item Người dùng chọn thư mục mục tiêu, điền ghi chú cá nhân và nhấn nút "Lưu". Frontend gửi yêu cầu \texttt{PUT /bookmarks/:folderId/item} kèm theo tham số \texttt{chatId} và \texttt{note}.
-\item Conversation Service kiểm tra sự tồn tại của cuộc trò chuyện và thực hiện lưu trữ hoặc cập nhật bản ghi Bookmark vào Conversation Database, sau đó trả về phản hồi thành công để cập nhật giao diện của người dùng.
+
+\item \textbf{Yêu cầu danh sách thư mục:}
+Khi người dùng chọn đánh dấu
+cuộc trò chuyện trên giao diện,
+giao diện gửi yêu cầu lấy danh sách thư mục lưu trữ hiện có
+của người dùng để hiển thị lên màn hình.
+
+\item \textbf{Tạo thư mục mới (nếu cần):}
+Nếu người dùng muốn tạo thư mục mới,
+người dùng nhập tên thư mục
+và giao diện gửi yêu cầu tạo thư mục.
+Hệ thống lưu thư mục mới
+vào CSDL trò chuyện
+và cập nhật lại danh sách hiển thị.
+
+\item \textbf{Lưu thông tin đánh dấu:}
+Người dùng chọn thư mục lưu trữ,
+điền ghi chú cá nhân và nhấn lưu.
+Giao diện gửi yêu cầu đính kèm cuộc trò chuyện
+vào thư mục đã chọn kèm ghi chú.
+
+\item \textbf{Cập nhật CSDL:}
+Dịch vụ trò chuyện kiểm tra sự tồn tại
+của cuộc trò chuyện
+và thực hiện lưu hoặc
+cập nhật thông tin đánh dấu vào CSDL trò chuyện,
+sau đó trả về thông báo thành công
+để cập nhật giao diện của người dùng.
+
 \end{itemize}

@@ -1,7 +1,15 @@
 \paragraph{Sơ đồ tuần tự luồng Lưu trữ gói thuê bao VIP}
 
 Luồng nghiệp vụ này mô tả
-cách thức Quản trị viên (Admin) thực hiện tạm ngưng hoặc lưu trữ (Archive) một gói thuê bao VIP không còn kinh doanh trong hệ thống để ẩn gói thuê bao VIP khỏi tầm nhìn của người dùng thông thường nhưng vẫn giữ dữ liệu cho lịch sử đối chiếu.
+cách thức Quản trị viên
+(Admin)
+thực hiện
+lưu trữ (Archive) một gói thuê bao VIP
+không còn kinh doanh
+trong hệ thống để
+ẩn gói thuê bao VIP
+khỏi giao diện của người dùng
+trong hệ thống.
 
 \begin{figure}[H]
 \centering
@@ -18,9 +26,10 @@ cách thức Quản trị viên (Admin) thực hiện tạm ngưng hoặc lưu t
 \begin{tabular}{|l|l|p{5cm}|}
 \hline
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
-Admin & Actor & Quản trị viên thực hiện quản lý danh mục gói thuê bao VIP. \\ \hline
-Web Frontend & Component & Giao diện web Next.js. \\ \hline %%%% Component & Giao diện Admin hiển thị danh sách gói thuê bao VIP và nút lưu trữ. \\ \hline
-API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline %%%% Component & Định tuyến yêu cầu an toàn đến Payment Service và kiểm tra quyền Admin. \\ \hline
+Admin & Actor & Quản trị viên
+thực hiện quản lý danh mục gói thuê bao VIP. \\ \hline
+Web Frontend & Component & Giao diện web Next.js. \\ \hline
+API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline
 Payment Service & Microservice & Tiếp nhận yêu cầu và xử lý lưu trữ các gói thuê bao VIP. \\ \hline
 Payment Database & Database & Lưu trữ thông tin chi tiết về các gói thuê bao VIP (Plan). \\ \hline
 \end{tabular}
@@ -30,7 +39,23 @@ Payment Database & Database & Lưu trữ thông tin chi tiết về các gói th
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
-\item \textbf{Yêu cầu lưu trữ:} Admin tìm gói thuê bao VIP cần ngưng kinh doanh trong danh sách Admin Panel và click nút "Lưu trữ" (Archive/Deactivate).
-\item \textbf{Gửi yêu cầu:} Web Frontend gửi yêu cầu \texttt{DELETE /plans/\{plan\_id\}} qua Kong API Gateway với Bearer Token thích hợp. Kong xác thực và ủy quyền truy cập cho tài khoản Admin trước khi chuyển tiếp yêu cầu lưu trữ gói.
-\item \textbf{Xử lý vô hiệu hóa:} Payment Service nhận yêu cầu, thay vì xóa vật lý (Physical Delete) bản ghi (gây lỗi tham chiếu khóa ngoại cho các giao dịch lịch sử), dịch vụ thực hiện cập nhật mềm trường \texttt{isActive=false} của bản ghi trong Payment Database. Trạng thái này giúp ẩn gói thuê bao VIP khỏi các truy vấn hiển thị bảng giá phía người dùng thông thường, và phản hồi kết quả HTTP 200 OK thành công.
+\item \textbf{Yêu cầu lưu trữ:}
+Quản trị viên
+tìm gói thuê bao VIP
+cần dừng hoạt động
+trong danh sách quản lý
+và chọn tính năng lưu trữ.
+\item \textbf{Gửi yêu cầu:}
+Giao diện gửi yêu cầu
+vô hiệu hóa gói thuê bao VIP
+qua cổng API.
+\item \textbf{Xử lý vô hiệu hóa:}
+Dịch vụ thanh toán nhận yêu cầu,
+cập nhật trạng thái gói thuê bao VIP
+thành ngừng hoạt động trong CSDL
+thay vì xóa hẳn để bảo toàn dữ liệu lịch sử giao dịch
+và hệ thống gửi thông báo thành công về giao diện.
+Gói thuê bao VIP này sẽ không còn hiển thị
+và được lập lịch tự động xóa sau 30 ngày.
+
 \end{itemize}

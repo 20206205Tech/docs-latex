@@ -23,8 +23,8 @@ trong hồ sơ của mình.
 \hline
 \textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
 User & Actor & Người dùng thực hiện chọn ảnh và lưu ảnh đại diện mới. \\ \hline
-Web Frontend & Component & Giao diện web Next.js. \\ \hline %%%% Component & Giao diện Next.js sinh tên tệp tin ngẫu nhiên, thực hiện tải ảnh và cập nhật địa chỉ ảnh mới vào hồ sơ. \\ \hline
-API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline %%%% Component & Định tuyến các yêu cầu liên quan tới Storage và PostgREST. \\ \hline
+Web Frontend & Component & Giao diện web Next.js. \\ \hline
+API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline
 Supabase Backend & Component & Dịch vụ tích hợp quản lý lưu trữ tệp tin, CSDL và xác thực. \\ \hline
 \end{tabular}
 \caption{Các thành phần tham gia luồng Tải lên và Cập nhật Ảnh đại diện}
@@ -33,6 +33,15 @@ Supabase Backend & Component & Dịch vụ tích hợp quản lý lưu trữ t�
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
-\item Người dùng tải tệp ảnh lên. Frontend sinh tên tệp tin (\texttt{userId\_random.ext}) rồi gửi tệp tin qua Gateway đến \texttt{Supabase Backend} để lưu trữ trong bucket \texttt{avatars} qua đường dẫn \texttt{/avatars/\{fileName\}}.
-\item Sau khi tải lên thành công, Frontend khởi tạo đường dẫn ảnh công khai (\texttt{avatar\_url}) và thực hiện gửi yêu cầu \texttt{PATCH /profiles?id=eq.\{userId\}} qua Gateway để cập nhật thông tin ảnh đại diện của người dùng trong bảng \texttt{profiles} của Supabase Backend.
+
+\item \textbf{Tải ảnh lên kho chứa:}
+Người dùng chọn tải lên tệp ảnh đại diện mới hoặc URL tệp ảnh.
+Giao diện tạo tên tệp ngẫu nhiên theo định danh người dùng
+và gửi tệp ảnh qua cổng API đến kho lưu trữ Supabase
+để lưu vào thư mục ảnh đại diện.
+
+\item \textbf{Cập nhật thông tin tài khoản:}
+Sau khi tải tệp lên kho lưu trữ Supabase thành công,
+giao diện thiết lập liên kết ảnh công khai mới
+và gửi yêu cầu cập nhật liên kết ảnh đại diện này qua cổng API đến CSDL thông tin cá nhân của người dùng.
 \end{itemize}

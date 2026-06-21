@@ -1,7 +1,11 @@
 \paragraph{Sơ đồ tuần tự luồng Hủy liên kết và thiết lập lại thiết bị MFA}
 
 Luồng nghiệp vụ này mô tả
-chi tiết quy trình người dùng hủy liên kết thiết bị MFA hiện tại trong trang cá nhân, sau đó thiết lập lại thiết bị xác thực mới thông qua trang \texttt{/auth/mfa} và Supabase Auth Service.
+chi tiết quy trình
+người dùng hủy liên kết thiết bị MFA
+hiện tại trong trang cá nhân,
+sau đó thiết lập lại thiết bị xác thực mới
+thông qua trang \texttt{/auth/mfa}.
 
 \begin{figure}[H]
 \centering
@@ -30,9 +34,32 @@ Authenticator App & External Service & Ứng dụng di động mới của ngư�
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
-\item Để thay đổi thiết bị, User yêu cầu hủy liên kết thiết bị cũ thông qua giao diện Web Frontend trong trang cá nhân. Yêu cầu này chỉ được chấp nhận khi phiên xác thực hiện tại đã đạt cấp độ bảo mật cao nhất (AAL2).
-\item Frontend thực hiện cuộc gọi API \texttt{DELETE /factors/\{factorId\}} qua Kong Gateway gửi tới Auth Service.
-\item Auth Service tiến hành xóa (hoặc đánh dấu đã hủy kích hoạt) factor cũ và gửi phản hồi thành công về cho Frontend. Frontend tải lại danh sách factor; khi không còn factor đang hoạt động, giao diện hiển thị trạng thái chưa kích hoạt MFA cùng nút \texttt{Kích hoạt ngay}.
-\item Khi User chọn \texttt{Kích hoạt ngay}, Frontend điều hướng sang trang \texttt{/auth/mfa} và bắt đầu lại quy trình kích hoạt (Enrollment) cho thiết bị mới: gửi \texttt{POST /factors} để nhận QR Code, Secret Key và Factor ID mới của thiết bị mới.
-\item User quét mã QR bằng ứng dụng Authenticator mới và nhập mã TOTP mới. Frontend gửi các yêu cầu Challenge và Verify để hoàn tất xác minh. Khi thành công, Auth Service cập nhật trạng thái factor mới thành \texttt{verified}, đồng thời cấp lại token AAL2 mới để khôi phục hoàn toàn quyền truy cập.
+
+\item \textbf{Yêu cầu hủy thiết bị cũ:}
+Để thay đổi thiết bị xác thực hai lớp,
+người dùng yêu cầu hủy liên kết
+với thiết bị cũ
+trong trang quản lý tài khoản cá nhân trên giao diện.
+Yêu cầu này chỉ được chấp nhận
+khi phiên đăng nhập hiện tại đã đạt mức bảo mật cấp 2.
+
+\item \textbf{Hủy liên kết:}
+Giao diện gửi yêu cầu hủy liên kết thiết bị qua cổng API tới Auth Service.
+Auth Service xóa thiết bị xác thực cũ
+khỏi hệ thống và phản hồi thành công về giao diện.
+
+\item \textbf{Bắt đầu thiết lập thiết bị mới:}
+Giao diện điều hướng sang
+trang thiết lập xác thực hai lớp và
+gửi yêu cầu đăng ký
+để nhận mã QR và khóa bảo mật mới cho thiết bị mới.
+
+\item \textbf{Xác thực thiết bị mới:}
+Người dùng quét mã QR
+bằng ứng dụng xác thực mới và
+nhập mã xác thực mới.
+Giao diện gửi các yêu cầu xác minh để hoàn tất.
+Khi thành công, Auth Service kích hoạt thiết bị mới và
+cấp lại mã đăng nhập ở mức bảo mật cấp 2.
+
 \end{itemize}
