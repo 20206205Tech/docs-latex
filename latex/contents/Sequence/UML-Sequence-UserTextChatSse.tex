@@ -34,13 +34,13 @@ Chatbot DB & Database & Lưu human message, AI message, reasoning steps, sources
 \begin{itemize}
 
 \item \textbf{Gửi yêu cầu trò chuyện:}
-Giao diện gửi yêu cầu trò chuyện truyền dữ liệu liên tục kèm mã cuộc trò chuyện, nội dung câu hỏi, danh sách tài liệu chọn phân tích, tùy chọn sử dụng lập luận nâng cao và mã đăng nhập qua cổng API.
+Giao diện gửi yêu cầu trò chuyện truyền dữ liệu liên tục kèm định danh cuộc trò chuyện, nội dung câu hỏi, danh sách tài liệu chọn phân tích, tùy chọn sử dụng lập luận nâng cao và mã đăng nhập qua cổng API.
 
 \item \textbf{Kiểm tra quyền hạn:}
 Dịch vụ trò chuyện nhận yêu cầu: nếu người dùng muốn sử dụng lập luận nâng cao, dịch vụ kiểm tra trạng thái gói thuê bao VIP của người dùng trong CSDL xem có đang hoạt động và còn thời hạn hay không; nếu không hợp lệ sẽ trả về lỗi từ chối quyền truy cập.
 
 \item \textbf{Kiểm tra cuộc trò chuyện:}
-Dịch vụ trò chuyện kiểm tra mã cuộc trò chuyện để đảm bảo cuộc trò chuyện còn tồn tại và đang hoạt động; nếu không tìm thấy sẽ trả về thông báo lỗi.
+Dịch vụ trò chuyện kiểm tra định danh cuộc trò chuyện để đảm bảo cuộc trò chuyện còn tồn tại và đang hoạt động; nếu không tìm thấy sẽ trả về thông báo lỗi.
 
 \item \textbf{Kết nối dịch vụ chatbot:}
 Dịch vụ trò chuyện gọi dịch vụ chatbot và chuyển tiếp thông tin cuộc trò chuyện.
