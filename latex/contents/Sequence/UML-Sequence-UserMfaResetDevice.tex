@@ -1,7 +1,11 @@
 \paragraph{Sơ đồ tuần tự luồng Hủy liên kết và thiết lập lại thiết bị MFA}
 
 Luồng nghiệp vụ này mô tả
-chi tiết quy trình người dùng hủy liên kết thiết bị MFA hiện tại trong trang cá nhân, sau đó thiết lập lại thiết bị xác thực mới thông qua trang \texttt{/auth/mfa} và Supabase Auth Service.
+chi tiết quy trình
+người dùng hủy liên kết thiết bị MFA
+hiện tại trong trang cá nhân,
+sau đó thiết lập lại thiết bị xác thực mới
+thông qua trang \texttt{/auth/mfa}.
 
 \begin{figure}[H]
 \centering
@@ -32,14 +36,30 @@ Authenticator App & External Service & Ứng dụng di động mới của ngư�
 \begin{itemize}
 
 \item \textbf{Yêu cầu hủy thiết bị cũ:}
-Để thay đổi thiết bị xác thực hai lớp, người dùng yêu cầu hủy liên kết với thiết bị cũ trong trang quản lý tài khoản cá nhân trên giao diện. Yêu cầu này chỉ được chấp nhận khi phiên đăng nhập hiện tại đã đạt mức bảo mật cao nhất.
+Để thay đổi thiết bị xác thực hai lớp,
+người dùng yêu cầu hủy liên kết
+với thiết bị cũ
+trong trang quản lý tài khoản cá nhân trên giao diện.
+Yêu cầu này chỉ được chấp nhận
+khi phiên đăng nhập hiện tại đã đạt mức bảo mật cấp 2.
 
 \item \textbf{Hủy liên kết:}
-Giao diện gửi yêu cầu hủy liên kết thiết bị qua cổng API tới auth service. auth service xóa thiết bị xác thực cũ khỏi hệ thống và phản hồi thành công về giao diện.
+Giao diện gửi yêu cầu hủy liên kết thiết bị qua cổng API tới auth service.
+Auth service xóa thiết bị xác thực cũ
+khỏi hệ thống và phản hồi thành công về giao diện.
 
 \item \textbf{Bắt đầu thiết lập thiết bị mới:}
-Giao diện cập nhật lại trạng thái tài khoản sang chưa kích hoạt xác thực hai lớp. Khi người dùng chọn kích hoạt lại, giao diện điều hướng sang trang thiết lập xác thực hai lớp và gửi yêu cầu đăng ký để nhận mã phản hồi nhanh và khóa bảo mật mới cho thiết bị mới.
+Giao diện điều hướng sang
+trang thiết lập xác thực hai lớp và
+gửi yêu cầu đăng ký
+để nhận mã QR và khóa bảo mật mới cho thiết bị mới.
 
 \item \textbf{Xác thực thiết bị mới:}
-Người dùng quét mã phản hồi nhanh bằng ứng dụng xác thực mới và nhập mã xác thực mới. Giao diện gửi các yêu cầu xác minh để hoàn tất. Khi thành công, auth service kích hoạt thiết bị mới và cấp lại mã đăng nhập ở mức bảo mật cao nhất để khôi phục quyền truy cập.
+Người dùng quét mã QR
+bằng ứng dụng xác thực mới và
+nhập mã xác thực mới.
+Giao diện gửi các yêu cầu xác minh để hoàn tất.
+Khi thành công, auth service kích hoạt thiết bị mới và
+cấp lại mã đăng nhập ở mức bảo mật cấp 2.
+
 \end{itemize}
