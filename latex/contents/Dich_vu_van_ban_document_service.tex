@@ -1,4 +1,4 @@
-\subsection{Dịch vụ văn bản (Document Service)}
+\subsubsection{Dịch vụ văn bản (document service)}
 
 Sơ đồ tổng quan về Dịch vụ văn bản (Document Service):
 
@@ -37,7 +37,7 @@ Vì chức năng tải lên tài liệu chỉ dành riêng cho người dùng s�
 \end{itemize}
 \end{itemize}
 
-\subsubsection{Document Worker}
+\paragraph{Document Worker}
 
 Dịch vụ văn bản kết hợp với \textbf{Document Worker} (nhận các tác vụ nền từ Celery thông qua RabbitMQ) để thực hiện quy trình xử lý tài liệu phục vụ hệ thống RAG:
 
@@ -49,7 +49,7 @@ Dịch vụ văn bản kết hợp với \textbf{Document Worker} (nhận các t
 \item \textbf{Lưu trữ Vector}: Quản lý và lưu trữ các vector embedding vào CSDL vector Milvus để phục vụ tìm kiếm ngữ nghĩa sau này.
 \end{enumerate}
 
-\subsubsection{Cơ chế tối ưu \& Độ bền bỉ (Optimization \& Resilience)}
+\paragraph{Cơ chế tối ưu \& Độ bền bỉ (Optimization \& Resilience)}
 
 \begin{itemize}
 \item \textbf{Tái sử dụng kết quả (Deduplication)}: Để tối ưu chi phí và hiệu năng, trước khi chạy parser và AI, worker kiểm tra xem người dùng đã từng tải lên tệp tin có cùng dung lượng (\texttt{file\_size}) và băm (\texttt{file\_hash}) hay chưa. Nếu đã có tài liệu trùng khớp đã xử lý thành công, hệ thống sao chép trực tiếp kết quả bóc tách và tóm tắt trên Cloudflare R2 sang đường dẫn của tài liệu mới mà không cần chạy lại mô hình AI.
