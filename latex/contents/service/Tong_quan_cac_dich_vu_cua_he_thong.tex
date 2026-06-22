@@ -6,7 +6,6 @@
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/Microservice-all.excalidraw.png}
 \caption{Sơ đồ tổng quan các dịch vụ của hệ thống}
-\label{fig:microservice-all}
 \end{figure}
 
 Tất cả các dịch vụ đều dùng supabase để xác thực thông tin JWT của người dùng.
@@ -16,7 +15,6 @@ Tất cả các dịch vụ đều dùng CSDL Postgres của Neon để làm CSD
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/neon-database-all.png}
 \caption{Bảng điều khiển CSDL Neon}
-\label{fig:neon-database-all}
 \end{figure}
 
 Các dịch vụ ngoại trừ auth
@@ -36,7 +34,6 @@ nên sẽ được triển khai trên Vercel.
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/vercel-project.png}
 \caption{Bảng điều khiển các dự án trên Vercel}
-\label{fig:vercel-project}
 \end{figure}
 
 Các dịch vụ NestJS sử dụng Codecov để theo dõi độ bao phủ kiểm thử (test coverage).
@@ -45,7 +42,6 @@ Các dịch vụ NestJS sử dụng Codecov để theo dõi độ bao phủ ki�
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/test-codecov2.png}
 \caption{Thống kê độ bao phủ kiểm thử trên CodeCov}
-\label{fig:test-codecov}
 \end{figure}
 
 Tích hợp SonarQube để phân tích chất lượng mã nguồn và các lỗ hổng bảo mật.
@@ -54,7 +50,6 @@ Tích hợp SonarQube để phân tích chất lượng mã nguồn và các l�
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/sonarqube.png}
 \caption{Giao diện phân tích mã nguồn trên SonarQube}
-\label{fig:sonarqube}
 \end{figure}
 
 % \subsubsection{Tracing và Quan sát hệ thống (Observability)}
@@ -66,5 +61,4 @@ tích hợp Honeycomb để theo dõi vết (distributed tracing) giữa các d�
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/tracing.png}
 \caption{Giao diện theo dõi vết distributed tracing trên Honeycomb}
-\label{fig:tracing}
 \end{figure}
