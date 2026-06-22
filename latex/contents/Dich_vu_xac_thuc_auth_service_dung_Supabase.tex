@@ -24,7 +24,7 @@ và bảo mật tài khoản:
 \begin{itemize}
 
 \item \textbf{Đăng nhập bằng Google}:
-Tạo URL và chuyển hướng người dùng đến trang ủy quyền của Google thông qua Supabase Auth Provider.
+Tạo URL và chuyển hướng người dùng đến trang ủy quyền của Google.
 Endpoint sử dụng: \texttt{/authorize?provider=google}
 
 \item \textbf{Đăng nhập bằng Email và Mật khẩu}:
@@ -44,7 +44,9 @@ Cho phép người dùng đổi mật khẩu mới sau khi đã đăng nhập (h
 Endpoint sử dụng: \texttt{/user}
 
 \item \textbf{Làm mới Access Token}:
-Sử dụng \texttt{refresh\_token} để lấy một \texttt{access\_token} mới khi token cũ hết hạn mà không bắt người dùng phải đăng nhập lại.
+Sử dụng \texttt{refresh\_token} để lấy
+một \texttt{access\_token} mới
+khi token cũ hết hạn.
 Endpoint sử dụng: \texttt{/token?grant\_type=refresh\_token}
 
 \item \textbf{Đăng xuất}:
@@ -61,37 +63,37 @@ Hệ thống hỗ trợ phương thức xác thực hai yếu tố TOTP (Time-ba
 \item \textbf{Đăng ký thiết bị xác thực MFA mới}:
 \begin{itemize}
 \item Khởi tạo quá trình liên kết thiết bị xác thực mới. API trả về mã QR Code (\texttt{qr\_code}), mã bí mật (\texttt{secret}) và chuỗi URI để người dùng quét trên ứng dụng Authenticator.
-\item Endpoint sử dụng: \texttt{/auth/v1/factors}
+\item Endpoint sử dụng: \texttt{/factors}
 \end{itemize}
 
 \item \textbf{Tạo thử thách xác thực}:
 \begin{itemize}
 \item Tạo một thử thách xác thực (challenge) dựa trên ID thiết bị MFA (\texttt{factorId}) để chuẩn bị so khớp với mã TOTP người dùng nhập.
-\item Endpoint sử dụng: \texttt{/auth/v1/factors/\{factorId\}/challenge}
+\item Endpoint sử dụng: \texttt{/factors/\{factorId\}/challenge}
 \end{itemize}
 
 \item \textbf{Xác thực mã TOTP}:
 \begin{itemize}
 \item Kiểm tra mã TOTP gồm 6 chữ số người dùng nhập có khớp với thử thách hiện tại không. Nếu đúng, Supabase sẽ nâng cấp phiên làm việc của người dùng (tăng cấp bảo mật cho Access Token lên mức độ xác thực \texttt{aal2}).
-\item Endpoint sử dụng: \texttt{/auth/v1/factors/\{factorId\}/verify}
+\item Endpoint sử dụng: \texttt{/factors/\{factorId\}/verify}
 \end{itemize}
 
 \item \textbf{Lấy danh sách các yếu tố MFA}:
 \begin{itemize}
 \item Lấy thông tin tài khoản người dùng để lọc ra danh sách các thiết bị/yếu tố xác thực đã liên kết, phân loại thành: tất cả thiết bị (\texttt{all}) và các thiết bị đã kích hoạt thành công (\texttt{active}).
-\item Endpoint sử dụng: \texttt{/auth/v1/user}
+\item Endpoint sử dụng: \texttt{/user}
 \end{itemize}
 
 \item \textbf{Hủy liên kết/Xóa thiết bị MFA}:
 \begin{itemize}
 \item Xóa một thiết bị xác thực MFA khỏi tài khoản người dùng.
-\item Endpoint sử dụng: \texttt{/auth/v1/factors/\{factorId\}}
+\item Endpoint sử dụng: \texttt{/factors/\{factorId\}}
 \end{itemize}
 
 \item \textbf{Cập nhật tên hiển thị của thiết bị MFA}:
 \begin{itemize}
 \item Đổi tên hiển thị (\texttt{friendly\_name}) của thiết bị xác thực (ví dụ: "Điện thoại cá nhân").
-\item Endpoint sử dụng: \texttt{/auth/v1/factors/\{factorId\}}
+\item Endpoint sử dụng: \texttt{/factors/\{factorId\}}
 \end{itemize}
 \end{itemize}
 
