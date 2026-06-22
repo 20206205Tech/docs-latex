@@ -6,7 +6,6 @@ Sơ đồ tổng quan về Dịch vụ văn bản (Document Service):
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/document-overview.png}
 \caption{Sơ đồ tổng quan Dịch vụ văn bản}
-\label{fig:document-overview}
 \end{figure}
 
 Mục đích: Tiếp nhận, lưu trữ và quản lý luồng xử lý tài liệu của người dùng. Dịch vụ này không chỉ lưu trữ tệp tin mà còn hỗ trợ quy trình trích xuất nội dung sang định dạng Markdown, tự động tạo bản tóm tắt và thực hiện vector hóa tài liệu.
@@ -15,7 +14,6 @@ Mục đích: Tiếp nhận, lưu trữ và quản lý luồng xử lý tài li�
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/document-swagger.png}
 \caption{Tài liệu Swagger API Dịch vụ văn bản}
-\label{fig:document-swagger}
 \end{figure}
 
 Vì chức năng tải lên tài liệu chỉ dành riêng cho người dùng sở hữu gói VIP, dịch vụ văn bản (Document Service) thực hiện lắng nghe sự kiện thanh toán thành công từ Kafka, lưu thông tin vào CSDL để kiểm tra và xác thực quyền VIP của người dùng hiện tại.
@@ -56,7 +54,6 @@ Giao diện quản lý vector trên Milvus:
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/document-milvus.png}
 \caption{Dữ liệu vector lưu trữ trên Milvus}
-\label{fig:document-milvus}
 \end{figure}
 
 Quản lý các file tài liệu gốc trên Cloudflare R2:
@@ -65,7 +62,6 @@ Quản lý các file tài liệu gốc trên Cloudflare R2:
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/r233333.png}
 \caption{Tệp tài liệu gốc lưu trữ trên Cloudflare R2}
-\label{fig:r233333}
 \end{figure}
 
 Quản lý nội dung tóm tắt lưu trữ trên Cloudflare R2:
@@ -74,7 +70,6 @@ Quản lý nội dung tóm tắt lưu trữ trên Cloudflare R2:
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/r2summmmmm.png}
 \caption{Bản tóm tắt lưu trữ trên Cloudflare R2}
-\label{fig:r2summmmmm}
 \end{figure}
 
 Quản lý migration CSDL của dịch vụ văn bản:
@@ -83,7 +78,6 @@ Quản lý migration CSDL của dịch vụ văn bản:
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/document-database-migration.png}
 \caption{Quản lý migration CSDL của dịch vụ văn bản}
-\label{fig:document-database-migration}
 \end{figure}
 
 Sơ đồ cấu trúc các bảng trong CSDL document:
@@ -92,5 +86,4 @@ Sơ đồ cấu trúc các bảng trong CSDL document:
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/document-database.png}
 \caption{Cấu hình các bảng trong CSDL document}
-\label{fig:document-database}
 \end{figure}

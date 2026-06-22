@@ -7,7 +7,6 @@ Sơ đồ tổng quan về Dịch vụ thanh toán (payment service):
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/payment-kafka-event.png}
 \caption{Sơ đồ tích hợp thanh toán và sự kiện Kafka}
-\label{fig:payment-kafka-event}
 \end{figure}
 
 \paragraph{Quản lý Gói dịch vụ (Plans)}
@@ -45,7 +44,6 @@ Các API chính trong tài liệu Swagger API của Dịch vụ thanh toán (pay
 \centering
 \includegraphics[width=0.9\textwidth]{pictures/payment-swagger.png}
 \caption{Tài liệu Swagger API Dịch vụ thanh toán}
-\label{fig:payment-swagger}
 \end{figure}
 
 \paragraph{Quản lý Thuê bao (Subscriptions) và Giao dịch}
@@ -99,7 +97,6 @@ Triển khai Dịch vụ thanh toán (payment service) độc lập trên Heroku
 \centering
 \includegraphics[width=1\textwidth]{pictures/payment-heroku.png}
 \caption{Trạng thái deploy dịch vụ thanh toán trên Heroku}
-\label{fig:payment-heroku}
 \end{figure}
 
 Các bước CI/CD tự động chạy kiểm thử trên GitHub Actions:
@@ -112,7 +109,6 @@ Dữ liệu gói thuê bao VIP được cache trong Redis:
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/payment-redis-v2.png}
 \caption{Dữ liệu gói thuê bao VIP được cache trong Redis}
-\label{fig:payment-redis}
 \end{figure}
 
 Thông tin kiểm tra tự động của Pull Request trên GitHub:
@@ -121,14 +117,12 @@ Thông tin kiểm tra tự động của Pull Request trên GitHub:
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/payment-PR.png}
 \caption{Kiểm tra Pull Request trên GitHub}
-\label{fig:payment-PR}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/payment-test.png}
 \caption{Quy trình chạy Test trong GitHub Actions}
-\label{fig:payment-test}
 \end{figure}
 
 Quản lý migrations CSDL tự động trong GitHub Actions:
@@ -137,7 +131,6 @@ Quản lý migrations CSDL tự động trong GitHub Actions:
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/payment-database-migration.png}
 \caption{Quản lý database migrations trên GitHub Actions}
-\label{fig:payment-database-migration}
 \end{figure}
 
 Các bảng trong CSDL của Dịch vụ thanh toán (payment service):
@@ -146,7 +139,6 @@ Các bảng trong CSDL của Dịch vụ thanh toán (payment service):
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/payment-database.png}
 \caption{Cấu hình các bảng CSDL của dịch vụ thanh toán}
-\label{fig:payment-database}
 \end{figure}
 
 \paragraph{Sự kiện Thanh toán thành công (Subscription Purchased Event)}
@@ -180,7 +172,6 @@ Dữ liệu sự kiện được gửi dưới dạng chuỗi JSON có cấu tr�
 \texttt{occurredAt} & String (ISO 8601) & Thời điểm sự kiện phát sinh thực tế trên máy chủ \\ \hline
 \end{tabular}
 \caption{Cấu trúc dữ liệu sự kiện SubscriptionPurchasedEvent}
-\label{tab:event-payload-schema}
 \end{table}
 
 \textit{Ví dụ JSON Payload:}
@@ -218,7 +209,6 @@ thông báo kết quả giao dịch một cách không đồng bộ cho
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/payment-ipn-i1.png}
 \caption{Sơ đồ nguyên lý hoạt động của IPN}
-\label{fig:payment-ipn-i1}
 \end{figure}
 
 Sau khi khách hàng hoàn tất thanh toán, kết nối mạng của họ có thể bị gián đoạn hoặc họ có thể tắt trình duyệt trước khi được chuyển hướng về trang Web của hệ thống (Return URL). Cơ chế IPN đảm bảo rằng máy chủ của hệ thống vẫn nhận được kết quả cuối cùng một cách độc lập từ đối tác để cập nhật trạng thái đơn hàng một cách chính xác.
@@ -227,7 +217,6 @@ Sau khi khách hàng hoàn tất thanh toán, kết nối mạng của họ có 
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/payment-ipn-i2.png}
 \caption{Mô phỏng luồng cập nhật trạng thái qua IPN}
-\label{fig:payment-ipn-i2}
 \end{figure}
 
 \paragraph{Thiết kế hệ thống theo Domain-Driven Design (DDD)}
@@ -241,7 +230,6 @@ Giao diện demo thanh toán qua VNPay:
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/payment-vnpay.png}
 \caption{Giao diện thanh toán VNPay}
-\label{fig:payment-vnpay}
 \end{figure}
 
 Giao diện demo thanh toán qua MoMo:
@@ -250,7 +238,6 @@ Giao diện demo thanh toán qua MoMo:
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/payment-momo.png}
 \caption{Giao diện thanh toán MoMo}
-\label{fig:payment-momo}
 \end{figure}
 
 Giao diện demo thanh toán qua ZaloPay:
@@ -259,7 +246,6 @@ Giao diện demo thanh toán qua ZaloPay:
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/payment-zalo.png}
 \caption{Giao diện thanh toán ZaloPay}
-\label{fig:payment-zalo}
 \end{figure}
 
 Giao diện demo thanh toán qua SePay:
@@ -268,7 +254,6 @@ Giao diện demo thanh toán qua SePay:
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/payment-sepay.png}
 \caption{Giao diện thanh toán SePay}
-\label{fig:payment-sepay}
 \end{figure}
 
 Mẫu Email gửi cho người dùng khi thanh toán thành công:
@@ -277,5 +262,4 @@ Mẫu Email gửi cho người dùng khi thanh toán thành công:
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/payment-mail.png}
 \caption{Email thông báo thanh toán thành công}
-\label{fig:payment-mail}
 \end{figure}

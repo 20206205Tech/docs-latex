@@ -117,7 +117,6 @@ Thông tin payload của JWT từ Supabase:
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/auth-jwt-supabase.png}
 \caption{Thông tin JWT Payload từ Supabase}
-\label{fig:auth-jwt-supabase}
 \end{figure}
 
 \textbf{Thuật toán TOTP (Time-based One-time Password)}
@@ -147,7 +146,6 @@ quét mã QR để lấy khóa bí mật.
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/why-totp.png}
 \caption{Trao đổi khóa bí mật bằng cách quét mã QR}
-\label{fig:why-totp}
 \end{figure}
 
 TOTP sử dụng khóa bí mật có thể hiển thị dưới dạng mã QR cho người dùng.
@@ -160,7 +158,6 @@ hiển thị trên phần mềm Authenticator để máy chủ tiến hành so s
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/2fa_diagram.jpg}
 \caption{Cách hoạt động của TOTP}
-\label{fig:2fa-diagram}
 \end{figure}
 
 Tham khảo tài liệu tại:
@@ -191,7 +188,6 @@ Trang tài liệu này hướng dẫn cách triển khai tính năng Xác thực
 \centering
 \includegraphics[width=0.7\textwidth]{pictures/auth-mfa-flow.excalidraw.png}
 \caption{Sơ đồ luồng xử lý xác thực MFA}
-\label{fig:auth-mfa-flow}
 \end{figure}
 
 Chi tiết về cấu hình Terraform dùng để quản lý hạ tầng Supabase:
@@ -200,7 +196,6 @@ Chi tiết về cấu hình Terraform dùng để quản lý hạ tầng Supabas
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/auth-terraform-supabase-overview.png}
 \caption{Tổng quan cấu hình Terraform quản lý hạ tầng Supabase}
-\label{fig:auth-terraform-supabase-overview}
 \end{figure}
 
 \begin{itemize}
@@ -225,14 +220,12 @@ Chi tiết về cấu hình Terraform dùng để quản lý hạ tầng Supabas
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/auth-mail.png}
 \caption{Mẫu email HTML được cấu hình}
-\label{fig:auth-mail}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.5\textwidth]{pictures/auth-terraform-supabase-diagram.png}
 \caption{Sơ đồ cấu hình Terraform cho Supabase}
-\label{fig:auth-terraform-supabase-diagram}
 \end{figure}
 
 Chi tiết về cấu hình migration CSDL Supabase:
@@ -255,7 +248,6 @@ Kết quả bucket cấu hình trên Supabase:
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/auth-supabase-bucket.png}
 \caption{Cấu hình các Storage Bucket trên Supabase}
-\label{fig:auth-supabase-bucket}
 \end{figure}
 
 Kết quả CSDL trên Supabase:
@@ -264,7 +256,6 @@ Kết quả CSDL trên Supabase:
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/auth-supabase-database.png}
 \caption{Cấu hình bảng CSDL trên Supabase}
-\label{fig:auth-supabase-database}
 \end{figure}
 
 Để tối ưu hóa quá trình phát triển,
@@ -275,7 +266,6 @@ Hiện tại trong dự án, có 2 gói thư viện dùng chung được xây d�
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/nest-auth.png}
 \caption{Quy trình kiểm tra bảo mật trong gói thư viện dùng chung}
-\label{fig:nest-auth}
 \end{figure}
 \begin{itemize}
 \item Xác thực \texttt{Request-Id} được chuyển tiếp từ Kong API Gateway.

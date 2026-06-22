@@ -55,14 +55,12 @@ Quá trình Data pipeline được chia thành 3 giai đoạn: Thu thập dữ l
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/data-pipeline-phapdien-step-download-zip-new.png}
 \caption{Tự động tải file nén mới và đồng bộ Google Drive}
-\label{fig:step-download-zip-new}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/data-pipeline-phapdien-step-download-zip-check-hash-skip-step.png}
 \caption{Kiểm tra mã băm và bỏ qua bước tải nếu không có sự thay đổi dữ liệu}
-\label{fig:step-download-zip-check-hash}
 \end{figure}
 
 - Giai đoạn Tiền xử lý Dữ liệu:
@@ -73,14 +71,12 @@ Quá trình Data pipeline được chia thành 3 giai đoạn: Thu thập dữ l
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/data-pipeline-phapdien-step-extract-json.png}
 \caption{Bóc tách biến cấu trúc dữ liệu và xuất ra file JSON}
-\label{fig:step-extract-json}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/data-pipeline-phapdien-step-load-json.png}
 \caption{Nạp dữ liệu JSON vào hệ thống}
-\label{fig:step-load-json}
 \end{figure}
 
 - Giai đoạn Tích hợp RAG Pipeline:
@@ -91,7 +87,6 @@ Quá trình Data pipeline được chia thành 3 giai đoạn: Thu thập dữ l
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/data-pipeline-phapdien-step-rag-chunking.png}
 \caption{Bóc tách và chia nhỏ nội dung văn bản theo cấu trúc mục lục}
-\label{fig:step-rag-chunking-phapdien}
 \end{figure}
 
 - step\_rag\_embedding: Làm giàu ngữ cảnh bằng cách nối trực tiếp tên Chủ đề và Đề mục vào phần đầu của mỗi đoạn văn bản chunk. Sau đó, nội dung được đưa qua mô hình HuggingFace (\texttt{keepitreal/vietnamese-sbert}) để biến đổi thành các vector và lưu vào CSDL vector Qdrant.
@@ -100,7 +95,6 @@ Quá trình Data pipeline được chia thành 3 giai đoạn: Thu thập dữ l
 \centering
 \includegraphics[width=0.85\textwidth]{pictures/data-pipeline-phapdien-step-rag-embedding.png}
 \caption{Mô hình hóa dữ liệu dạng vector và lưu trữ vào Qdrant}
-\label{fig:step-rag-embedding-phapdien}
 \end{figure}
 
 \begin{figure}[H]
