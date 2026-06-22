@@ -10,7 +10,9 @@ def render_plantuml(input_file: str, output_file: str):
     # server = PlantUML(url="http://www.plantuml.com/plantuml/img/")
 
     # docker run -d -p 8080:8080 plantuml/plantuml-server:tomcat
-    server = PlantUML(url="http://localhost:8080/img/")
+    # server = PlantUML(url="http://localhost:8080/img/")
+    # 134.185.92.211:8880
+    server = PlantUML(url="http://134.185.92.211:8880/img/")
 
     try:
         # Read the input file
