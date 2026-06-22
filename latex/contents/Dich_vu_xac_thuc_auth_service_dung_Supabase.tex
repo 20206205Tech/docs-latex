@@ -92,16 +92,12 @@ Hệ thống sử dụng cơ chế RESTful API tự động sinh từ PostgreSQL
 
 \begin{itemize}
 \item \textbf{Lấy thông tin hồ sơ}:
-\begin{itemize}
-\item Truy vấn thông tin chi tiết hồ sơ người dùng (như tên đầy đủ, ảnh đại diện) từ bảng \texttt{profiles} dựa vào \texttt{userId}.
-\item Endpoint sử dụng: \texttt{/rest/v1/profiles?id=eq.\{userId\}}
-\end{itemize}
+Truy vấn thông tin chi tiết hồ sơ người dùng (như tên đầy đủ, ảnh đại diện) từ bảng \texttt{profiles} dựa vào \texttt{userId}.
+Endpoint sử dụng: \texttt{/rest/v1/profiles?id=eq.\{userId\}}
 
 \item \textbf{Cập nhật thông tin hồ sơ}:
-\begin{itemize}
-\item Cập nhật các trường thông tin hồ sơ như tên hiển thị (\texttt{full\_name}) hoặc đường dẫn ảnh đại diện (\texttt{avatar\_url}).
-\item Endpoint sử dụng: \texttt{/rest/v1/profiles?id=eq.\{userId\}}
-\end{itemize}
+Cập nhật các trường thông tin hồ sơ như tên hiển thị (\texttt{full\_name}) hoặc đường dẫn ảnh đại diện (\texttt{avatar\_url}).
+Endpoint sử dụng: \texttt{/rest/v1/profiles?id=eq.\{userId\}}
 \end{itemize}
 
 \paragraph{Quản lý Ảnh đại diện (Supabase Storage)}
@@ -110,11 +106,9 @@ Hệ thống sử dụng dịch vụ lưu trữ tệp (Storage) của Supabase �
 
 \begin{itemize}
 \item \textbf{Tải lên ảnh đại diện}:
-\begin{itemize}
-\item Tải tệp tin ảnh của người dùng lên thư mục \texttt{avatars} trên Supabase Storage. Tên tệp được sinh ngẫu nhiên kết hợp với \texttt{userId} để tránh trùng lặp.
-\item Endpoint tải lên: \texttt{/storage/v1/object/avatars/\{fileName\}}
-\item Đường dẫn công khai nhận về: \texttt{/storage/v1/object/public/avatars/\{fileName\}}
-\end{itemize}
+Tải tệp tin ảnh của người dùng lên thư mục \texttt{avatars} trên Supabase Storage. Tên tệp được sinh ngẫu nhiên kết hợp với \texttt{userId} để tránh trùng lặp.
+Endpoint tải lên: \texttt{/storage/v1/object/avatars/\{fileName\}}
+Đường dẫn công khai nhận về: \texttt{/storage/v1/object/public/avatars/\{fileName\}}
 \end{itemize}
 
 Thông tin payload của JWT từ Supabase:
