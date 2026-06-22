@@ -1,5 +1,6 @@
-\subsection{Dịch vụ thanh toán (payment service)}
+\subsubsection{Dịch vụ thanh toán (payment service)}
 
+Mục đích: Dịch vụ thanh toán (payment service) chịu trách nhiệm quản lý thông tin các gói dịch vụ (\texttt{plans}), quản lý thuê bao người dùng (\texttt{subscriptions}) của người dùng và tích hợp các cổng thanh toán.
 Sơ đồ tổng quan về Dịch vụ thanh toán (payment service):
 
 \begin{figure}[H]
@@ -9,87 +10,79 @@ Sơ đồ tổng quan về Dịch vụ thanh toán (payment service):
 \label{fig:payment-kafka-event}
 \end{figure}
 
-Mục đích: Dịch vụ thanh toán (payment service) chịu trách nhiệm quản lý thông tin các gói dịch vụ (\texttt{plans}), quản lý thuê bao người dùng (\texttt{subscriptions}) của người dùng và tích hợp các cổng thanh toán.
+\paragraph{Quản lý Gói dịch vụ (Plans)}
 
-\subsubsection{I. Quản lý Gói dịch vụ (Plans)}
-
-Cho phép hệ thống định nghĩa và cung cấp các gói dịch vụ khác nhau tới người dùng.
+Cho phép hệ thống
+định nghĩa và cung cấp
+các gói dịch vụ khác nhau tới người dùng.
 
 \begin{itemize}
 \item \textbf{Tạo mới gói dịch vụ}:
-\begin{itemize}
-\item Cho phép Quản trị viên (ADMIN) thiết lập cấu hình gói dịch vụ mới bao gồm các thông số: tên gói (ví dụ: VIP 1 tháng), thời hạn sử dụng, giá tiền (VND), trạng thái hoạt động và các tính năng đi kèm (ví dụ: Quyền sử dụng mô hình suy luận AI, Voice, Xử lý tài liệu nâng cao).
-\end{itemize}
+Cho phép Quản trị viên (ADMIN)
+thiết lập cấu hình gói dịch vụ mới
+bao gồm các thông số: tên gói (ví dụ: VIP 1 tháng), thời hạn sử dụng, giá tiền (VND), trạng thái hoạt động và các tính năng đi kèm (ví dụ: Quyền sử dụng mô hình suy luận AI, Voice, Xử lý tài liệu nâng cao).
 
 \item \textbf{Truy xuất danh sách gói}:
-\begin{itemize}
-\item Lấy danh sách toàn bộ các gói dịch vụ hiện có trên hệ thống để hiển thị cho người dùng. Chức năng này được tối ưu hóa hiệu năng bằng cơ chế phân trang thông qua hai tham số \texttt{skip} và \texttt{limit}.
-\end{itemize}
+Lấy danh sách toàn bộ
+các gói dịch vụ hiện có
+trên hệ thống để hiển thị cho người dùng.
+Chức năng này được phân trang thông qua hai tham số \texttt{skip} và \texttt{limit}.
 
 \item \textbf{Cơ chế Cache với Redis}:
-\begin{itemize}
-\item Lưu thông tin cache danh sách các plan vào Redis.
-\item Khi người dùng yêu cầu xem danh sách gói đăng ký, hệ thống sẽ ưu tiên đọc từ Redis.
-\item Nếu cache trống (cache miss), hệ thống sẽ truy xuất CSDL, trả về kết quả cho client và lưu lại kết quả đó vào Redis cho các yêu cầu sau.
-\end{itemize}
+Lưu thông tin cache danh sách các plan vào Redis.
+Khi người dùng yêu cầu xem danh sách gói đăng ký, hệ thống sẽ ưu tiên đọc từ Redis.
+Nếu cache trống (cache miss), hệ thống sẽ truy xuất CSDL, trả về kết quả cho client
+và lưu lại kết quả đó vào Redis cho các yêu cầu sau.
 
-\item \textbf{Lưu trữ/Vô hiệu hóa gói}:
-\begin{itemize}
-\item Cho phép quản trị viên ẩn hoặc tạm dừng cung cấp các gói dịch vụ cũ.
-\end{itemize}
-\end{itemize}
+\item \textbf{Lưu trữ gói thuê bao VIP}:
+Cho phép quản trị viên tạm dừng cung cấp các gói dịch vụ cũ.
 
-\subsubsection{II. Quản lý Thuê bao (Subscriptions) và Giao dịch}
-
-Quản lý thông tin đăng ký dịch vụ của người dùng và các giao dịch phát sinh:
-
-\begin{itemize}
-\item \textbf{Mua gói}:
-\begin{itemize}
-\item Người dùng khởi tạo yêu cầu thanh toán cho một gói dịch vụ cụ thể. Hệ thống tiếp nhận mã gói (\texttt{plan\_id}) và đường dẫn chuyển hướng (\texttt{redirect\_url}) để tạo link thanh toán và đưa người dùng tới cổng thanh toán.
-\item Tích hợp chức năng tự động hủy giao dịch nếu hết thời gian chờ thanh toán (timeout) cấu hình trong Redis.
-\item Gửi sự kiện thanh toán thành công lên Kafka.
-\item Gửi email thông báo xác nhận thanh toán thành công cho người dùng.
-\end{itemize}
-
-\item \textbf{Tra cứu thông tin Thuê bao}:
-\begin{itemize}
-\item Cho phép người dùng xem thông tin chi tiết và thời hạn của gói dịch vụ hiện tại mà họ đang sở hữu.
-\end{itemize}
-
-\item \textbf{Tra cứu lịch sử giao dịch}:
-\begin{itemize}
-\item Cung cấp danh sách lịch sử các giao dịch thanh toán trước đó của người dùng, hỗ trợ phân trang để dễ dàng theo dõi.
-\end{itemize}
-
-\item \textbf{Kích hoạt giao dịch thủ công}:
-\begin{itemize}
-\item Tính năng dành cho ADMIN để can thiệp kích hoạt thủ công một giao dịch (\texttt{transaction\_id}) thành công, dùng trong các trường hợp đối soát thủ công hoặc xử lý sự cố.
-\end{itemize}
-\end{itemize}
-
-\subsubsection{III. Tích hợp Cổng thanh toán}
-
-\begin{itemize}
-\item \textbf{Xử lý Callback (IPN)}:
-\begin{itemize}
-\item Cung cấp các endpoint (nhận cả phương thức \texttt{GET} và \texttt{POST}) để cổng thanh toán có thể âm thầm gọi về hệ thống (giao tiếp server-to-server) nhằm cập nhật trạng thái giao dịch một cách chính xác và bảo mật nhất.
-\end{itemize}
-
-\item \textbf{Xử lý Return URL}:
-\begin{itemize}
-\item Cung cấp các endpoint (nhận cả \texttt{GET} và \texttt{POST}) để tiếp nhận và điều hướng giao diện người dùng ngay sau khi họ hoàn tất thao tác thanh toán trên trang của đối tác.
-\end{itemize}
 \end{itemize}
 
 Các API chính trong tài liệu Swagger API của Dịch vụ thanh toán (payment service):
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/payment-swagger.png}
+\includegraphics[width=0.9\textwidth]{pictures/payment-swagger.png}
 \caption{Tài liệu Swagger API Dịch vụ thanh toán}
 \label{fig:payment-swagger}
 \end{figure}
+
+\paragraph{Quản lý Thuê bao (Subscriptions) và Giao dịch}
+
+Quản lý thông tin
+đăng ký dịch vụ của người dùng
+và các giao dịch phát sinh:
+
+\begin{itemize}
+\item \textbf{Mua gói}:
+Người dùng khởi tạo yêu cầu thanh toán cho một gói dịch vụ cụ thể. Hệ thống tiếp nhận mã gói (\texttt{plan\_id}) và đường dẫn chuyển hướng (\texttt{redirect\_url}) để tạo link thanh toán và đưa người dùng tới cổng thanh toán.
+Tích hợp chức năng tự động hủy giao dịch nếu hết thời gian chờ thanh toán (timeout) cấu hình trong Redis.
+Gửi sự kiện thanh toán thành công lên Kafka.
+Gửi email thông báo xác nhận thanh toán thành công cho người dùng.
+
+\item \textbf{Tra cứu thông tin Thuê bao}:
+Cho phép người dùng xem thông tin chi tiết
+à thời hạn của gói dịch vụ hiện tại mà họ đang sở hữu.
+
+\item \textbf{Tra cứu lịch sử giao dịch}:
+Cung cấp danh sách lịch sử các giao dịch thanh toán trước đó của người dùng, hỗ trợ phân trang để dễ dàng theo dõi.
+
+\item \textbf{Kích hoạt giao dịch thủ công}:
+Tính năng dành cho ADMIN để can thiệp kích hoạt thủ công một giao dịch (\texttt{transaction\_id}) thành công, dùng trong các trường hợp đối soát thủ công hoặc xử lý sự cố.
+
+\end{itemize}
+
+\paragraph{Tích hợp Cổng thanh toán}
+
+\begin{itemize}
+\item \textbf{Xử lý Callback (IPN)}:
+Cung cấp các endpoint (nhận cả phương thức \texttt{GET} và \texttt{POST}) để cổng thanh toán có thể âm thầm gọi về hệ thống (giao tiếp server-to-server) nhằm cập nhật trạng thái giao dịch một cách chính xác và bảo mật nhất.
+
+\item \textbf{Xử lý Return URL}:
+Cung cấp các endpoint (nhận cả \texttt{GET} và \texttt{POST}) để tiếp nhận và điều hướng giao diện người dùng ngay sau khi họ hoàn tất thao tác thanh toán trên trang của đối tác.
+
+\end{itemize}
 
 Trong quá trình phát triển dự án, do các dịch vụ thanh toán sẵn có chưa hỗ trợ tốt các cổng thanh toán phổ biến tại Việt Nam (như VNPay, ZaloPay, MoMo, SePay, ...), dịch vụ thanh toán này đã được tự thiết kế, phát triển và triển khai độc lập trên nền tảng Heroku.
 
@@ -104,9 +97,22 @@ Triển khai Dịch vụ thanh toán (payment service) độc lập trên Heroku
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/payment-heroku.png}
+\includegraphics[width=1\textwidth]{pictures/payment-heroku.png}
 \caption{Trạng thái deploy dịch vụ thanh toán trên Heroku}
 \label{fig:payment-heroku}
+\end{figure}
+
+Các bước CI/CD tự động chạy kiểm thử trên GitHub Actions:
+Hệ thống sử dụng \textbf{Testcontainers} (cho Postgres, Redis và Kafka) để tự động khởi chạy các container Docker độc lập ngay trong quá trình chạy integration tests, đảm bảo tính đúng đắn của mã nguồn trước khi deploy.
+Hàng đợi tác vụ bất đồng bộ \textbf{BullMQ} (vận hành trên Redis) được tích hợp để quản lý và tự động xử lý hủy các giao dịch thanh toán quá hạn nếu hết thời gian chờ.
+
+Dữ liệu gói thuê bao VIP được cache trong Redis:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{pictures/payment-redis-v2.png}
+\caption{Dữ liệu gói thuê bao VIP được cache trong Redis}
+\label{fig:payment-redis}
 \end{figure}
 
 Thông tin kiểm tra tự động của Pull Request trên GitHub:
@@ -117,12 +123,6 @@ Thông tin kiểm tra tự động của Pull Request trên GitHub:
 \caption{Kiểm tra Pull Request trên GitHub}
 \label{fig:payment-PR}
 \end{figure}
-
-Các bước CI/CD tự động chạy kiểm thử trên GitHub Actions:
-
-Hệ thống sử dụng \textbf{Testcontainers} (cho Postgres, Redis và Kafka) để tự động khởi chạy các container Docker độc lập ngay trong quá trình chạy integration tests, đảm bảo tính đúng đắn của mã nguồn trước khi deploy.
-
-Hàng đợi tác vụ bất đồng bộ \textbf{BullMQ} (vận hành trên Redis) được tích hợp để quản lý và tự động xử lý hủy các giao dịch thanh toán quá hạn nếu hết thời gian chờ.
 
 \begin{figure}[H]
 \centering
@@ -149,37 +149,35 @@ Các bảng trong CSDL của Dịch vụ thanh toán (payment service):
 \label{fig:payment-database}
 \end{figure}
 
-\subsubsection{Sự kiện Thanh toán thành công (Subscription Purchased Event)}
+\paragraph{Sự kiện Thanh toán thành công (Subscription Purchased Event)}
 
-Khi giao dịch thanh toán gói dịch vụ (như gói VIP) thành công, Dịch vụ thanh toán sẽ tạo và phát hành (publish) sự kiện lên Kafka để đồng bộ quyền hạn người dùng.
+Khi giao dịch thanh toán gói dịch vụ thành công,
+Dịch vụ thanh toán sẽ tạo và phát hành (publish) sự kiện lên
+Kafka để đồng bộ quyền hạn người dùng.
 
-\paragraph{1. Chi tiết sự kiện (Event Details)}
+\subparagraph{Chi tiết sự kiện}
 \begin{itemize}
 \item \textbf{Tên Sự kiện}: \texttt{SubscriptionPurchasedEvent}
-\item \textbf{Topic}:
-\begin{itemize}
-\item \texttt{dev-payment-events} (môi trường phát triển - development)
-\item \texttt{prod-payment-events} (môi trường vận hành - production)
-\end{itemize}
+\item \textbf{Topic}: \texttt{dev-payment-events} (phát triển) hoặc \texttt{prod-payment-events} (vận hành)
 \item \textbf{Mã hóa (Compression)}: \texttt{GZIP}
 \item \textbf{Phân vùng khóa (Message Key)}: \texttt{userId} (đảm bảo tính tuần tự của các sự kiện liên quan đến cùng một người dùng trên cùng một partition).
 \end{itemize}
 
-\paragraph{2. Cấu trúc dữ liệu sự kiện (Event Payload Schema)}
+\subparagraph{Cấu trúc dữ liệu sự kiện}
 Dữ liệu sự kiện được gửi dưới dạng chuỗi JSON có cấu trúc như sau:
 
 \begin{table}[H]
 \centering
-\begin{tabular}{|l|l|l|l|}
+\begin{tabular}{|l|l|l|}
 \hline
-\textbf{Thuộc tính} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} & \textbf{Ví dụ} \\ \hline
-\texttt{subscriptionId} & String (UUID) & Mã định danh duy nhất của thuê bao mới tạo & \texttt{"550e8400-e29b-41d4-a716-446655440000"} \\ \hline
-\texttt{userId} & String (UUID) & Mã định danh người dùng mua gói & \texttt{"a1b2c3d4-e5f6-7a8b-9c0d-e1f2a3b4c5d6"} \\ \hline
-\texttt{planId} & String (UUID) & Mã định danh gói dịch vụ đã mua & \texttt{"c9a64e1f-9c02-4c28-94ef-23e595a8947f"} \\ \hline
-\texttt{periodStart} & String (ISO 8601) & Thời điểm bắt đầu hiệu lực gói dịch vụ & \texttt{"2026-06-15T02:16:31.000Z"} \\ \hline
-\texttt{periodEnd} & String (ISO 8601) & Thời điểm kết thúc hiệu lực gói dịch vụ & \texttt{"2026-07-15T02:16:31.000Z"} \\ \hline
-\texttt{version} & Number & Số phiên bản của sự kiện (dùng để quản lý xung đột) & \texttt{1} \\ \hline
-\texttt{occurredAt} & String (ISO 8601) & Thời điểm sự kiện phát sinh thực tế trên máy chủ & \texttt{"2026-06-15T02:16:32.124Z"} \\ \hline
+\textbf{Thuộc tính} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+\texttt{subscriptionId} & String (UUID) & Mã định danh duy nhất của thuê bao mới tạo \\ \hline
+\texttt{userId} & String (UUID) & Mã định danh người dùng mua gói \\ \hline
+\texttt{planId} & String (UUID) & Mã định danh gói dịch vụ đã mua \\ \hline
+\texttt{periodStart} & String (ISO 8601) & Thời điểm bắt đầu hiệu lực gói dịch vụ \\ \hline
+\texttt{periodEnd} & String (ISO 8601) & Thời điểm kết thúc hiệu lực gói dịch vụ \\ \hline
+\texttt{version} & Number & Số phiên bản của sự kiện (dùng để quản lý xung đột) \\ \hline
+\texttt{occurredAt} & String (ISO 8601) & Thời điểm sự kiện phát sinh thực tế trên máy chủ \\ \hline
 \end{tabular}
 \caption{Cấu trúc dữ liệu sự kiện SubscriptionPurchasedEvent}
 \label{tab:event-payload-schema}
@@ -198,48 +196,23 @@ Dữ liệu sự kiện được gửi dưới dạng chuỗi JSON có cấu tr�
 }
 \end{verbatim}
 
-\paragraph{3. Cách các Service khác tiếp nhận và xử lý sự kiện}
-Sự kiện này được tiêu thụ (consume) bởi hai dịch vụ: \textbf{Dịch vụ trò chuyện (conversation service)} và \textbf{Dịch vụ văn bản (document service)} để đồng bộ quyền lợi gói VIP của người dùng.
+\subparagraph{Cách các dịch vụ khác tiếp nhận và xử lý sự kiện}
+Sự kiện này được tiêu thụ (consume) song song bởi hai dịch vụ: \textbf{Dịch vụ văn bản (document service - Python)} (Consumer Group: \texttt{document-service-group}) và \textbf{Dịch vụ trò chuyện (conversation service - NestJS)} (Consumer Group: \texttt{conversation-service-group}) để đồng bộ quyền lợi gói VIP của người dùng theo các bước tuần tự sau:
 
-\textbf{A. Dịch vụ văn bản (document service - Python)}
-\begin{itemize}
-\item \textbf{Tên Consumer Group}: \texttt{document-service-group}
-\item \textbf{Thư viện sử dụng}: \texttt{aiokafka} (Python asyncio-based Kafka client)
-\item \textbf{Luồng xử lý}:
 \begin{enumerate}
-\item Consumer lắng nghe sự kiện từ topic, phân tích JSON payload sang kiểu \texttt{dict}.
-\item Hệ thống kiểm tra phiên bản (\textbf{Version Control}):
-\begin{itemize}
-\item Lấy thông tin thuê bao hiện tại của người dùng trong CSDL bảng \texttt{user\_subscriptions}.
-\item Nếu \texttt{version\_nhận\_được} $>$ \texttt{version\_hiện\_tại}: Tiến hành cập nhật thông tin thuê bao (\texttt{period\_start}, \texttt{period\_end}, \texttt{subscription\_id}, \texttt{version}) và đặt trạng thái \texttt{is\_active = True}.
-\item Nếu \texttt{version\_nhận\_được} $\le$ \texttt{version\_hiện\_tại}: Bỏ qua (SKIP) sự kiện vì đã tồn tại bản cập nhật mới hơn trong DB (ngăn chặn lỗi out-of-order event).
-\end{itemize}
-\item Người dùng chính thức được nâng quyền sử dụng dịch vụ bóc tách và tóm tắt văn bản dành riêng cho VIP.
+\item \textbf{Lắng nghe và giải mã}: Consumer lắng nghe sự kiện từ topic tương ứng, phân tích và giải mã JSON payload nhận được.
+\item \textbf{Khởi tạo giao dịch và khóa dòng}: Khởi tạo một giao dịch CSDL (\textbf{Database Transaction}) để thực hiện cập nhật bảng thông tin thuê bao của người dùng. Để tránh tranh chấp dữ liệu (Race Condition) khi có nhiều sự kiện xử lý song song, hệ thống kích hoạt khóa ghi bi quan (\textbf{Pessimistic Write Lock} hoặc cơ chế tương đương) trên dòng dữ liệu của \texttt{userId} đó.
+\item \textbf{So sánh phiên bản lớn hơn}: So sánh trường \texttt{version} của sự kiện nhận được với \texttt{version} hiện tại trong CSDL. Nếu phiên bản của sự kiện lớn hơn ($>$), tiến hành cập nhật thông tin thuê bao (\texttt{period\_start}, \texttt{period\_end}, \texttt{subscription\_id}, \texttt{version}) và đặt trạng thái kích hoạt VIP (\texttt{isActive = true} / \texttt{is\_active = True}).
+\item \textbf{Xử lý phiên bản nhỏ hơn hoặc bằng}: Nếu phiên bản nhận được nhỏ hơn hoặc bằng ($\le$), hệ thống sẽ bỏ qua (SKIP) sự kiện vì đã tồn tại bản cập nhật mới hơn trong CSDL (cơ chế Version Control giúp ngăn chặn lỗi out-of-order event).
+\item \textbf{Kích hoạt quyền VIP}: Sau khi cập nhật CSDL thành công, hệ thống mở khóa người dùng và kích hoạt các quyền lợi VIP tương ứng (như trò chuyện thoại nâng cao, mô hình suy luận, bóc tách và tóm tắt văn bản).
 \end{enumerate}
-\end{itemize}
 
-\textbf{B. Dịch vụ trò chuyện (conversation service - NestJS)}
-\begin{itemize}
-\item \textbf{Tên Consumer Group}: \texttt{conversation-service-group}
-\item \textbf{Thư viện sử dụng}: \texttt{kafkajs} (kết nối mTLS)
-\item \textbf{Luồng xử lý}:
-\begin{enumerate}
-\item Consumer lắng nghe và giải mã JSON payload nhận được.
-\item Khởi tạo một giao dịch CSDL (\textbf{Database Transaction}) để thực hiện cập nhật bảng \texttt{UserSubscriptionEntity}.
-\item Kích hoạt khóa ghi bi quan (\textbf{Pessimistic Write Lock}) trên dòng dữ liệu của \texttt{userId} đó để ngăn chặn tranh chấp dữ liệu (Race Condition) trong trường hợp có nhiều sự kiện của cùng một user được xử lý song song.
-\item Thực hiện kiểm tra phiên bản (\textbf{Version Control}):
-\begin{itemize}
-\item So sánh \texttt{version} của sự kiện nhận được với \texttt{version} hiện tại trong DB.
-\item Nếu \texttt{version} nhận được cao hơn: Cập nhật thông tin thuê bao và lưu trạng thái kích hoạt \texttt{isActive = true}.
-\item Nếu thấp hơn hoặc bằng: Bỏ qua (SKIP) tác vụ cập nhật.
-\end{itemize}
-\item Mở khóa người dùng để kích hoạt tính năng trò chuyện thoại nâng cao và mô hình suy luận dành cho VIP.
-\end{enumerate}
-\end{itemize}
+\paragraph{Cơ chế Instant Payment Notification (IPN)}
 
-\subsubsection{Cơ chế Instant Payment Notification (IPN)}
-
-IPN (Instant Payment Notification) được sử dụng để Đơn vị cung cấp dịch vụ thanh toán - Payment Service Provider (PSP) thông báo kết quả giao dịch một cách không đồng bộ cho Đơn vị sử dụng dịch vụ - Payment Service Consumer (PSC).
+IPN (Instant Payment Notification) được sử dụng để
+Đơn vị cung cấp dịch vụ thanh toán - Payment Service Provider (PSP)
+thông báo kết quả giao dịch một cách không đồng bộ cho
+Đơn vị sử dụng dịch vụ - Payment Service Consumer (PSC).
 
 \begin{figure}[H]
 \centering
@@ -257,10 +230,9 @@ Sau khi khách hàng hoàn tất thanh toán, kết nối mạng của họ có 
 \label{fig:payment-ipn-i2}
 \end{figure}
 
-\subsubsection{Thiết kế hệ thống theo Domain-Driven Design (DDD)}
+\paragraph{Thiết kế hệ thống theo Domain-Driven Design (DDD)}
 
 Dự án được thiết kế theo mô hình Phát triển hướng tên miền (Domain-Driven Design - DDD) kết hợp với kiến trúc Lục giác (Hexagonal Architecture).
-
 Để demo khả năng thay đổi linh hoạt các dịch vụ tích hợp bên ngoài, hệ thống cho phép cấu hình cổng thanh toán mặc định thông qua biến môi trường \texttt{PAYMENT\_DEFAULT\_PROVIDER}. Nhờ áp dụng Dependency Inversion thông qua các Interface, việc chuyển đổi hoặc bổ sung các cổng thanh toán mới được thực hiện vô cùng dễ dàng mà không làm ảnh hưởng đến logic nghiệp vụ cốt lõi.
 
 Giao diện demo thanh toán qua VNPay:
@@ -306,13 +278,4 @@ Mẫu Email gửi cho người dùng khi thanh toán thành công:
 \includegraphics[width=0.85\textwidth]{pictures/payment-mail.png}
 \caption{Email thông báo thanh toán thành công}
 \label{fig:payment-mail}
-\end{figure}
-
-Dữ liệu giao dịch được lưu trữ và quản lý trong Redis:
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.85\textwidth]{pictures/payment-redis.png}
-\caption{Dữ liệu thanh toán lưu trữ trong Redis}
-\label{fig:payment-redis}
 \end{figure}
