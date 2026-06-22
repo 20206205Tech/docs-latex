@@ -4,9 +4,7 @@ from pathlib import Path
 from loguru import logger
 
 # Bạn có thể điền đường dẫn thư mục hoặc đường dẫn file .tex cụ thể vào đây
-target_path = Path(
-    r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence"
-)
+target_path = Path(r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\service")
 # Ví dụ khi chạy 1 file:
 # target_path = Path(r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\Sequence\UML-Sequence-AdminArchiveVipPlan.tex")
 

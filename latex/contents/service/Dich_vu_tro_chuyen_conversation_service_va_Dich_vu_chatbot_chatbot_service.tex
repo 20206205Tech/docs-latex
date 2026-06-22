@@ -4,7 +4,7 @@ Sơ đồ tổng quan về Dịch vụ trò chuyện (conversation service) và 
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/conversation-and-chatbot-overview.png}
+\includegraphics[width=0.95\textwidth]{pictures/conversation-and-chatbot-overview.png}
 \caption{Sơ đồ tổng quan Dịch vụ trò chuyện và Dịch vụ chatbot}
 \end{figure}
 
@@ -14,7 +14,7 @@ Vì chức năng trò chuyện văn bản suy luận (reasoning) và trò chuy�
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/conversation-swagger.png}
+\includegraphics[width=0.95\textwidth]{pictures/conversation-swagger.png}
 \caption{Tài liệu Swagger API Dịch vụ trò chuyện}
 \end{figure}
 
@@ -36,7 +36,7 @@ Sơ đồ trình tự kiểm duyệt nghiệp vụ khi xóa cuộc trò chuyện
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/delete-chat-validation-share.png}
+\includegraphics[width=0.95\textwidth]{pictures/delete-chat-validation-share.png}
 \caption{Sơ đồ trình tự xóa cuộc trò chuyện và kiểm duyệt chia sẻ}
 \end{figure}
 
@@ -50,7 +50,7 @@ Thông tin kiểm tra tự động Pull Request của dịch vụ trò chuyện 
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/conversation-PR-v2.png}
+\includegraphics[width=0.95\textwidth]{pictures/conversation-PR-v2.png}
 \caption{Kiểm tra Pull Request trên GitHub}
 \end{figure}
 
@@ -58,7 +58,7 @@ Kiểm tra cú pháp nguồn (linting) tự động trong CI/CD:
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/conversation-lint.png}
+\includegraphics[width=0.95\textwidth]{pictures/conversation-lint.png}
 \caption{Kiểm tra code linting dịch vụ trò chuyện}
 \end{figure}
 
@@ -66,7 +66,7 @@ Quản lý migrations CSDL của dịch vụ trò chuyện:
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/conversation-database-migration.png}
+\includegraphics[width=0.95\textwidth]{pictures/conversation-database-migration.png}
 \caption{Quản lý database migrations dịch vụ trò chuyện}
 \end{figure}
 
@@ -74,7 +74,7 @@ Cơ cấu các bảng trong CSDL của Dịch vụ trò chuyện:
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/conversation-database.png}
+\includegraphics[width=0.95\textwidth]{pictures/conversation-database.png}
 \caption{Cấu hình các bảng trong CSDL conversation}
 \end{figure}
 
@@ -82,7 +82,7 @@ Cơ cấu các bảng trong CSDL của Dịch vụ trò chuyện:
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/chatbot-swagger.png}
+\includegraphics[width=0.95\textwidth]{pictures/chatbot-swagger.png}
 \caption{Tài liệu Swagger API Dịch vụ chatbot}
 \end{figure}
 
@@ -93,7 +93,7 @@ Quản lý migrations CSDL của dịch vụ chatbot:
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/chatbot-database-migration.png}
+\includegraphics[width=0.95\textwidth]{pictures/chatbot-database-migration.png}
 \caption{Quản lý database migrations dịch vụ chatbot}
 \end{figure}
 
@@ -101,7 +101,7 @@ Cơ cấu các bảng trong CSDL của Dịch vụ chatbot:
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/chatbot-database.png}
+\includegraphics[width=0.95\textwidth]{pictures/chatbot-database.png}
 \caption{Cấu hình các bảng trong CSDL chatbot}
 \end{figure}
 
@@ -202,7 +202,7 @@ Hệ thống sử dụng \textbf{RabbitMQ} làm Message Broker để thực hi�
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/share-out-of-order.png}
+\includegraphics[width=0.95\textwidth]{pictures/share-out-of-order.png}
 \caption{Sơ đồ xử lý lệch thứ tự tạo và thu hồi share}
 \end{figure}
 
@@ -234,7 +234,7 @@ arguments={'x-max-priority': 10}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/dlq-telegram-alert.png}
+\includegraphics[width=0.95\textwidth]{pictures/dlq-telegram-alert.png}
 \caption{Sơ đồ luồng xử lý DLQ và thông báo Telegram}
 \end{figure}
 
@@ -250,7 +250,7 @@ Trong thực tế vận hành, người dùng có thể thực hiện thao tác 
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/share-concurrency-handling.png}
+\includegraphics[width=0.95\textwidth]{pictures/share-concurrency-handling.png}
 \caption{Sơ đồ xử lý đồng thời tạo share và xóa chat}
 \end{figure}
 
@@ -271,7 +271,7 @@ Sơ đồ tổng quan luồng tích hợp LiveKit đàm thoại giọng nói:
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/voice-livekit-overview.png}
+\includegraphics[width=0.95\textwidth]{pictures/voice-livekit-overview.png}
 \caption{Sơ đồ tích hợp LiveKit đàm thoại giọng nói}
 \end{figure}
 
@@ -309,7 +309,7 @@ Bộ lọc làm sạch văn bản \texttt{clean\_transcript} xử lý loại b�
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/voice-clean_transcript.png}
+\includegraphics[width=0.95\textwidth]{pictures/voice-clean_transcript.png}
 \caption{Bộ lọc làm sạch văn bản clean\_transcript}
 \end{figure}
 
@@ -317,7 +317,7 @@ Quản lý các file âm thanh ghi âm trò chuyện lưu trữ trên Cloudflare
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/r2chat.png}
+\includegraphics[width=0.95\textwidth]{pictures/r2chat.png}
 \caption{Lưu trữ các tệp tin âm thanh chat trên Cloudflare R2}
 \end{figure}
 
@@ -325,7 +325,7 @@ Nhà phát triển gửi thông tin văn bản qua data channel mà không cần
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/voice-developer-send-text.png}
+\includegraphics[width=0.95\textwidth]{pictures/voice-developer-send-text.png}
 \caption{Developer gửi tin nhắn văn bản thay giọng nói để debug}
 \end{figure}
 
@@ -333,7 +333,7 @@ AI Agent sử dụng công cụ lấy thông tin nhân vật từ hệ thống:
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/voice-get-persona-ui.png}
+\includegraphics[width=0.95\textwidth]{pictures/voice-get-persona-ui.png}
 \caption{Giao diện lấy thông tin nhân vật từ API Gateway}
 \end{figure}
 
@@ -341,7 +341,7 @@ Thông tin log terminal khi AI thực thi công cụ lấy thông tin nhân vậ
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/voice-get-persona-terminal.png}
+\includegraphics[width=0.95\textwidth]{pictures/voice-get-persona-terminal.png}
 \caption{Terminal log của việc gọi công cụ lấy thông tin nhân vật}
 \end{figure}
 
