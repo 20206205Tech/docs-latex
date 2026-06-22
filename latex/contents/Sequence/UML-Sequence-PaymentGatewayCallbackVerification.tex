@@ -15,25 +15,6 @@ và thanh toán thành công, luồng chuyển sang cập nhật transaction, su
 \caption{Sơ đồ tuần tự luồng cổng thanh toán gửi IPN và dịch vụ thanh toán xác minh giao dịch}
 \end{figure}
 
-\subparagraph{Các thành phần tham gia}
-
-\begin{table}[H]
-\centering
-\renewcommand{\arraystretch}{1.3}
-
-\begin{tabular}{|l|l|p{5cm}|}
-\hline
-\textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
-User & Actor & Người dùng thực hiện thao tác thanh toán qua thẻ, ví điện tử hoặc mã QR trên cổng thanh toán. \\ \hline
-Payment Gateway & External Service & Xử lý thao tác thanh toán và gửi callback/IPN về hệ thống. \\ \hline
-API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline
-Payment Service & Microservice & Tiếp nhận callback, xác minh IPN, kiểm tra transaction, xử lý nhánh lỗi/thất bại hoặc chuyển tiếp sang cập nhật thành công. \\ \hline
-Payment Gateway Selector & Component & Chọn adapter tương ứng. \\ \hline
-Payment DB & Database & Cung cấp transaction cần đối chiếu bằng \texttt{txnRef}. \\ \hline
-\end{tabular}
-\caption{Các thành phần tham gia luồng cổng thanh toán gửi callback/IPN}
-\end{table}
-
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
@@ -42,10 +23,10 @@ Payment DB & Database & Cung cấp transaction cần đối chiếu bằng \text
 Cổng thanh toán gửi thông tin
 phản hồi kết quả giao dịch về hệ thống.
 
-\item \textbf{Đọc kết quả:}
-Dịch vụ thanh toán
-chuyển yêu cầu cho bộ phận xử lý cổng thanh toán tương ứng
-để đọc kết quả phản hồi.
+% \item \textbf{Đọc kết quả:}
+% Dịch vụ thanh toán
+% chuyển yêu cầu cho bộ phận xử lý cổng thanh toán tương ứng
+% để đọc kết quả phản hồi.
 
 \item \textbf{Đối chiếu giao dịch:}
 Dịch vụ kiểm tra tính hợp lệ của chữ ký giao dịch,
@@ -69,3 +50,22 @@ và chuyển sang bước tiếp theo để hoàn tất cập nhật giao dịch
 kích hoạt gói thuê bao VIP và phát sự kiện hệ thống.
 
 \end{itemize}
+
+%\subparagraph{Các thành phần tham gia}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.3}
+
+\begin{tabular}{|l|l|p{5cm}|}
+\hline
+\textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
+User & Actor & Người dùng thực hiện thao tác thanh toán qua thẻ, ví điện tử hoặc mã QR trên cổng thanh toán. \\ \hline
+Payment Gateway & External Service & Xử lý thao tác thanh toán và gửi callback/IPN về hệ thống. \\ \hline
+API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline
+Payment Service & Microservice & Tiếp nhận callback, xác minh IPN, kiểm tra transaction, xử lý nhánh lỗi/thất bại hoặc chuyển tiếp sang cập nhật thành công. \\ \hline
+Payment Gateway Selector & Component & Chọn adapter tương ứng. \\ \hline
+Payment DB & Database & Cung cấp transaction cần đối chiếu bằng \texttt{txnRef}. \\ \hline
+\end{tabular}
+\caption{Các thành phần tham gia luồng cổng thanh toán gửi callback/IPN}
+\end{table}

@@ -4,34 +4,6 @@ Luồng nghiệp vụ này mô tả
 việc sử dụng tài liệu cá nhân
 đã upload trong truy vấn pháp lý.
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.95\textwidth]{contents/Sequence/UML-Sequence-UserAnalyzePersonalDocumentRag.png}
-\caption{Sơ đồ tuần tự luồng Phân tích tài liệu cá nhân bằng reasoning pháp lý}
-\end{figure}
-
-\subparagraph{Các thành phần tham gia}
-
-\begin{table}[H]
-\centering
-\renewcommand{\arraystretch}{1.3}
-
-\begin{tabular}{|l|l|p{5cm}|}
-\hline
-\textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
-User & Actor & Người dùng yêu cầu phân tích tài liệu cá nhân. \\ \hline
-Web Frontend & Component & Giao diện web Next.js. \\ \hline
-API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline
-Conversation Service & Microservice & Nhận request SSE và gọi Chatbot Service qua gRPC. \\ \hline
-Chatbot Service & Microservice & Điều phối \texttt{generation\_stream}, lưu message, reasoning steps và sources. \\ \hline
-LangGraph RAG & AI Pipeline & Truy vấn tài liệu cá nhân, nguồn luật và thực hiện reasoning. \\ \hline
-Milvus & Vector Store & Cung cấp các đoạn nội dung liên quan từ tài liệu cá nhân của user. \\ \hline
-Legal Knowledge Base & Knowledge Base & Cung cấp văn bản pháp luật, điều khoản và nguồn tham chiếu. \\ \hline
-Chatbot DB & Database & Lưu human message, AI message, reasoning steps và sources. \\ \hline
-\end{tabular}
-\caption{Các thành phần tham gia luồng phân tích tài liệu cá nhân bằng reasoning pháp lý}
-\end{table}
-
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
@@ -69,3 +41,31 @@ các phân đoạn nội dung câu trả lời
 và thông tin nguồn tài liệu trích dẫn.
 
 \end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{contents/Sequence/UML-Sequence-UserAnalyzePersonalDocumentRag.png}
+\caption{Sơ đồ tuần tự luồng Phân tích tài liệu cá nhân bằng reasoning pháp lý}
+\end{figure}
+
+%\subparagraph{Các thành phần tham gia}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.3}
+
+\begin{tabular}{|l|l|p{5cm}|}
+\hline
+\textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
+User & Actor & Người dùng yêu cầu phân tích tài liệu cá nhân. \\ \hline
+Web Frontend & Component & Giao diện web Next.js. \\ \hline
+API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline
+Conversation Service & Microservice & Nhận request SSE và gọi Chatbot Service qua gRPC. \\ \hline
+Chatbot Service & Microservice & Điều phối \texttt{generation\_stream}, lưu message, reasoning steps và sources. \\ \hline
+LangGraph RAG & AI Pipeline & Truy vấn tài liệu cá nhân, nguồn luật và thực hiện reasoning. \\ \hline
+Milvus & Vector Store & Cung cấp các đoạn nội dung liên quan từ tài liệu cá nhân của user. \\ \hline
+Legal Knowledge Base & Knowledge Base & Cung cấp văn bản pháp luật, điều khoản và nguồn tham chiếu. \\ \hline
+Chatbot DB & Database & Lưu human message, AI message, reasoning steps và sources. \\ \hline
+\end{tabular}
+\caption{Các thành phần tham gia luồng phân tích tài liệu cá nhân bằng reasoning pháp lý}
+\end{table}

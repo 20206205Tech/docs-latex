@@ -6,31 +6,6 @@ Document Service đã gửi Celery task \texttt{process\_document\_task(doc\_id)
 Worker nhận công việc, tải file gốc từ R2, trích xuất nội dung, tạo summary,
 ghi vector chunks vào Milvus và cập nhật trạng thái tài liệu.
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.95\textwidth]{contents/Sequence/UML-Sequence-DocumentWorkerProcessDocument.png}
-\caption{Sơ đồ tuần tự luồng Xử lý tài liệu trong nền}
-\end{figure}
-
-\subparagraph{Các thành phần tham gia}
-
-\begin{table}[H]
-\centering
-\renewcommand{\arraystretch}{1.3}
-
-\begin{tabular}{|l|l|p{5cm}|}
-\hline
-\textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
-RabbitMQ & Message Broker & Phân phối Celery task xử lý tài liệu cho worker. \\ \hline
-Document Worker & Background Worker & Xử lý file, cập nhật trạng thái và ghi dữ liệu phục vụ RAG. \\ \hline
-Document Database & Database & Lưu thông tin xử lý tài liệu. \\ \hline
-Cloudflare R2 & Object Storage & Lưu file gốc, parsed content và summary. \\ \hline
-Text Extractor / Summarizer & Processing Component & Trích xuất text, chia chunk và tạo summary. \\ \hline
-Milvus & Vector Store & Lưu vector chunks theo user và document để truy vấn về sau. \\ \hline
-\end{tabular}
-\caption{Các thành phần tham gia luồng xử lý tài liệu trong nền}
-\end{table}
-
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
@@ -56,3 +31,28 @@ Khi hoàn tất, trạng thái tài liệu được cập nhật thành đã ho�
 kèm thông tin xác nhận đã trích xuất nội dung và tóm tắt.
 Nếu xảy ra lỗi trong quá trình xử lý, trạng thái tài liệu sẽ chuyển sang thất bại.
 \end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{contents/Sequence/UML-Sequence-DocumentWorkerProcessDocument.png}
+\caption{Sơ đồ tuần tự luồng Xử lý tài liệu trong nền}
+\end{figure}
+
+%\subparagraph{Các thành phần tham gia}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.3}
+
+\begin{tabular}{|l|l|p{5cm}|}
+\hline
+\textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
+RabbitMQ & Message Broker & Phân phối Celery task xử lý tài liệu cho worker. \\ \hline
+Document Worker & Background Worker & Xử lý file, cập nhật trạng thái và ghi dữ liệu phục vụ RAG. \\ \hline
+Document Database & Database & Lưu thông tin xử lý tài liệu. \\ \hline
+Cloudflare R2 & Object Storage & Lưu file gốc, parsed content và summary. \\ \hline
+Text Extractor / Summarizer & Processing Component & Trích xuất text, chia chunk và tạo summary. \\ \hline
+Milvus & Vector Store & Lưu vector chunks theo user và document để truy vấn về sau. \\ \hline
+\end{tabular}
+\caption{Các thành phần tham gia luồng xử lý tài liệu trong nền}
+\end{table}

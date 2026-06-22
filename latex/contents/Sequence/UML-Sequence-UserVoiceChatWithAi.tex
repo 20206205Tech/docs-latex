@@ -14,26 +14,6 @@ sau đó phát audio phản hồi qua LiveKit.
 \caption{Sơ đồ tuần tự luồng Đàm thoại trực tiếp với AI bằng giọng nói}
 \end{figure}
 
-\subparagraph{Các thành phần tham gia}
-
-\begin{table}[H]
-\centering
-\renewcommand{\arraystretch}{1.3}
-
-\begin{tabular}{|l|l|p{5cm}|}
-\hline
-\textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
-User & Actor & Người dùng nói chuyện trực tiếp với AI. \\ \hline
-LiveKit Cloud & External Service & Chuyển tiếp audio và data channel giữa client và Voice Agent. \\ \hline
-Voice Agent & Component & Xử lý STT/VAD, gọi tool RAG, xuất bản trạng thái và lưu transcript. \\ \hline
-Persona Service & Microservice & Cung cấp TTS và thông tin persona. \\ \hline
-DynamicTTS & Component & Chọn TTS theo engine hiện tại: Persona TTS qua API OpenAI-compatible hoặc ElevenLabs. \\ \hline
-RAG / LangGraph & AI Pipeline & Tra cứu pháp luật, tài liệu cá nhân và sinh trạng thái reasoning. \\ \hline
-Chatbot DB & Database & Lưu transcript, reasoning steps, sources và persona. \\ \hline
-\end{tabular}
-\caption{Các thành phần tham gia luồng đàm thoại trực tiếp với AI}
-\end{table}
-
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
@@ -72,3 +52,23 @@ và phát lại phòng họp thời gian thực cho người dùng nghe,
 đồng thời nội dung văn bản cuộc trò chuyện
 được lưu trữ vào CSDL chatbot.
 \end{itemize}
+
+%\subparagraph{Các thành phần tham gia}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.3}
+
+\begin{tabular}{|l|l|p{5cm}|}
+\hline
+\textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
+User & Actor & Người dùng nói chuyện trực tiếp với AI. \\ \hline
+LiveKit Cloud & External Service & Chuyển tiếp audio và data channel giữa client và Voice Agent. \\ \hline
+Voice Agent & Component & Xử lý STT/VAD, gọi tool RAG, xuất bản trạng thái và lưu transcript. \\ \hline
+Persona Service & Microservice & Cung cấp TTS và thông tin persona. \\ \hline
+DynamicTTS & Component & Chọn TTS theo engine hiện tại: Persona TTS qua API OpenAI-compatible hoặc ElevenLabs. \\ \hline
+RAG / LangGraph & AI Pipeline & Tra cứu pháp luật, tài liệu cá nhân và sinh trạng thái reasoning. \\ \hline
+Chatbot DB & Database & Lưu transcript, reasoning steps, sources và persona. \\ \hline
+\end{tabular}
+\caption{Các thành phần tham gia luồng đàm thoại trực tiếp với AI}
+\end{table}

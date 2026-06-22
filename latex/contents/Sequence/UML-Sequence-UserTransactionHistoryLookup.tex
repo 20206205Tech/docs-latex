@@ -9,24 +9,6 @@ quy trình User tra cứu danh sách giao dịch thanh toán mua gói thuê bao 
 \caption{Sơ đồ tuần tự luồng tra cứu lịch sử giao dịch}
 \end{figure}
 
-\subparagraph{Các thành phần tham gia}
-
-\begin{table}[H]
-\centering
-\renewcommand{\arraystretch}{1.3}
-
-\begin{tabular}{|l|l|p{5cm}|}
-\hline
-\textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
-User & Actor & Người dùng yêu cầu tra cứu lịch sử giao dịch cá nhân. \\ \hline
-Web Frontend & Component & Giao diện web Next.js. \\ \hline
-API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline
-Payment Service & Microservice & Tiếp nhận query, lấy danh sách transaction và tổng số bản ghi theo \texttt{userId}. \\ \hline
-Payment DB & Database & Lưu thông tin Transaction của người dùng. \\ \hline
-\end{tabular}
-\caption{Các thành phần tham gia luồng tra cứu lịch sử giao dịch}
-\end{table}
-
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
@@ -49,3 +31,21 @@ phản hồi danh sách giao dịch cùng tổng số lượng về giao diện.
 Giao diện tiếp nhận dữ liệu
 và hiển thị chi tiết số tiền thanh toán thực tế cùng trạng thái của từng giao dịch lên màn hình lịch sử.
 \end{itemize}
+
+%\subparagraph{Các thành phần tham gia}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.3}
+
+\begin{tabular}{|l|l|p{5cm}|}
+\hline
+\textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
+User & Actor & Người dùng yêu cầu tra cứu lịch sử giao dịch cá nhân. \\ \hline
+Web Frontend & Component & Giao diện web Next.js. \\ \hline
+API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline
+Payment Service & Microservice & Tiếp nhận query, lấy danh sách transaction và tổng số bản ghi theo \texttt{userId}. \\ \hline
+Payment DB & Database & Lưu thông tin Transaction của người dùng. \\ \hline
+\end{tabular}
+\caption{Các thành phần tham gia luồng tra cứu lịch sử giao dịch}
+\end{table}

@@ -1,20 +1,22 @@
 \paragraph{Sơ đồ tuần tự luồng cập nhật giao dịch thành công và ghi Outbox}
 
 Luồng nghiệp vụ này mô tả
-nhánh IPN hợp lệ, transaction còn ở trạng thái \texttt{pending}
+nhánh IPN hợp lệ,
+transaction còn ở trạng thái \texttt{pending}
 và cổng thanh toán báo thanh toán thành công.
 Dịch vụ thanh toán cập nhật transaction,
 kích hoạt gói thuê bao VIP,
-ghi sự kiện vào Outbox trong cùng transaction lưu subscription,
-sau đó phát sự kiện miền qua NestJS CQRS EventBus.
+ghi sự kiện vào Outbox.
+% trong cùng transaction lưu subscription,
+% sau đó phát sự kiện miền qua NestJS CQRS EventBus.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{contents/Sequence/UML-Sequence-PaymentSuccessUpdateOutbox.png}
+\includegraphics[width=0.65\textwidth]{contents/Sequence/UML-Sequence-PaymentSuccessUpdateOutbox.png}
 \caption{Sơ đồ tuần tự luồng cập nhật giao dịch thành công và ghi Outbox}
 \end{figure}
 
-\subparagraph{Các thành phần tham gia}
+%\subparagraph{Các thành phần tham gia}
 
 \begin{table}[H]
 \centering

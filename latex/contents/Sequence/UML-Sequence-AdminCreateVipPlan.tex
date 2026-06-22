@@ -12,25 +12,6 @@ trong hệ thống.
 \caption{Sơ đồ tuần tự luồng Tạo mới gói thuê bao VIP}
 \end{figure}
 
-\subparagraph{Các thành phần tham gia}
-
-\begin{table}[H]
-\centering
-\renewcommand{\arraystretch}{1.3}
-
-\begin{tabular}{|l|l|p{5cm}|}
-\hline
-\textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
-Admin & Actor & Quản trị viên
-thực hiện quản lý danh mục gói thuê bao VIP. \\ \hline
-Web Frontend & Component & Giao diện web Next.js. \\ \hline
-API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline
-Payment Service & Microservice & Tiếp nhận yêu cầu, xử lý và tạo gói thuê bao VIP. \\ \hline
-Payment Database & Database & Lưu trữ thông tin chi tiết về các gói thuê bao VIP (Plan). \\ \hline
-\end{tabular}
-\caption{Các thành phần tham gia luồng Tạo mới gói thuê bao VIP}
-\end{table}
-
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
@@ -51,3 +32,22 @@ CSDL ở trạng thái đang hoạt động
 và phản hồi thông tin gói vừa tạo
 về giao diện cho quản trị viên.
 \end{itemize}
+
+%\subparagraph{Các thành phần tham gia}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.3}
+
+\begin{tabular}{|l|l|p{5cm}|}
+\hline
+\textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
+Admin & Actor & Quản trị viên
+thực hiện quản lý danh mục gói thuê bao VIP. \\ \hline
+Web Frontend & Component & Giao diện web Next.js. \\ \hline
+API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline
+Payment Service & Microservice & Tiếp nhận yêu cầu, xử lý và tạo gói thuê bao VIP. \\ \hline
+Payment Database & Database & Lưu trữ thông tin chi tiết về các gói thuê bao VIP (Plan). \\ \hline
+\end{tabular}
+\caption{Các thành phần tham gia luồng Tạo mới gói thuê bao VIP}
+\end{table}
