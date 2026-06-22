@@ -1,5 +1,6 @@
-\subsection{Dịch vụ thanh toán (payment service)}
+\subsubsection{Dịch vụ thanh toán (payment service)}
 
+Mục đích: Dịch vụ thanh toán (payment service) chịu trách nhiệm quản lý thông tin các gói dịch vụ (\texttt{plans}), quản lý thuê bao người dùng (\texttt{subscriptions}) của người dùng và tích hợp các cổng thanh toán.
 Sơ đồ tổng quan về Dịch vụ thanh toán (payment service):
 
 \begin{figure}[H]
@@ -9,78 +10,78 @@ Sơ đồ tổng quan về Dịch vụ thanh toán (payment service):
 \label{fig:payment-kafka-event}
 \end{figure}
 
-Mục đích: Dịch vụ thanh toán (payment service) chịu trách nhiệm quản lý thông tin các gói dịch vụ (\texttt{plans}), quản lý thuê bao người dùng (\texttt{subscriptions}) của người dùng và tích hợp các cổng thanh toán.
+\paragraph{Quản lý Gói dịch vụ (Plans)}
 
-\subsubsection{I. Quản lý Gói dịch vụ (Plans)}
+Cho phép hệ thống
+định nghĩa và cung cấp
+các gói dịch vụ khác nhau tới người dùng.
 
-Cho phép hệ thống định nghĩa và cung cấp các gói dịch vụ khác nhau tới người dùng.
-
-\begin{itemize}
+%\begin{itemize}
 \item \textbf{Tạo mới gói dịch vụ}:
-\begin{itemize}
-\item Cho phép Quản trị viên (ADMIN) thiết lập cấu hình gói dịch vụ mới bao gồm các thông số: tên gói (ví dụ: VIP 1 tháng), thời hạn sử dụng, giá tiền (VND), trạng thái hoạt động và các tính năng đi kèm (ví dụ: Quyền sử dụng mô hình suy luận AI, Voice, Xử lý tài liệu nâng cao).
-\end{itemize}
+%\begin{itemize}
+Cho phép Quản trị viên (ADMIN) thiết lập cấu hình gói dịch vụ mới bao gồm các thông số: tên gói (ví dụ: VIP 1 tháng), thời hạn sử dụng, giá tiền (VND), trạng thái hoạt động và các tính năng đi kèm (ví dụ: Quyền sử dụng mô hình suy luận AI, Voice, Xử lý tài liệu nâng cao).
+%\end{itemize}
 
 \item \textbf{Truy xuất danh sách gói}:
-\begin{itemize}
-\item Lấy danh sách toàn bộ các gói dịch vụ hiện có trên hệ thống để hiển thị cho người dùng. Chức năng này được tối ưu hóa hiệu năng bằng cơ chế phân trang thông qua hai tham số \texttt{skip} và \texttt{limit}.
-\end{itemize}
+%\begin{itemize}
+Lấy danh sách toàn bộ các gói dịch vụ hiện có trên hệ thống để hiển thị cho người dùng. Chức năng này được tối ưu hóa hiệu năng bằng cơ chế phân trang thông qua hai tham số \texttt{skip} và \texttt{limit}.
+%\end{itemize}
 
 \item \textbf{Cơ chế Cache với Redis}:
-\begin{itemize}
-\item Lưu thông tin cache danh sách các plan vào Redis.
-\item Khi người dùng yêu cầu xem danh sách gói đăng ký, hệ thống sẽ ưu tiên đọc từ Redis.
-\item Nếu cache trống (cache miss), hệ thống sẽ truy xuất CSDL, trả về kết quả cho client và lưu lại kết quả đó vào Redis cho các yêu cầu sau.
-\end{itemize}
+%\begin{itemize}
+Lưu thông tin cache danh sách các plan vào Redis.
+Khi người dùng yêu cầu xem danh sách gói đăng ký, hệ thống sẽ ưu tiên đọc từ Redis.
+Nếu cache trống (cache miss), hệ thống sẽ truy xuất CSDL, trả về kết quả cho client và lưu lại kết quả đó vào Redis cho các yêu cầu sau.
+%\end{itemize}
 
-\item \textbf{Lưu trữ/Vô hiệu hóa gói}:
-\begin{itemize}
-\item Cho phép quản trị viên ẩn hoặc tạm dừng cung cấp các gói dịch vụ cũ.
-\end{itemize}
-\end{itemize}
+\item \textbf{Lưu trữ gói thuê bao VIP}:
+%\begin{itemize}
+Cho phép quản trị viên ẩn hoặc tạm dừng cung cấp các gói dịch vụ cũ.
+%\end{itemize}
+%\end{itemize}
 
-\subsubsection{II. Quản lý Thuê bao (Subscriptions) và Giao dịch}
+\paragraph{Quản lý Thuê bao (Subscriptions) và Giao dịch}
 
 Quản lý thông tin đăng ký dịch vụ của người dùng và các giao dịch phát sinh:
 
-\begin{itemize}
+%\begin{itemize}
 \item \textbf{Mua gói}:
-\begin{itemize}
-\item Người dùng khởi tạo yêu cầu thanh toán cho một gói dịch vụ cụ thể. Hệ thống tiếp nhận mã gói (\texttt{plan\_id}) và đường dẫn chuyển hướng (\texttt{redirect\_url}) để tạo link thanh toán và đưa người dùng tới cổng thanh toán.
-\item Tích hợp chức năng tự động hủy giao dịch nếu hết thời gian chờ thanh toán (timeout) cấu hình trong Redis.
-\item Gửi sự kiện thanh toán thành công lên Kafka.
-\item Gửi email thông báo xác nhận thanh toán thành công cho người dùng.
-\end{itemize}
+%\begin{itemize}
+Người dùng khởi tạo yêu cầu thanh toán cho một gói dịch vụ cụ thể. Hệ thống tiếp nhận mã gói (\texttt{plan\_id}) và đường dẫn chuyển hướng (\texttt{redirect\_url}) để tạo link thanh toán và đưa người dùng tới cổng thanh toán.
+Tích hợp chức năng tự động hủy giao dịch nếu hết thời gian chờ thanh toán (timeout) cấu hình trong Redis.
+Gửi sự kiện thanh toán thành công lên Kafka.
+Gửi email thông báo xác nhận thanh toán thành công cho người dùng.
+%\end{itemize}
 
 \item \textbf{Tra cứu thông tin Thuê bao}:
-\begin{itemize}
-\item Cho phép người dùng xem thông tin chi tiết và thời hạn của gói dịch vụ hiện tại mà họ đang sở hữu.
-\end{itemize}
+%\begin{itemize}
+Cho phép người dùng xem thông tin chi tiết và thời hạn của gói dịch vụ hiện tại mà họ đang sở hữu.
+%\end{itemize}
 
 \item \textbf{Tra cứu lịch sử giao dịch}:
-\begin{itemize}
-\item Cung cấp danh sách lịch sử các giao dịch thanh toán trước đó của người dùng, hỗ trợ phân trang để dễ dàng theo dõi.
-\end{itemize}
+%\begin{itemize}
+Cung cấp danh sách lịch sử các giao dịch thanh toán trước đó của người dùng, hỗ trợ phân trang để dễ dàng theo dõi.
+%\end{itemize}
 
 \item \textbf{Kích hoạt giao dịch thủ công}:
-\begin{itemize}
-\item Tính năng dành cho ADMIN để can thiệp kích hoạt thủ công một giao dịch (\texttt{transaction\_id}) thành công, dùng trong các trường hợp đối soát thủ công hoặc xử lý sự cố.
-\end{itemize}
-\end{itemize}
+%\begin{itemize}
+Tính năng dành cho ADMIN để can thiệp kích hoạt thủ công một giao dịch (\texttt{transaction\_id}) thành công, dùng trong các trường hợp đối soát thủ công hoặc xử lý sự cố.
+%\end{itemize}
+%\end{itemize}
 
-\subsubsection{III. Tích hợp Cổng thanh toán}
+\paragraph{Tích hợp Cổng thanh toán}
 
-\begin{itemize}
+%\begin{itemize}
 \item \textbf{Xử lý Callback (IPN)}:
-\begin{itemize}
-\item Cung cấp các endpoint (nhận cả phương thức \texttt{GET} và \texttt{POST}) để cổng thanh toán có thể âm thầm gọi về hệ thống (giao tiếp server-to-server) nhằm cập nhật trạng thái giao dịch một cách chính xác và bảo mật nhất.
-\end{itemize}
+%\begin{itemize}
+Cung cấp các endpoint (nhận cả phương thức \texttt{GET} và \texttt{POST}) để cổng thanh toán có thể âm thầm gọi về hệ thống (giao tiếp server-to-server) nhằm cập nhật trạng thái giao dịch một cách chính xác và bảo mật nhất.
+%\end{itemize}
 
 \item \textbf{Xử lý Return URL}:
-\begin{itemize}
-\item Cung cấp các endpoint (nhận cả \texttt{GET} và \texttt{POST}) để tiếp nhận và điều hướng giao diện người dùng ngay sau khi họ hoàn tất thao tác thanh toán trên trang của đối tác.
-\end{itemize}
-\end{itemize}
+%\begin{itemize}
+Cung cấp các endpoint (nhận cả \texttt{GET} và \texttt{POST}) để tiếp nhận và điều hướng giao diện người dùng ngay sau khi họ hoàn tất thao tác thanh toán trên trang của đối tác.
+%\end{itemize}
+%\end{itemize}
 
 Các API chính trong tài liệu Swagger API của Dịch vụ thanh toán (payment service):
 
@@ -149,7 +150,7 @@ Các bảng trong CSDL của Dịch vụ thanh toán (payment service):
 \label{fig:payment-database}
 \end{figure}
 
-\subsubsection{Sự kiện Thanh toán thành công (Subscription Purchased Event)}
+\paragraph{Sự kiện Thanh toán thành công (Subscription Purchased Event)}
 
 Khi giao dịch thanh toán gói dịch vụ (như gói VIP) thành công, Dịch vụ thanh toán sẽ tạo và phát hành (publish) sự kiện lên Kafka để đồng bộ quyền hạn người dùng.
 
@@ -237,7 +238,7 @@ Sự kiện này được tiêu thụ (consume) bởi hai dịch vụ: \textbf{D
 \end{enumerate}
 \end{itemize}
 
-\subsubsection{Cơ chế Instant Payment Notification (IPN)}
+\paragraph{Cơ chế Instant Payment Notification (IPN)}
 
 IPN (Instant Payment Notification) được sử dụng để Đơn vị cung cấp dịch vụ thanh toán - Payment Service Provider (PSP) thông báo kết quả giao dịch một cách không đồng bộ cho Đơn vị sử dụng dịch vụ - Payment Service Consumer (PSC).
 
@@ -257,7 +258,7 @@ Sau khi khách hàng hoàn tất thanh toán, kết nối mạng của họ có 
 \label{fig:payment-ipn-i2}
 \end{figure}
 
-\subsubsection{Thiết kế hệ thống theo Domain-Driven Design (DDD)}
+\paragraph{Thiết kế hệ thống theo Domain-Driven Design (DDD)}
 
 Dự án được thiết kế theo mô hình Phát triển hướng tên miền (Domain-Driven Design - DDD) kết hợp với kiến trúc Lục giác (Hexagonal Architecture).
 
