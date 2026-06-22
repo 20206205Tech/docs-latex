@@ -230,7 +230,7 @@ Chi tiết về cấu hình Terraform dùng để quản lý hạ tầng Supabas
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/auth-terraform-supabase-diagram.png}
+\includegraphics[width=0.5\textwidth]{pictures/auth-terraform-supabase-diagram.png}
 \caption{Sơ đồ cấu hình Terraform cho Supabase}
 \label{fig:auth-terraform-supabase-diagram}
 \end{figure}
@@ -271,6 +271,12 @@ Kết quả CSDL trên Supabase:
 các gói thư viện dùng chung (Shared Packages) đã được xây dựng để các dịch vụ khác dễ dàng tái sử dụng và quản lý.
 Hiện tại trong dự án, có 2 gói thư viện dùng chung được xây dựng và đăng ký trên npm/PyPI là NestJS (\texttt{20206205tech-nestjs-auth}) và FastAPI trong Python (\texttt{20206205tech-python-auth}). Các thư viện này thực hiện các bước kiểm duyệt bảo mật tự động bao gồm:
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{pictures/nest-auth.png}
+\caption{Quy trình kiểm tra bảo mật trong gói thư viện dùng chung}
+\label{fig:nest-auth}
+\end{figure}
 \begin{itemize}
 \item Xác thực \texttt{Request-Id} được chuyển tiếp từ Kong API Gateway.
 \item Xác thực mã bảo mật \texttt{Request-Kong-Secret} để đảm bảo request thực sự đi qua API Gateway.
@@ -279,11 +285,12 @@ Hiện tại trong dự án, có 2 gói thư viện dùng chung được xây d�
 \item Kiểm tra và phân quyền vai trò người dùng (ví dụ: yêu cầu vai trò quản trị viên ADMIN đối với các API quản lý).
 \end{itemize}
 
+Kết quả sơ đồ tệp và thư mục trong gói chung NestJS Auth được tạo tự động từ depcruise:
+
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/nest-auth.png}
-\caption{Quy trình kiểm tra bảo mật trong gói thư viện dùng chung}
-\label{fig:nest-auth}
+\includegraphics[width=0.5\textwidth]{pictures/20206205tech-nestjs-auth-file-architecture.png}
+\caption{Sơ đồ tệp và thư mục trong gói chung NestJS Auth}
 \end{figure}
 
 \paragraph{Cấu hình trong Kong API Gateway}
