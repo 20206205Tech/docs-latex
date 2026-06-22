@@ -131,46 +131,19 @@ Hệ thống sử dụng \textbf{RabbitMQ} làm Message Broker để thực hi�
 \subparagraph{1. Danh sách các Hàng đợi (Queues) trong hệ thống}
 
 \begin{itemize}
-\item \textbf{\texttt{[prefix]\_chat\_deletions}}:
-\begin{itemize}
-\item \textbf{Mục đích}: Nhận yêu cầu xóa mềm (soft delete) lịch sử chat từ phía người dùng.
-\item \textbf{Durable}: \texttt{true}
-\end{itemize}
+\item \textbf{\texttt{[prefix]\_chat\_deletions}}: Nhận yêu cầu xóa mềm (soft delete) lịch sử chat từ phía người dùng (Durable: \texttt{true}).
 
-\item \textbf{\texttt{[prefix]\_share\_generated}}:
-\begin{itemize}
-\item \textbf{Mục đích}: Yêu cầu tạo trang chia sẻ trò chuyện công khai (đóng gói dạng JSONL và tải lên Cloudflare R2).
-\item \textbf{Durable}: \texttt{true}
-\item \textbf{DLQ Routing}: \texttt{[prefix]\_share\_generated\_dlq}
-\end{itemize}
+\item \textbf{\texttt{[prefix]\_share\_generated}}: Yêu cầu tạo trang chia sẻ trò chuyện công khai (đóng gói dạng JSONL và tải lên Cloudflare R2) (Durable: \texttt{true}, DLQ Routing: \texttt{[prefix]\_share\_generated\_dlq}).
 
-\item \textbf{\texttt{[prefix]\_share\_generated\_retry}}:
-\begin{itemize}
-\item \textbf{Mục đích}: Hàng đợi trung gian để xử lý lại (retry) khi gặp lỗi lệch thứ tự sự kiện (out of order). Cấu hình độ trễ cố định \texttt{x-message-ttl = 20s} trước khi gửi trả lại queue chính.
-\end{itemize}
+\item \textbf{\texttt{[prefix]\_share\_generated\_retry}}: Hàng đợi trung gian để xử lý lại (retry) khi gặp lỗi lệch thứ tự sự kiện (out of order). Cấu hình độ trễ cố định \texttt{x-message-ttl = 20s} trước khi gửi trả lại queue chính.
 
-\item \textbf{\texttt{[prefix]\_share\_generated\_dlq}}:
-\begin{itemize}
-\item \textbf{Mục đích}: Dead Letter Queue nhận thông điệp tạo share thất bại hoàn toàn sau \texttt{MAX\_RETRY\_COUNT = 5} lần thử lại.
-\end{itemize}
+\item \textbf{\texttt{[prefix]\_share\_generated\_dlq}}: Dead Letter Queue nhận thông điệp tạo share thất bại hoàn toàn sau \texttt{MAX\_RETRY\_COUNT = 5} lần thử lại.
 
-\item \textbf{\texttt{[prefix]\_share\_upload\_completed}}:
-\begin{itemize}
-\item \textbf{Mục đích}: Báo cáo kết quả đóng gói và upload file chia sẻ từ Python về lại NestJS.
-\item \textbf{Durable}: \texttt{true}
-\item \textbf{DLQ Routing}: \texttt{[prefix]\_share\_upload\_completed\_dlq}
-\end{itemize}
+\item \textbf{\texttt{[prefix]\_share\_upload\_completed}}: Báo cáo kết quả đóng gói và upload file chia sẻ từ Python về lại NestJS (Durable: \texttt{true}, DLQ Routing: \texttt{[prefix]\_share\_upload\_completed\_dlq}).
 
-\item \textbf{\texttt{[prefix]\_share\_upload\_completed\_dlq}}:
-\begin{itemize}
-\item \textbf{Mục đích}: Dead Letter Queue nhận thông điệp báo cáo kết quả upload bị xử lý thất bại ở NestJS.
-\end{itemize}
+\item \textbf{\texttt{[prefix]\_share\_upload\_completed\_dlq}}: Dead Letter Queue nhận thông điệp báo cáo kết quả upload bị xử lý thất bại ở NestJS.
 
-\item \textbf{\texttt{[prefix]\_share\_revoked}}:
-\begin{itemize}
-\item \textbf{Mục đích}: Nhận yêu cầu thu hồi link chia sẻ, tiến hành xóa file tương ứng trên Cloudflare R2 và cập nhật DB.
-\item \textbf{Durable}: \texttt{true}
-\end{itemize}
+\item \textbf{\texttt{[prefix]\_share\_revoked}}: Nhận yêu cầu thu hồi link chia sẻ, tiến hành xóa file tương ứng trên Cloudflare R2 và cập nhật DB (Durable: \texttt{true}).
 \end{itemize}
 
 \subparagraph{2. Cấu trúc dữ liệu và Luồng xử lý sự kiện (Event Payloads \& Flow)}
@@ -367,26 +340,13 @@ Các sự kiện của LiveKit được hệ thống Voice Agent tiếp nhận v
 Quản lý vòng đời kết nối và sự hiện diện của người dùng trong phòng đàm thoại:
 
 \begin{itemize}
-\item \textbf{\texttt{participant\_connected}}:
-\begin{itemize}
-\item Kích hoạt khi người dùng tham gia vào phòng đàm thoại thành công.
-\item Hệ thống tự động gọi hàm chủ động phát giọng nói chào hỏi người dùng (Lần đầu kết nối: \texttt{WELCOME\_MESSAGE} = "Xin chào, tôi là trợ lý pháp luật. Bạn có cần tôi giúp đỡ gì không?", Các lần kết nối lại sau đó: \texttt{REJOIN\_MESSAGE} = "Chào mừng bạn đã quay trở lại. Bạn có cần tôi giúp đỡ gì không?").
-\end{itemize}
+\item \textbf{\texttt{participant\_connected}}: Kích hoạt khi người dùng tham gia vào phòng đàm thoại thành công. Hệ thống tự động gọi hàm chủ động phát giọng nói chào hỏi người dùng (Lần đầu kết nối: \texttt{WELCOME\_MESSAGE} = "Xin chào, tôi là trợ lý pháp luật. Bạn có cần tôi giúp đỡ gì không?", Các lần kết nối lại sau đó: \texttt{REJOIN\_MESSAGE} = "Chào mừng bạn đã quay trở lại. Bạn có cần tôi giúp đỡ gì không?").
 
-\item \textbf{\texttt{participant\_disconnected}}:
-\begin{itemize}
-\item Kích hoạt khi người dùng rời khỏi phòng hoặc bị ngắt kết nối đột ngột.
-\end{itemize}
+\item \textbf{\texttt{participant\_disconnected}}: Kích hoạt khi người dùng rời khỏi phòng hoặc bị ngắt kết nối đột ngột.
 
-\item \textbf{\texttt{participant\_metadata\_changed}}:
-\begin{itemize}
-\item Lắng nghe sự thay đổi siêu dữ liệu (metadata) từ phía người dùng để cập nhật cấu hình giọng đọc, nhân vật mới một cách tức thời.
-\end{itemize}
+\item \textbf{\texttt{participant\_metadata\_changed}}: Lắng nghe sự thay đổi siêu dữ liệu (metadata) từ phía người dùng để cập nhật cấu hình giọng đọc, nhân vật mới một cách tức thời.
 
-\item \textbf{\texttt{data\_received}}:
-\begin{itemize}
-\item Nhận dữ liệu truyền qua kênh data channel (thường là tin nhắn văn bản định dạng JSON). Cho phép nhà phát triển (developer) gửi tin nhắn văn bản thay cho âm thanh nói để debug luồng xử lý của AI một cách thuận tiện.
-\end{itemize}
+\item \textbf{\texttt{data\_received}}: Nhận dữ liệu truyền qua kênh data channel (thường là tin nhắn văn bản định dạng JSON). Cho phép nhà phát triển (developer) gửi tin nhắn văn bản thay cho âm thanh nói để debug luồng xử lý của AI một cách thuận tiện.
 \end{itemize}
 
 \subparagraph{Sự kiện phiên thoại (Session Events)}
@@ -394,27 +354,13 @@ Quản lý vòng đời kết nối và sự hiện diện của người dùng 
 Quản lý các sự kiện trong luồng đàm thoại giữa người dùng và AI Agent:
 
 \begin{itemize}
-\item \textbf{\texttt{user\_input\_transcribed}}:
-\begin{itemize}
-\item Nhận văn bản sau khi hệ thống Speech-to-Text (STT) chuyển đổi thành công giọng nói của người dùng.
-\item Áp dụng bộ lọc \texttt{clean\_transcript} để loại bỏ các đoạn văn bản ảo giác của Whisper, bỏ qua nếu chuỗi rỗng và gọi \texttt{send\_and\_save\_transcript} để hiển thị nội dung văn bản tương ứng lên giao diện UI và lưu vào CSDL.
-\end{itemize}
+\item \textbf{\texttt{user\_input\_transcribed}}: Nhận văn bản sau khi hệ thống Speech-to-Text (STT) chuyển đổi thành công giọng nói của người dùng. Áp dụng bộ lọc \texttt{clean\_transcript} để loại bỏ các đoạn văn bản ảo giác của Whisper, bỏ qua nếu chuỗi rỗng và gọi \texttt{send\_and\_save\_transcript} để hiển thị nội dung văn bản tương ứng lên giao diện UI và lưu vào CSDL.
 
-\item \textbf{\texttt{conversation\_item\_added}}:
-\begin{itemize}
-\item Kích hoạt mỗi khi có một tin nhắn mới (từ người dùng hoặc AI Assistant) được thêm vào ngữ cảnh trò chuyện.
-\item Đối với phản hồi từ AI Assistant, hệ thống tiến hành trích xuất nội dung tin nhắn, kiểm tra và lọc bỏ các bước suy luận trung gian của LangGraph. Khi có câu trả lời cuối cùng, hệ thống gọi \texttt{send\_and\_save\_transcript} để hiển thị trên UI và lưu CSDL.
-\end{itemize}
+\item \textbf{\texttt{conversation\_item\_added}}: Kích hoạt mỗi khi có một tin nhắn mới (từ người dùng hoặc AI Assistant) được thêm vào ngữ cảnh trò chuyện. Đối với phản hồi từ AI Assistant, hệ thống tiến hành trích xuất nội dung tin nhắn, kiểm tra và lọc bỏ các bước suy luận trung gian của LangGraph. Khi có câu trả lời cuối cùng, hệ thống gọi \texttt{send\_and\_save\_transcript} để hiển thị trên UI và lưu CSDL.
 
-\item \textbf{\texttt{agent\_state\_changed} và \texttt{user\_state\_changed}}:
-\begin{itemize}
-\item Theo dõi sự thay đổi trạng thái hoạt động (như Speaking, Listening, Thinking) của cả AI Agent và người dùng để đồng bộ hiển thị trạng thái động trên UI.
-\end{itemize}
+\item \textbf{\texttt{agent\_state\_changed} và \texttt{user\_state\_changed}}: Theo dõi sự thay đổi trạng thái hoạt động (như Speaking, Listening, Thinking) của cả AI Agent và người dùng để đồng bộ hiển thị trạng thái động trên UI.
 
-\item \textbf{\texttt{function\_tools\_executed}}:
-\begin{itemize}
-\item Kích hoạt khi AI Agent quyết định gọi một công cụ bên ngoài (Function/Tool Calling) thành công.
-\end{itemize}
+\item \textbf{\texttt{function\_tools\_executed}}: Kích hoạt khi AI Agent quyết định gọi một công cụ bên ngoài (Function/Tool Calling) thành công.
 \end{itemize}
 
 Bộ lọc làm sạch văn bản \texttt{clean\_transcript} xử lý loại bỏ ảo giác trong văn bản dịch từ giọng nói:
@@ -469,29 +415,13 @@ Vì tính năng xóa trò chuyện và thu hồi liên kết chia sẻ trong h�
 \subparagraph{1. Phía Dịch vụ trò chuyện (NestJS - code-conversation-service)}
 NestJS sử dụng module \texttt{@nestjs/schedule} để quản lý các cron jobs dọn dẹp các bản ghi không còn hoạt động quá \textbf{30 ngày}:
 \begin{itemize}
-\item \textbf{\texttt{ChatCleanupCron}}:
-\begin{itemize}
-\item \textbf{Mục đích}: Tìm và xóa vĩnh viễn các bản ghi Chat có \texttt{isActive = false} và thời gian cập nhật cách hiện tại từ 30 ngày trở lên.
-\item \textbf{Chu kỳ}: Mỗi ngày vào lúc nửa đêm (môi trường production) hoặc mỗi 10 phút (môi trường development).
-\end{itemize}
-\item \textbf{\texttt{ShareCleanupCron}}:
-\begin{itemize}
-\item \textbf{Mục đích}: Tìm và xóa vĩnh viễn các bản ghi liên kết Share có \texttt{isActive = false} (hoặc đã bị thu hồi) quá hạn 30 ngày.
-\item \textbf{Chu kỳ}: Mỗi ngày vào lúc nửa đêm (môi trường production) hoặc mỗi 10 phút (môi trường development).
-\end{itemize}
+\item \textbf{\texttt{ChatCleanupCron}}: Tìm và xóa vĩnh viễn các bản ghi Chat có \texttt{isActive = false} và thời gian cập nhật cách hiện tại từ 30 ngày trở lên. Chu kỳ chạy: Mỗi ngày vào lúc nửa đêm (môi trường production) hoặc mỗi 10 phút (môi trường development).
+\item \textbf{\texttt{ShareCleanupCron}}: Tìm và xóa vĩnh viễn các bản ghi liên kết Share có \texttt{isActive = false} (hoặc đã bị thu hồi) quá hạn 30 ngày. Chu kỳ chạy: Mỗi ngày vào lúc nửa đêm (môi trường production) hoặc mỗi 10 phút (môi trường development).
 \end{itemize}
 
 \subparagraph{2. Phía Dịch vụ chatbot (Python - code-chatbot-service)}
 Python sử dụng thư viện \texttt{APScheduler} (\texttt{AsyncIOScheduler}) chạy nền tích hợp trong vòng đời (lifespan) của ứng dụng để tự động dọn dẹp CSDL lưu trữ lịch sử:
 \begin{itemize}
-\item \textbf{\texttt{run\_chat\_cleanup}}:
-\begin{itemize}
-\item \textbf{Mục đích}: Xóa vĩnh viễn các bản ghi Chat trong CSDL chatbot có trạng thái \texttt{is\_active = False} quá hạn 30 ngày.
-\item \textbf{Chu kỳ}: Mỗi ngày lúc 12:00 trưa (môi trường production) hoặc mỗi 10 phút (môi trường development).
-\end{itemize}
-\item \textbf{\texttt{run\_share\_cleanup}}:
-\begin{itemize}
-\item \textbf{Mục đích}: Xóa vĩnh viễn các bản ghi Share trong CSDL chatbot có trạng thái \texttt{is\_revoked = True} quá hạn 30 ngày.
-\item \texttt{Chu kỳ}: Mỗi ngày lúc 12:00 trưa (môi trường production) hoặc mỗi 10 phút (môi trường development).
-\end{itemize}
+\item \textbf{\texttt{run\_chat\_cleanup}}: Xóa vĩnh viễn các bản ghi Chat trong CSDL chatbot có trạng thái \texttt{is\_active = False} quá hạn 30 ngày. Chu kỳ chạy: Mỗi ngày lúc 12:00 trưa (môi trường production) hoặc mỗi 10 phút (môi trường development).
+\item \textbf{\texttt{run\_share\_cleanup}}: Xóa vĩnh viễn các bản ghi Share trong CSDL chatbot có trạng thái \texttt{is\_revoked = True} quá hạn 30 ngày. Chu kỳ chạy: Mỗi ngày lúc 12:00 trưa (môi trường production) hoặc mỗi 10 phút (môi trường development).
 \end{itemize}

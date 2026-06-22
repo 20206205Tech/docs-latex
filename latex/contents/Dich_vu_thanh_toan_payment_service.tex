@@ -201,48 +201,15 @@ Dữ liệu sự kiện được gửi dưới dạng chuỗi JSON có cấu tr�
 \end{verbatim}
 
 \subparagraph{Cách các dịch vụ khác tiếp nhận và xử lý sự kiện}
-Sự kiện này được tiêu thụ (consume) bởi hai dịch vụ:
-\textbf{Dịch vụ trò chuyện (conversation service)}
-và \textbf{Dịch vụ văn bản (document service)}
-để đồng bộ quyền lợi gói VIP của người dùng.
-
-\textbf{Dịch vụ văn bản (document service - Python)}
-
-\begin{itemize}
-\item \textbf{Tên Consumer Group}: \texttt{document-service-group}
-\item \textbf{Luồng xử lý}:
+Sự kiện này được tiêu thụ (consume) song song bởi hai dịch vụ: \textbf{Dịch vụ văn bản (document service - Python)} (Consumer Group: \texttt{document-service-group}) và \textbf{Dịch vụ trò chuyện (conversation service - NestJS)} (Consumer Group: \texttt{conversation-service-group}) để đồng bộ quyền lợi gói VIP của người dùng theo các bước tuần tự sau:
 
 \begin{enumerate}
-\item Consumer lắng nghe sự kiện từ topic, phân tích JSON payload sang kiểu \texttt{dict}.
-\item Hệ thống kiểm tra phiên bản (\textbf{Version Control}):
-\begin{itemize}
-\item Lấy thông tin thuê bao hiện tại của người dùng trong CSDL.
-\item Nếu phiên bản nhận được $>$ phiên bản hiện tại: Tiến hành cập nhật thông tin thuê bao (\texttt{period\_start}, \texttt{period\_end}, \texttt{subscription\_id}, \texttt{version}) và đặt trạng thái \texttt{is\_active = True}.
-\item Nếu phiên bản nhận được $\le$ phiên bản hiện tại: Bỏ qua (SKIP) sự kiện vì đã tồn tại bản cập nhật mới hơn trong DB (ngăn chặn lỗi out-of-order event).
-\end{itemize}
-\item Người dùng chính thức được nâng quyền sử dụng dịch vụ bóc tách và tóm tắt văn bản dành riêng cho VIP.
+\item \textbf{Lắng nghe và giải mã}: Consumer lắng nghe sự kiện từ topic tương ứng, phân tích và giải mã JSON payload nhận được.
+\item \textbf{Khởi tạo giao dịch và khóa dòng}: Khởi tạo một giao dịch CSDL (\textbf{Database Transaction}) để thực hiện cập nhật bảng thông tin thuê bao của người dùng. Để tránh tranh chấp dữ liệu (Race Condition) khi có nhiều sự kiện xử lý song song, hệ thống kích hoạt khóa ghi bi quan (\textbf{Pessimistic Write Lock} hoặc cơ chế tương đương) trên dòng dữ liệu của \texttt{userId} đó.
+\item \textbf{So sánh phiên bản lớn hơn}: So sánh trường \texttt{version} của sự kiện nhận được với \texttt{version} hiện tại trong CSDL. Nếu phiên bản của sự kiện lớn hơn ($>$), tiến hành cập nhật thông tin thuê bao (\texttt{period\_start}, \texttt{period\_end}, \texttt{subscription\_id}, \texttt{version}) và đặt trạng thái kích hoạt VIP (\texttt{isActive = true} / \texttt{is\_active = True}).
+\item \textbf{Xử lý phiên bản nhỏ hơn hoặc bằng}: Nếu phiên bản nhận được nhỏ hơn hoặc bằng ($\le$), hệ thống sẽ bỏ qua (SKIP) sự kiện vì đã tồn tại bản cập nhật mới hơn trong CSDL (cơ chế Version Control giúp ngăn chặn lỗi out-of-order event).
+\item \textbf{Kích hoạt quyền VIP}: Sau khi cập nhật CSDL thành công, hệ thống mở khóa người dùng và kích hoạt các quyền lợi VIP tương ứng (như trò chuyện thoại nâng cao, mô hình suy luận, bóc tách và tóm tắt văn bản).
 \end{enumerate}
-\end{itemize}
-
-\textbf{Dịch vụ trò chuyện (conversation service - NestJS)}
-
-\begin{itemize}
-\item \textbf{Tên Consumer Group}: \texttt{conversation-service-group}
-\item \textbf{Luồng xử lý}:
-
-\begin{enumerate}
-\item Consumer lắng nghe và giải mã JSON payload nhận được.
-\item Khởi tạo một giao dịch CSDL (\textbf{Database Transaction}) để thực hiện cập nhật bảng \texttt{UserSubscriptionEntity}.
-\item Kích hoạt khóa ghi bi quan (\textbf{Pessimistic Write Lock}) trên dòng dữ liệu của \texttt{userId} đó để ngăn chặn tranh chấp dữ liệu (Race Condition) trong trường hợp có nhiều sự kiện của cùng một user được xử lý song song.
-\item Thực hiện kiểm tra phiên bản (\textbf{Version Control}):
-\begin{itemize}
-\item So sánh \texttt{version} của sự kiện nhận được với \texttt{version} hiện tại trong DB.
-\item Nếu \texttt{version} nhận được cao hơn: Cập nhật thông tin thuê bao và lưu trạng thái kích hoạt \texttt{isActive = true}.
-\item Nếu thấp hơn hoặc bằng: Bỏ qua (SKIP) tác vụ cập nhật.
-\end{itemize}
-\item Mở khóa người dùng để kích hoạt tính năng trò chuyện thoại nâng cao và mô hình suy luận dành cho VIP.
-\end{enumerate}
-\end{itemize}
 
 \paragraph{Cơ chế Instant Payment Notification (IPN)}
 
