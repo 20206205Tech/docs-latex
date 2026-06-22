@@ -15,26 +15,6 @@ stream các thông tin \texttt{status}, \texttt{content}, \texttt{metadata}, đ�
 \caption{Sơ đồ tuần tự luồng nhắn tin văn bản qua SSE}
 \end{figure}
 
-\subparagraph{Các thành phần tham gia}
-
-\begin{table}[H]
-\centering
-\renewcommand{\arraystretch}{1.3}
-
-\begin{tabular}{|l|l|p{5cm}|}
-\hline
-\textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
-User & Actor & Người dùng nhập truy vấn, chọn tài liệu đính kèm và tùy chọn bật reasoning. \\ \hline
-Web Frontend & Component & Giao diện web Next.js. \\ \hline
-API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline
-Conversation Service & Microservice & Kiểm tra quyền VIP khi cần, kiểm tra chat active, mở SSE stream và gọi Chatbot Service qua gRPC. \\ \hline
-Conversation DB & Database & Lưu quản lý trò chuyện và và bảng \texttt{user\_subscriptions} dùng để kiểm tra VIP. \\ \hline
-Chatbot Service (gRPC + LangGraph) & Microservice & Verify token từ gRPC metadata, xử lý RAG/reasoning, stream kết quả và lưu lịch sử chat. \\ \hline
-Chatbot DB & Database & Lưu human message, AI message, reasoning steps, sources và trạng thái xác nhận. \\ \hline
-\end{tabular}
-\caption{Các thành phần tham gia luồng nhắn tin văn bản qua SSE}
-\end{table}
-
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
@@ -74,3 +54,23 @@ và trạng thái chờ xác nhận vào CSDL chatbot,
 hoặc chạy công việc tóm tắt nội dung cuộc trò chuyện trong nền nếu cần.
 
 \end{itemize}
+
+%\subparagraph{Các thành phần tham gia}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.3}
+
+\begin{tabular}{|l|l|p{5cm}|}
+\hline
+\textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
+User & Actor & Người dùng nhập truy vấn, chọn tài liệu đính kèm và tùy chọn bật reasoning. \\ \hline
+Web Frontend & Component & Giao diện web Next.js. \\ \hline
+API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline
+Conversation Service & Microservice & Kiểm tra quyền VIP khi cần, kiểm tra chat active, mở SSE stream và gọi Chatbot Service qua gRPC. \\ \hline
+Conversation DB & Database & Lưu quản lý trò chuyện và và bảng \texttt{user\_subscriptions} dùng để kiểm tra VIP. \\ \hline
+Chatbot Service (gRPC + LangGraph) & Microservice & Verify token từ gRPC metadata, xử lý RAG/reasoning, stream kết quả và lưu lịch sử chat. \\ \hline
+Chatbot DB & Database & Lưu human message, AI message, reasoning steps, sources và trạng thái xác nhận. \\ \hline
+\end{tabular}
+\caption{Các thành phần tham gia luồng nhắn tin văn bản qua SSE}
+\end{table}

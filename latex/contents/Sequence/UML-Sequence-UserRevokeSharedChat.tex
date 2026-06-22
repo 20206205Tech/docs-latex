@@ -11,26 +11,6 @@ các dịch vụ thông qua mẫu thiết kế Transactional Outbox và giao ti�
 \caption{Sơ đồ tuần tự luồng Thu hồi chia sẻ cuộc trò chuyện}
 \end{figure}
 
-\subparagraph{Các thành phần tham gia}
-
-\begin{table}[H]
-\centering
-\renewcommand{\arraystretch}{1.3}
-
-\begin{tabular}{|l|l|p{5cm}|}
-\hline
-\textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
-User & Actor & Người dùng khởi tạo yêu cầu thu hồi quyền chia sẻ cuộc trò chuyện. \\ \hline
-Conversation Service & Microservice & Dịch vụ tiếp nhận yêu cầu từ người dùng, thực hiện cập nhật CSDL và ghi lại sự kiện vào bảng Outbox. \\ \hline
-Conversation DB & Database & CSDL chính của Conversation Service, lưu trữ trạng thái bản ghi chia sẻ (Share) và bảng hàng đợi sự kiện (Outbox). \\ \hline
-RabbitMQ Broker & Message Broker & Message Broker nhận sự kiện và phân phối đến các dịch vụ theo dõi. \\ \hline
-Chatbot Service & Microservice & Dịch vụ đóng vai trò là Consumer, lắng nghe sự kiện từ RabbitMQ, thực thi nghiệp vụ xóa file và cập nhật CSDL. \\ \hline
-Chatbot DB & Database & CSDL của Chatbot Service, dùng để lưu trữ trạng thái bản ghi chia sẻ và cơ chế kiểm soát phiên bản. \\ \hline
-R2 Object Storage & External Service & Dịch vụ lưu trữ đối tượng lưu trữ vật lý các tệp tin dữ liệu cuộc trò chuyện định dạng JSONL. \\ \hline
-\end{tabular}
-\caption{Các thành phần tham gia luồng Thu hồi chia sẻ cuộc trò chuyện}
-\end{table}
-
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
@@ -62,3 +42,23 @@ tiến hành xóa tệp tin lưu trữ cuộc trò chuyện tương ứng trên 
 Dịch vụ chatbot cập nhật trạng thái liên kết chia sẻ
 trong CSDL chatbot thành đã hủy và gửi xác nhận hoàn thành xử lý.
 \end{itemize}
+
+%\subparagraph{Các thành phần tham gia}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.3}
+
+\begin{tabular}{|l|l|p{5cm}|}
+\hline
+\textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
+User & Actor & Người dùng khởi tạo yêu cầu thu hồi quyền chia sẻ cuộc trò chuyện. \\ \hline
+Conversation Service & Microservice & Dịch vụ tiếp nhận yêu cầu từ người dùng, thực hiện cập nhật CSDL và ghi lại sự kiện vào bảng Outbox. \\ \hline
+Conversation DB & Database & CSDL chính của Conversation Service, lưu trữ trạng thái bản ghi chia sẻ (Share) và bảng hàng đợi sự kiện (Outbox). \\ \hline
+RabbitMQ Broker & Message Broker & Message Broker nhận sự kiện và phân phối đến các dịch vụ theo dõi. \\ \hline
+Chatbot Service & Microservice & Dịch vụ đóng vai trò là Consumer, lắng nghe sự kiện từ RabbitMQ, thực thi nghiệp vụ xóa file và cập nhật CSDL. \\ \hline
+Chatbot DB & Database & CSDL của Chatbot Service, dùng để lưu trữ trạng thái bản ghi chia sẻ và cơ chế kiểm soát phiên bản. \\ \hline
+R2 Object Storage & External Service & Dịch vụ lưu trữ đối tượng lưu trữ vật lý các tệp tin dữ liệu cuộc trò chuyện định dạng JSONL. \\ \hline
+\end{tabular}
+\caption{Các thành phần tham gia luồng Thu hồi chia sẻ cuộc trò chuyện}
+\end{table}

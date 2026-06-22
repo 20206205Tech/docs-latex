@@ -7,30 +7,6 @@ hiện tại trong trang cá nhân,
 sau đó thiết lập lại thiết bị xác thực mới
 thông qua trang \texttt{/auth/mfa}.
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.95\textwidth]{contents/Sequence/UML-Sequence-UserMfaResetDevice.png}
-\caption{Sơ đồ tuần tự luồng Hủy liên kết và thiết lập lại thiết bị MFA}
-\end{figure}
-
-\subparagraph{Các thành phần tham gia}
-
-\begin{table}[H]
-\centering
-\renewcommand{\arraystretch}{1.3}
-
-\begin{tabular}{|l|l|p{5cm}|}
-\hline
-\textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
-User & Actor & Người dùng thực hiện thay đổi thiết bị bảo mật. \\ \hline
-Web Frontend & Component & Giao diện web Next.js. \\ \hline
-API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline
-Auth Service (Supabase) & Microservice & Dịch vụ thực hiện hủy đăng ký thiết bị cũ và xử lý thiết bị mới. \\ \hline
-Authenticator App & External Service & Ứng dụng di động mới của người dùng thực hiện quét QR và sinh TOTP xác thực. \\ \hline
-\end{tabular}
-\caption{Các thành phần tham gia luồng Hủy liên kết và thiết lập lại thiết bị MFA}
-\end{table}
-
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
@@ -63,3 +39,27 @@ Khi thành công, Auth Service kích hoạt thiết bị mới và
 cấp lại mã đăng nhập ở mức bảo mật cấp 2.
 
 \end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{contents/Sequence/UML-Sequence-UserMfaResetDevice.png}
+\caption{Sơ đồ tuần tự luồng Hủy liên kết và thiết lập lại thiết bị MFA}
+\end{figure}
+
+%\subparagraph{Các thành phần tham gia}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.3}
+
+\begin{tabular}{|l|l|p{5cm}|}
+\hline
+\textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
+User & Actor & Người dùng thực hiện thay đổi thiết bị bảo mật. \\ \hline
+Web Frontend & Component & Giao diện web Next.js. \\ \hline
+API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline
+Auth Service (Supabase) & Microservice & Dịch vụ thực hiện hủy đăng ký thiết bị cũ và xử lý thiết bị mới. \\ \hline
+Authenticator App & External Service & Ứng dụng di động mới của người dùng thực hiện quét QR và sinh TOTP xác thực. \\ \hline
+\end{tabular}
+\caption{Các thành phần tham gia luồng Hủy liên kết và thiết lập lại thiết bị MFA}
+\end{table}

@@ -14,25 +14,6 @@ sử dụng khi xử lý cuộc trò chuyện.
 \caption{Sơ đồ tuần tự luồng Cấp token voice chat qua LiveKit}
 \end{figure}
 
-\subparagraph{Các thành phần tham gia}
-
-\begin{table}[H]
-\centering
-\renewcommand{\arraystretch}{1.3}
-
-\begin{tabular}{|l|l|p{5cm}|}
-\hline
-\textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
-User & Actor & Người dùng bắt đầu phiên voice chat. \\ \hline
-Web Frontend & Component & Giao diện web Next.js. \\ \hline
-API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline
-Conversation Service & Microservice & Kiểm tra VIP và tạo Access Token bằng LiveKit SDK. \\ \hline
-Conversation Database & Database & Lưu trạng thái subscription được đồng bộ từ Payment Service. \\ \hline
-LiveKit Cloud & External Service & Hạ tầng cho phiên đàm thoại thời gian thực. \\ \hline
-\end{tabular}
-\caption{Các thành phần tham gia luồng cấp token voice chat qua LiveKit}
-\end{table}
-
 \subparagraph{Mô tả tổng quan}
 
 \begin{itemize}
@@ -61,3 +42,22 @@ cùng địa chỉ máy chủ đàm thoại
 để tham gia vào phòng đàm thoại thời gian thực
 tương ứng với cuộc trò chuyện.
 \end{itemize}
+
+%\subparagraph{Các thành phần tham gia}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.3}
+
+\begin{tabular}{|l|l|p{5cm}|}
+\hline
+\textbf{Thành phần} & \textbf{Phân loại} & \textbf{Vai trò trong hệ thống} \\ \hline
+User & Actor & Người dùng bắt đầu phiên voice chat. \\ \hline
+Web Frontend & Component & Giao diện web Next.js. \\ \hline
+API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline
+Conversation Service & Microservice & Kiểm tra VIP và tạo Access Token bằng LiveKit SDK. \\ \hline
+Conversation Database & Database & Lưu trạng thái subscription được đồng bộ từ Payment Service. \\ \hline
+LiveKit Cloud & External Service & Hạ tầng cho phiên đàm thoại thời gian thực. \\ \hline
+\end{tabular}
+\caption{Các thành phần tham gia luồng cấp token voice chat qua LiveKit}
+\end{table}
