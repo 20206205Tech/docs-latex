@@ -61,40 +61,29 @@ bằng các API nâng cao của Supabase:
 
 \begin{itemize}
 \item \textbf{Đăng ký thiết bị xác thực MFA mới}:
-\begin{itemize}
-\item Khởi tạo quá trình liên kết thiết bị xác thực mới. API trả về mã QR Code (\texttt{qr\_code}), mã bí mật (\texttt{secret}) và chuỗi URI để người dùng quét trên ứng dụng Authenticator.
-\item Endpoint sử dụng: \texttt{/factors}
-\end{itemize}
+Khởi tạo quá trình liên kết thiết bị xác thực mới. API trả về mã QR Code (\texttt{qr\_code}), mã bí mật (\texttt{secret}) và chuỗi URI để người dùng quét trên ứng dụng Authenticator.
+Endpoint sử dụng: \texttt{/factors}
 
 \item \textbf{Tạo thử thách xác thực}:
-\begin{itemize}
-\item Tạo một thử thách xác thực (challenge) dựa trên ID thiết bị MFA (\texttt{factorId}) để chuẩn bị so khớp với mã TOTP người dùng nhập.
-\item Endpoint sử dụng: \texttt{/factors/\{factorId\}/challenge}
-\end{itemize}
+Tạo một thử thách xác thực (challenge) dựa trên ID thiết bị MFA (\texttt{factorId}) để chuẩn bị so khớp với mã TOTP người dùng nhập.
+Endpoint sử dụng: \texttt{/factors/\{factorId\}/challenge}
 
 \item \textbf{Xác thực mã TOTP}:
-\begin{itemize}
-\item Kiểm tra mã TOTP gồm 6 chữ số người dùng nhập có khớp với thử thách hiện tại không. Nếu đúng, Supabase sẽ nâng cấp phiên làm việc của người dùng (tăng cấp bảo mật cho Access Token lên mức độ xác thực \texttt{aal2}).
-\item Endpoint sử dụng: \texttt{/factors/\{factorId\}/verify}
-\end{itemize}
+Kiểm tra mã TOTP gồm 6 chữ số người dùng nhập có khớp với thử thách hiện tại không. Nếu đúng, Supabase sẽ nâng cấp phiên làm việc của người dùng (tăng cấp bảo mật cho Access Token lên mức độ xác thực \texttt{aal2}).
+Endpoint sử dụng: \texttt{/factors/\{factorId\}/verify}
 
 \item \textbf{Lấy danh sách các yếu tố MFA}:
-\begin{itemize}
-\item Lấy thông tin tài khoản người dùng để lọc ra danh sách các thiết bị/yếu tố xác thực đã liên kết, phân loại thành: tất cả thiết bị (\texttt{all}) và các thiết bị đã kích hoạt thành công (\texttt{active}).
-\item Endpoint sử dụng: \texttt{/user}
-\end{itemize}
+Lấy thông tin tài khoản người dùng để lọc ra danh sách các thiết bị/yếu tố xác thực đã liên kết, phân loại thành: tất cả thiết bị (\texttt{all}) và các thiết bị đã kích hoạt thành công (\texttt{active}).
+Endpoint sử dụng: \texttt{/user}
 
 \item \textbf{Hủy liên kết/Xóa thiết bị MFA}:
-\begin{itemize}
-\item Xóa một thiết bị xác thực MFA khỏi tài khoản người dùng.
-\item Endpoint sử dụng: \texttt{/factors/\{factorId\}}
-\end{itemize}
+Xóa một thiết bị xác thực MFA khỏi tài khoản người dùng.
+Endpoint sử dụng: \texttt{/factors/\{factorId\}}
 
 \item \textbf{Cập nhật tên hiển thị của thiết bị MFA}:
-\begin{itemize}
-\item Đổi tên hiển thị (\texttt{friendly\_name}) của thiết bị xác thực (ví dụ: "Điện thoại cá nhân").
-\item Endpoint sử dụng: \texttt{/factors/\{factorId\}}
-\end{itemize}
+Đổi tên hiển thị (\texttt{friendly\_name}) của thiết bị xác thực (ví dụ: "Điện thoại cá nhân").
+Endpoint sử dụng: \texttt{/factors/\{factorId\}}
+
 \end{itemize}
 
 \paragraph{Quản lý Hồ sơ người dùng (Supabase Database - PostgREST API)}
