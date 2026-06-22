@@ -46,7 +46,7 @@ xử lý giao dịch
 mang lại trải nghiệm nâng cấp dịch vụ an toàn, tự động.
 
 \item \textbf{Xử lý tài liệu người dùng}:
-Phát triển module tiếp nhận
+Phát triển dịch vụ tiếp nhận
 và xử lý đa dạng các định dạng văn bản được tải lên,
 tự động trích xuất thông tin, vector hóa tài liệu
 một cách nhanh chóng, chính xác và bảo mật.
@@ -68,12 +68,12 @@ giới hạn trong các phạm vi sau:
 \begin{itemize}
 
 \item \textbf{Phân hệ Quản trị người dùng \& Bảo mật}:
-Cài đặt hệ thống xác thực thông qua Supabase Auth,
+Cài đặt hệ thống xác thực thông qua Supabase,
 hỗ trợ đăng nhập Email/Mật khẩu,
 Google OAuth và xác thực hai yếu tố (2FA - TOTP).
 
 \item \textbf{Phân hệ Thu thập dữ liệu pháp luật}:
-Thiết lập đường ống (Data Pipeline)
+Thiết lập đường ống dữ liệu (Data Pipeline)
 tự động thu thập và đồng bộ hóa văn bản quy phạm pháp luật
 từ hai nguồn là \url{https://vbpl.vn}
 và CSDL Pháp điển (\url{https://phapdien.moj.gov.vn}),
@@ -93,5 +93,13 @@ trích xuất cấu trúc và nội dung sang Markdown bằng thư viện \textt
 Tích hợp nền tảng LiveKit để thu phát âm thanh thời gian thực. Ứng dụng các giải pháp Text-to-Speech bao gồm edge-tts, piper-tts và elevenlabs để tổng hợp giọng nói phản hồi.
 
 \item \textbf{Phân hệ Quản lý thanh toán nội địa}:
-Xây dựng một dịch vụ thanh toán độc lập triển khai trên Heroku, giao tiếp bất đồng bộ qua Kafka. Chỉ hỗ trợ quản lý trạng thái thuê bao (Subscriptions) qua các cổng thanh toán nội địa Việt Nam bao gồm: SePay, VNPAY, ZaloPay và MoMo.
+Xây dựng một dịch vụ thanh toán độc lập triển khai trên Heroku,
+sử dụng BullMQ
+tự động
+xử lý hủy các giao dịch thanh toán quá hạn nếu hết thời gian chờ
+và
+giao tiếp bất đồng bộ qua Kafka.
+Hỗ trợ quản lý trạng thái
+thuê bao VIP (Subscriptions)
+qua các cổng thanh toán nội địa Việt Nam bao gồm: SePay, VNPAY, ZaloPay và MoMo.
 \end{itemize}
