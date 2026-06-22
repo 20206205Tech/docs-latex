@@ -45,17 +45,8 @@ Sơ đồ trình tự kiểm duyệt nghiệp vụ khi xóa cuộc trò chuyện
 
 \textbf{Chi tiết luồng xử lý và kiểm duyệt (Validation Logic):}
 \begin{enumerate}
-\item \textbf{Xóa cuộc trò chuyện (Delete Chat)}:
-\begin{itemize}
-\item Client gửi yêu cầu \texttt{DELETE /chats/\{id\}} đến Dịch vụ trò chuyện (NestJS).
-\item Hệ thống tiến hành cập nhật trường trạng thái của cuộc trò chuyện trong Database thành \texttt{isActive = false} (thực hiện cơ chế xóa mềm - soft delete) và phản hồi \texttt{200 OK}. Lúc này, cuộc trò chuyện sẽ lập tức được ẩn đi trên giao diện người dùng.
-\end{itemize}
-\item \textbf{Kiểm duyệt tạo liên kết chia sẻ (Validate Share Link)}:
-\begin{itemize}
-\item Khi client gửi yêu cầu \texttt{POST /shares} (kèm theo \texttt{chat\_id}) để tạo link chia sẻ công khai.
-\item Trước khi lưu bản ghi chia sẻ, \texttt{GenerateLinkShareCommandHandler} sẽ truy vấn thông tin cuộc trò chuyện từ Database dựa trên \texttt{chat\_id}.
-\item Nếu cuộc trò chuyện không tồn tại hoặc có trạng thái \texttt{isActive = false} (đã bị xóa mềm), hệ thống sẽ chặn đứng hành động ngay lập tức và ném ra lỗi \texttt{ChatNotFoundException} (trả về mã lỗi \texttt{400/404} cho client kèm theo thông báo lỗi chi tiết trên giao diện UI).
-\end{itemize}
+\item \textbf{Xóa cuộc trò chuyện (Delete Chat)}: Client gửi yêu cầu \texttt{DELETE /chats/\{id\}} đến Dịch vụ trò chuyện (NestJS). Hệ thống tiến hành cập nhật trường trạng thái của cuộc trò chuyện trong Database thành \texttt{isActive = false} (thực hiện cơ chế xóa mềm - soft delete) và phản hồi \texttt{200 OK}. Lúc này, cuộc trò chuyện sẽ lập tức được ẩn đi trên giao diện người dùng.
+\item \textbf{Kiểm duyệt tạo liên kết chia sẻ (Validate Share Link)}: Khi client gửi yêu cầu \texttt{POST /shares} (kèm theo \texttt{chat\_id}) để tạo link chia sẻ công khai, trước khi lưu bản ghi chia sẻ, \texttt{GenerateLinkShareCommandHandler} sẽ truy vấn thông tin cuộc trò chuyện từ Database dựa trên \texttt{chat\_id}. Nếu cuộc trò chuyện không tồn tại hoặc có trạng thái \texttt{isActive = false} (đã bị xóa mềm), hệ thống sẽ chặn đứng hành động ngay lập tức và ném ra lỗi \texttt{ChatNotFoundException} (trả về mã lỗi \texttt{400/404} cho client kèm theo thông báo lỗi chi tiết trên giao diện UI).
 \end{enumerate}
 
 Thông tin kiểm tra tự động Pull Request của dịch vụ trò chuyện trên GitHub:
@@ -178,13 +169,7 @@ Hệ thống sử dụng \textbf{RabbitMQ} làm Message Broker để thực hi�
 "last_message_id": "string" // ID tin nhắn cuối cùng (hoặc null nếu chia sẻ hết)
 }
 \end{verbatim}
-\item \textbf{Cơ chế xử lý lệch thứ tự (Out-of-Order)}:
-Consumer Python so sánh phiên bản sự kiện nhận được với phiên bản hiện tại trong DB:
-\begin{itemize}
-\item Nếu \texttt{event\_version == current\_version + 1}: Xử lý đóng gói lịch sử chat, upload R2 và gửi kết quả về NestJS.
-\item Nếu \texttt{event\_version <= current\_version}: Bỏ qua (đã xử lý trước đó).
-\item Nếu \texttt{event\_version > current\_version + 1}: Sự kiện đến sai thứ tự, ném ra ngoại lệ \texttt{OutOfOrderException} để đưa tin nhắn vào \texttt{[prefix]\_share\_generated\_retry} tạm chờ 20 giây trước khi thử lại. Sau 5 lần thất bại liên tục sẽ bị chuyển vào DLQ và gửi cảnh báo về hệ thống.
-\end{itemize}
+\item \textbf{Cơ chế xử lý lệch thứ tự (Out-of-Order)}: Consumer Python so sánh phiên bản sự kiện nhận được với phiên bản hiện tại trong DB. Nếu \texttt{event\_version == current\_version + 1}, tiến hành đóng gói lịch sử chat, upload R2 và gửi kết quả về NestJS. Nếu \texttt{event\_version <= current\_version}, bỏ qua vì đã xử lý. Nếu \texttt{event\_version > current\_version + 1}, sự kiện đến sai thứ tự, ném ra ngoại lệ \texttt{OutOfOrderException} để đưa tin nhắn vào \texttt{[prefix]\_share\_generated\_retry} tạm chờ 20 giây trước khi thử lại; sau 5 lần thất bại liên tục sẽ bị chuyển vào DLQ và gửi cảnh báo về hệ thống.
 \end{itemize}
 
 \textbf{C. Sự kiện Thu hồi liên kết (Share Revoked Event)}
@@ -233,18 +218,8 @@ Consumer Python so sánh phiên bản sự kiện nhận được với phiên b
 \end{figure}
 
 \begin{enumerate}
-\item \textbf{Khi sự kiện Thu hồi Share đến trước}:
-\begin{itemize}
-\item Python kiểm tra trạng thái trong DB (chưa có bản ghi nào).
-\item Tiến hành gọi xóa tệp tin trên Cloudflare R2 (nếu đã được tạo trước đó).
-\item Lưu bản ghi Share vào DB với trạng thái \texttt{is\_revoked = True}.
-\item Phản hồi \texttt{Ack} để hoàn thành tin nhắn.
-\end{itemize}
-\item \textbf{Khi sự kiện Tạo Share đến sau}:
-\begin{itemize}
-\item Python kiểm tra DB và phát hiện bản ghi đã tồn tại với trạng thái \texttt{is\_revoked = True}.
-\item \textbf{Cơ chế Triệt tiêu sự kiện (Event Cancellation)}: Nhận thấy liên kết đã bị thu hồi trước đó, Python worker lập tức bỏ qua (drop) hoàn toàn hành động tạo và upload tệp lên R2 để bảo vệ tuyệt đối dữ liệu nhạy cảm của người dùng, sau đó gửi \texttt{Ack} để đóng tin nhắn một cách an toàn.
-\end{itemize}
+\item \textbf{Khi sự kiện Thu hồi Share đến trước}: Python kiểm tra trạng thái trong DB (chưa có bản ghi nào), tiến hành gọi xóa tệp tin trên Cloudflare R2 (nếu đã được tạo trước đó), lưu bản ghi Share vào DB với trạng thái \texttt{is\_revoked = True} và phản hồi \texttt{Ack} để hoàn thành tin nhắn.
+\item \textbf{Khi sự kiện Tạo Share đến sau}: Python kiểm tra DB và phát hiện bản ghi đã tồn tại với trạng thái \texttt{is\_revoked = True}. Khi đó, áp dụng \textbf{Cơ chế Triệt tiêu sự kiện (Event Cancellation)}: lập tức bỏ qua (drop) hoàn toàn hành động tạo và upload tệp lên R2 để bảo vệ tuyệt đối dữ liệu nhạy cảm của người dùng, sau đó gửi \texttt{Ack} để đóng tin nhắn một cách an toàn.
 \end{enumerate}
 
 \textbf{F. Thiết lập hàng đợi ưu tiên (Priority Queue) trên RabbitMQ}
@@ -258,11 +233,7 @@ queue='[prefix]_share_events_queue',
 arguments={'x-max-priority': 10}
 )
 \end{verbatim}
-\item \textbf{Gửi sự kiện kèm mức độ ưu tiên (Producer)}:
-\begin{itemize}
-\item Sự kiện Thu hồi Share (\texttt{share\_revoked}): Gửi với độ ưu tiên khẩn cấp (\texttt{priority = 10}).
-\item Sự kiện Tạo Share (\texttt{share\_generated}): Gửi với độ ưu tiên bình thường (\texttt{priority = 1}).
-\end{itemize}
+\item \textbf{Gửi sự kiện kèm mức độ ưu tiên (Producer)}: Sự kiện Thu hồi Share (\texttt{share\_revoked}) được gửi với độ ưu tiên khẩn cấp (\texttt{priority = 10}); Sự kiện Tạo Share (\texttt{share\_generated}) được gửi với độ ưu tiên bình thường (\texttt{priority = 1}).
 \item \textbf{Cấu hình QOS cho Consumer}: Thiết lập thuộc tính \texttt{prefetch\_count = 1} trên consumer để bắt buộc RabbitMQ chỉ gửi đúng 1 thông điệp tại một thời điểm cho worker. Điều này giúp hàng đợi có cơ hội sắp xếp và đẩy các tin nhắn có độ ưu tiên cao (\texttt{priority = 10}) lên xử lý trước.
 \end{enumerate}
 
@@ -280,24 +251,9 @@ arguments={'x-max-priority': 10}
 \end{figure}
 
 \begin{enumerate}
-\item \textbf{Ghi nhận và Thử lại (Retry Loop)}:
-\begin{itemize}
-\item Khi consumer (Python/NestJS) xử lý tin nhắn thất bại, tin nhắn sẽ được gửi sang hàng đợi Retry với độ trễ (TTL) cố định là 20 giây.
-\item Số lần thử lại (\texttt{x-retry-count}) được lưu và tăng dần trong header của tin nhắn.
-\end{itemize}
-\item \textbf{Chuyển sang DLQ}:
-\begin{itemize}
-\item Sau khi thử lại thất bại quá số lần quy định (\texttt{MAX\_RETRY\_COUNT = 5}), consumer sẽ từ chối tin nhắn không điều kiện (\texttt{message.reject(requeue=False)}).
-\item RabbitMQ sẽ tự động chuyển hướng tin nhắn này sang hàng đợi thư chết tương ứng (\texttt{\_dlq}) dựa trên cấu hình \texttt{x-dead-letter-routing-key} lúc khởi tạo queue.
-\end{itemize}
-\item \textbf{Tiêu thụ DLQ và Cảnh báo}:
-\begin{itemize}
-\item Một consumer chuyên biệt (\texttt{process\_share\_generated\_dlq}) sẽ lắng nghe hàng đợi DLQ.
-\item Khi có tin nhắn đi vào DLQ, consumer này sẽ trích xuất thông tin lỗi, payload của sự kiện và thời gian xảy ra sự cố.
-\item Thực hiện gửi yêu cầu HTTP POST tới Telegram Bot API thông qua endpoint:\\
-\url{https://api.telegram.org/bot<TOKEN>/sendMessage}
-\item Nhóm Telegram của đội ngũ phát triển sẽ lập tức nhận được tin nhắn định dạng Markdown hiển thị biểu tượng cảnh báo màu đỏ kèm thông tin chi tiết về payload lỗi và stacktrace để nhanh chóng xử lý.
-\end{itemize}
+\item \textbf{Ghi nhận và Thử lại (Retry Loop)}: Khi consumer (Python/NestJS) xử lý tin nhắn thất bại, tin nhắn sẽ được gửi sang hàng đợi Retry với độ trễ (TTL) cố định là 20 giây, đồng thời số lần thử lại (\texttt{x-retry-count}) được lưu và tăng dần trong header của tin nhắn.
+\item \textbf{Chuyển sang DLQ}: Sau khi thử lại thất bại quá số lần quy định (\texttt{MAX\_RETRY\_COUNT = 5}), consumer sẽ từ chối tin nhắn không điều kiện (\texttt{message.reject(requeue=False)}). RabbitMQ sẽ tự động chuyển hướng tin nhắn này sang hàng đợi thư chết tương ứng (\texttt{\_dlq}) dựa trên cấu hình \texttt{x-dead-letter-routing-key} lúc khởi tạo queue.
+\item \textbf{Tiêu thụ DLQ và Cảnh báo}: Một consumer chuyên biệt (\texttt{process\_share\_generated\_dlq}) sẽ lắng nghe hàng đợi DLQ. Khi có tin nhắn đi vào DLQ, consumer này sẽ trích xuất thông tin lỗi, payload của sự kiện, thời gian xảy ra sự cố và gửi yêu cầu HTTP POST tới Telegram Bot API để thông báo tức thời cho đội ngũ vận hành.
 \end{enumerate}
 
 \subparagraph{3. Xử lý concurrency khi Tạo Share và Xóa Chat đồng thời (Concurrency \& Snapshot Architecture)}

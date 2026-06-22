@@ -158,11 +158,7 @@ Kafka để đồng bộ quyền hạn người dùng.
 \subparagraph{Chi tiết sự kiện}
 \begin{itemize}
 \item \textbf{Tên Sự kiện}: \texttt{SubscriptionPurchasedEvent}
-\item \textbf{Topic}:
-\begin{itemize}
-\item \texttt{dev-payment-events} (môi trường phát triển - development)
-\item \texttt{prod-payment-events} (môi trường vận hành - production)
-\end{itemize}
+\item \textbf{Topic}: \texttt{dev-payment-events} (phát triển) hoặc \texttt{prod-payment-events} (vận hành)
 \item \textbf{Mã hóa (Compression)}: \texttt{GZIP}
 \item \textbf{Phân vùng khóa (Message Key)}: \texttt{userId} (đảm bảo tính tuần tự của các sự kiện liên quan đến cùng một người dùng trên cùng một partition).
 \end{itemize}
