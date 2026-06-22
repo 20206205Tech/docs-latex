@@ -39,20 +39,51 @@ em rất mong nhận được những ý kiến đóng góp quý báu của th�
 
 {\centering \section*{Tóm tắt nội dung đồ án}}
 
-{
-\color{RedHUST}
+% {
+% \color{RedHUST}
 
-Tóm tắt nội dung của đồ án tốt nghiệp trong khoảng tối đa 300 chữ.
-Phần tóm tắt cần nêu được các ý:
-vấn đề cần thực hiện;
-phương pháp thực hiện;
-công cụ sử dụng (phần mềm, phần cứng…);
-kết quả của đồ án có phù hợp với các vấn đề đã đặt ra hay không;
-tính thực tế của đồ án,
-định hướng phát triển mở rộng của đồ án (nếu có);
-các kiến thức và kỹ năng mà sinh viên đã đạt được.
+% Tóm tắt nội dung của đồ án tốt nghiệp trong khoảng tối đa 300 chữ.
+% Phần tóm tắt cần nêu được các ý:
+% vấn đề cần thực hiện;
+% phương pháp thực hiện;
+% công cụ sử dụng (phần mềm, phần cứng…);
+% kết quả của đồ án có phù hợp với các vấn đề đã đặt ra hay không;
+% tính thực tế của đồ án,
+% định hướng phát triển mở rộng của đồ án (nếu có);
+% các kiến thức và kỹ năng mà sinh viên đã đạt được.
 
-}
+% }
+
+Đồ án
+được thực hiện nhằm giải quyết nhu cầu tra cứu và giải đáp thông tin pháp luật Việt Nam (bao gồm Văn bản pháp luật và Pháp điển) một cách chính xác, nhanh chóng và tự động hóa.
+
+Để tối ưu năng lực giải đáp,
+đồ án triển khai hệ thống
+Agentic RAG nâng cao.
+Về mặt kiến trúc, hệ thống được thiết kế theo kiến trúc vi dịch vụ (Microservice Architecture),
+ứng dụng phương pháp Thiết kế hướng miền (Domain-Driven Design - DDD)
+và được điều phối qua Kong API Gateway.
+Nhằm đảm bảo tính ổn định và khả năng mở rộng,
+giao tiếp bất đồng bộ giữa các dịch vụ (NestJS và Python)
+được xử lý thông qua Message Broker RabbitMQ.
+Luồng nghiệp vụ
+quy trình thanh toán thuê bao VIP
+qua các cổng nội địa (VNPay, MoMo, ZaloPay, SePay),
+được đồng bộ
+bằng nền tảng streaming sự kiện Kafka.
+Toàn bộ vòng đời ứng dụng
+được tự động hóa thông qua
+CI/CD trên GitHub Actions,
+đóng gói bằng Docker và triển khai vận hành trên
+cụm Kubernetes thông qua ArgoCD.
+
+Đồ án đã vận hành thành công một trợ lý pháp luật,
+đưa ra các tư vấn pháp lý với các bước suy luận logic
+và trích dẫn nguồn văn bản rõ ràng.
+Bên cạnh đó,
+ứng dụng còn mang đến trải nghiệm đàm thoại
+thời gian thực bằng cách tích hợp LiveKit
+cùng các mô hình xử lý giọng nói tiên tiến như Whisper (Speech-to-Text), Piper và ElevenLabs (Text-to-Speech).
 
 % Các chương trong báo cáo được trình bày theo thứ tự sau:
 
