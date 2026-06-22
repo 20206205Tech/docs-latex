@@ -66,6 +66,7 @@ def format_terminology(content):
         text_part = text_part.replace("HỘI THOẠI", "TRÒ CHUYỆN")
 
         text_part = text_part.replace("cơ sở dữ liệu", "CSDL")
+        text_part = text_part.replace(" ,", ",")
 
         # text_part = text_part.replace("LiveKit", "LiveKit")
         # text_part = text_part.replace("livekit", "LiveKit")
