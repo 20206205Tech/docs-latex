@@ -1,5 +1,3 @@
-
-
 \subsubsection{Dịch vụ xác thực (Auth Service - dùng Supabase)}
 
 Hệ thống sử dụng Supabase
@@ -55,9 +53,11 @@ Endpoint sử dụng: \texttt{/logout}
 
 \end{itemize}
 
-\subsubsection{II. Xác thực 2 yếu tố (MFA)}
+\paragraph{Xác thực 2 yếu tố (MFA)}
 
-Hệ thống hỗ trợ phương thức xác thực hai yếu tố TOTP (Time-based One-Time Password - như Google Authenticator hay Authy) bằng các API nâng cao của Supabase:
+Hệ thống hỗ trợ phương thức
+xác thực hai yếu tố TOTP (Time-based One-Time Password - như Google Authenticator hay Authy)
+bằng các API nâng cao của Supabase:
 
 \begin{itemize}
 \item \textbf{Đăng ký thiết bị xác thực MFA mới}:
@@ -97,7 +97,7 @@ Hệ thống hỗ trợ phương thức xác thực hai yếu tố TOTP (Time-ba
 \end{itemize}
 \end{itemize}
 
-\subsubsection{III. Quản lý Hồ sơ người dùng (Supabase Database - PostgREST API)}
+\paragraph{Quản lý Hồ sơ người dùng (Supabase Database - PostgREST API)}
 
 Hệ thống sử dụng cơ chế RESTful API tự động sinh từ PostgreSQL của Supabase (PostgREST) để thực hiện các thao tác CRUD trên bảng CSDL \texttt{profiles}:
 
@@ -115,7 +115,7 @@ Hệ thống sử dụng cơ chế RESTful API tự động sinh từ PostgreSQL
 \end{itemize}
 \end{itemize}
 
-\subsubsection{IV. Quản lý Ảnh đại diện (Supabase Storage)}
+\paragraph{Quản lý Ảnh đại diện (Supabase Storage)}
 
 Hệ thống sử dụng dịch vụ lưu trữ tệp (Storage) của Supabase để quản lý hình ảnh của người dùng:
 
@@ -288,10 +288,9 @@ Hiện tại trong dự án, có 2 gói thư viện dùng chung được xây d�
 \item Kiểm tra và phân quyền vai trò người dùng (ví dụ: yêu cầu vai trò quản trị viên ADMIN đối với các API quản lý).
 \end{itemize}
 
-\subsubsection{Cấu hình trong Kong API Gateway}
+\paragraph{Cấu hình trong Kong API Gateway}
 
 Tạo Service trong Kong trỏ về URL của dự án Supabase (\texttt{https://[PROJECT\_REF].supabase.co}).
-
-Thiết lập Route: Tạo một Route liên kết với Service vừa tạo. Tham số \texttt{strip\_path=true} đảm bảo Kong sẽ xóa tiền tố khỏi URI trước khi chuyển tiếp request đến Supabase.
-
+Thiết lập Route: Tạo một Route liên kết với Service vừa tạo.
+Tham số \texttt{strip\_path=true} đảm bảo Kong sẽ xóa tiền tố khỏi URI trước khi chuyển tiếp request đến Supabase.
 Dùng plugin \texttt{request-transformer} để tự động thêm \texttt{apikey} vào header trước khi gửi đến Supabase.
