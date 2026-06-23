@@ -26,7 +26,7 @@ Tuy nhiên việc chạy CI/CD có thể xảy ra lỗi vì provider bị lỗi,
 hoặc mất thời gian
 khi hệ thống bắt buộc phải thực hiện
 lệnh \texttt{terraform init} cho toàn bộ các \textit{provider}
-mặc dù chỉ có một thay đổi rất nhỏ ở một dịch vụ cụ thể.
+mặc dù chỉ có một thay đổi nhỏ ở một dịch vụ cụ thể.
 Vì vậy, trong đồ án này,
 em sử dụng mỗi provider trong folder riêng tại dự án
 infrastructure.
@@ -37,7 +37,7 @@ sự thay đổi dữ liệu bên trong thư mục của \textit{provider} tươ
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.4]{pictures/infrastructure-project-v2.png}
+\includegraphics[width=0.5\textwidth]{pictures/infrastructure-project-v2.png}
 \caption{Cấu trúc thư mục dự án Terraform theo từng Provider}
 \end{figure}
 
@@ -56,7 +56,7 @@ Hạ tầng của hệ thống quản lý qua các dịch vụ bao gồm:
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.07]{pictures/infrastructure-as-code-IaC-terraform.excalidraw.png}
+\includegraphics[width=0.5\textwidth]{pictures/infrastructure-as-code-IaC-terraform.excalidraw.png}
 \caption{Sơ đồ tổng quan quản lý hạ tầng bằng Terraform trong dự án}
 \end{figure}
 
@@ -67,7 +67,7 @@ Terraform Cloud đóng vai trò làm \textit{Remote Backend}
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.2]{pictures/terraform-hub-web-ui.png}
+\includegraphics[width=0.95\textwidth]{pictures/terraform-hub-web-ui.png}
 \caption{Giao diện quản lý trạng thái tập trung trên Terraform Cloud}
 \end{figure}
 
@@ -77,19 +77,19 @@ thông qua mã nguồn Terraform thành công:
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.2]{pictures/kafka-aiven-terraform.png}
+\includegraphics[width=0.95\textwidth]{pictures/kafka-aiven-terraform.png}
 \caption{Dịch vụ Kafka trên nền tảng Aiven được cấu hình tự động}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.2]{pictures/langsmith-terraform.png}
+\includegraphics[width=0.95\textwidth]{pictures/langsmith-terraform.png}
 \caption{Dự án LangSmith được tạo từ terraform cho dịch vụ chatbot}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.2]{pictures/cloudflare-r2-terraform.png}
+\includegraphics[width=0.95\textwidth]{pictures/cloudflare-r2-terraform.png}
 \caption{Cấu hình các R2 Bucket thành công trên Cloudflare}
 \end{figure}
 
@@ -102,6 +102,6 @@ Từ đó, đảm bảo sự độc lập dữ liệu và tránh giới hạn.
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.2]{pictures/neon-limit-free.png}
+\includegraphics[width=0.95\textwidth]{pictures/neon-limit-free.png}
 \caption{Giao diện giám sát giới hạn tài nguyên của tài khoản miễn phí trên Neon}
 \end{figure}
