@@ -44,23 +44,49 @@ bot-detection ngăn chặn các yêu cầu độc hại.
 \caption{Các yêu cầu độc hại dò các bí mật nhạy cảm (404 Not Found)}
 \end{figure}
 
-Sơ đồ quản lý Kong API Gateway
-
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.95\textwidth]{pictures/kong-api-gateway-router.png}
-\caption{Thiết lập định tuyến dịch vụ (Routes) trong Kong API Gateway}
+\caption{Thiết lập định tuyến dịch vụ trong Kong API Gateway}
 \end{figure}
 
-Có nhiều cách quản lý => ưu điểm của DECK
+Kong API Gateway
+có hỗ trợ
+nhiều cách quản lý
+cấu hình khác nhau như
+Kong Admin API (REST API), Terraform hay qua các giao diện UI.
+Tuy nhiên, Deck lại là công cụ được chính Kong
+phát triển để tối ưu hóa riêng cho việc quản lý cấu hình.
+Với Terraform,
+nếu ai đó vào giao diện hoặc gọi REST API
+sửa đổi một cấu hình của Kong, file terraform.tfstate sẽ bị lệch,
+dẫn đến việc apply tiếp theo có thể lỗi hoặc đè dữ liệu.
+Với Deck sẽ đọc trực tiếp cấu hình hiện tại trong database của Kong,
+so sánh (diff) với file YAML
+và chỉ cập nhật những phần thay đổi qua API dạng batch tối ưu.
+Không sợ bị lệch trạng thái.
+Ngoài ra, Deck hỗ trợ CI/CD với GitHub Action (kong/setup-deck).
+Lưu trữ toàn bộ cấu hình Kong API Gateway
+với file kong.yaml vào một kho chứa Git
+Thiết lập các pipeline
+để tự động kiểm tra cú pháp deck gateway validate kong.yaml,
+tự động so sánh thay đổi deck gateway diff kong.yaml
+và tự động cập nhật deck gateway sync kong.yaml
+khi có Pull Request được merge.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{pictures/kong-api-gateway-github-action-v2.png}
+\caption{Luồng CI/CD triển khai cấu hình Kong API Gateway qua GitHub Actions}
+\end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.95\textwidth]{pictures/request-response-result-Kong-API-Gateway.excalidraw.png}
-\caption{Sơ đồ tuần tự mô tả luồng Request và Response qua Kong API Gateway}
+\caption{Sử dụng Deck và database postgres cấu hình Kong API Gateway}
 \end{figure}
 
-Các plugins trong dự án này:
+Các plugins của Kong API Gateway trong dự án này:
 
 \begin{itemize}
 \item Plugin bot-detection: phân tích User-Agent và các dấu hiệu khác để chặn các request từ các bot độc hại, scraper, hoặc các công cụ tự động không mong muốn.
@@ -81,26 +107,23 @@ Các plugins trong dự án này:
 \includegraphics[width=0.95\textwidth]{pictures/kong-api-gateway-plugin.png}
 \caption{Danh sách các plugin được cấu hình trên Kong API Gateway}
 \end{figure}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.95\textwidth]{pictures/kong-api-gateway-github-action-v2.png}
-\caption{Luồng CI/CD triển khai cấu hình Kong API Gateway qua GitHub Actions}
-\end{figure}
+
+Các kết quả phản hồi Kong API Gateway:
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.95\textwidth]{pictures/kong-api-gateway-request-id-not.png}
-\caption{Phản hồi lỗi từ hệ thống khi yêu cầu (Request) thiếu mã định danh Request ID}
+\caption{Phản hồi khi yêu cầu thiếu mã định danh Request ID}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.95\textwidth]{pictures/kong-api-gateway-request-kong-secret-not.png}
-\caption{Phản hồi chặn truy cập từ Kong API Gateway khi yêu cầu thiếu mã bảo mật Kong Secret}
+\caption{Phản hồi khi yêu cầu thiếu mã bảo mật Kong Secret}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.95\textwidth]{pictures/kong-api-gateway-request-kong-secret-invalid.png}
-\caption{Phản hồi lỗi xác thực từ Kong API Gateway khi mã bảo mật Kong Secret không hợp lệ}
+\caption{Phản hồi khi mã bảo mật Kong Secret không hợp lệ}
 \end{figure}
