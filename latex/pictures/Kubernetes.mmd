@@ -14,7 +14,7 @@ graph TB
             Rabbit_MQ[RabbitMQ Queue]
             Rabbit_Worker[RabbitMQ Worker]
             Redis[(Redis Cache)]
-            Chatbot["Chatbot Service \n(gRPC, Voice)"]
+            Chatbot[Chatbot Service <br> (gRPC, Voice)]
         %% end
 
         %% No Service Deployments
@@ -33,7 +33,7 @@ graph TB
     Conversation -->|Text| Chatbot
     %% Chatbot --> Chatbot
 
-    Chatbot -->|Voice| LiveKit
+    Chatbot <-->|Voice| LiveKit
     Conversation <--> Rabbit_MQ
     Chatbot <--> Rabbit_MQ
 

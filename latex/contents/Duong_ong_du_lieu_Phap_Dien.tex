@@ -13,7 +13,7 @@ Tổng quan thông tin file zip
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{pictures/zip_file_PhapDien-v2.png}
+\includegraphics[width=0.6\textwidth]{pictures/zip_file_PhapDien-v2.png}
 \caption{Sơ đồ thu thập dữ liệu chung}
 \end{figure}
 
@@ -21,7 +21,7 @@ Kết quả file JSON đã trích xuất
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{pictures/step_json_PhapDien-v2.png}
+\includegraphics[width=0.6\textwidth]{pictures/step_json_PhapDien-v2.png}
 \caption{Sơ đồ thu thập dữ liệu chung}
 \end{figure}
 
@@ -33,19 +33,19 @@ Kết quả vector được lưu trong vector database
 \caption{Sơ đồ thu thập dữ liệu chung}
 \end{figure}
 
-Các bước thực hiện
+% Các bước thực hiện
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{pictures/step3.excalidraw.png}
+\includegraphics[width=0.4\textwidth]{pictures/step3.excalidraw.png}
 \caption{Sơ đồ thu thập dữ liệu chung}
 \end{figure}
 
-Mô tả các bước thực hiện:
+% Mô tả các bước thực hiện:
 
 Quá trình Data pipeline được chia thành 3 giai đoạn: Thu thập dữ liệu, Tiền xử lý văn bản và Tích hợp RAG Pipeline.
 
-\textbf{Giai đoạn Thu thập Dữ liệu:}
+% \textbf{Giai đoạn Thu thập Dữ liệu:}
 \begin{itemize}
 \item \texttt{step\_download\_zip}:
 Tự động tải file nén chứa toàn bộ Bộ Pháp Điển điện tử
@@ -54,7 +54,7 @@ từ nguồn Cổng thông tin điện tử Pháp Điển. Hệ thống tính to
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{pictures/data-pipeline-phapdien-step-download-zip-new.png}
+\includegraphics[width=0.9\textwidth]{pictures/data-pipeline-phapdien-step-download-zip-new.png}
 \caption{Tự động tải file nén mới và đồng bộ Google Drive}
 \end{figure}
 
@@ -65,7 +65,7 @@ từ nguồn Cổng thông tin điện tử Pháp Điển. Hệ thống tính to
 \end{figure}
 \end{itemize}
 
-\textbf{Giai đoạn Tiền xử lý Dữ liệu:}
+% \textbf{Giai đoạn Tiền xử lý Dữ liệu:}
 \begin{itemize}
 \item \texttt{step\_extract\_json} và \texttt{step\_load\_json}: Từ file \texttt{jsonData.js}, tiến hành bóc tách (parse) các biến cấu trúc dữ liệu để lấy danh sách Chủ đề (\texttt{jdChuDe}), Đề mục (\texttt{jdDeMuc}) và Cây mục lục (\texttt{jdAllTree}), sau đó xuất ra định dạng JSON.
 
@@ -82,13 +82,13 @@ từ nguồn Cổng thông tin điện tử Pháp Điển. Hệ thống tính to
 \end{figure}
 \end{itemize}
 
-\textbf{Giai đoạn Tích hợp RAG Pipeline:}
+% \textbf{Giai đoạn Tích hợp RAG Pipeline:}
 \begin{itemize}
 \item \texttt{step\_rag\_chunking}: Thực hiện đối chiếu từ Cây mục lục (\texttt{jdAllTree}) với các thẻ bên trong từng file HTML chi tiết. Từ đó, bóc tách chính xác từng phần nội dung văn bản thành dạng JSON có các đoạn văn bản và siêu dữ liệu (Metadata).
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{pictures/data-pipeline-phapdien-step-rag-chunking.png}
+\includegraphics[width=0.8\textwidth]{pictures/data-pipeline-phapdien-step-rag-chunking.png}
 \caption{Bóc tách và chia nhỏ nội dung văn bản theo cấu trúc mục lục}
 \end{figure}
 
