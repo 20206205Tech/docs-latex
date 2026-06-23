@@ -5,10 +5,7 @@ participant "API Gateway\n(Kong)" as Kong
 participant "Conversation Service" as ConversationService
 participant "Chatbot Service\n(gRPC)" as ChatbotService
 participant "LangGraph RAG\n(LLM + State)" as RAG
-database "Milvus\n(user docs)" as Milvus
-database "Cloudflare R2\n(user docs summary)" as R2
-database "Pinecone\n(vbplnew)" as Pinecone
-database "Qdrant\n(phapdien)" as Qdrant
+database "RAG Databases\n(Milvus, R2, Pinecone, Qdrant)" as RAG_DBs
 database "Chatbot DB" as ChatbotDB
 
 == Luồng nghiệp vụ: Phân tích tài liệu cá nhân bằng reasoning pháp lý ==
@@ -33,25 +30,25 @@ ChatbotService -> RAG: generation_stream(query, chat_id,\nuser_id, file_ids, use
 activate RAG
 
 par #LightCyan Lấy dữ liệu song song từ 4 nguồn
-    RAG -> Milvus: RetrieveUserDocs\nexpr: doc_id in file_ids\nand user_id == current_user_id
-    activate Milvus
-    Milvus --> RAG: Uploaded document chunks
-    deactivate Milvus
+    RAG -> RAG_DBs: RetrieveUserDocs (Milvus)\nexpr: doc_id in file_ids\nand user_id == current_user_id
+    activate RAG_DBs
+    RAG_DBs --> RAG: Uploaded document chunks
+    deactivate RAG_DBs
 else #LightYellow
-    RAG -> R2: RetrieveUserDocsSummary\nkey: user_id/summary/file_id
-    activate R2
-    R2 --> RAG: Document summaries
-    deactivate R2
+    RAG -> RAG_DBs: RetrieveUserDocsSummary (R2)\nkey: user_id/summary/file_id
+    activate RAG_DBs
+    RAG_DBs --> RAG: Document summaries
+    deactivate RAG_DBs
 else #LightBlue
-    RAG -> Pinecone: RetrieveVBPL\nquery & filter by target_item_ids
-    activate Pinecone
-    Pinecone --> RAG: VBPL documents & metadata
-    deactivate Pinecone
+    RAG -> RAG_DBs: RetrieveVBPL (Pinecone)\nquery & filter by target_item_ids
+    activate RAG_DBs
+    RAG_DBs --> RAG: VBPL documents & metadata
+    deactivate RAG_DBs
 else #LightGreen
-    RAG -> Qdrant: RetrievePhapDien\nquery
-    activate Qdrant
-    Qdrant --> RAG: Pháp Điển documents & metadata
-    deactivate Qdrant
+    RAG -> RAG_DBs: RetrievePhapDien (Qdrant)\nquery
+    activate RAG_DBs
+    RAG_DBs --> RAG: Pháp Điển documents & metadata
+    deactivate RAG_DBs
 end
 
 RAG -> RAG: Rank, kiểm tra hiệu lực,\ntổng hợp lập luận và kết luận

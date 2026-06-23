@@ -19,16 +19,17 @@ Dịch vụ trò chuyện chuyển tiếp yêu cầu
 thông qua giao thức kết nối gRPC
 và đính kèm thông tin xác thực tài khoản.
 
-\item \textbf{Tìm kiếm tài liệu cá nhân:}
+\item \textbf{Truy vấn dữ liệu song song:}
 Dịch vụ chatbot
-tìm kiếm văn bản truy vấn vector database
-để tìm các đoạn tài liệu cá nhân phù hợp
-của chính người dùng đó dựa trên định danh tài liệu và định danh người dùng.
+truy vấn song song dữ liệu từ 4 nguồn:
+tài liệu cá nhân của người dùng (Milvus),
+tóm tắt tài liệu cá nhân (Cloudflare R2),
+văn bản pháp luật (Pinecone),
+và danh mục Pháp Điển (Qdrant).
 
 \item \textbf{Tổng hợp thông tin:}
 Dịch vụ chatbot
-kết hợp dữ liệu từ tài liệu cá nhân
-với các văn bản pháp luật liên quan,
+kết hợp dữ liệu từ các nguồn trên,
 thực hiện xếp hạng kết quả,
 kiểm tra hiệu lực văn bản
 và tổng hợp các bước lập luận để đưa ra câu trả lời.
@@ -44,7 +45,7 @@ và thông tin nguồn tài liệu trích dẫn.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.9\textwidth]{contents/Sequence/UML-Sequence-UserAnalyzePersonalDocumentRag.png}
+\includegraphics[width=0.6\textwidth]{contents/Sequence/UML-Sequence-UserAnalyzePersonalDocumentRag.png}
 \caption{Sơ đồ tuần tự luồng phân tích tài liệu cá nhân bằng reasoning pháp lý}
 \end{figure}
 
@@ -62,9 +63,8 @@ Web Frontend & Component & Giao diện web Next.js. \\ \hline
 API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline
 Conversation Service & Microservice & Nhận request SSE và gọi Chatbot Service qua gRPC. \\ \hline
 Chatbot Service & Microservice & Điều phối \texttt{generation\_stream}, lưu message, reasoning steps và sources. \\ \hline
-LangGraph RAG & AI Pipeline & Truy vấn tài liệu cá nhân, nguồn luật và thực hiện reasoning. \\ \hline
-Milvus & Vector Store & Cung cấp các đoạn nội dung liên quan từ tài liệu cá nhân của user. \\ \hline
-Legal Knowledge Base & Knowledge Base & Cung cấp văn bản pháp luật, điều khoản và nguồn tham chiếu. \\ \hline
+LangGraph RAG & AI Pipeline & Điều phối luồng truy vấn song song và thực hiện reasoning. \\ \hline
+RAG Databases & Vector Stores \& Storage & Hệ thống lưu trữ và truy vấn song song: Milvus (tài liệu cá nhân), Cloudflare R2 (tóm tắt tài liệu), Pinecone (văn bản pháp luật) và Qdrant (pháp điển). \\ \hline
 Chatbot DB & Database & Lưu human message, AI message, reasoning steps và sources. \\ \hline
 \end{tabular}
 \caption{Các thành phần tham gia luồng phân tích tài liệu cá nhân bằng reasoning pháp lý}
