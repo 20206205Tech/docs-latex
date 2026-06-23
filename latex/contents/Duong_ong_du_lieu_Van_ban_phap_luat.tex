@@ -36,13 +36,12 @@ Mô tả các bước thực hiện cũ:
 
 Quá trình luồng dữ liệu được chia thành 3 giai đoạn: Thu thập dữ liệu, Tiền xử lý văn bản và Tích hợp quy trình RAG.
 
-\begin{itemize}
-\item Giai đoạn Khởi tạo:
+\textbf{Giai đoạn Khởi tạo:}
 \begin{itemize}
 \item \texttt{step\_setup\_workflow} cập nhật danh sách và thứ tự các bước (workflow) vào CSDL PostgreSQL.
 \end{itemize}
 
-\item Giai đoạn Thu thập Dữ liệu:
+\textbf{Giai đoạn Thu thập Dữ liệu:}
 \begin{itemize}
 \item \texttt{step\_crawl\_document\_total} và \texttt{step\_load\_document\_total}: thu thập tổng số lượng văn bản pháp luật hiện có trên hệ thống web.
 \begin{figure}[H]
@@ -71,7 +70,7 @@ Quá trình luồng dữ liệu được chia thành 3 giai đoạn: Thu thập 
 \end{figure}
 \end{itemize}
 
-\item Giai đoạn Tiền xử lý Dữ liệu:
+\textbf{Giai đoạn Tiền xử lý Dữ liệu:}
 \begin{itemize}
 \item \texttt{step\_extract\_document\_info}: từ file HTML, bóc tách các siêu dữ liệu quan trọng (Metadata) như: Số hiệu, Cơ quan ban hành, Ngày có hiệu lực, Người ký, v.v. và lưu vào database.
 \item \texttt{step\_extract\_document\_content}: Làm sạch file HTML, cắt bỏ các phần thừa (header, footer, menu) và chỉ giữ lại phần nội dung (thẻ \texttt{div\#toanvancontent}).
@@ -83,7 +82,7 @@ Quá trình luồng dữ liệu được chia thành 3 giai đoạn: Thu thập 
 \end{figure}
 \end{itemize}
 
-\item Giai đoạn Tích hợp RAG pipeline:
+\textbf{Giai đoạn Tích hợp RAG pipeline:}
 \begin{itemize}
 \item \texttt{step\_rag\_summary}: Sử dụng LLM viết một bản tóm tắt ngắn gọn mô tả bức tranh toàn cảnh của văn bản pháp luật đó.
 \begin{figure}[H]
@@ -113,7 +112,6 @@ Quá trình luồng dữ liệu được chia thành 3 giai đoạn: Thu thập 
 \includegraphics[width=0.95\textwidth]{pictures/data-pipeline-vbplnew-step-rag-embedding.png}
 \caption{Nhúng văn bản (Embedding) và lưu vào CSDL Pinecone}
 \end{figure}
-\end{itemize}
 \end{itemize}
 
 Các bước thực hiện mới:

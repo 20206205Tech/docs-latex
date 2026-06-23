@@ -1,8 +1,6 @@
 
 \subsubsection{Đường ống dữ liệu Pháp Điển}
 
-Pháp điển là tập hợp các quy phạm pháp luật đang còn hiệu lực của các văn bản quy phạm pháp luật do cơ quan nhà nước ở trung ương ban hành, từ Thông tư trở lên và trừ Hiến pháp.
-
 Sơ đồ tổng quan Data pipeline Pháp Điển
 
 \begin{figure}[H]
@@ -47,9 +45,12 @@ Mô tả các bước thực hiện:
 
 Quá trình Data pipeline được chia thành 3 giai đoạn: Thu thập dữ liệu, Tiền xử lý văn bản và Tích hợp RAG Pipeline.
 
-- Giai đoạn Thu thập Dữ liệu:
-
-- step\_download\_zip: Tự động tải file nén chứa toàn bộ Bộ pháp điển điện tử (\texttt{BoPhapDienDienTu.zip}) từ nguồn Cổng thông tin điện tử pháp điển. Hệ thống tính toán mã băm (MD5) và đồng bộ với Google Drive để kiểm tra sự thay đổi dữ liệu.
+\textbf{Giai đoạn Thu thập Dữ liệu:}
+\begin{itemize}
+\item \texttt{step\_download\_zip}:
+Tự động tải file nén chứa toàn bộ Bộ pháp điển điện tử
+% (\texttt{BoPhapDienDienTu.zip})
+từ nguồn Cổng thông tin điện tử pháp điển. Hệ thống tính toán mã băm (MD5) và đồng bộ với Google Drive để kiểm tra sự thay đổi dữ liệu.
 
 \begin{figure}[H]
 \centering
@@ -62,10 +63,11 @@ Quá trình Data pipeline được chia thành 3 giai đoạn: Thu thập dữ l
 \includegraphics[width=0.95\textwidth]{pictures/data-pipeline-phapdien-step-download-zip-check-hash-skip-step.png}
 \caption{Kiểm tra mã băm và bỏ qua bước tải nếu không có sự thay đổi dữ liệu}
 \end{figure}
+\end{itemize}
 
-- Giai đoạn Tiền xử lý Dữ liệu:
-
-- step\_extract\_json và step\_load\_json: Từ file \texttt{jsonData.js}, tiến hành bóc tách (parse) các biến cấu trúc dữ liệu để lấy danh sách Chủ đề (\texttt{jdChuDe}), Đề mục (\texttt{jdDeMuc}) và Cây mục lục (\texttt{jdAllTree}), sau đó xuất ra định dạng JSON.
+\textbf{Giai đoạn Tiền xử lý Dữ liệu:}
+\begin{itemize}
+\item \texttt{step\_extract\_json} và \texttt{step\_load\_json}: Từ file \texttt{jsonData.js}, tiến hành bóc tách (parse) các biến cấu trúc dữ liệu để lấy danh sách Chủ đề (\texttt{jdChuDe}), Đề mục (\texttt{jdDeMuc}) và Cây mục lục (\texttt{jdAllTree}), sau đó xuất ra định dạng JSON.
 
 \begin{figure}[H]
 \centering
@@ -78,10 +80,11 @@ Quá trình Data pipeline được chia thành 3 giai đoạn: Thu thập dữ l
 \includegraphics[width=0.95\textwidth]{pictures/data-pipeline-phapdien-step-load-json.png}
 \caption{Nạp dữ liệu JSON vào hệ thống}
 \end{figure}
+\end{itemize}
 
-- Giai đoạn Tích hợp RAG Pipeline:
-
-- step\_rag\_chunking: Thực hiện đối chiếu từ Cây mục lục (\texttt{jdAllTree}) với các thẻ bên trong từng file HTML chi tiết. Từ đó, bóc tách chính xác từng phần nội dung văn bản thành dạng JSON có các đoạn văn bản và siêu dữ liệu (Metadata).
+\textbf{Giai đoạn Tích hợp RAG Pipeline:}
+\begin{itemize}
+\item \texttt{step\_rag\_chunking}: Thực hiện đối chiếu từ Cây mục lục (\texttt{jdAllTree}) với các thẻ bên trong từng file HTML chi tiết. Từ đó, bóc tách chính xác từng phần nội dung văn bản thành dạng JSON có các đoạn văn bản và siêu dữ liệu (Metadata).
 
 \begin{figure}[H]
 \centering
@@ -89,28 +92,17 @@ Quá trình Data pipeline được chia thành 3 giai đoạn: Thu thập dữ l
 \caption{Bóc tách và chia nhỏ nội dung văn bản theo cấu trúc mục lục}
 \end{figure}
 
-- step\_rag\_embedding: Làm giàu ngữ cảnh bằng cách nối trực tiếp tên Chủ đề và Đề mục vào phần đầu của mỗi đoạn văn bản chunk. Sau đó, nội dung được đưa qua mô hình HuggingFace (\texttt{keepitreal/vietnamese-sbert}) để biến đổi thành các vector và lưu vào CSDL vector Qdrant.
+\item \texttt{step\_rag\_embedding}: Làm giàu ngữ cảnh bằng cách nối trực tiếp tên Chủ đề và Đề mục vào phần đầu của mỗi đoạn văn bản chunk. Sau đó, nội dung được đưa qua mô hình HuggingFace (\texttt{keepitreal/vietnamese-sbert}) để biến đổi thành các vector và lưu vào CSDL vector Qdrant.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.95\textwidth]{pictures/data-pipeline-phapdien-step-rag-embedding.png}
 \caption{Mô hình hóa dữ liệu dạng vector và lưu trữ vào Qdrant}
 \end{figure}
+\end{itemize}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.95\textwidth]{pictures/github-action-PhapDien-v2.png}
 \caption{Sơ đồ thu thập dữ liệu chung}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.95\textwidth]{pictures/PhapDien-SERVICE.png}
-\caption{swagger}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.95\textwidth]{pictures/VBPL-SERVICE.png}
-\caption{swagger}
 \end{figure}
