@@ -38,9 +38,9 @@ def format_terminology(content):
     #    e.g. "\item\nFoo" -> "\item Foo"
     content = re.sub(r"(\\item)\n+(\S)", r"\1 \2", content)
 
-    # 5. Collapse 4+ consecutive newlines down to 3
-    while "\n\n\n\n" in content:
-        content = content.replace("\n\n\n\n", "\n\n\n")
+    # 5. Collapse 3+ consecutive newlines down to 2
+    while "\n\n\n" in content:
+        content = content.replace("\n\n\n", "\n\n")
 
     content = content.replace("GitHub Action", "GitHub Actions")
     while "GitHub Actionss" in content:
@@ -70,6 +70,7 @@ def format_terminology(content):
 
         text_part = text_part.replace("cơ sở dữ liệu", "CSDL")
         text_part = text_part.replace(" ,", ",")
+        text_part = text_part.replace(", và", " và")
 
         # text_part = text_part.replace("LiveKit", "LiveKit")
         # text_part = text_part.replace("livekit", "LiveKit")
