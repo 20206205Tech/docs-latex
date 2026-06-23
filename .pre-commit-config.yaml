@@ -90,7 +90,7 @@ repos:
 
       - id: format-latex-terminology
         name: Format LaTeX Terminology
-        entry: python python/format_latex_terminology.py
+        entry: python python/format_latex.py
         language: python
         files: \.tex$
         pass_filenames: false
