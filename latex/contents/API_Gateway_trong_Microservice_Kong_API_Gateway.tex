@@ -3,21 +3,23 @@
 
 API Gateway
 được sử dụng
-để quản lý và kiểm soát việc truy cập vào các API.
+để quản lý
+và kiểm soát việc truy cập vào các API.
 API Gateway cung cấp một lớp trung gian
-giữa client và các microservices.
+giữa client và các dịch vụ.
 Có thể nói, API Gateway
 là một điểm vào độc lập cho nhiều client của một ứng dụng.
-
 Kong API Gateway
 là một trong những API Gateway
 mã nguồn mở
 phổ biến
-có thể quản lý các API được triển khai ở bất kỳ đâu, từ cơ sở hạ tầng đơn giản đến môi trường đa đám mây phức tạp.
+có thể quản lý
+các API được triển khai ở bất kỳ đâu,
+từ cơ sở hạ tầng đơn giản đến môi trường đa đám mây phức tạp.
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.2]{pictures/kong-gateway-overview.excalidraw.png}
+\includegraphics[width=0.95\textwidth]{pictures/kong-gateway-overview.excalidraw.png}
 \caption{Sơ đồ tổng quan kiến trúc và luồng hoạt động của Kong API Gateway}
 \end{figure}
 
@@ -25,38 +27,38 @@ Cấu trúc dự án Kong API Gateway
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.2]{pictures/kong-api-gateway-project-v2.png}
-\caption{Cấu trúc dự án Kong API Gateway trên công cụ quản trị}
+\includegraphics[scale = 0.6]{pictures/kong-api-gateway-project-v2.png}
+\caption{Cấu trúc dự án Kong API Gateway}
 \end{figure}
 
-% TODO:
-
-% Môi trường sản xuất thực tế gặp nhiều khó khăn, rate limmit giới hạn tốc độ
-% DDOS
-% dò env secret bí mật
+Trong
+môi trường sản xuất thực tế
+gặp nhiều thách thức, khó khăn.
+Em sử dụng các plugin của Kong API Gateway như
+rate limit giới hạn tốc độ yêu cầu,
+bot-detection ngăn chặn các yêu cầu độc hại.
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.2]{pictures/kong-api-gateway-env-secret.png}
-\caption{request Kong API Gateway bị hacker}
-% \caption{Cấu hình biến môi trường và bí mật (Secrets) cho Kong API Gateway}
+\includegraphics[width=0.95\textwidth]{pictures/kong-api-gateway-env-secret.png}
+\caption{Các yêu cầu độc hại dò các bí mật nhạy cảm (404 Not Found)}
 \end{figure}
 
 Sơ đồ quản lý Kong API Gateway
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.2]{pictures/request-response-result-Kong-API-Gateway.excalidraw.png}
-\caption{Sơ đồ tuần tự mô tả luồng Request và Response qua Kong API Gateway}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[scale = 0.2]{pictures/kong-api-gateway-router.png}
+\includegraphics[width=0.95\textwidth]{pictures/kong-api-gateway-router.png}
 \caption{Thiết lập định tuyến dịch vụ (Routes) trong Kong API Gateway}
 \end{figure}
 
 Có nhiều cách quản lý => ưu điểm của DECK
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{pictures/request-response-result-Kong-API-Gateway.excalidraw.png}
+\caption{Sơ đồ tuần tự mô tả luồng Request và Response qua Kong API Gateway}
+\end{figure}
 
 Các plugins trong dự án này:
 
@@ -76,29 +78,29 @@ Các plugins trong dự án này:
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.2]{pictures/kong-api-gateway-plugin.png}
+\includegraphics[width=0.95\textwidth]{pictures/kong-api-gateway-plugin.png}
 \caption{Danh sách các plugin được cấu hình trên Kong API Gateway}
 \end{figure}
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.2]{pictures/kong-api-gateway-github-action-v2.png}
+\includegraphics[width=0.95\textwidth]{pictures/kong-api-gateway-github-action-v2.png}
 \caption{Luồng CI/CD triển khai cấu hình Kong API Gateway qua GitHub Actions}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/kong-api-gateway-request-id-not.png}
+\includegraphics[width=0.95\textwidth]{pictures/kong-api-gateway-request-id-not.png}
 \caption{Phản hồi lỗi từ hệ thống khi yêu cầu (Request) thiếu mã định danh Request ID}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/kong-api-gateway-request-kong-secret-not.png}
+\includegraphics[width=0.95\textwidth]{pictures/kong-api-gateway-request-kong-secret-not.png}
 \caption{Phản hồi chặn truy cập từ Kong API Gateway khi yêu cầu thiếu mã bảo mật Kong Secret}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/kong-api-gateway-request-kong-secret-invalid.png}
+\includegraphics[width=0.95\textwidth]{pictures/kong-api-gateway-request-kong-secret-invalid.png}
 \caption{Phản hồi lỗi xác thực từ Kong API Gateway khi mã bảo mật Kong Secret không hợp lệ}
 \end{figure}
