@@ -2,7 +2,7 @@
 
 Luồng nghiệp vụ này mô tả
 phần xử lý bất đồng bộ sau khi
-Document Service đã gửi Celery task \texttt{process\_document\_task(doc\_id)} vào RabbitMQ.
+dịch vụ tài liệu đã gửi Celery task \texttt{process\_document\_task(doc\_id)} vào RabbitMQ.
 Worker nhận công việc, tải file gốc từ R2, trích xuất nội dung, tạo summary,
 ghi vector chunks vào Milvus và cập nhật trạng thái tài liệu.
 
