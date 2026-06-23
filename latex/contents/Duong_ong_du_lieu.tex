@@ -32,16 +32,19 @@ Giao diện nguồn dữ liệu Pháp Điển
 \caption{Giao diện nguồn dữ liệu Pháp Điển}
 \end{figure}
 
-% Sơ đồ thu thập dữ liệu chung:
+Sơ đồ thu thập dữ liệu chung:
 
-% % dùng cron-job.org để lập lịch chạy github action với trigger
-% % vì github action không chạy đúng giờ như đã lập lịch thường xuyên
+\begin{itemize}
 
-% % Lấy thông tin dữ liệu công việc từ database postgres
+\item Sử dụng cron-job.org sẽ gửi một request đến GitHub API đúng theo khung giờ cấu hình. Cách này giúp bypass cơ chế schedule mặc định của GitHub Actions thường xuyên bị trễ từ 15 đến 30 phút.
 
-% % dùng thư viện python Scrapy để kéo thông tin dữ liệu
+\item Lấy thông tin dữ liệu công việc từ database postgres và có kết quả phục vụ báo cáo cho giao diện quản trị viên ADMIN.
 
-% % upload tải lên file kết quả đã được xử lý lên google drive để lưu trữ lâu dài
+\item Sử dụng framework python Scrapy để thu thập dữ liệu.
+
+\item Tải lên file dữ liệu kết quả đã được xử lý lên Google Drive để lưu trữ lâu dài.
+
+\end{itemize}
 
 \begin{figure}[H]
 \centering
@@ -49,10 +52,10 @@ Giao diện nguồn dữ liệu Pháp Điển
 \caption{Sơ đồ thu thập dữ liệu chung}
 \end{figure}
 
-Tại các bước sẽ sử dụng logic so sánh hash để bỏ qua văn bản không thay đổi nội dung
-giúp tiết kiệm tài nguyên và thời gian xử lý dữ liệu.
-
-% TODO: Có so sánh hash = tiết kiệm= nhanh
+Tại các bước sẽ sử dụng logic so sánh mã băm (hash)
+để bỏ qua văn bản không thay đổi nội dung
+giúp tiết kiệm tài nguyên
+và thời gian xử lý dữ liệu.
 
 \begin{figure}[H]
 \centering
