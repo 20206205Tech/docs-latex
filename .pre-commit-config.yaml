@@ -88,8 +88,8 @@ repos:
         files: \.tex$
         pass_filenames: false
 
-      - id: format-latex-terminology
-        name: Format LaTeX Terminology
+      - id: format-latex
+        name: Format LaTeX Files
         entry: python python/format_latex.py
         language: python
         files: \.tex$
