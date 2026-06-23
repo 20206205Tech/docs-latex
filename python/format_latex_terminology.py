@@ -42,6 +42,9 @@ def format_terminology(content):
     while "\n\n\n\n" in content:
         content = content.replace("\n\n\n\n", "\n\n\n")
 
+    content = content.replace("GitHub Action", "GitHub Actions")
+    while "GitHub Actionss" in content:
+        content = content.replace("GitHub Actionss", "GitHub Actions")
     # 6. Terminology replacement — skip LaTeX comments (% not preceded by \)
     lines = content.split("\n")
     result = []
