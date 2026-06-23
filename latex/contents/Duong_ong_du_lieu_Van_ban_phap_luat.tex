@@ -1,6 +1,12 @@
 \subsubsection{Đường ống dữ liệu Văn bản pháp luật}
 
-Khi làm việc với bài toán dữ liệu thực tế, việc thu thập dữ liệu có thách thức phụ thuộc vào nguồn dữ liệu. Vào ngày 24/05/2026, nguồn dữ liệu Văn bản pháp luật được thay đổi cả hệ thống, API và giao diện. Do sự thay đổi lớn về dữ liệu thu thập nên hệ thống cần xử lý lại các bước trong luồng dữ liệu.
+Khi làm việc với bài toán dữ liệu thực tế,
+việc thu thập dữ liệu có thách thức phụ thuộc vào nguồn dữ liệu.
+Vào ngày 24/05/2026,
+nguồn dữ liệu Văn bản pháp luật được thay đổi cả hệ thống,
+API và giao diện.
+Do sự thay đổi lớn
+về dữ liệu thu thập nên hệ thống cần xử lý lại toàn bộ các bước trong luồng dữ liệu.
 
 Giao diện nguồn dữ liệu Văn bản pháp luật mới:
 
@@ -10,12 +16,12 @@ Giao diện nguồn dữ liệu Văn bản pháp luật mới:
 \caption{Giao diện trang tìm kiếm của nguồn dữ liệu Văn bản pháp luật mới}
 \end{figure}
 
-Sơ đồ tổng quan Data pipeline Văn bản pháp luật mới:
+Sơ đồ tổng quan luồng dữ liệu Văn bản pháp luật mới:
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.95\textwidth]{pictures/Data-Pipeline-VBPL.excalidraw.png}
-\caption{Sơ đồ tổng quan Data pipeline Văn bản pháp luật mới}
+\caption{Sơ đồ tổng quan luồng dữ liệu Văn bản pháp luật mới}
 \end{figure}
 
 Các bước thực hiện cũ:
@@ -28,7 +34,7 @@ Các bước thực hiện cũ:
 
 Mô tả các bước thực hiện cũ:
 
-Quá trình Data pipeline được chia thành 3 giai đoạn: Thu thập dữ liệu, Tiền xử lý văn bản và Tích hợp RAG Pipeline.
+Quá trình luồng dữ liệu được chia thành 3 giai đoạn: Thu thập dữ liệu, Tiền xử lý văn bản và Tích hợp quy trình RAG.
 
 \begin{itemize}
 \item Giai đoạn Khởi tạo:
@@ -100,7 +106,8 @@ Quá trình Data pipeline được chia thành 3 giai đoạn: Thu thập dữ l
 \caption{Làm giàu ngữ cảnh cho từng đoạn văn bản nhỏ}
 \end{figure}
 
-\item \texttt{step\_rag\_embedding}: Sử dụng mô hình HuggingFace (\texttt{keepitreal/vietnamese-sbert}) để biến đổi các đoạn văn bản (đã có ngữ cảnh) thành vector đa chiều và lưu trữ vào VectorDB (Pinecone).
+\item \texttt{step\_rag\_embedding}: Sử dụng mô hình HuggingFace (\texttt{keepitreal/vietnamese-sbert})
+để biến đổi các đoạn văn bản (đã có ngữ cảnh) thành vector đa chiều và lưu trữ vào VectorDB (Pinecone).
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.95\textwidth]{pictures/data-pipeline-vbplnew-step-rag-embedding.png}
@@ -125,7 +132,7 @@ Các bước thực hiện mới:
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{pictures/github-action-vbpl-v2.png}
+\includegraphics[width=0.5\textwidth]{pictures/github-action-vbpl-v2.png}
 \caption{Sơ đồ cấu hình GitHub Actions vận hành workflow mới}
 \end{figure}
 
@@ -133,18 +140,18 @@ Kết quả vận hành thành công đường ống dữ liệu Văn bản phá
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{pictures/data-pipeline-vbplnew-done-1.png}
-\caption{Kết quả chạy thành công các bước của Data Pipeline mới (Phần 1)}
+\includegraphics[width=0.9\textwidth]{pictures/data-pipeline-vbplnew-done-1.png}
+\caption{Kết quả chạy thành công các bước của luồng dữ liệu mới (Phần 1)}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{pictures/data-pipeline-vbplnew-done-2.png}
-\caption{Kết quả chạy thành công các bước của Data Pipeline mới (Phần 2)}
+\includegraphics[width=0.9\textwidth]{pictures/data-pipeline-vbplnew-done-2.png}
+\caption{Kết quả chạy thành công các bước của luồng dữ liệu mới (Phần 2)}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{pictures/data-pipeline-vbplnew-done-3.png}
-\caption{Kết quả chạy thành công các bước của Data Pipeline mới (Phần 3)}
+\includegraphics[width=0.9\textwidth]{pictures/data-pipeline-vbplnew-done-3.png}
+\caption{Kết quả chạy thành công các bước của luồng dữ liệu mới (Phần 3)}
 \end{figure}
