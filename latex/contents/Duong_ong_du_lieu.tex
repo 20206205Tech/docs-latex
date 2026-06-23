@@ -4,7 +4,6 @@
 Đường ống dữ liệu
 bao gồm các chuỗi quy trình xử lý tự động
 từ một hoặc nhiều nguồn (source) đến một đích đến (destination) để lưu trữ, phân tích hoặc phục vụ cho các ứng dụng khác.
-
 Vì dự án này làm về miền nghiệp vụ pháp luật
 nên không cần thu thập dữ liệu từ nhiều nguồn khác nhau.
 Em sử dụng dữ liệu chính thống từ nhà nước là
@@ -21,7 +20,7 @@ Giao diện nguồn dữ liệu Văn bản pháp luật
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.2]{pictures/Home-vbpl.png}
+\includegraphics[width=0.95\textwidth]{pictures/Home-vbpl.png}
 \caption{Giao diện nguồn dữ liệu Văn bản pháp luật}
 \end{figure}
 
@@ -29,15 +28,24 @@ Giao diện nguồn dữ liệu Pháp Điển
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.3]{pictures/Home-PhapDien.png}
+\includegraphics[width=0.95\textwidth]{pictures/Home-PhapDien.png}
 \caption{Giao diện nguồn dữ liệu Pháp Điển}
 \end{figure}
 
-Sơ đồ thu thập dữ liệu chung
+% Sơ đồ thu thập dữ liệu chung:
+
+% % dùng cron-job.org để lập lịch chạy github action với trigger
+% % vì github action không chạy đúng giờ như đã lập lịch thường xuyên
+
+% % Lấy thông tin dữ liệu công việc từ database postgres
+
+% % dùng thư viện python Scrapy để kéo thông tin dữ liệu
+
+% % upload tải lên file kết quả đã được xử lý lên google drive để lưu trữ lâu dài
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.2]{pictures/crawl-data.excalidraw.png}
+\includegraphics[width=0.95\textwidth]{pictures/crawl-data.excalidraw.png}
 \caption{Sơ đồ thu thập dữ liệu chung}
 \end{figure}
 
@@ -48,7 +56,7 @@ giúp tiết kiệm tài nguyên và thời gian xử lý dữ liệu.
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.2]{pictures/data-pipeline-hash-skip.png}
+\includegraphics[width=0.95\textwidth]{pictures/data-pipeline-hash-skip.png}
 \caption{Sơ đồ thu thập dữ liệu chung}
 \end{figure}
 
@@ -60,7 +68,7 @@ và tải chúng vào các tập dữ liệu có cấu trúc rõ ràng.
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.2]{pictures/dlt-onepager-c61255330e30060ca8f2fa6d7b73b600.png}
+\includegraphics[width=0.95\textwidth]{pictures/dlt-onepager-c61255330e30060ca8f2fa6d7b73b600.png}
 \caption{Giao diện nguồn dữ liệu Văn bản pháp luật}
 \end{figure}
 
@@ -72,6 +80,6 @@ nguồn dữ liệu có sự thay đổi
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.2]{pictures/dlt-auto.png}
+\includegraphics[width=0.95\textwidth]{pictures/dlt-auto.png}
 \caption{Data Load Tool tự động thích ứng nguồn dữ liệu có sự thay đổi}
 \end{figure}

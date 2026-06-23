@@ -6,7 +6,7 @@ Giao diện nguồn dữ liệu Văn bản pháp luật mới:
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/vbpl-search.png}
+\includegraphics[width=0.95\textwidth]{pictures/vbpl-search.png}
 \caption{Giao diện trang tìm kiếm của nguồn dữ liệu Văn bản pháp luật mới}
 \end{figure}
 
@@ -14,7 +14,7 @@ Sơ đồ tổng quan Data pipeline Văn bản pháp luật mới:
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/Data-Pipeline-VBPL.excalidraw.png}
+\includegraphics[width=0.95\textwidth]{pictures/Data-Pipeline-VBPL.excalidraw.png}
 \caption{Sơ đồ tổng quan Data pipeline Văn bản pháp luật mới}
 \end{figure}
 
@@ -22,7 +22,7 @@ Các bước thực hiện cũ:
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/step0.excalidraw.png}
+\includegraphics[width=0.95\textwidth]{pictures/step0.excalidraw.png}
 \caption{Sơ đồ các bước thực hiện của quy trình cũ}
 \end{figure}
 
@@ -41,26 +41,26 @@ Quá trình Data pipeline được chia thành 3 giai đoạn: Thu thập dữ l
 \item \texttt{step\_crawl\_document\_total} và \texttt{step\_load\_document\_total}: thu thập tổng số lượng văn bản pháp luật hiện có trên hệ thống web.
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/data-pipeline-vbplnew-step-crawl-document-total.png}
+\includegraphics[width=0.95\textwidth]{pictures/data-pipeline-vbplnew-step-crawl-document-total.png}
 \caption{Thu thập tổng số lượng văn bản pháp luật}
 \end{figure}
 
 \item \texttt{step\_crawl\_document\_list} và \texttt{step\_load\_document\_list}: Dựa vào sự chênh lệch tổng số lượng, tính toán số trang cần quét và thu thập danh sách các \texttt{item\_id}.
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/data-pipeline-vbplnew-step-crawl-document-list.png}
+\includegraphics[width=0.95\textwidth]{pictures/data-pipeline-vbplnew-step-crawl-document-list.png}
 \caption{Quét danh sách các văn bản pháp luật}
 \end{figure}
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/data-pipeline-vbplnew-step-load-document-list.png}
+\includegraphics[width=0.95\textwidth]{pictures/data-pipeline-vbplnew-step-load-document-list.png}
 \caption{Nạp danh sách văn bản vào CSDL}
 \end{figure}
 
 \item \texttt{step\_crawl\_document\_detail} và \texttt{step\_load\_document\_detail}: tải toàn bộ mã nguồn HTML trang chi tiết của từng văn bản và Upload các file HTML gốc này lên Google Drive, đồng thời lưu \texttt{drive\_id} và mã băm MD5 hash vào database để quản lý thay đổi.
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/data-pipeline-vbplnew-step-crawl-document-detail-step-load-document-detail.png}
+\includegraphics[width=0.95\textwidth]{pictures/data-pipeline-vbplnew-step-crawl-document-detail-step-load-document-detail.png}
 \caption{Tải và lưu trữ mã nguồn HTML trang chi tiết văn bản}
 \end{figure}
 \end{itemize}
@@ -72,7 +72,7 @@ Quá trình Data pipeline được chia thành 3 giai đoạn: Thu thập dữ l
 \item \texttt{step\_extract\_document\_markdown}: Chuyển đổi file HTML đã làm sạch sang định dạng Markdown.
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/data-pipeline-vbplnew-step-extract-document-markdown.png}
+\includegraphics[width=0.95\textwidth]{pictures/data-pipeline-vbplnew-step-extract-document-markdown.png}
 \caption{Chuyển đổi nội dung HTML đã làm sạch sang Markdown}
 \end{figure}
 \end{itemize}
@@ -82,28 +82,28 @@ Quá trình Data pipeline được chia thành 3 giai đoạn: Thu thập dữ l
 \item \texttt{step\_rag\_summary}: Sử dụng LLM viết một bản tóm tắt ngắn gọn mô tả bức tranh toàn cảnh của văn bản pháp luật đó.
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/data-pipeline-vbplnew-step-rag-summary.png}
+\includegraphics[width=0.95\textwidth]{pictures/data-pipeline-vbplnew-step-rag-summary.png}
 \caption{Tự động tóm tắt văn bản bằng mô hình LLM}
 \end{figure}
 
 \item \texttt{step\_rag\_chunking}: Chạy Semantic Chunking. LLM sẽ dựa vào bản tóm tắt và nội dung chi tiết để quyết định các "điểm cắt" tối ưu, chia nhỏ văn bản thành các đoạn (chunks) sao cho không bị đứt gãy ý nghĩa.
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/data-pipeline-vbplnew-step-rag-chunking.png}
+\includegraphics[width=0.95\textwidth]{pictures/data-pipeline-vbplnew-step-rag-chunking.png}
 \caption{Chia nhỏ văn bản dựa trên ý nghĩa (Semantic Chunking)}
 \end{figure}
 
 \item \texttt{step\_rag\_context}: Đây là bước chống mất ngữ cảnh. LLM sẽ sinh ra ngữ cảnh cho từng đoạn chunk nhỏ vừa được cắt, đảm bảo mỗi chunk đều có thể đứng độc lập khi được tìm kiếm.
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/data-pipeline-vbplnew-step-rag-context.png}
+\includegraphics[width=0.95\textwidth]{pictures/data-pipeline-vbplnew-step-rag-context.png}
 \caption{Làm giàu ngữ cảnh cho từng đoạn văn bản nhỏ}
 \end{figure}
 
 \item \texttt{step\_rag\_embedding}: Sử dụng mô hình HuggingFace (\texttt{keepitreal/vietnamese-sbert}) để biến đổi các đoạn văn bản (đã có ngữ cảnh) thành vector đa chiều và lưu trữ vào VectorDB (Pinecone).
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/data-pipeline-vbplnew-step-rag-embedding.png}
+\includegraphics[width=0.95\textwidth]{pictures/data-pipeline-vbplnew-step-rag-embedding.png}
 \caption{Nhúng văn bản (Embedding) và lưu vào CSDL Pinecone}
 \end{figure}
 \end{itemize}
@@ -113,7 +113,7 @@ Các bước thực hiện mới:
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/step1.excalidraw.png}
+\includegraphics[width=0.95\textwidth]{pictures/step1.excalidraw.png}
 \caption{Sơ đồ các bước thực hiện của quy trình mới}
 \end{figure}
 
@@ -125,7 +125,7 @@ Các bước thực hiện mới:
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.3\textwidth]{pictures/github-action-vbpl-v2.png}
+\includegraphics[width=0.95\textwidth]{pictures/github-action-vbpl-v2.png}
 \caption{Sơ đồ cấu hình GitHub Actions vận hành workflow mới}
 \end{figure}
 
@@ -133,18 +133,18 @@ Kết quả vận hành thành công đường ống dữ liệu Văn bản phá
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/data-pipeline-vbplnew-done-1.png}
+\includegraphics[width=0.95\textwidth]{pictures/data-pipeline-vbplnew-done-1.png}
 \caption{Kết quả chạy thành công các bước của Data Pipeline mới (Phần 1)}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/data-pipeline-vbplnew-done-2.png}
+\includegraphics[width=0.95\textwidth]{pictures/data-pipeline-vbplnew-done-2.png}
 \caption{Kết quả chạy thành công các bước của Data Pipeline mới (Phần 2)}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/data-pipeline-vbplnew-done-3.png}
+\includegraphics[width=0.95\textwidth]{pictures/data-pipeline-vbplnew-done-3.png}
 \caption{Kết quả chạy thành công các bước của Data Pipeline mới (Phần 3)}
 \end{figure}
