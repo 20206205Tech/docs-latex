@@ -1,4 +1,4 @@
-\paragraph{Sơ đồ tuần tự luồng cập nhật giao dịch thành công và ghi outbox}
+\paragraph{Sơ đồ tuần tự luồng cập nhật giao dịch thành công và ghi Outbox}
 
 Luồng nghiệp vụ này mô tả
 nhánh IPN hợp lệ,
@@ -13,7 +13,7 @@ ghi sự kiện vào Outbox.
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.65\textwidth]{contents/Sequence/UML-Sequence-PaymentSuccessUpdateOutbox.png}
-\caption{Sơ đồ tuần tự luồng cập nhật giao dịch thành công và ghi outbox}
+\caption{Sơ đồ tuần tự luồng cập nhật giao dịch thành công và ghi Outbox}
 \end{figure}
 
 %\subparagraph{Các thành phần tham gia}
@@ -29,7 +29,7 @@ Payment Service & Microservice & Xử lý nhánh thanh toán thành công, gọi
 Payment DB & Database & Lưu transaction, subscription và bản ghi Outbox. \\ \hline
 Event Bus (NestJS CQRS) & Component & Phát domain event nội bộ cho các local handler sau khi lưu dữ liệu thành công. \\ \hline
 \end{tabular}
-\caption{Các thành phần tham gia luồng cập nhật giao dịch thành công và ghi outbox}
+\caption{Các thành phần tham gia luồng cập nhật giao dịch thành công và ghi Outbox}
 \end{table}
 
 \subparagraph{Mô tả tổng quan}
