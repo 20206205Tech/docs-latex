@@ -1,4 +1,4 @@
-\paragraph{Sơ đồ tuần tự luồng Xác nhận Email kích hoạt tài khoản}
+\paragraph{Sơ đồ tuần tự luồng xác nhận email kích hoạt tài khoản}
 
 Luồng nghiệp vụ này mô tả
 quá trình người dùng nhấp
@@ -11,7 +11,7 @@ và tiếp tục hoàn tất bước xác thực MFA trước khi truy cập h�
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.95\textwidth]{contents/Sequence/UML-Sequence-GuestEmailConfirmation.png}
-\caption{Sơ đồ tuần tự luồng Xác nhận Email kích hoạt tài khoản}
+\caption{Sơ đồ tuần tự luồng xác nhận email kích hoạt tài khoản}
 \end{figure}
 
 %\subparagraph{Các thành phần tham gia}
@@ -28,7 +28,7 @@ Web Frontend & Component & Giao diện web Next.js. \\ \hline
 API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API. \\ \hline
 Auth Service (Supabase) & Microservice & Dịch vụ xác thực cập nhật trạng thái xác thực tài khoản và cấp JWT qua luồng redirect. \\ \hline
 \end{tabular}
-\caption{Các thành phần tham gia luồng Xác nhận Email kích hoạt tài khoản}
+\caption{Các thành phần tham gia luồng xác nhận email kích hoạt tài khoản}
 \end{table}
 
 \subparagraph{Mô tả tổng quan}

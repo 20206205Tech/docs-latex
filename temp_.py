@@ -2,6 +2,34 @@ import glob
 import os
 import re
 
+PRESERVED_WORDS = {
+    "vip": "VIP",
+    "livekit": "LiveKit",
+    "api": "API",
+    "csdl": "CSDL",
+    "web frontend": "Web Frontend",
+    "api gateway": "API Gateway",
+    "kong": "Kong",
+    "elevenlabs": "ElevenLabs",
+    "milvus": "Milvus",
+    "next.js": "Next.js",
+    "rabbitmq": "RabbitMQ",
+    "r2": "R2",
+    "rag": "RAG",
+    "mfa": "MFA",
+    "2fa": "2FA",
+    "sse": "SSE",
+    "celery": "Celery",
+    "kafka": "Kafka",
+    "auth": "Auth",
+    "supabase": "Supabase",
+    "google": "Google",
+    "oauth": "OAuth",
+    "ui": "UI",
+    "vbpl": "VBPL",
+    "ai": "AI",
+}
+
 
 def extract_braced_content(text, start_pos):
     """
@@ -52,37 +80,62 @@ def strip_latex_comments(text):
     return "\n".join(lines)
 
 
-def check_latex_file(filepath):
+def apply_preserved_casing(text, preserved_dict):
     """
-    Checks the LaTeX file for the specified conditions:
-    1. Paragraph starts with "Sơ đồ tuần tự"
-    2. Caption of the figure (image) starts with "Sơ đồ tuần tự"
-    3. Caption of the table starts with "Các thành phần tham gia"
-    4. All contents following the prefix (i.e. after "Sơ đồ tuần tự" or "Các thành phần tham gia") MUST be lowercase.
-    5. The suffix content (after the prefix) must be identical for paragraph, figure, and table.
+    Lowercases text except for words/phrases in the preserved dictionary.
     """
-    violations = []
+    # Sort keys by length in descending order to match multi-word terms first
+    for key in sorted(preserved_dict.keys(), key=len, reverse=True):
+        val = preserved_dict[key]
+        escaped_key = re.escape(key)
+        # Unicode-aware word boundary pattern
+        pattern = re.compile(rf"(?<!\w){escaped_key}(?!\w)", re.IGNORECASE)
+        text = pattern.sub(val, text)
+    return text
 
+
+def find_env_blocks(content, env_name):
+    """
+    Finds environment blocks \begin{env_name}[...] ... \end{env_name}
+    """
+    pattern = re.compile(rf"\\begin\s*\{{{env_name}\}}(?:\[.*?\])?")
+    end_str = f"\\end{{{env_name}}}"
+
+    blocks = []
+    for match in pattern.finditer(content):
+        start_idx = match.start()
+        end_idx = content.find(end_str, match.end())
+        if end_idx != -1:
+            blocks.append((start_idx, end_idx + len(end_str)))
+    return blocks
+
+
+def process_file(filepath):
+    """
+    Processes a LaTeX file:
+    1. Extracts paragraph suffix
+    2. Lowercases suffix and applies preserved casing
+    3. Aligns and updates paragraph, figure caption, and table caption
+    """
     try:
         with open(filepath, "r", encoding="utf-8") as f:
-            raw_content = f.read()
+            content = f.read()
     except Exception as e:
-        return [f"Could not read file: {e}"]
+        print(f"❌ Không thể đọc file {os.path.basename(filepath)}: {e}")
+        return False
 
-    content = strip_latex_comments(raw_content)
+    cleaned = strip_latex_comments(content)
 
-    # 1. Find the paragraph
-    # Match \paragraph (not \subparagraph)
+    # Find paragraph title
     paragraph_titles = []
     pos = 0
     while True:
-        pos = content.find("\\paragraph", pos)
+        pos = cleaned.find("\\paragraph", pos)
         if pos == -1:
             break
-        # Ensure it's not subparagraph
-        is_sub = pos >= 3 and content[pos - 3 : pos] == "sub"
+        is_sub = pos >= 3 and cleaned[pos - 3 : pos] == "sub"
         if not is_sub:
-            val, end_pos = extract_braced_content(content, pos + len("\\paragraph"))
+            val, end_pos = extract_braced_content(cleaned, pos + len("\\paragraph"))
             if val is not None:
                 paragraph_titles.append(val.strip())
                 pos = end_pos
@@ -91,106 +144,90 @@ def check_latex_file(filepath):
 
     paragraph_title = paragraph_titles[0] if paragraph_titles else None
 
-    suffix_p = None
     if not paragraph_title:
-        violations.append("Không tìm thấy \\paragraph{...}")
-    else:
-        # Check start of paragraph
-        if not paragraph_title.startswith("Sơ đồ tuần tự"):
-            violations.append(
-                f"\\paragraph không bắt đầu bằng 'Sơ đồ tuần tự': '{paragraph_title}'"
-            )
-        else:
-            suffix_p = paragraph_title[len("Sơ đồ tuần tự") :].strip()
-            # Check if all content after "Sơ đồ tuần tự" is lowercase
-            if any(c.isupper() for c in suffix_p):
-                violations.append(
-                    f"Nội dung sau 'Sơ đồ tuần tự' trong paragraph chứa chữ in hoa: '{paragraph_title}'"
+        print(f"⚠️  Bỏ qua {os.path.basename(filepath)}: Không tìm thấy \\paragraph")
+        return False
+
+    if not paragraph_title.startswith("Sơ đồ tuần tự"):
+        print(
+            f"⚠️  Bỏ qua {os.path.basename(filepath)}: \\paragraph không bắt đầu bằng 'Sơ đồ tuần tự'"
+        )
+        return False
+
+    # Extract suffix
+    original_suffix = paragraph_title[len("Sơ đồ tuần tự") :].strip()
+
+    # Generate canonical suffix
+    suffix_lower = original_suffix.lower()
+    clean_suffix = apply_preserved_casing(suffix_lower, PRESERVED_WORDS)
+
+    # Generate edits based on clean_suffix
+    edits = []
+
+    # 1. Edit for \paragraph
+    pos = 0
+    while True:
+        pos = content.find("\\paragraph", pos)
+        if pos == -1:
+            break
+        is_sub = pos >= 3 and content[pos - 3 : pos] == "sub"
+        if not is_sub:
+            brace_start = content.find("{", pos + len("\\paragraph"))
+            if brace_start != -1:
+                val, end_pos = extract_braced_content(content, pos + len("\\paragraph"))
+                if val is not None:
+                    new_val = "Sơ đồ tuần tự " + clean_suffix
+                    if val.strip() != new_val:
+                        edits.append((brace_start + 1, end_pos - 1, new_val))
+                    pos = end_pos
+                    continue
+        pos += len("\\paragraph")
+
+    # 2. Edits for figure captions
+    for start_idx, end_idx in find_env_blocks(content, "figure"):
+        cap_pos = content.find("\\caption", start_idx, end_idx)
+        if cap_pos != -1:
+            brace_start = content.find("{", cap_pos + len("\\caption"))
+            if brace_start != -1 and brace_start < end_idx:
+                val, end_pos = extract_braced_content(
+                    content, cap_pos + len("\\caption")
                 )
+                if val is not None and end_pos <= end_idx:
+                    new_val = "Sơ đồ tuần tự " + clean_suffix
+                    if val.strip() != new_val:
+                        edits.append((brace_start + 1, end_pos - 1, new_val))
 
-    # 2. Find figure blocks and check captions
-    figure_blocks = re.findall(
-        r"\\begin\s*\{figure\}(?:\[.*?\])?(.*?)\\end\s*\{figure\}", content, re.DOTALL
-    )
-    figure_captions = []
-    for fb in figure_blocks:
-        pos = 0
-        while True:
-            cap_idx = fb.find("\\caption", pos)
-            if cap_idx == -1:
-                break
-            val, end_pos = extract_braced_content(fb, cap_idx + len("\\caption"))
-            if val is not None:
-                figure_captions.append(val.strip())
-                pos = end_pos
-            else:
-                pos += len("\\caption")
-
-    if not figure_captions:
-        violations.append("Không tìm thấy \\caption trong môi trường figure")
-    else:
-        for cap in figure_captions:
-            if not cap.startswith("Sơ đồ tuần tự"):
-                violations.append(
-                    f"\\caption ảnh không bắt đầu bằng 'Sơ đồ tuần tự': '{cap}'"
+    # 3. Edits for table captions
+    for start_idx, end_idx in find_env_blocks(content, "table"):
+        cap_pos = content.find("\\caption", start_idx, end_idx)
+        if cap_pos != -1:
+            brace_start = content.find("{", cap_pos + len("\\caption"))
+            if brace_start != -1 and brace_start < end_idx:
+                val, end_pos = extract_braced_content(
+                    content, cap_pos + len("\\caption")
                 )
-            else:
-                suffix_f = cap[len("Sơ đồ tuần tự") :].strip()
-                # Check lowercase
-                if any(c.isupper() for c in suffix_f):
-                    violations.append(
-                        f"Nội dung sau 'Sơ đồ tuần tự' trong caption ảnh chứa chữ in hoa: '{cap}'"
-                    )
-                # Check suffix match with paragraph
-                if suffix_p is not None and suffix_f != suffix_p:
-                    violations.append(
-                        f"Nội dung sau 'Sơ đồ tuần tự' của caption ảnh không khớp với paragraph:\n"
-                        f"  - paragraph suffix: '{suffix_p}'\n"
-                        f"  - caption suffix:   '{suffix_f}'"
-                    )
+                if val is not None and end_pos <= end_idx:
+                    new_val = "Các thành phần tham gia " + clean_suffix
+                    if val.strip() != new_val:
+                        edits.append((brace_start + 1, end_pos - 1, new_val))
 
-    # 3. Find table blocks and check captions
-    table_blocks = re.findall(
-        r"\\begin\s*\{table\}(?:\[.*?\])?(.*?)\\end\s*\{table\}", content, re.DOTALL
-    )
-    table_captions = []
-    for tb in table_blocks:
-        pos = 0
-        while True:
-            cap_idx = tb.find("\\caption", pos)
-            if cap_idx == -1:
-                break
-            val, end_pos = extract_braced_content(tb, cap_idx + len("\\caption"))
-            if val is not None:
-                table_captions.append(val.strip())
-                pos = end_pos
-            else:
-                pos += len("\\caption")
+    if not edits:
+        return False
 
-    if not table_captions:
-        violations.append("Không tìm thấy \\caption trong môi trường table")
-    else:
-        for cap in table_captions:
-            if not cap.startswith("Các thành phần tham gia"):
-                violations.append(
-                    f"\\caption bảng không bắt đầu bằng 'Các thành phần tham gia': '{cap}'"
-                )
-            else:
-                suffix_t = cap[len("Các thành phần tham gia") :].strip()
-                # Check lowercase
-                if any(c.isupper() for c in suffix_t):
-                    violations.append(
-                        f"Nội dung sau 'Các thành phần tham gia' trong caption bảng chứa chữ in hoa: '{cap}'"
-                    )
-                # Check suffix match with paragraph
-                if suffix_p is not None and suffix_t != suffix_p:
-                    violations.append(
-                        f"Nội dung sau 'Các thành phần tham gia' của caption bảng không khớp với paragraph:\n"
-                        f"  - paragraph suffix: '{suffix_p}'\n"
-                        f"  - table suffix:     '{suffix_t}'"
-                    )
+    # Apply edits from back to front
+    new_content = content
+    for start, end, replacement in sorted(edits, key=lambda x: x[0], reverse=True):
+        new_content = new_content[:start] + replacement + new_content[end:]
 
-    return violations
+    try:
+        with open(filepath, "w", encoding="utf-8") as f:
+            f.write(new_content)
+        print(f"✨ Đã cập nhật: {os.path.basename(filepath)}")
+        print(f"   -> Suffix mới: '{clean_suffix}'")
+        return True
+    except Exception as e:
+        print(f"❌ Không thể ghi file {os.path.basename(filepath)}: {e}")
+        return False
 
 
 def main():
@@ -202,28 +239,16 @@ def main():
         print(f"Không tìm thấy file .tex nào trong thư mục: {directory}")
         return
 
-    print(f"Đang kiểm tra {len(tex_files)} file .tex trong thư mục:\n{directory}\n")
+    print(f"Bắt đầu tự động sửa đổi {len(tex_files)} file .tex...\n")
 
-    total_violations = 0
-    files_with_violations = 0
-
+    updated_count = 0
     for filepath in sorted(tex_files):
-        filename = os.path.basename(filepath)
-        violations = check_latex_file(filepath)
-        if violations:
-            files_with_violations += 1
-            total_violations += len(violations)
-            print(f"❌ {filename}:")
-            for violation in violations:
-                print(f"   - {violation}")
-            print()
+        if process_file(filepath):
+            updated_count += 1
 
-    if total_violations == 0:
-        print("✅ Tất cả các file đều đáp ứng các điều kiện!")
-    else:
-        print(
-            f"Tìm thấy {total_violations} lỗi trong {files_with_violations} / {len(tex_files)} files."
-        )
+    print(
+        f"\nHoàn thành! Đã sửa đổi thành công {updated_count} / {len(tex_files)} file."
+    )
 
 
 if __name__ == "__main__":

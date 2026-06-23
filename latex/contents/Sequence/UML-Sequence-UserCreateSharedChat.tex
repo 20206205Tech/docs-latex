@@ -1,4 +1,4 @@
-\paragraph{Sơ đồ tuần tự luồng Tạo Chia sẻ cuộc trò chuyện}
+\paragraph{Sơ đồ tuần tự luồng tạo chia sẻ cuộc trò chuyện}
 
 Luồng nghiệp vụ này mô tả
 vòng đời của một yêu cầu chia sẻ cuộc trò chuyện,
@@ -9,7 +9,7 @@ Transactional Outbox kết hợp Message Broker.
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.95\textwidth]{contents/Sequence/UML-Sequence-UserCreateSharedChat.png}
-\caption{Sơ đồ tuần tự luồng Tạo Chia sẻ cuộc trò chuyện}
+\caption{Sơ đồ tuần tự luồng tạo chia sẻ cuộc trò chuyện}
 \end{figure}
 
 %\subparagraph{Các thành phần tham gia}
@@ -29,7 +29,7 @@ Chatbot Service & Microservice & Dịch vụ AI nhận sự kiện, trích xuấ
 Chatbot DB & Database & CSDL lưu trữ lịch sử chi tiết của cuộc trò chuyện và thông tin chia sẻ. \\ \hline
 R2 Object Storage & External Service & Hạ tầng lưu trữ đối tượng (Object Storage tương thích S3), sử dụng để lưu trữ tệp tin cấu trúc JSONL chứa nội dung chi tiết của cuộc trò chuyện được chia sẻ. \\ \hline
 \end{tabular}
-\caption{Các thành phần tham gia luồng Tạo Chia sẻ cuộc trò chuyện}
+\caption{Các thành phần tham gia luồng tạo chia sẻ cuộc trò chuyện}
 \end{table}
 
 \subparagraph{Mô tả tổng quan}

@@ -1,4 +1,4 @@
-\paragraph{Sơ đồ tuần tự luồng cổng thanh toán gửi IPN và dịch vụ thanh toán xác minh giao dịch}
+\paragraph{Sơ đồ tuần tự luồng cổng thanh toán gửi ipn và dịch vụ thanh toán xác minh giao dịch}
 
 Luồng nghiệp vụ này mô tả
 phần đầu của thông báo IPN
@@ -12,7 +12,7 @@ và thanh toán thành công, luồng chuyển sang cập nhật transaction, su
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.95\textwidth]{contents/Sequence/UML-Sequence-PaymentGatewayCallbackVerification.png}
-\caption{Sơ đồ tuần tự luồng cổng thanh toán gửi IPN và dịch vụ thanh toán xác minh giao dịch}
+\caption{Sơ đồ tuần tự luồng cổng thanh toán gửi ipn và dịch vụ thanh toán xác minh giao dịch}
 \end{figure}
 
 \subparagraph{Mô tả tổng quan}
@@ -67,5 +67,5 @@ Payment Service & Microservice & Tiếp nhận callback, xác minh IPN, kiểm t
 Payment Gateway Selector & Component & Chọn adapter tương ứng. \\ \hline
 Payment DB & Database & Cung cấp transaction cần đối chiếu bằng \texttt{txnRef}. \\ \hline
 \end{tabular}
-\caption{Các thành phần tham gia luồng cổng thanh toán gửi callback/IPN}
+\caption{Các thành phần tham gia luồng cổng thanh toán gửi ipn và dịch vụ thanh toán xác minh giao dịch}
 \end{table}

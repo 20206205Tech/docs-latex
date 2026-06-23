@@ -1,4 +1,4 @@
-\paragraph{Sơ đồ tuần tự luồng Thu hồi chia sẻ cuộc trò chuyện}
+\paragraph{Sơ đồ tuần tự luồng thu hồi chia sẻ cuộc trò chuyện}
 
 Luồng nghiệp vụ này mô tả
 vòng đời của một yêu cầu thu hồi quyền chia sẻ cuộc trò chuyện từ người dùng,
@@ -8,7 +8,7 @@ các dịch vụ thông qua mẫu thiết kế Transactional Outbox và giao ti�
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.95\textwidth]{contents/Sequence/UML-Sequence-UserRevokeSharedChat.png}
-\caption{Sơ đồ tuần tự luồng Thu hồi chia sẻ cuộc trò chuyện}
+\caption{Sơ đồ tuần tự luồng thu hồi chia sẻ cuộc trò chuyện}
 \end{figure}
 
 \subparagraph{Mô tả tổng quan}
@@ -60,5 +60,5 @@ Chatbot Service & Microservice & Dịch vụ đóng vai trò là Consumer, lắn
 Chatbot DB & Database & CSDL của Chatbot Service, dùng để lưu trữ trạng thái bản ghi chia sẻ và cơ chế kiểm soát phiên bản. \\ \hline
 R2 Object Storage & External Service & Dịch vụ lưu trữ đối tượng lưu trữ vật lý các tệp tin dữ liệu cuộc trò chuyện định dạng JSONL. \\ \hline
 \end{tabular}
-\caption{Các thành phần tham gia luồng Thu hồi chia sẻ cuộc trò chuyện}
+\caption{Các thành phần tham gia luồng thu hồi chia sẻ cuộc trò chuyện}
 \end{table}

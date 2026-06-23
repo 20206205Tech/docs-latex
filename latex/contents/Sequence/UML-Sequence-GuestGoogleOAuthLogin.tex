@@ -1,4 +1,4 @@
-\paragraph{Sơ đồ tuần tự luồng Đăng nhập / Đăng ký bằng Google}
+\paragraph{Sơ đồ tuần tự luồng đăng nhập / đăng ký bằng Google}
 
 Luồng nghiệp vụ này mô tả
 chi tiết
@@ -8,7 +8,7 @@ và đăng nhập/đăng ký tài khoản thông qua dịch vụ bên thứ ba (
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.95\textwidth]{contents/Sequence/UML-Sequence-GuestGoogleOAuthLogin.png}
-\caption{Sơ đồ tuần tự luồng Đăng nhập / Đăng ký bằng Google}
+\caption{Sơ đồ tuần tự luồng đăng nhập / đăng ký bằng Google}
 \end{figure}
 
 %\subparagraph{Các thành phần tham gia}
@@ -26,7 +26,7 @@ API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API.
 Auth Service (Supabase) & Microservice & Dịch vụ xác thực xử lý đăng ký, đăng nhập, giao tiếp Google và cấp phát JWT. \\ \hline
 Google & External Service & Dịch vụ xác thực bên thứ ba của Google (OAuth 2.0). \\ \hline
 \end{tabular}
-\caption{Các thành phần tham gia luồng Đăng nhập / Đăng ký bằng Google}
+\caption{Các thành phần tham gia luồng đăng nhập / đăng ký bằng Google}
 \end{table}
 
 \subparagraph{Mô tả tổng quan}

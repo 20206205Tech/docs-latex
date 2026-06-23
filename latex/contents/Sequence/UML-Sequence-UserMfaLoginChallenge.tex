@@ -1,4 +1,4 @@
-\paragraph{Sơ đồ tuần tự luồng Bắt buộc xác thực 2FA khi Đăng nhập}
+\paragraph{Sơ đồ tuần tự luồng bắt buộc xác thực 2FA khi đăng nhập}
 
 Luồng nghiệp vụ này mô tả
 chi tiết quá trình bắt buộc xác thực mã TOTP
@@ -8,7 +8,7 @@ sau khi
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.95\textwidth]{contents/Sequence/UML-Sequence-UserMfaLoginChallenge.png}
-\caption{Sơ đồ tuần tự luồng Bắt buộc xác thực 2FA khi Đăng nhập}
+\caption{Sơ đồ tuần tự luồng bắt buộc xác thực 2FA khi đăng nhập}
 \end{figure}
 
 %\subparagraph{Các thành phần tham gia}
@@ -26,7 +26,7 @@ API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API.
 Auth Service (Supabase) & Microservice & Dịch vụ Supabase kiểm tra và sinh challenge, nâng cấp token AAL1 lên AAL2. \\ \hline
 Authenticator App & External App & Ứng dụng sinh mã TOTP. \\ \hline
 \end{tabular}
-\caption{Các thành phần tham gia luồng Bắt buộc xác thực 2FA khi Đăng nhập}
+\caption{Các thành phần tham gia luồng bắt buộc xác thực 2FA khi đăng nhập}
 \end{table}
 
 \subparagraph{Mô tả tổng quan}
