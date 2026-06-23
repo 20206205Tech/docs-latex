@@ -1,6 +1,7 @@
 {\centering \section*{Lời nói đầu}}
 
-Qua thời gian học tập và rèn luyện tại \textit{Đại học Bách khoa Hà Nội},
+Qua thời gian học tập và rèn luyện tại
+\textit{Đại học Bách khoa Hà Nội},
 đến nay em đã hoàn thành đồ án tốt nghiệp.
 Trong thời gian học tập để có được kết quả hiện tại
 em xin chân thành cảm ơn tới các thầy cô giảng viên trong \textit{Khoa Toán Tin}
@@ -8,8 +9,8 @@ em xin chân thành cảm ơn tới các thầy cô giảng viên trong \textit{
 giúp em trang bị những kiến thức, kỹ năng cần thiết
 để em có thể hoàn thành tốt nhất báo cáo này
 với
-đề tài: \textit{Xây dựng ứng dụng hỗ trợ tư vấn pháp luật sử dụng công nghệ trí tuệ nhân tạo}.
-% và phục vụ cho công việc thực tế sau này.
+đề tài:
+\textit{Xây dựng ứng dụng hỗ trợ tư vấn pháp luật sử dụng công nghệ trí tuệ nhân tạo}.
 
 Đồng thời, em xin gửi lời cảm ơn chân thành và sâu sắc đến \textit{Thầy TS. Trần Anh Tú},
 người thầy đã tận tình hỗ trợ,
@@ -55,17 +56,29 @@ em rất mong nhận được những ý kiến đóng góp quý báu của th�
 % }
 
 Đồ án
-được thực hiện nhằm giải quyết nhu cầu tra cứu và giải đáp thông tin pháp luật Việt Nam (bao gồm Văn bản pháp luật và Pháp điển) một cách chính xác, nhanh chóng và tự động hóa.
+được thực hiện nhằm giải quyết nhu cầu tra cứu
+và giải đáp thông tin pháp luật Việt Nam
+(bao gồm Văn bản pháp luật và Pháp điển) một cách chính xác, nhanh chóng và tự động hóa.
 
 Để tối ưu năng lực giải đáp,
 đồ án triển khai hệ thống
-Agentic RAG nâng cao.
+Agentic RAG nâng cao sử dụng LangGraph.
+
 Về mặt kiến trúc, hệ thống được thiết kế theo kiến trúc vi dịch vụ (Microservice Architecture),
 ứng dụng phương pháp Thiết kế hướng miền (Domain-Driven Design - DDD)
-và được điều phối qua Kong API Gateway.
-Nhằm đảm bảo tính ổn định và khả năng mở rộng,
-giao tiếp bất đồng bộ giữa các dịch vụ (NestJS và Python)
+và các dịch vụ được điều phối qua Kong API Gateway.
+
+Để đảm bảo tính ổn định,
+hiệu năng cao,
+tận dụng điểm mạnh tài nguyên,
+thế mạnh framework ngôn ngữ lập trình
+và khả năng mở rộng,
+các dịch vụ giao tiếp đa dạng từ gRPC cho trò chuyện trực tiếp,
+giao tiếp bất đồng bộ giữa các dịch vụ NestJS và Python
 được xử lý thông qua Message Broker RabbitMQ.
+% Nhằm đảm bảo tính ổn định và khả năng mở rộng,
+% giao tiếp bất đồng bộ giữa các dịch vụ (NestJS và Python)
+% được xử lý thông qua Message Broker RabbitMQ.
 Luồng nghiệp vụ
 quy trình thanh toán thuê bao VIP
 qua các cổng nội địa (VNPay, MoMo, ZaloPay, SePay),
@@ -83,7 +96,7 @@ và trích dẫn nguồn văn bản rõ ràng.
 Bên cạnh đó,
 ứng dụng còn mang đến trải nghiệm đàm thoại
 thời gian thực bằng cách tích hợp LiveKit
-cùng các mô hình xử lý giọng nói tiên tiến như Whisper (Speech-to-Text), Piper và ElevenLabs (Text-to-Speech).
+cùng các mô hình xử lý giọng nói tiên tiến như Whisper (Speech-to-Text), Edge, Piper và ElevenLabs (Text-to-Speech).
 
 % Các chương trong báo cáo được trình bày theo thứ tự sau:
 
