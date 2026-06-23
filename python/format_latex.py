@@ -77,7 +77,7 @@ def format_terminology(content):
 
         result.append(text_part + comment_part)
 
-    return "\n".join(result)
+    return "\n".join(result).strip() + "\n"
 
 
 def process_latex():

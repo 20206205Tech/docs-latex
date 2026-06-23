@@ -10,7 +10,7 @@ repos:
     rev: v4.5.0
     hooks:
       - id: trailing-whitespace
-      - id: end-of-file-fixer
+      # - id: end-of-file-fixer
       - id: check-yaml
       # - id: check-added-large-files
       #   exclude: ^uv\.lock$
@@ -88,9 +88,9 @@ repos:
         files: \.tex$
         pass_filenames: false
 
-      - id: format-latex-terminology
-        name: Format LaTeX Terminology
-        entry: python python/format_latex_terminology.py
+      - id: format-latex
+        name: Format LaTeX Files
+        entry: python python/format_latex.py
         language: python
         files: \.tex$
         pass_filenames: false
