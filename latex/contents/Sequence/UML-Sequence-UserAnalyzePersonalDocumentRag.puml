@@ -4,9 +4,11 @@ participant "Web Frontend" as Frontend
 participant "API Gateway\n(Kong)" as Kong
 participant "Conversation Service" as ConversationService
 participant "Chatbot Service\n(gRPC)" as ChatbotService
-participant "LangGraph RAG" as RAG
-database "Milvus\nUser Documents" as Milvus
-participant "Legal Knowledge Base" as LegalKB
+participant "LangGraph RAG\n(LLM + State)" as RAG
+database "Milvus\n(user docs)" as Milvus
+database "Cloudflare R2\n(user docs summary)" as R2
+database "Pinecone\n(vbplnew)" as Pinecone
+database "Qdrant\n(phapdien)" as Qdrant
 database "Chatbot DB" as ChatbotDB
 
 == Luồng nghiệp vụ: Phân tích tài liệu cá nhân bằng reasoning pháp lý ==
@@ -30,15 +32,27 @@ deactivate ChatbotDB
 ChatbotService -> RAG: generation_stream(query, chat_id,\nuser_id, file_ids, use_reasoning)
 activate RAG
 
-RAG -> Milvus: RetrieveUserDocs\nexpr: doc_id in file_ids\nand user_id == current_user_id
-activate Milvus
-Milvus --> RAG: Uploaded document chunks
-deactivate Milvus
-
-RAG -> LegalKB: Retrieve legal sources\nVBPL / Pháp điển / legal corpus
-activate LegalKB
-LegalKB --> RAG: Điều khoản, văn bản,\nmetadata nguồn
-deactivate LegalKB
+par #LightCyan Lấy dữ liệu song song từ 4 nguồn
+    RAG -> Milvus: RetrieveUserDocs\nexpr: doc_id in file_ids\nand user_id == current_user_id
+    activate Milvus
+    Milvus --> RAG: Uploaded document chunks
+    deactivate Milvus
+else #LightYellow
+    RAG -> R2: RetrieveUserDocsSummary\nkey: user_id/summary/file_id
+    activate R2
+    R2 --> RAG: Document summaries
+    deactivate R2
+else #LightBlue
+    RAG -> Pinecone: RetrieveVBPL\nquery & filter by target_item_ids
+    activate Pinecone
+    Pinecone --> RAG: VBPL documents & metadata
+    deactivate Pinecone
+else #LightGreen
+    RAG -> Qdrant: RetrievePhapDien\nquery
+    activate Qdrant
+    Qdrant --> RAG: Pháp Điển documents & metadata
+    deactivate Qdrant
+end
 
 RAG -> RAG: Rank, kiểm tra hiệu lực,\ntổng hợp lập luận và kết luận
 RAG --> ChatbotService: content_chunk,\nstatus_update,\nmetadata(full_answer, sources)
