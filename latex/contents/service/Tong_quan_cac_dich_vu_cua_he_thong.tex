@@ -2,17 +2,16 @@
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{pictures/Microservice-all.excalidraw.png}
+\includegraphics[width=0.85\textwidth]{pictures/Microservice-all.excalidraw.png}
 \caption{Sơ đồ tổng quan các dịch vụ của hệ thống}
 \end{figure}
 
 Tất cả các dịch vụ đều dùng supabase để xác thực thông tin JWT của người dùng.
-
 Thông tin payload của JWT từ Supabase:
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{pictures/auth-jwt-supabase.png}
+\includegraphics[width=0.85\textwidth]{pictures/auth-jwt-supabase.png}
 \caption{Thông tin JWT Payload từ Supabase}
 \end{figure}
 
@@ -98,7 +97,7 @@ Tất cả các dịch vụ đều dùng CSDL Postgres của Neon để làm CSD
 Các dịch vụ ngoại trừ auth
 và setting được cấu hình
 trong Kong API Gateway đơn giản
-chỉ cần tạo Service và Route để định tuyến request.
+chỉ cần tạo Service và Route để định tuyến yêu cầu.
 Dịch vụ auth và setting sẽ được mô tả chi tiết
 về cách cấu hình Kong API Gateway
 trong nội dung trình bày của chính dịch vụ đó.
