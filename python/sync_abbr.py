@@ -131,6 +131,7 @@ DATA = [
     {"abbr": "DLQ", "eng": "Dead Letter Queue", "vie": "Hàng đợi thư lỗi"},
     {"abbr": "QR Code", "eng": "Quick Response Code", "vie": "Mã phản hồi nhanh"},
     {"abbr": "TTL", "eng": "Time To Live", "vie": "Thời gian tồn tại"},
+    {"abbr": "VBPL", "eng": "Văn bản pháp luật", "vie": "Văn bản pháp luật"},
 ]
 
 # OCR	Optical Character Recognition (Công nghệ nhận dạng chữ qua ảnh)

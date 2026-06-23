@@ -19,7 +19,7 @@ vì thao tác thủ công.
 
 \end{block}
 
-Tại dự án infra-by-terraform
+Tại repo infra-by-terraform
 dùng root module lớn truyền biến
 vào các module nằm trong thư mục modules.
 Tuy nhiên việc chạy CI/CD có thể xảy ra lỗi vì provider bị lỗi,
@@ -28,7 +28,7 @@ khi hệ thống bắt buộc phải thực hiện
 lệnh \texttt{terraform init} cho toàn bộ các \textit{provider}
 mặc dù chỉ có một thay đổi nhỏ ở một dịch vụ cụ thể.
 Vì vậy, trong đồ án này,
-em sử dụng mỗi provider trong folder riêng tại dự án
+em sử dụng mỗi provider trong folder riêng tại repo
 infrastructure.
 Kết hợp github action chỉ
 kích hoạt quy trình kiểm tra
@@ -46,7 +46,7 @@ Hạ tầng của hệ thống quản lý qua các dịch vụ bao gồm:
 \begin{itemize}
 \item \textbf{Oracle Cloud Infrastructure (OCI):} Khởi tạo và quản lý máy chủ ảo (VPS) phục vụ triển khai ứng dụng.
 \item \textbf{Aiven:} Khởi tạo Kafka trung chuyển tin nhắn hệ thống.
-\item \textbf{Supabase:} Cấu hình hệ thống và các chính sách cho dịch vụ xác thực người dùng (Auth Service).
+\item \textbf{Supabase:} Cấu hình cho dịch vụ xác thực người dùng (Auth Service).
 \item \textbf{LangSmith:} Quản lý các tài nguyên phục vụ giám sát và đánh giá chuỗi RAG (LangChain, LangGraph).
 \item \textbf{Cloudflare:} Quản lý cấu hình DNS, lưu trữ đối tượng (Cloudflare R2 Bucket) và thiết lập các đường truyền an toàn (Cloudflare Tunnel).
 \item \textbf{Neon:} Khởi tạo và quản lý các CSDL PostgreSQL độc lập cho từng vi dịch vụ (Microservices).
