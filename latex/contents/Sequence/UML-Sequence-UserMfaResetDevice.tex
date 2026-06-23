@@ -1,4 +1,4 @@
-\paragraph{Sơ đồ tuần tự luồng Hủy liên kết và thiết lập lại thiết bị MFA}
+\paragraph{Sơ đồ tuần tự luồng hủy liên kết và thiết lập lại thiết bị MFA}
 
 Luồng nghiệp vụ này mô tả
 chi tiết quy trình
@@ -43,7 +43,7 @@ cấp lại mã đăng nhập ở mức bảo mật cấp 2.
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.95\textwidth]{contents/Sequence/UML-Sequence-UserMfaResetDevice.png}
-\caption{Sơ đồ tuần tự luồng Hủy liên kết và thiết lập lại thiết bị MFA}
+\caption{Sơ đồ tuần tự luồng hủy liên kết và thiết lập lại thiết bị MFA}
 \end{figure}
 
 %\subparagraph{Các thành phần tham gia}
@@ -61,5 +61,5 @@ API Gateway (Kong) & Component & Cổng API chuyển tiếp các yêu cầu API.
 Auth Service (Supabase) & Microservice & Dịch vụ thực hiện hủy đăng ký thiết bị cũ và xử lý thiết bị mới. \\ \hline
 Authenticator App & External Service & Ứng dụng di động mới của người dùng thực hiện quét QR và sinh TOTP xác thực. \\ \hline
 \end{tabular}
-\caption{Các thành phần tham gia luồng Hủy liên kết và thiết lập lại thiết bị MFA}
+\caption{Các thành phần tham gia luồng hủy liên kết và thiết lập lại thiết bị MFA}
 \end{table}

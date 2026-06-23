@@ -69,6 +69,12 @@ Tương tự như \texttt{voice agent}, dịch vụ \texttt{document worker} (s�
 Dịch vụ \texttt{gRPC} chạy trên cổng \texttt{PORT 50051} nhưng được cấu hình với loại dịch vụ là \texttt{ClusterIP} và không cấu hình Ingress. Thiết lập này ngăn chặn các client bên ngoài cụm Kubernetes kết nối trực tiếp đến \texttt{gRPC}. Nhờ đó, mọi yêu cầu từ client bắt buộc phải đi qua \texttt{conversation service} để kiểm tra nghiệp vụ gói thanh toán VIP trước khi gửi đến \texttt{chatbot service}.
 \end{itemize}
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{pictures/Kubernetes.png}
+\caption{Cấu hình Kubernetes trong kho lưu trữ GitOps của dự án}
+\end{figure}
+
 % \subsubsection{Giao tiếp giữa các services}
 
 % {Giao tiếp trực tiếp}

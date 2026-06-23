@@ -1,4 +1,4 @@
-\paragraph{Sơ đồ tuần tự luồng Xóa cuộc trò chuyện}
+\paragraph{Sơ đồ tuần tự luồng xóa cuộc trò chuyện}
 
 Luồng nghiệp vụ này mô tả
 quá trình người dùng
@@ -55,7 +55,7 @@ sau đó gửi xác nhận hoàn thành xử lý.
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.95\textwidth]{contents/Sequence/UML-Sequence-UserDeleteChat.png}
-\caption{Sơ đồ tuần tự luồng Xóa cuộc trò chuyện}
+\caption{Sơ đồ tuần tự luồng xóa cuộc trò chuyện}
 \end{figure}
 
 %\subparagraph{Các thành phần tham gia}
@@ -74,5 +74,5 @@ RabbitMQ Broker & Message Broker & Message Broker nhận sự kiện và phân p
 Chatbot Service & Microservice & Dịch vụ AI đóng vai trò tiêu thụ (Consumer), lắng nghe sự kiện xóa để đồng bộ hóa dữ liệu. \\ \hline
 Chatbot DB & Database & CSDL lưu chi tiết các tin nhắn của cuộc trò chuyện. \\ \hline
 \end{tabular}
-\caption{Các thành phần tham gia luồng Xóa cuộc trò chuyện}
+\caption{Các thành phần tham gia luồng xóa cuộc trò chuyện}
 \end{table}

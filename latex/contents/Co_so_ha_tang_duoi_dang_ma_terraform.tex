@@ -19,10 +19,26 @@ vì thao tác thủ công.
 
 \end{block}
 
+Tại dự án infra-by-terraform
+dùng root module lớn truyền biến
+vào các module nằm trong thư mục modules.
+Tuy nhiên việc chạy CI/CD có thể xảy ra lỗi vì provider bị lỗi,
+hoặc mất thời gian
+khi hệ thống bắt buộc phải thực hiện
+lệnh \texttt{terraform init} cho toàn bộ các \textit{provider}
+mặc dù chỉ có một thay đổi rất nhỏ ở một dịch vụ cụ thể.
+Vì vậy, trong đồ án này,
+em sử dụng mỗi provider trong folder riêng tại dự án
+infrastructure.
+Kết hợp github action chỉ
+kích hoạt quy trình kiểm tra
+và triển khai Terraform khi và chỉ khi có
+sự thay đổi dữ liệu bên trong thư mục của \textit{provider} tương ứng.
+
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.1]{pictures/infrastructure-as-code-IaC-terraform.excalidraw.png}
-\caption{Sơ đồ tổng quan quản lý hạ tầng bằng Terraform trong dự án}
+\includegraphics[scale = 0.4]{pictures/infrastructure-project-v2.png}
+\caption{Cấu trúc thư mục dự án Terraform theo từng Provider}
 \end{figure}
 
 Hạ tầng của hệ thống quản lý qua các dịch vụ bao gồm:
@@ -38,27 +54,10 @@ Hạ tầng của hệ thống quản lý qua các dịch vụ bao gồm:
 \item \textbf{Heroku:} Triển khai và quản lý môi trường cho dịch vụ thanh toán (Payment Service).
 \end{itemize}
 
-Tại dự án infra-by-terraform
-dùng root module lớn truyền biến
-vào các module nằm trong thư mục modules.
-Tuy nhiên việc chạy CI/CD có thể xảy ra lỗi vì provider bị lỗi,
-hoặc mất thời gian
-khi hệ thống bắt buộc phải thực hiện
-lệnh \texttt{terraform init} cho toàn bộ các \textit{provider}
-mặc dù chỉ có một thay đổi rất nhỏ ở một dịch vụ cụ thể.
-
-Vì vậy, trong đồ án này,
-em sử dụng mỗi provider trong folder riêng tại dự án
-infrastructure.
-Kết hợp github action chỉ
-kích hoạt quy trình kiểm tra
-và triển khai Terraform khi và chỉ khi có
-sự thay đổi dữ liệu bên trong thư mục của \textit{provider} tương ứng.
-
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.2]{pictures/infrastructure-project-v2.png}
-\caption{Cấu trúc thư mục dự án Terraform theo từng Provider}
+\includegraphics[scale = 0.07]{pictures/infrastructure-as-code-IaC-terraform.excalidraw.png}
+\caption{Sơ đồ tổng quan quản lý hạ tầng bằng Terraform trong dự án}
 \end{figure}
 
 Bên cạnh đó, dự án sử dụng giải pháp

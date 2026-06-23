@@ -7,7 +7,7 @@ dịch vụ thanh toán nhận callback,
 xác minh chữ ký qua Payment Selector, đối chiếu transaction theo \texttt{txnRef},
 kiểm tra số tiền và trạng thái hiện tại.
 Nếu transaction đang \texttt{pending}
-và thanh toán thành công, luồng chuyển sang cập nhật transaction, subscription và outbox.
+và thanh toán thành công, luồng chuyển sang cập nhật transaction, subscription và Outbox.
 
 \begin{figure}[H]
 \centering
@@ -67,5 +67,5 @@ Payment Service & Microservice & Tiếp nhận callback, xác minh IPN, kiểm t
 Payment Gateway Selector & Component & Chọn adapter tương ứng. \\ \hline
 Payment DB & Database & Cung cấp transaction cần đối chiếu bằng \texttt{txnRef}. \\ \hline
 \end{tabular}
-\caption{Các thành phần tham gia luồng cổng thanh toán gửi callback/IPN}
+\caption{Các thành phần tham gia luồng cổng thanh toán gửi IPN và dịch vụ thanh toán xác minh giao dịch}
 \end{table}
