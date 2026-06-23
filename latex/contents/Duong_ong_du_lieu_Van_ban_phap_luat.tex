@@ -65,7 +65,7 @@ Quá trình luồng dữ liệu được chia thành 3 giai đoạn: Thu thập 
 \item \texttt{step\_crawl\_document\_detail} và \texttt{step\_load\_document\_detail}: tải toàn bộ mã nguồn HTML trang chi tiết của từng văn bản và Upload các file HTML gốc này lên Google Drive, đồng thời lưu \texttt{drive\_id} và mã băm MD5 hash vào database để quản lý thay đổi.
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{pictures/data-pipeline-vbplnew-step-crawl-document-detail-step-load-document-detail.png}
+\includegraphics[width=0.9\textwidth]{pictures/data-pipeline-vbplnew-step-crawl-document-detail-step-load-document-detail.png}
 \caption{Tải và lưu trữ mã nguồn HTML trang chi tiết văn bản}
 \end{figure}
 \end{itemize}
@@ -94,14 +94,14 @@ Quá trình luồng dữ liệu được chia thành 3 giai đoạn: Thu thập 
 \item \texttt{step\_rag\_chunking}: Chạy Semantic Chunking. LLM sẽ dựa vào bản tóm tắt và nội dung chi tiết để quyết định các "điểm cắt" tối ưu, chia nhỏ văn bản thành các đoạn (chunks) sao cho không bị đứt gãy ý nghĩa.
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{pictures/data-pipeline-vbplnew-step-rag-chunking.png}
+\includegraphics[width=0.99\textwidth]{pictures/data-pipeline-vbplnew-step-rag-chunking.png}
 \caption{Chia nhỏ văn bản dựa trên ý nghĩa (Semantic Chunking)}
 \end{figure}
 
 \item \texttt{step\_rag\_context}: Đây là bước chống mất ngữ cảnh. LLM sẽ sinh ra ngữ cảnh cho từng đoạn chunk nhỏ vừa được cắt, đảm bảo mỗi chunk đều có thể đứng độc lập khi được tìm kiếm.
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{pictures/data-pipeline-vbplnew-step-rag-context.png}
+\includegraphics[width=0.99\textwidth]{pictures/data-pipeline-vbplnew-step-rag-context.png}
 \caption{Làm giàu ngữ cảnh cho từng đoạn văn bản nhỏ}
 \end{figure}
 
@@ -109,18 +109,12 @@ Quá trình luồng dữ liệu được chia thành 3 giai đoạn: Thu thập 
 để biến đổi các đoạn văn bản (đã có ngữ cảnh) thành vector đa chiều và lưu trữ vào VectorDB (Pinecone).
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{pictures/data-pipeline-vbplnew-step-rag-embedding.png}
+\includegraphics[width=0.99\textwidth]{pictures/data-pipeline-vbplnew-step-rag-embedding.png}
 \caption{Nhúng văn bản (Embedding) và lưu vào CSDL Pinecone}
 \end{figure}
 \end{itemize}
 
 Các bước thực hiện mới:
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.99\textwidth]{pictures/step1.excalidraw.png}
-\caption{Sơ đồ các bước thực hiện của quy trình mới}
-\end{figure}
 
 \begin{itemize}
 \item Nhờ vào việc nguồn dữ liệu thay đổi sang hệ thống API mới trả về cấu trúc JSON giàu thông tin, hệ thống không còn cần các bước bóc tách thủ công từ mã nguồn HTML phức tạp, giúp tăng tốc độ xử lý và độ chính xác của dữ liệu.
@@ -130,26 +124,48 @@ Các bước thực hiện mới:
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.6\textwidth]{pictures/github-action-vbpl-v2.png}
-\caption{Sơ đồ cấu hình GitHub Actions vận hành workflow mới}
+\includegraphics[width=0.6\textwidth]{pictures/step1.excalidraw.png}
+\caption{Sơ đồ các bước thực hiện của quy trình mới}
 \end{figure}
+
+% \begin{figure}[H]
+% \centering
+% \includegraphics[width=0.6\textwidth]{pictures/github-action-vbpl-v2.png}
+% \caption{Sơ đồ cấu hình GitHub Actions vận hành workflow mới}
+% \end{figure}
 
 Kết quả vận hành thành công đường ống dữ liệu Văn bản pháp luật mới:
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.95\textwidth]{pictures/data-pipeline-vbplnew-done-1.png}
-\caption{Kết quả chạy thành công các bước của luồng dữ liệu mới (Phần 1)}
+\caption{Kết quả chạy các bước luồng dữ liệu VBPL mới (Phần 1)}
 \end{figure}
+
+Từ kết quả chạy các bước luồng dữ liệu VBPL mới,
+trong database postgres hiện đang có
+kết quả
+số lượng tài liệu chi tiết theo từng trạng thái hiệu lực:
+
+\begin{itemize}
+\item Còn hiệu lực (CHL): 72.096
+\item Không còn phù hợp (KCPH): 255
+\item Chưa xác định (5): 0
+\item Hết hiệu lực một phần (HHL1P): 5.290
+\item Ngưng hiệu lực một phần (TNHL1P): 2
+\item Ngưng hiệu lực (TNHL): 369
+\item Chưa có hiệu lực (CCHL): 149
+\item Hết hiệu lực toàn bộ (HHL): 86.641
+\end{itemize}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{pictures/data-pipeline-vbplnew-done-2.png}
-\caption{Kết quả chạy thành công các bước của luồng dữ liệu mới (Phần 2)}
+\caption{Kết quả chạy các bước luồng dữ liệu VBPL mới (Phần 2)}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{pictures/data-pipeline-vbplnew-done-3.png}
-\caption{Kết quả chạy thành công các bước của luồng dữ liệu mới (Phần 3)}
+\caption{Kết quả chạy các bước luồng dữ liệu VBPL mới (Phần 3)}
 \end{figure}
