@@ -19,16 +19,16 @@ vì thao tác thủ công.
 
 \end{block}
 
-Tại dự án infra-by-terraform
+Tại repo infra-by-terraform
 dùng root module lớn truyền biến
 vào các module nằm trong thư mục modules.
 Tuy nhiên việc chạy CI/CD có thể xảy ra lỗi vì provider bị lỗi,
 hoặc mất thời gian
 khi hệ thống bắt buộc phải thực hiện
 lệnh \texttt{terraform init} cho toàn bộ các \textit{provider}
-mặc dù chỉ có một thay đổi rất nhỏ ở một dịch vụ cụ thể.
+mặc dù chỉ có một thay đổi nhỏ ở một dịch vụ cụ thể.
 Vì vậy, trong đồ án này,
-em sử dụng mỗi provider trong folder riêng tại dự án
+em sử dụng mỗi provider trong folder riêng tại repo
 infrastructure.
 Kết hợp github action chỉ
 kích hoạt quy trình kiểm tra
@@ -37,7 +37,7 @@ sự thay đổi dữ liệu bên trong thư mục của \textit{provider} tươ
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.4]{pictures/infrastructure-project-v2.png}
+\includegraphics[width=0.5\textwidth]{pictures/infrastructure-project-v2.png}
 \caption{Cấu trúc thư mục dự án Terraform theo từng Provider}
 \end{figure}
 
@@ -46,7 +46,7 @@ Hạ tầng của hệ thống quản lý qua các dịch vụ bao gồm:
 \begin{itemize}
 \item \textbf{Oracle Cloud Infrastructure (OCI):} Khởi tạo và quản lý máy chủ ảo (VPS) phục vụ triển khai ứng dụng.
 \item \textbf{Aiven:} Khởi tạo Kafka trung chuyển tin nhắn hệ thống.
-\item \textbf{Supabase:} Cấu hình hệ thống và các chính sách cho dịch vụ xác thực người dùng (Auth Service).
+\item \textbf{Supabase:} Cấu hình cho dịch vụ xác thực người dùng (Auth Service).
 \item \textbf{LangSmith:} Quản lý các tài nguyên phục vụ giám sát và đánh giá chuỗi RAG (LangChain, LangGraph).
 \item \textbf{Cloudflare:} Quản lý cấu hình DNS, lưu trữ đối tượng (Cloudflare R2 Bucket) và thiết lập các đường truyền an toàn (Cloudflare Tunnel).
 \item \textbf{Neon:} Khởi tạo và quản lý các CSDL PostgreSQL độc lập cho từng vi dịch vụ (Microservices).
@@ -56,7 +56,7 @@ Hạ tầng của hệ thống quản lý qua các dịch vụ bao gồm:
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.07]{pictures/infrastructure-as-code-IaC-terraform.excalidraw.png}
+\includegraphics[width=0.5\textwidth]{pictures/infrastructure-as-code-IaC-terraform.excalidraw.png}
 \caption{Sơ đồ tổng quan quản lý hạ tầng bằng Terraform trong dự án}
 \end{figure}
 
@@ -67,7 +67,7 @@ Terraform Cloud đóng vai trò làm \textit{Remote Backend}
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.2]{pictures/terraform-hub-web-ui.png}
+\includegraphics[width=0.95\textwidth]{pictures/terraform-hub-web-ui.png}
 \caption{Giao diện quản lý trạng thái tập trung trên Terraform Cloud}
 \end{figure}
 
@@ -77,19 +77,19 @@ thông qua mã nguồn Terraform thành công:
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.2]{pictures/kafka-aiven-terraform.png}
+\includegraphics[width=0.95\textwidth]{pictures/kafka-aiven-terraform.png}
 \caption{Dịch vụ Kafka trên nền tảng Aiven được cấu hình tự động}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.2]{pictures/langsmith-terraform.png}
+\includegraphics[width=0.95\textwidth]{pictures/langsmith-terraform.png}
 \caption{Dự án LangSmith được tạo từ terraform cho dịch vụ chatbot}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.2]{pictures/cloudflare-r2-terraform.png}
+\includegraphics[width=0.95\textwidth]{pictures/cloudflare-r2-terraform.png}
 \caption{Cấu hình các R2 Bucket thành công trên Cloudflare}
 \end{figure}
 
@@ -97,11 +97,12 @@ Do chính sách tài khoản miễn phí của Neon có nhiều giới hạn v�
 trong mã nguồn Terraform,
 em đã cấu hình tách biệt hoàn toàn thành các dự án riêng lẻ trên Neon
 cho từng môi trường và dịch vụ.
-Từ đó, đảm bảo sự độc lập dữ liệu và tránh giới hạn.
+Từ đó, đảm bảo sự độc lập dữ liệu và tránh giới hạn
+miễn phí.
 % nhằm tối ưu hạn mức và đảm bảo tính độc lập dữ liệu.
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.2]{pictures/neon-limit-free.png}
+\includegraphics[width=0.95\textwidth]{pictures/neon-limit-free.png}
 \caption{Giao diện giám sát giới hạn tài nguyên của tài khoản miễn phí trên Neon}
 \end{figure}

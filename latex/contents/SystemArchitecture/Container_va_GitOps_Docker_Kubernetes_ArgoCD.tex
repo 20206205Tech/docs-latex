@@ -23,7 +23,7 @@ Kubernetes không xóa tất cả các Pod cùng một lúc.
 Điều này đảm bảo ứng dụng của bạn luôn có Pod đang chạy để xử lý request từ người dùng.
 
 \item \textbf{GitOps với ArgoCD:}
-Việc cấu hình hệ thống bằng cách gõ lệnh tay rất dễ dẫn đến sai sót,
+Việc cấu hình hệ thống bằng cách gõ lệnh thủ công rất dễ dẫn đến sai sót,
 khó theo dõi ai đã thay đổi gì
 và cực kỳ khó khôi phục nếu hệ thống sập.
 GitOps là một phương pháp sử dụng manifest của Git (như GitHub, GitLab)
@@ -38,7 +38,7 @@ Kết quả các Docker Image được push lên Docker Hub:
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.3]{pictures/docker-hub-web-ui2.png}
+\includegraphics[width=0.95\textwidth]{pictures/docker-hub-web-ui2.png}
 \caption{Kết quả các Docker Image được push lên Docker Hub}
 \end{figure}
 
@@ -46,7 +46,7 @@ Kết quả giao diện ArgoCD chạy triển khai các docker iamge trong kuber
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.3]{pictures/argocd-web-ui.png}
+\includegraphics[width=0.95\textwidth]{pictures/argocd-web-ui.png}
 \caption{Kết quả giao diện ArgoCD chạy docker trong kubernetes}
 \end{figure}
 
