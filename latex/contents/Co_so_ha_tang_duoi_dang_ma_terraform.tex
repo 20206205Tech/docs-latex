@@ -19,25 +19,6 @@ vì thao tác thủ công.
 
 \end{block}
 
-\begin{figure}[H]
-\centering
-\includegraphics[scale = 0.07]{pictures/infrastructure-as-code-IaC-terraform.excalidraw.png}
-\caption{Sơ đồ tổng quan quản lý hạ tầng bằng Terraform trong dự án}
-\end{figure}
-
-Hạ tầng của hệ thống quản lý qua các dịch vụ bao gồm:
-
-\begin{itemize}
-\item \textbf{Oracle Cloud Infrastructure (OCI):} Khởi tạo và quản lý máy chủ ảo (VPS) phục vụ triển khai ứng dụng.
-\item \textbf{Aiven:} Khởi tạo Kafka trung chuyển tin nhắn hệ thống.
-\item \textbf{Supabase:} Cấu hình hệ thống và các chính sách cho dịch vụ xác thực người dùng (Auth Service).
-\item \textbf{LangSmith:} Quản lý các tài nguyên phục vụ giám sát và đánh giá chuỗi RAG (LangChain, LangGraph).
-\item \textbf{Cloudflare:} Quản lý cấu hình DNS, lưu trữ đối tượng (Cloudflare R2 Bucket) và thiết lập các đường truyền an toàn (Cloudflare Tunnel).
-\item \textbf{Neon:} Khởi tạo và quản lý các CSDL PostgreSQL độc lập cho từng vi dịch vụ (Microservices).
-\item \textbf{DigitalOcean:} Cấu hình CSDL PostgreSQL phục vụ riêng cho luồng thu thập dữ liệu (Data Pipeline VBPL).
-\item \textbf{Heroku:} Triển khai và quản lý môi trường cho dịch vụ thanh toán (Payment Service).
-\end{itemize}
-
 Tại dự án infra-by-terraform
 dùng root module lớn truyền biến
 vào các module nằm trong thư mục modules.
@@ -56,8 +37,27 @@ sự thay đổi dữ liệu bên trong thư mục của \textit{provider} tươ
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.3]{pictures/infrastructure-project-v2.png}
+\includegraphics[scale = 0.4]{pictures/infrastructure-project-v2.png}
 \caption{Cấu trúc thư mục dự án Terraform theo từng Provider}
+\end{figure}
+
+Hạ tầng của hệ thống quản lý qua các dịch vụ bao gồm:
+
+\begin{itemize}
+\item \textbf{Oracle Cloud Infrastructure (OCI):} Khởi tạo và quản lý máy chủ ảo (VPS) phục vụ triển khai ứng dụng.
+\item \textbf{Aiven:} Khởi tạo Kafka trung chuyển tin nhắn hệ thống.
+\item \textbf{Supabase:} Cấu hình hệ thống và các chính sách cho dịch vụ xác thực người dùng (Auth Service).
+\item \textbf{LangSmith:} Quản lý các tài nguyên phục vụ giám sát và đánh giá chuỗi RAG (LangChain, LangGraph).
+\item \textbf{Cloudflare:} Quản lý cấu hình DNS, lưu trữ đối tượng (Cloudflare R2 Bucket) và thiết lập các đường truyền an toàn (Cloudflare Tunnel).
+\item \textbf{Neon:} Khởi tạo và quản lý các CSDL PostgreSQL độc lập cho từng vi dịch vụ (Microservices).
+\item \textbf{DigitalOcean:} Cấu hình CSDL PostgreSQL phục vụ riêng cho luồng thu thập dữ liệu (Data Pipeline VBPL).
+\item \textbf{Heroku:} Triển khai và quản lý môi trường cho dịch vụ thanh toán (Payment Service).
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.07]{pictures/infrastructure-as-code-IaC-terraform.excalidraw.png}
+\caption{Sơ đồ tổng quan quản lý hạ tầng bằng Terraform trong dự án}
 \end{figure}
 
 Bên cạnh đó, dự án sử dụng giải pháp
