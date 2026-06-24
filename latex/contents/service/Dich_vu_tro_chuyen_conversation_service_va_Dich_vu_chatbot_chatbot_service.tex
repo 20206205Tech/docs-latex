@@ -138,9 +138,9 @@ Hệ thống sử dụng \textbf{RabbitMQ} làm Message Broker để thực hi�
 
 \textbf{Sự kiện Xóa trò chuyện}
 \begin{itemize}
-\item \textbf{Queue}: \texttt{[prefix]\_chat\_deletions}
-\item \textbf{Publisher}: \texttt{code-conversation-service} (NestJS)
-\item \textbf{Consumer}: \texttt{code-chatbot-service} (Python)
+\item \textbf{Hàng đợi}: \texttt{[prefix]\_chat\_deletions}
+\item \textbf{Bên xuất bản}: \texttt{code-conversation-service} (NestJS)
+\item \textbf{Bên tiêu thụ}: \texttt{code-chatbot-service} (Python)
 % \item \textbf{Payload Schema (JSON)}:
 % \begin{verbatim}
 % {
@@ -166,9 +166,9 @@ Hệ thống sử dụng \textbf{RabbitMQ} làm Message Broker để thực hi�
 
 \textbf{Sự kiện Yêu cầu chia sẻ (Share Generated Event)}
 \begin{itemize}
-\item \textbf{Queue}: \texttt{[prefix]\_share\_generated}
-\item \textbf{Publisher}: \texttt{code-conversation-service} (NestJS)
-\item \textbf{Consumer}: \texttt{code-chatbot-service} (Python)
+\item \textbf{Hàng đợi}: \texttt{[prefix]\_share\_generated}
+\item \textbf{Bên xuất bản}: \texttt{code-conversation-service} (NestJS)
+\item \textbf{Bên tiêu thụ}: \texttt{code-chatbot-service} (Python)
 % \item \textbf{Payload Schema (JSON)}:
 % \begin{verbatim}
 % {
@@ -213,9 +213,9 @@ DLQ và gửi cảnh báo về hệ thống.
 
 \textbf{Sự kiện Thu hồi liên kết (Share Revoked Event)}
 \begin{itemize}
-\item \textbf{Queue}: \texttt{[prefix]\_share\_revoked}
-\item \textbf{Publisher}: \texttt{code-conversation-service} (NestJS)
-\item \textbf{Consumer}: \texttt{code-chatbot-service} (Python)
+\item \textbf{Hàng đợi}: \texttt{[prefix]\_share\_revoked}
+\item \textbf{Bên xuất bản}: \texttt{code-conversation-service} (NestJS)
+\item \textbf{Bên tiêu thụ}: \texttt{code-chatbot-service} (Python)
 % \item \textbf{Payload Schema (JSON)}:
 % \begin{verbatim}
 % {
@@ -242,9 +242,9 @@ DLQ và gửi cảnh báo về hệ thống.
 
 \textbf{Sự kiện Hoàn tất Upload (Share Upload Completed Event)}
 \begin{itemize}
-\item \textbf{Queue}: \texttt{[prefix]\_share\_upload\_completed}
-\item \textbf{Publisher}: \texttt{code-chatbot-service} (Python)
-\item \textbf{Consumer}: \texttt{code-conversation-service} (NestJS)
+\item \textbf{Hàng đợi}: \texttt{[prefix]\_share\_upload\_completed}
+\item \textbf{Bên xuất bản}: \texttt{code-chatbot-service} (Python)
+\item \textbf{Bên tiêu thụ}: \texttt{code-conversation-service} (NestJS)
 % \item \textbf{Payload Schema (JSON)}:
 % \begin{verbatim}
 % {
@@ -285,7 +285,7 @@ phải được thực hiện
 Do đó, hệ thống không áp dụng cơ chế tuần tự
 kiểm tra version phức tạp mà
 sử dụng cờ trạng thái \texttt{is\_revoked}
-để triệt tiêu sự kiện:
+để triệt tiêu sự kiện.
 \end{itemize}
 
 \begin{figure}[H]
@@ -347,7 +347,7 @@ Trong thực tế vận hành, người dùng có thể thực hiện thao tác 
 
 \textbf{Cơ chế hoạt động chi tiết:}
 \begin{itemize}
-\item \textbf{Không phụ thuộc vào trạng thái hoạt động của Chat:} Khi NestJS hoặc Python nhận sự kiện xóa chat, họ chỉ thực hiện \textbf{xóa mềm (soft delete)} bằng cách cập nhật trường \texttt{isActive = false}/\texttt{is\_active = False} trong CSDL. Bản ghi và dữ liệu tin nhắn vẫn tồn tại vật lý trong database.
+\item \textbf{Không phụ thuộc vào trạng thái hoạt động của Chat:} Khi NestJS hoặc Python nhận sự kiện xóa chat, họ chỉ thực hiện \textbf{xóa mềm (soft delete)} bằng cách cập nhật trường \texttt{is\_active = False} trong CSDL. Bản ghi và dữ liệu tin nhắn vẫn tồn tại vật lý trong database.
 \item \textbf{Tạo Snapshot tĩnh (Static Generation):} Dù sự kiện \texttt{chat\_deleted} có được xử lý trước sự kiện \texttt{share\_generated} trên Python worker, Python vẫn có thể truy vấn đầy đủ nội dung lịch sử chat đã xóa mềm từ database để đóng gói thành tệp JSONL tĩnh và tải lên Cloudflare R2.
 \item \textbf{Tính độc lập của liên kết chia sẻ:} Sau khi upload thành công lên Cloudflare R2, liên kết chia sẻ trỏ trực tiếp đến tệp tĩnh này. Khi người nhận xem liên kết chia sẻ, Frontend sẽ fetch trực tiếp tệp tĩnh từ R2 (qua CDN) mà không cần truy vấn vào database gốc (Neon) hay đi qua NestJS. Do đó, nghiệp vụ chấp nhận trạng thái "Có liên kết Share hoạt động nhưng Chat gốc đã bị xóa".
 \end{itemize}
@@ -444,7 +444,7 @@ Nhà phát triển gửi thông tin văn bản qua data channel mà không cần
 \caption{Giao diện lấy thông tin nhân vật}
 \end{figure}
 
-\paragraph{Cơ chế Lập lịch Dọn dẹp dữ liệu (Data Cleanup Scheduling)}
+\paragraph{Cơ chế lập lịch dọn dẹp dữ liệu}
 
 Vì tính năng xóa trò chuyện và thu hồi liên kết chia sẻ trong hệ thống sử dụng cơ chế \textbf{xóa mềm (soft delete)} để đảm bảo tính an toàn dữ liệu và tối ưu hiệu năng của các giao dịch tức thời, hệ thống triển khai các tác vụ lập lịch định kỳ (cron jobs / scheduler) trên cả \textbf{NestJS} và \textbf{Python} để dọn dẹp triệt để các dữ liệu đã bị xóa sau thời gian lưu trữ quy định.
 
