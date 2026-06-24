@@ -109,7 +109,7 @@ Cơ cấu các bảng trong CSDL của Dịch vụ chatbot:
 
 Hệ thống sử dụng \textbf{RabbitMQ} làm Message Broker để thực hiện các giao tiếp bất đồng bộ, đáng tin cậy giữa \textbf{Dịch vụ trò chuyện (NestJS)} và \textbf{Dịch vụ chatbot (Python)}. Các tên hàng đợi được tiền tố hóa tự động theo môi trường (\texttt{dev\_}, \texttt{test\_}, \texttt{prod\_}) dựa trên cấu hình hệ thống.
 
-\subparagraph{Danh sách các Hàng đợi (Queues) trong hệ thống}
+\subparagraph{Danh sách các Hàng đợi trong hệ thống}
 
 \begin{itemize}
 \item \textbf{\texttt{[prefix]\_chat\_deletions}}: Nhận yêu cầu xóa mềm (soft delete) lịch sử chat từ phía người dùng (Durable: \texttt{true}).
@@ -127,15 +127,15 @@ Hệ thống sử dụng \textbf{RabbitMQ} làm Message Broker để thực hi�
 \item \textbf{\texttt{[prefix]\_share\_revoked}}: Nhận yêu cầu thu hồi link chia sẻ, tiến hành xóa file tương ứng trên Cloudflare R2 và cập nhật DB (Durable: \texttt{true}).
 \end{itemize}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.95\textwidth]{pictures/share-out-of-order.png}
-\caption{Danh sách các Hàng đợi trong hệ thống}
-\end{figure}
+% \begin{figure}[H]
+% \centering
+% \includegraphics[width=0.95\textwidth]{pictures/share-out-of-order.png}
+% \caption{Danh sách các Hàng đợi trong hệ thống}
+% \end{figure}
 
-\subparagraph{Cấu trúc dữ liệu và Luồng xử lý sự kiện (Event Payloads \& Flow)}
+% \subparagraph{Cấu trúc dữ liệu và Luồng xử lý sự kiện}
 
-\textbf{Sự kiện Xóa trò chuyện (Chat Deletion Event)}
+\textbf{Sự kiện Xóa trò chuyện}
 \begin{itemize}
 \item \textbf{Queue}: \texttt{[prefix]\_chat\_deletions}
 \item \textbf{Publisher}: \texttt{code-conversation-service} (NestJS)
@@ -162,10 +162,24 @@ Hệ thống sử dụng \textbf{RabbitMQ} làm Message Broker để thực hi�
 "chat_id": "string", // ID cuộc trò chuyện được chia sẻ
 "user_id": "string", // ID người dùng tạo chia sẻ
 "version": 1, // Phiên bản sự kiện (khởi tạo thường là 1)
-"last_message_id": "string" // ID tin nhắn cuối cùng (hoặc null nếu chia sẻ hết)
+"last_message_id": "string" // ID tin nhắn cuối cùng
 }
 \end{verbatim}
-\item \textbf{Cơ chế xử lý lệch thứ tự (Out-of-Order)}: Consumer Python so sánh phiên bản sự kiện nhận được với phiên bản hiện tại trong DB. Nếu \texttt{event\_version == current\_version + 1}, tiến hành đóng gói lịch sử chat, upload R2 và gửi kết quả về NestJS. Nếu \texttt{event\_version <= current\_version}, bỏ qua vì đã xử lý. Nếu \texttt{event\_version > current\_version + 1}, sự kiện đến sai thứ tự, ném ra ngoại lệ \texttt{OutOfOrderException} để đưa tin nhắn vào \texttt{[prefix]\_share\_generated\_retry} tạm chờ 20 giây trước khi thử lại; sau 5 lần thất bại liên tục sẽ bị chuyển vào DLQ và gửi cảnh báo về hệ thống.
+\item \textbf{Cơ chế xử lý lệch thứ tự (Out-of-Order)}:
+Consumer Python so sánh phiên bản sự kiện nhận được
+với phiên bản hiện tại trong DB.
+Nếu \texttt{event\_version == current\_version + 1},
+tiến hành đóng gói lịch sử chat,
+upload R2 và gửi kết quả về NestJS.
+Nếu \texttt{event\_version <= current\_version},
+bỏ qua vì đã xử lý.
+Nếu \texttt{event\_version > current\_version + 1},
+sự kiện đến sai thứ tự,
+ném ra ngoại lệ \texttt{OutOfOrderException}
+để đưa tin nhắn vào \texttt{retry}
+tạm chờ 20 giây trước khi thử lại.
+Sau 5 lần thất bại liên tục sẽ bị chuyển vào
+DLQ và gửi cảnh báo về hệ thống.
 \end{itemize}
 
 \textbf{Sự kiện Thu hồi liên kết (Share Revoked Event)}
@@ -193,7 +207,7 @@ Hệ thống sử dụng \textbf{RabbitMQ} làm Message Broker để thực hi�
 \begin{verbatim}
 {
 "share_id": "string", // ID liên kết chia sẻ tương ứng
-"file_url": "string", // URL tệp tin JSONL chứa lịch sử chat đã upload R2 (hoặc rỗng nếu lỗi)
+"file_url": "string", // URL tệp tin JSONL
 "is_success": true // Trạng thái thành công (true / false)
 }
 \end{verbatim}
@@ -240,7 +254,7 @@ arguments={'x-max-priority': 10}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{pictures/dlq-telegram-alert.png}
+\includegraphics[width=0.99\textwidth]{pictures/dlq-telegram-alert.png}
 \caption{Sơ đồ luồng xử lý DLQ và thông báo Telegram}
 \end{figure}
 
@@ -254,18 +268,18 @@ arguments={'x-max-priority': 10}
 
 Trong thực tế vận hành, người dùng có thể thực hiện thao tác tạo liên kết chia sẻ (Share) và ngay lập tức xóa cuộc trò chuyện (Delete Chat). Lúc này, cơ chế Outbox sẽ đẩy đồng thời hai sự kiện \texttt{share\_generated} và \texttt{chat\_deleted} vào RabbitMQ. Để giải quyết bài toán Race Condition (xung đột tài nguyên) khi thứ tự xử lý trên RabbitMQ không cố định, hệ thống áp dụng mẫu kiến trúc \textbf{Snapshot/Static Generation}:
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.95\textwidth]{pictures/share-concurrency-handling.png}
-\caption{Sơ đồ xử lý đồng thời tạo share và xóa chat}
-\end{figure}
-
 \textbf{Cơ chế hoạt động chi tiết:}
 \begin{itemize}
 \item \textbf{Không phụ thuộc vào trạng thái hoạt động của Chat:} Khi NestJS hoặc Python nhận sự kiện xóa chat, họ chỉ thực hiện \textbf{xóa mềm (soft delete)} bằng cách cập nhật trường \texttt{isActive = false}/\texttt{is\_active = False} trong CSDL. Bản ghi và dữ liệu tin nhắn vẫn tồn tại vật lý trong database.
 \item \textbf{Tạo Snapshot tĩnh (Static Generation):} Dù sự kiện \texttt{chat\_deleted} có được xử lý trước sự kiện \texttt{share\_generated} trên Python worker, Python vẫn có thể truy vấn đầy đủ nội dung lịch sử chat đã xóa mềm từ database để đóng gói thành tệp JSONL tĩnh và tải lên Cloudflare R2.
 \item \textbf{Tính độc lập của liên kết chia sẻ:} Sau khi upload thành công lên Cloudflare R2, liên kết chia sẻ trỏ trực tiếp đến tệp tĩnh này. Khi người nhận xem liên kết chia sẻ, Frontend sẽ fetch trực tiếp tệp tĩnh từ R2 (qua CDN) mà không cần truy vấn vào database gốc (Neon) hay đi qua NestJS. Do đó, nghiệp vụ chấp nhận trạng thái "Có liên kết Share hoạt động nhưng Chat gốc đã bị xóa".
 \end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{pictures/share-concurrency-handling.png}
+\caption{Sơ đồ xử lý đồng thời tạo share và xóa chat}
+\end{figure}
 
 \paragraph{Chi tiết chức năng đàm thoại giọng nói (Voice Agent)}
 
@@ -277,7 +291,7 @@ Sơ đồ tổng quan luồng tích hợp LiveKit đàm thoại giọng nói:
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{pictures/voice-livekit-overview.png}
+\includegraphics[width=0.9\textwidth]{pictures/voice-livekit-overview.png}
 \caption{Sơ đồ tích hợp LiveKit đàm thoại giọng nói}
 \end{figure}
 
