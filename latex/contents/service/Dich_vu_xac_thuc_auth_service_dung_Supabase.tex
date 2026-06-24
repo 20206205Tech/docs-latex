@@ -99,11 +99,11 @@ Hệ thống sử dụng cơ chế RESTful API tự động sinh từ PostgreSQL
 \begin{itemize}
 \item \textbf{Lấy thông tin hồ sơ}:
 Truy vấn thông tin chi tiết hồ sơ người dùng (như tên đầy đủ, ảnh đại diện) từ bảng \texttt{profiles} dựa vào \texttt{userId}.
-Endpoint sử dụng: \texttt{/rest/v1/profiles?id=eq.\{userId\}}
+Endpoint sử dụng: \texttt{/rest/v1/profiles}
 
 \item \textbf{Cập nhật thông tin hồ sơ}:
-Cập nhật các trường thông tin hồ sơ như tên hiển thị (\texttt{full\_name}) hoặc đường dẫn ảnh đại diện (\texttt{avatar\_url}).
-Endpoint sử dụng: \texttt{/rest/v1/profiles?id=eq.\{userId\}}
+Cập nhật các trường thông tin hồ sơ như tên hiển thị hoặc đường dẫn ảnh đại diện.
+Endpoint sử dụng: \texttt{/rest/v1/profiles}
 \end{itemize}
 
 \paragraph{Quản lý Ảnh đại diện (Supabase Storage)}
