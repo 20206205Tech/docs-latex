@@ -9,10 +9,8 @@ Sơ đồ tổng quan về Dịch vụ trò chuyện (conversation service) và 
 \end{figure}
 
 \paragraph{Dịch vụ trò chuyện (conversation service)}
-
+Chịu trách nhiệm quản lý luồng giao tiếp giữa người dùng và hệ thống Agentic RAG. Dịch vụ này xử lý trực tiếp các cuộc trò chuyện văn bản theo cơ chế streaming, cấp phát token truy cập cho luồng giao tiếp giọng nói và cung cấp các tiện ích lưu trữ, chia sẻ trò chuyện.
 Vì chức năng trò chuyện văn bản suy luận (reasoning) và trò chuyện bằng giọng nói chỉ dành riêng cho tài khoản VIP, nên dịch vụ trò chuyện (conversation service) thực hiện lắng nghe sự kiện thanh toán thành công từ Kafka, lưu lại thông tin vào CSDL và kiểm tra quyền VIP của người dùng hiện tại trước khi xử lý yêu cầu.
-
-Mục đích: Chịu trách nhiệm quản lý luồng giao tiếp giữa người dùng và hệ thống Agentic RAG. Dịch vụ này xử lý trực tiếp các cuộc trò chuyện văn bản theo cơ chế streaming, cấp phát token truy cập cho luồng giao tiếp giọng nói và cung cấp các tiện ích lưu trữ, chia sẻ trò chuyện.
 
 Các tính năng chính:
 \begin{itemize}
@@ -80,7 +78,8 @@ Cơ cấu các bảng trong CSDL của Dịch vụ trò chuyện:
 
 \paragraph{Dịch vụ chatbot (chatbot service)}
 
-Mục đích: Sử dụng các mô hình AI để xử lý và phản hồi thông minh các câu hỏi của người dùng. Sau đó, lưu lại lịch sử trò chuyện và cung cấp các API truy xuất lịch sử, thông tin suy luận chi tiết (reasoning details) và nguồn tài liệu tham khảo (references) của từng câu trả lời.
+% Mục đích:
+Sử dụng các mô hình AI để xử lý và phản hồi thông minh các câu hỏi của người dùng. Sau đó, lưu lại lịch sử trò chuyện và cung cấp các API truy xuất lịch sử, thông tin suy luận chi tiết (reasoning details) và nguồn tài liệu tham khảo (references) của từng câu trả lời.
 Dịch vụ chatbot lắng nghe RabbitMQ để thực hiện việc tạo và thu hồi các bản snapshot chia sẻ trò chuyện, đồng thời kết nối với LiveKit để vận hành đàm thoại giọng nói với người dùng.
 
 \begin{figure}[H]
