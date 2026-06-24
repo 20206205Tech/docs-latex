@@ -2,7 +2,10 @@
 queue "RabbitMQ Broker" as RabbitMQ
 participant "Python (Chatbot Worker)" as Python
 database "DB (Python)" as PythonDB
-storage "Cloudflare R2" as R2
+database "Cloudflare R2" as R2
+
+
+
 
 == 1. TH: Tin nhắn Xóa Share đến trước Tạo Share ==
 note over RabbitMQ, Python: Tin nhắn Xóa Share đến trước Tạo Share

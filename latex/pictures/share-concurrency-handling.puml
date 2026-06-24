@@ -5,7 +5,7 @@ database "DB (NestJS)" as NestDB
 queue "RabbitMQ Broker" as RabbitMQ
 participant "Python (Chatbot)" as Python
 database "DB (Python)" as PythonDB
-storage "Cloudflare R2" as R2
+database "Cloudflare R2" as R2
 
 == 1. Tạo Share & Xóa Chat xảy ra đồng thời ==
 note over Client, NestJS: Tạo Share & Xóa Chat xảy ra đồng thời
