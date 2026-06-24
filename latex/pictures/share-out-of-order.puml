@@ -1,30 +1,32 @@
-sequenceDiagram
-    participant RabbitMQ as RabbitMQ Broker
-    participant Python as Python (Chatbot Worker)
-    participant PythonDB as DB (Python)
-    participant R2 as Cloudflare R2
+@startuml
+queue "RabbitMQ Broker" as RabbitMQ
+participant "Python (Chatbot Worker)" as Python
+database "DB (Python)" as PythonDB
+storage "Cloudflare R2" as R2
 
-    Note over RabbitMQ, Python: 1. TH: Tin nhắn Xóa Share đến trước Tạo Share
+== 1. TH: Tin nhắn Xóa Share đến trước Tạo Share ==
+note over RabbitMQ, Python: Tin nhắn Xóa Share đến trước Tạo Share
 
-    RabbitMQ->>+Python: Nhận dev_share_revoked
-    Python->>+PythonDB: Truy vấn Share
-    PythonDB-->>-Python: Trả về None (Chưa tồn tại)
+RabbitMQ -> Python ++: Nhận dev_share_revoked
+Python -> PythonDB ++: Truy vấn Share
+PythonDB --> Python --: Trả về None (Chưa tồn tại)
 
-    Note over Python: Xử lý Thu hồi ngay lập tức
+note over Python: Xử lý Thu hồi ngay lập tức
 
-    Python->>+R2: Yêu cầu xóa file tĩnh trên Cloudflare R2 (Nếu có)
-    R2-->>-Python: OK
-    Python->>+PythonDB: Lưu Share mới (is_revoked = True)
-    PythonDB-->>-Python: OK
-    Python-->>-RabbitMQ: Ack (Hoàn thành thu hồi ngay)
+Python -> R2 ++: Yêu cầu xóa file tĩnh trên Cloudflare R2 (Nếu có)
+R2 --> Python --: OK
+Python -> PythonDB ++: Lưu Share mới (is_revoked = True)
+PythonDB --> Python --: OK
+Python --> RabbitMQ --: Ack (Hoàn thành thu hồi ngay)
 
-    Note over RabbitMQ, Python: 2. Nhận tin nhắn Tạo Share đến sau
+== 2. Nhận tin nhắn Tạo Share đến sau ==
+note over RabbitMQ, Python: Nhận tin nhắn Tạo Share đến sau
 
-    RabbitMQ->>+Python: Nhận dev_share_generated
-    Python->>+PythonDB: Truy vấn Share
-    PythonDB-->>-Python: Trả về Share (is_revoked = True)
+RabbitMQ -> Python ++: Nhận dev_share_generated
+Python -> PythonDB ++: Truy vấn Share
+PythonDB --> Python --: Trả về Share (is_revoked = True)
 
-    Note over Python: Phát hiện trạng thái is_revoked = True
-
-    Note over Python: Hủy bỏ hành động tạo (Không upload R2)
-    Python-->>-RabbitMQ: Ack (Đóng tin nhắn an toàn)
+note over Python: Phát hiện trạng thái is_revoked = True
+note over Python: Hủy bỏ hành động tạo (Không upload R2)
+Python --> RabbitMQ --: Ack (Đóng tin nhắn an toàn)
+@enduml
