@@ -6,9 +6,10 @@
 \caption{Sơ đồ tổng quan các dịch vụ của hệ thống}
 \end{figure}
 
-Tất cả các dịch vụ đều dùng supabase để xác thực thông tin JWT của người dùng.
-Các dịch vụ giải mã để lấy thông tin người dùng
-(sub, exp, email, aal, app\_metadata, \dots).
+Tất cả các dịch vụ đều dùng supabase
+để xác thực thông tin JWT của người dùng.
+Trong JWT có các thông tin sub, exp, email, aal, app\_metadata, \dots.
+Các dịch vụ giải mã để lấy thông tin người dùng.
 Kết quả thông tin payload của JWT từ Supabase:
 
 \begin{figure}[H]
@@ -61,7 +62,13 @@ hiển thị trên phần mềm Authenticator để máy chủ tiến hành so s
 Tham khảo tài liệu tại:
 \url{https://supabase.com/docs/guides/auth/auth-mfa/totp}.
 % của Supabase.
-Trang tài liệu này hướng dẫn cách triển khai tính năng Xác thực Đa Yếu Tố (MFA) bằng ứng dụng Authenticator (TOTP) trong Supabase. Tính năng này hiện được cung cấp miễn phí và bật mặc định cho mọi dự án Supabase. Nội dung chính xoay quanh hai luồng hoạt động cơ bản:
+Trang tài liệu này của Supabase
+hướng dẫn cách triển khai
+tính năng Xác thực Đa Yếu Tố (MFA) bằng ứng dụng Authenticator (TOTP).
+% trong Supabase.
+Tính năng này hiện được cung cấp miễn phí
+và bật mặc định cho mọi dự án Supabase.
+Nội dung chính xoay quanh hai luồng hoạt động cơ bản:
 
 \mbox{}\\
 \textbf{Quy trình đăng ký yếu tố bảo mật (Enrollment Flow)}
@@ -96,11 +103,11 @@ Tất cả các dịch vụ đều dùng CSDL Postgres của Neon để làm CSD
 \caption{Bảng điều khiển CSDL trong Neon}
 \end{figure}
 
-Các dịch vụ ngoại trừ auth
-và setting được cấu hình
+Các dịch vụ ngoại trừ auth service
+và setting service được cấu hình
 trong Kong API Gateway đơn giản
 chỉ cần tạo Service và Route để định tuyến yêu cầu.
-Dịch vụ auth và setting sẽ được mô tả chi tiết
+Dịch vụ auth service và setting service sẽ được mô tả chi tiết
 về cách cấu hình Kong API Gateway
 trong nội dung trình bày của chính dịch vụ đó.
 Vì trang thống kê thông tin

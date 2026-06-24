@@ -1,138 +1,92 @@
-import os
-import re
-from collections import defaultdict
+import shutil
 from pathlib import Path
 
 
-def find_matching_brace(text, start_idx):
-    """
-    Tìm vị trí của dấu đóng ngoặc nhọn '}' tương ứng với dấu mở ngoặc nhọn '{' tại start_idx.
-    Hỗ trợ xử lý các dấu ngoặc nhọn lồng nhau.
-    """
-    brace_count = 0
-    for idx in range(start_idx, len(text)):
-        char = text[idx]
-        # Bỏ qua các dấu ngoặc nhọn đã được escape bằng dấu gạch chéo ngược (ví dụ: \{ hoặc \})
-        if char == "{" and (idx == 0 or text[idx - 1] != "\\"):
-            brace_count += 1
-        elif char == "}" and (idx == 0 or text[idx - 1] != "\\"):
-            brace_count -= 1
-            if brace_count == 0:
-                return idx
-    return -1
+def clean_unused_images():
+    # Định nghĩa các thư mục
+    base_dir = Path(r"C:\Users\Admin\Documents\GitHub\docs-latex")
+    pictures_dir = base_dir / "latex" / "pictures"
+    contents_dir = base_dir / "latex" / "contents"
+    temp_dir = pictures_dir / "temp"
 
+    # Định nghĩa các đuôi file
+    latex_image_extensions = {".jpeg", ".jpg", ".png"}
+    ignore_extensions = {".md", ".mmd", ".puml"}
 
-def clean_latex_comments(text):
-    """
-    Loại bỏ các đoạn chú thích (comment) trong LaTeX (bắt đầu bằng dấu '%' không được escape).
-    Thay thế các ký tự chú thích bằng khoảng trắng để giữ nguyên chỉ số (index) và số dòng của file gốc.
-    """
-    chars = list(text)
-    is_escaped = False
-    in_comment = False
+    print("--- KHỞI TẠO TIẾN TRÌNH KIỂM TRA ẢNH ---")
+    print(f"Thư mục ảnh: {pictures_dir}")
+    print(f"Thư mục nội dung latex: {contents_dir}")
+    print(f"Thư mục chứa ảnh tạm (không dùng): {temp_dir}\n")
 
-    for i, char in enumerate(chars):
-        if in_comment:
-            if char == "\n":
-                in_comment = False
-            else:
-                chars[i] = " "  # Thay thế bằng khoảng trắng để giữ nguyên index dòng
-        else:
-            if char == "\\":
-                is_escaped = not is_escaped
-            elif char == "%":
-                if not is_escaped:
-                    in_comment = True
-                    chars[i] = " "
-                is_escaped = False
-            else:
-                is_escaped = False
+    # Tạo thư mục temp nếu chưa tồn tại
+    temp_dir.mkdir(parents=True, exist_ok=True)
 
-    return "".join(chars)
+    # 1. Đọc tất cả nội dung các file .tex trong thư mục contents
+    print("Đang đọc nội dung các file .tex...")
+    tex_contents = []
+    for tex_file in contents_dir.rglob("*.tex"):
+        try:
+            content = tex_file.read_text(encoding="utf-8")
+            tex_contents.append(content)
+        except Exception as e:
+            print(f" Lỗi khi đọc file {tex_file.name}: {e}")
 
+    print(f" Đã đọc xong {len(tex_contents)} file .tex.\n")
 
-def extract_captions(file_path):
-    """
-    Trích xuất toàn bộ caption và số dòng tương ứng từ file LaTeX.
-    """
-    try:
-        with open(file_path, "r", encoding="utf-8") as f:
-            content = f.read()
-    except Exception as e:
-        print(f"Lỗi khi đọc file {file_path}: {e}")
-        return []
+    # 2. Quét các file trong thư mục pictures
+    moved_count = 0
+    skipped_count = 0
+    checked_count = 0
 
-    cleaned_content = clean_latex_comments(content)
-    captions = []
+    print("Đang kiểm tra các file ảnh...")
+    for item in pictures_dir.iterdir():
+        # Bỏ qua nếu là thư mục (ví dụ như thư mục temp hoặc WebUI)
+        if not item.is_file():
+            continue
 
-    # Tìm tag \caption, hỗ trợ cả tham số tùy chọn \caption[short]{long} hoặc khoảng trắng tùy ý
-    pattern = r"\\caption\s*(?:\[[^\]]*\])?\s*\{"
+        suffix = item.suffix.lower()
 
-    for match in re.finditer(pattern, cleaned_content):
-        start_bracket_idx = match.end() - 1  # Vị trí dấu '{'
-        end_bracket_idx = find_matching_brace(cleaned_content, start_bracket_idx)
+        # Kiểm tra nếu thuộc danh sách file bỏ qua
+        if suffix in ignore_extensions:
+            # print(f" Bỏ qua file theo cấu hình: {item.name}")
+            skipped_count += 1
+            continue
 
-        if end_bracket_idx != -1:
-            caption_raw = cleaned_content[start_bracket_idx + 1 : end_bracket_idx]
-            # Chuẩn hóa khoảng trắng và dấu xuống dòng trong caption
-            caption_clean = " ".join(caption_raw.split())
+        # Kiểm tra nếu thuộc danh sách file dùng trong LaTeX
+        if suffix in latex_image_extensions:
+            checked_count += 1
+            name = item.name
+            stem = item.stem
 
-            # Tính toán số dòng (1-based index)
-            line_num = content.count("\n", 0, match.start()) + 1
-            captions.append((caption_clean, line_num))
+            # Kiểm tra xem ảnh có được sử dụng không
+            is_used = False
+            for content in tex_contents:
+                # Kiểm tra các cách tham chiếu ảnh phổ biến trong LaTeX:
+                # - Chứa tên file trực tiếp (e.g. Home-vbpl.png)
+                # - Chứa đường dẫn có dấu gạch chéo trước tên file (e.g. /Home-vbpl)
+                # - Chứa tên trong dấu ngoặc nhọn (e.g. {Home-vbpl})
+                if name in content or f"/{stem}" in content or f"{{{stem}}}" in content:
+                    is_used = True
+                    break
 
-    return captions
-
-
-def main():
-    target_dir = r"C:\Users\Admin\Documents\GitHub\docs-latex\latex"
-    print(f"Đang quét thư mục: {target_dir}\n")
-
-    caption_locations = defaultdict(list)
-    total_files = 0
-    total_captions_count = 0
-
-    path = Path(target_dir)
-    if not path.exists():
-        print(f"Lỗi: Thư mục '{target_dir}' không tồn tại.")
-        return
-
-    # Quét đệ quy qua toàn bộ thư mục và các thư mục con
-    for root, dirs, files in os.walk(path):
-        for file in files:
-            if file.endswith(".tex"):
-                file_path = Path(root) / file
-                total_files += 1
-
-                # Lấy đường dẫn tương đối để hiển thị đẹp hơn
+            if not is_used:
+                # Di chuyển ảnh không sử dụng vào thư mục temp
+                dest_path = temp_dir / name
+                print(f"[-] Phát hiện ảnh CHƯA DÙNG: {name} -> Di chuyển vào temp/")
                 try:
-                    rel_path = file_path.relative_to(path)
-                except ValueError:
-                    rel_path = file_path
+                    shutil.move(str(item), str(dest_path))
+                    moved_count += 1
+                except Exception as e:
+                    print(f"    Lỗi khi di chuyển file {name}: {e}")
+            else:
+                # print(f"[+] Ảnh ĐANG DÙNG: {name}")
+                pass
 
-                captions = extract_captions(file_path)
-                for caption, line_num in captions:
-                    caption_locations[caption].append((rel_path, line_num))
-                    total_captions_count += 1
-
-    print(f"Đã quét: {total_files} file .tex")
-    print(f"Tổng số caption tìm thấy: {total_captions_count}")
-    print(f"Số lượng caption duy nhất (không trùng lặp): {len(caption_locations)}\n")
-
-    # Tìm và lọc ra các caption bị trùng lặp
-    duplicates = {cap: locs for cap, locs in caption_locations.items() if len(locs) > 1}
-
-    if duplicates:
-        print(f"CẢNH BÁO: Phát hiện {len(duplicates)} caption bị trùng lặp:\n")
-        for idx, (caption, locs) in enumerate(duplicates.items(), 1):
-            print(f'{idx}. Nội dung Caption: "{caption}"')
-            print(f"   Xuất hiện {len(locs)} lần tại:")
-            for file, line in locs:
-                print(f"     - File: {file} (Dòng {line})")
-            print()
-    else:
-        print("Chúc mừng: Không phát hiện caption nào bị trùng lặp!")
+    print("\n--- KẾT QUẢ HOÀN THÀNH ---")
+    print(f" Tổng số ảnh (.jpg, .jpeg, .png) đã kiểm tra: {checked_count}")
+    print(f" Số file bỏ qua (.md, .mmd, .puml): {skipped_count}")
+    print(f" Số ảnh chưa dùng đã di chuyển vào temp: {moved_count}")
 
 
 if __name__ == "__main__":
-    main()
+    clean_unused_images()
