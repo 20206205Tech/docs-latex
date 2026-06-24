@@ -106,7 +106,7 @@ Triển khai Dịch vụ thanh toán (payment service) độc lập trên Heroku
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.95\textwidth]{pictures/payment-heroku.png}
-\caption{Trạng thái triển khai dịch vụ thanh toán trên Heroku}
+\caption{Kết quả triển khai dịch vụ thanh toán trên Heroku}
 \end{figure}
 
 Các bước CI/CD tự động chạy kiểm thử trên GitHub Actions:
@@ -132,7 +132,7 @@ Thông tin kiểm tra tự động của Pull Request của payment service trê
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.95\textwidth]{pictures/payment-test.png}
-\caption{Quy trình chạy Test trong GitHub Actions}
+\caption{Quy trình chạy Test của payment service trên GitHub Actions}
 \end{figure}
 
 Quản lý di chuyển CSDL tự động trong GitHub Actions:
@@ -176,10 +176,10 @@ Dữ liệu sự kiện được gửi dưới dạng chuỗi JSON có cấu tr�
 \texttt{subscriptionId} & String (UUID) & Mã định danh duy nhất của thuê bao \\ \hline
 \texttt{userId} & String (UUID) & Mã định danh người dùng mua gói \\ \hline
 \texttt{planId} & String (UUID) & Mã định danh gói dịch vụ đã mua \\ \hline
-\texttt{periodStart} & String (ISO 8601) & Thời điểm bắt đầu hiệu lực gói dịch vụ \\ \hline
-\texttt{periodEnd} & String (ISO 8601) & Thời điểm kết thúc hiệu lực gói dịch vụ \\ \hline
+\texttt{periodStart} & String & Thời điểm bắt đầu hiệu lực gói dịch vụ \\ \hline
+\texttt{periodEnd} & String & Thời điểm kết thúc hiệu lực gói dịch vụ \\ \hline
 \texttt{version} & Number & Số phiên bản của sự kiện (dùng để quản lý xung đột) \\ \hline
-\texttt{occurredAt} & String (ISO 8601) & Thời điểm sự kiện phát sinh thực tế trên máy chủ \\ \hline
+\texttt{occurredAt} & String & Thời điểm sự kiện phát sinh thực tế trên máy chủ \\ \hline
 \end{tabular}
 \caption{Cấu trúc dữ liệu sự kiện SubscriptionPurchasedEvent}
 \end{table}
@@ -216,12 +216,13 @@ tiến hành cập nhật thông tin thuê bao
 và đặt trạng thái kích hoạt
 VIP (\texttt{is\_active = True}).
 \item \textbf{Xử lý phiên bản nhỏ hơn hoặc bằng}: Nếu phiên bản nhận được nhỏ hơn hoặc bằng, hệ thống sẽ bỏ qua (SKIP) sự kiện vì đã tồn tại bản cập nhật mới hơn trong CSDL (cơ chế Version Control giúp ngăn chặn lỗi out-of-order event).
-\item \textbf{Kích hoạt quyền VIP}: Sau khi cập nhật CSDL thành công, hệ thống mở khóa người dùng và kích hoạt các quyền lợi VIP tương ứng (như trò chuyện thoại nâng cao, mô hình suy luận, bóc tách và tóm tắt văn bản).
+\item \textbf{Kích hoạt quyền VIP}: Sau khi cập nhật CSDL thành công, hệ thống mở khóa người dùng và kích hoạt các quyền lợi VIP tương ứng (như trò chuyện thoại nâng cao, mô hình suy luận, xử lý tài liệu).
 \end{enumerate}
 
 \paragraph{Cơ chế Instant Payment Notification (IPN)}
 
-IPN (Instant Payment Notification) được sử dụng để
+% IPN (Instant Payment Notification)
+được sử dụng để
 Đơn vị cung cấp dịch vụ thanh toán - Payment Service Provider (PSP)
 thông báo kết quả giao dịch một cách không đồng bộ cho
 Đơn vị sử dụng dịch vụ - Payment Service Consumer (PSC).
