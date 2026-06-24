@@ -385,7 +385,7 @@ NestJS sử dụng module \texttt{@nestjs/schedule} để quản lý các cron j
 \end{itemize}
 
 \subparagraph{Phía Dịch vụ chatbot (Python - code-chatbot-service)}
-Python sử dụng thư viện \texttt{APScheduler} (\texttt{AsyncIOScheduler}) chạy nền tích hợp trong vòng đời (lifespan) của ứng dụng để tự động dọn dẹp CSDL lưu trữ lịch sử:
+Python sử dụng \texttt{APScheduler} (\texttt{AsyncIOScheduler}) chạy nền tích hợp trong vòng đời (lifespan) của ứng dụng để tự động dọn dẹp CSDL lưu trữ lịch sử:
 \begin{itemize}
 \item \textbf{\texttt{run\_chat\_cleanup}}: Xóa vĩnh viễn các bản ghi Chat trong CSDL chatbot có trạng thái \texttt{is\_active = False} quá hạn 30 ngày. Chu kỳ chạy: Mỗi ngày lúc 12:00 trưa (môi trường production) hoặc mỗi 10 phút (môi trường development).
 \item \textbf{\texttt{run\_share\_cleanup}}: Xóa vĩnh viễn các bản ghi Share trong CSDL chatbot có trạng thái \texttt{is\_revoked = True} quá hạn 30 ngày. Chu kỳ chạy: Mỗi ngày lúc 12:00 trưa (môi trường production) hoặc mỗi 10 phút (môi trường development).
