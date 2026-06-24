@@ -48,9 +48,9 @@ repos:
 
       - id: sync-abbreviations-to-tex
         name: Sync Abbreviations to LaTeX
-        entry: python python/sync_abbr.py
+        entry: python python/abbr.py
         language: python
-        files: ^python/sync_abbr\.py$
+        files: ^python/abbr\.py$
         pass_filenames: false
 
       # - id: format-markdown-punctuation
