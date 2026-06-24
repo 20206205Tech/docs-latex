@@ -9,17 +9,15 @@ Sơ đồ tổng quan về Dịch vụ trò chuyện (conversation service) và 
 \end{figure}
 
 \paragraph{Dịch vụ trò chuyện (conversation service)}
-
+Chịu trách nhiệm quản lý luồng giao tiếp giữa người dùng và hệ thống Agentic RAG. Dịch vụ này xử lý trực tiếp các cuộc trò chuyện văn bản theo cơ chế streaming, cấp phát token truy cập cho luồng giao tiếp giọng nói và cung cấp các tiện ích lưu trữ, chia sẻ trò chuyện.
 Vì chức năng trò chuyện văn bản suy luận (reasoning) và trò chuyện bằng giọng nói chỉ dành riêng cho tài khoản VIP, nên dịch vụ trò chuyện (conversation service) thực hiện lắng nghe sự kiện thanh toán thành công từ Kafka, lưu lại thông tin vào CSDL và kiểm tra quyền VIP của người dùng hiện tại trước khi xử lý yêu cầu.
-
-Mục đích: Chịu trách nhiệm quản lý luồng giao tiếp giữa người dùng và hệ thống Agentic RAG. Dịch vụ này xử lý trực tiếp các cuộc trò chuyện văn bản theo cơ chế streaming, cấp phát token truy cập cho luồng giao tiếp giọng nói và cung cấp các tiện ích lưu trữ, chia sẻ trò chuyện.
 
 Các tính năng chính:
 \begin{itemize}
 \item \textbf{Khởi tạo trò chuyện}: Bắt đầu một luồng trò chuyện mới trong hệ thống.
 \item \textbf{Cấp phát token thoại}: Cấp phát token bảo mật phục vụ kết nối đàm thoại bằng giọng nói với máy chủ LiveKit.
 \item \textbf{Định tuyến tin nhắn}: Tiếp nhận tin nhắn từ người dùng và kết nối với Dịch vụ chatbot (chatbot service) thông qua giao thức gRPC để xử lý thông tin.
-\item \textbf{Xóa cuộc trò chuyện}: Hỗ trợ xóa mềm (soft delete) một cuộc trò chuyện khỏi hệ thống.
+\item \textbf{Xóa cuộc trò chuyện}: Hỗ trợ xóa mềm và lập lịch xóa dữ liệu sau khoảng thời gian.
 \item \textbf{Quản lý thư mục}: Cho phép người dùng tạo các thư mục lưu trữ để phân loại và sắp xếp các cuộc trò chuyện.
 \item \textbf{Đánh dấu và Ghi chú}: Đánh dấu một cuộc trò chuyện quan trọng và ghi chú các nội dung tóm tắt đi kèm.
 \item \textbf{Chia sẻ trò chuyện}: Tạo ra một bản snapshot chia sẻ đoạn trò chuyện với người dùng khác.
@@ -51,50 +49,53 @@ Thông tin kiểm tra tự động Pull Request của dịch vụ trò chuyện 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{pictures/conversation-PR-v2.png}
-\caption{Kiểm tra Pull Request của conversation service trên GitHub}
+\caption{Kiểm tra Pull Request của dịch vụ trò chuyện trên GitHub}
 \end{figure}
 
-Kiểm tra cú pháp nguồn (linting) tự động trong CI/CD:
+Quy trình chạy Test của dịch vụ trò chuyện trên GitHub Actions:
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.95\textwidth]{pictures/conversation-lint.png}
-\caption{Kiểm tra code linting dịch vụ trò chuyện}
+\caption{Quy trình chạy Test của dịch vụ trò chuyện trên GitHub Actions}
 \end{figure}
 
-Quản lý migrations CSDL của dịch vụ trò chuyện:
+Quản lý di chuyển CSDL của dịch vụ trò chuyện:
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.95\textwidth]{pictures/conversation-database-migration.png}
-\caption{Quản lý database migrations dịch vụ trò chuyện}
+\caption{Quản lý di chuyển CSDL dịch vụ trò chuyện}
 \end{figure}
 
-Cơ cấu các bảng trong CSDL của Dịch vụ trò chuyện:
+Cấu hình các bảng trong CSDL dịch vụ trò chuyện:
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.95\textwidth]{pictures/conversation-database.png}
-\caption{Cấu hình các bảng trong CSDL conversation}
+\caption{Cấu hình các bảng trong CSDL dịch vụ trò chuyện}
 \end{figure}
 
 \paragraph{Dịch vụ chatbot (chatbot service)}
 
-Mục đích: Sử dụng các mô hình AI để xử lý và phản hồi thông minh các câu hỏi của người dùng. Sau đó, lưu lại lịch sử trò chuyện và cung cấp các API truy xuất lịch sử, thông tin suy luận chi tiết (reasoning details) và nguồn tài liệu tham khảo (references) của từng câu trả lời.
+% Mục đích:
+Sử dụng các mô hình AI để xử lý và phản hồi thông minh các câu hỏi của người dùng.
+Sau đó, lưu lại lịch sử trò chuyện và cung cấp các API truy xuất lịch sử,
+thông tin suy luận chi tiết và nguồn tài liệu tham khảo của từng câu trả lời.
 Dịch vụ chatbot lắng nghe RabbitMQ để thực hiện việc tạo và thu hồi các bản snapshot chia sẻ trò chuyện, đồng thời kết nối với LiveKit để vận hành đàm thoại giọng nói với người dùng.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{pictures/chatbot-swagger.png}
+\includegraphics[width=0.99\textwidth]{pictures/chatbot-swagger.png}
 \caption{Tài liệu Swagger API Dịch vụ chatbot}
 \end{figure}
 
-Quản lý migrations CSDL của dịch vụ chatbot:
+Quản lý di chuyển CSDL của dịch vụ chatbot:
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{pictures/chatbot-database-migration.png}
-\caption{Quản lý database migrations dịch vụ chatbot}
+\caption{Quản lý di chuyển CSDL dịch vụ chatbot}
 \end{figure}
 
 Cơ cấu các bảng trong CSDL của Dịch vụ chatbot:
@@ -140,14 +141,27 @@ Hệ thống sử dụng \textbf{RabbitMQ} làm Message Broker để thực hi�
 \item \textbf{Queue}: \texttt{[prefix]\_chat\_deletions}
 \item \textbf{Publisher}: \texttt{code-conversation-service} (NestJS)
 \item \textbf{Consumer}: \texttt{code-chatbot-service} (Python)
-\item \textbf{Payload Schema (JSON)}:
-\begin{verbatim}
-{
-"chat_id": "string", // Mã ID cuộc trò chuyện cần xóa
-"user_id": "string", // Mã ID người dùng sở hữu cuộc trò chuyện
-"version": 0 // Phiên bản sự kiện để kiểm tra thứ tự
-}
-\end{verbatim}
+% \item \textbf{Payload Schema (JSON)}:
+% \begin{verbatim}
+% {
+% "chat_id": "string", // Mã ID cuộc trò chuyện cần xóa
+% "user_id": "string", // Mã ID người dùng sở hữu cuộc trò chuyện
+% "version": 0 // Phiên bản sự kiện để kiểm tra thứ tự
+% }
+% \end{verbatim}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Thuộc tính} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+\texttt{chat\_id} & String & Mã ID cuộc trò chuyện cần xóa \\ \hline
+\texttt{user\_id} & String & Mã ID người dùng sở hữu cuộc trò chuyện \\ \hline
+\texttt{version} & Number & Phiên bản sự kiện để kiểm tra thứ tự \\ \hline
+\end{tabular}
+\caption{Cấu trúc dữ liệu sự kiện ChatDeletedEvent}
+\end{table}
+
 \end{itemize}
 
 \textbf{Sự kiện Yêu cầu chia sẻ (Share Generated Event)}
@@ -155,16 +169,31 @@ Hệ thống sử dụng \textbf{RabbitMQ} làm Message Broker để thực hi�
 \item \textbf{Queue}: \texttt{[prefix]\_share\_generated}
 \item \textbf{Publisher}: \texttt{code-conversation-service} (NestJS)
 \item \textbf{Consumer}: \texttt{code-chatbot-service} (Python)
-\item \textbf{Payload Schema (JSON)}:
-\begin{verbatim}
-{
-"share_id": "string", // ID duy nhất của liên kết chia sẻ
-"chat_id": "string", // ID cuộc trò chuyện được chia sẻ
-"user_id": "string", // ID người dùng tạo chia sẻ
-"version": 1, // Phiên bản sự kiện (khởi tạo thường là 1)
-"last_message_id": "string" // ID tin nhắn cuối cùng
-}
-\end{verbatim}
+% \item \textbf{Payload Schema (JSON)}:
+% \begin{verbatim}
+% {
+% "share_id": "string", // ID duy nhất của liên kết chia sẻ
+% "chat_id": "string", // ID cuộc trò chuyện được chia sẻ
+% "user_id": "string", // ID người dùng tạo chia sẻ
+% "version": 1, // Phiên bản sự kiện (khởi tạo thường là 1)
+% "last_message_id": "string" // ID tin nhắn cuối cùng
+% }
+% \end{verbatim}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Thuộc tính} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+\texttt{share\_id} & String & ID duy nhất của liên kết chia sẻ \\ \hline
+\texttt{chat\_id} & String & ID cuộc trò chuyện được chia sẻ \\ \hline
+\texttt{user\_id} & String & ID người dùng tạo chia sẻ \\ \hline
+\texttt{version} & Number & Phiên bản sự kiện \\ \hline
+\texttt{last\_message\_id} & String & ID tin nhắn cuối cùng \\ \hline
+\end{tabular}
+\caption{Cấu trúc dữ liệu sự kiện ChatSharedEvent}
+\end{table}
+
 \item \textbf{Cơ chế xử lý lệch thứ tự (Out-of-Order)}:
 Consumer Python so sánh phiên bản sự kiện nhận được
 với phiên bản hiện tại trong DB.
@@ -187,14 +216,27 @@ DLQ và gửi cảnh báo về hệ thống.
 \item \textbf{Queue}: \texttt{[prefix]\_share\_revoked}
 \item \textbf{Publisher}: \texttt{code-conversation-service} (NestJS)
 \item \textbf{Consumer}: \texttt{code-chatbot-service} (Python)
-\item \textbf{Payload Schema (JSON)}:
-\begin{verbatim}
-{
-"share_id": "string", // ID liên kết chia sẻ cần thu hồi
-"file_url": "string", // URL tệp tin JSONL cần xóa trên Cloudflare R2
-"version": 2 // Phiên bản sự kiện (thường là phiên bản kế tiếp)
-}
-\end{verbatim}
+% \item \textbf{Payload Schema (JSON)}:
+% \begin{verbatim}
+% {
+% "share_id": "string", // ID liên kết chia sẻ cần thu hồi
+% "file_url": "string", // URL tệp tin JSONL cần xóa trên Cloudflare R2
+% "version": 2 // Phiên bản sự kiện (thường là phiên bản kế tiếp)
+% }
+% \end{verbatim}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Thuộc tính} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+\texttt{share\_id} & String & ID liên kết chia sẻ cần thu hồi \\ \hline
+\texttt{file\_url} & String & URL tệp tin JSONL cần xóa trên Cloudflare R2 \\ \hline
+\texttt{version} & Number & Phiên bản sự kiện (thường là phiên bản kế tiếp) \\ \hline
+\end{tabular}
+\caption{Cấu trúc dữ liệu sự kiện ShareRevokedEvent}
+\end{table}
+
 \item \textbf{Cơ chế xử lý}: Xóa tệp tin trên Cloudflare R2, đánh dấu \texttt{is\_revoked = True} trong DB. Hỗ trợ cơ chế tự động gửi lại hàng đợi chính (requeue) nếu phát hiện sự kiện đến lệch thứ tự (revoke đến trước khi generate kịp ghi DB).
 \end{itemize}
 
@@ -203,50 +245,79 @@ DLQ và gửi cảnh báo về hệ thống.
 \item \textbf{Queue}: \texttt{[prefix]\_share\_upload\_completed}
 \item \textbf{Publisher}: \texttt{code-chatbot-service} (Python)
 \item \textbf{Consumer}: \texttt{code-conversation-service} (NestJS)
-\item \textbf{Payload Schema (JSON)}:
-\begin{verbatim}
-{
-"share_id": "string", // ID liên kết chia sẻ tương ứng
-"file_url": "string", // URL tệp tin JSONL
-"is_success": true // Trạng thái thành công (true / false)
-}
-\end{verbatim}
+% \item \textbf{Payload Schema (JSON)}:
+% \begin{verbatim}
+% {
+% "share_id": "string", // ID liên kết chia sẻ tương ứng
+% "file_url": "string", // URL tệp tin JSONL
+% "is_success": true // Trạng thái thành công (true / false)
+% }
+% \end{verbatim}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Thuộc tính} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+\texttt{share\_id} & String & ID liên kết chia sẻ tương ứng \\ \hline
+\texttt{file\_url} & String & URL tệp tin JSONL \\ \hline
+\texttt{is\_success} & Boolean & Trạng thái thành công \\ \hline
+\end{tabular}
+\caption{Cấu trúc dữ liệu sự kiện ShareProcessStatusEvent}
+\end{table}
+
 \item \textbf{Cơ chế xử lý}: NestJS nhận thông điệp sẽ tiến hành cập nhật trạng thái của bản ghi chia sẻ thành công hoặc thất bại trong DB (sử dụng Manual Ack để đảm bảo không bị mất dữ liệu).
 \end{itemize}
 
-\textbf{Xử lý lệch thứ tự sự kiện Tạo Share và Thu hồi/Xóa Share (Out-of-Order Handling)}
+\textbf{Xử lý lệch thứ tự sự kiện tạo chia sẻ và thu hồi chia sẻ}
 \begin{itemize}
-\item \textbf{Tình huống}: Người dùng vừa tạo Share và lập tức thực hiện xóa/thu hồi Share đó. Do tính chất bất đồng bộ của Message Broker, sự kiện Thu hồi Share (\texttt{share\_revoked}) có thể đến Python worker \textbf{trước} sự kiện Tạo Share (\texttt{share\_generated}).
-\item \textbf{Cơ chế kiểm tra trạng thái Lũy đẳng (State-based Idempotency)}: Vì việc thu hồi liên kết thường liên quan đến vấn đề rò rỉ thông tin nhạy cảm của người dùng, nghiệp vụ yêu cầu lệnh thu hồi phải được thực hiện \textbf{ngay lập tức và ưu tiên cao nhất}. Do đó, hệ thống không áp dụng cơ chế tuần tự kiểm tra version phức tạp mà sử dụng cờ trạng thái \texttt{is\_revoked} để triệt tiêu sự kiện:
+\item \textbf{Tình huống}: Người dùng vừa tạo chia sẻ và lập tức thực hiện thu hồi chia sẻ đó.
+Do tính chất bất đồng bộ của Message Broker,
+sự kiện Thu hồi chia sẻ (\texttt{share\_revoked})
+có thể đến Python worker \textbf{trước} sự kiện tạo chia sẻ
+(\texttt{share\_generated}).
+\item \textbf{Cơ chế kiểm tra trạng thái lũy đẳng}:
+Vì việc thu hồi liên kết thường liên quan đến vấn đề
+rò rỉ thông tin nhạy cảm của người dùng,
+nghiệp vụ yêu cầu lệnh thu hồi
+phải được thực hiện
+\textbf{ngay lập tức và ưu tiên cao nhất}.
+Do đó, hệ thống không áp dụng cơ chế tuần tự
+kiểm tra version phức tạp mà
+sử dụng cờ trạng thái \texttt{is\_revoked}
+để triệt tiêu sự kiện:
 \end{itemize}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{pictures/share-out-of-order.png}
-\caption{Sơ đồ xử lý lệch thứ tự tạo và thu hồi share}
+\includegraphics[width=0.99\textwidth]{pictures/share-out-of-order.png}
+\caption{Sơ đồ xử lý lệch thứ tự tạo và thu hồi chia sẻ}
 \end{figure}
 
 \begin{enumerate}
-\item \textbf{Khi sự kiện Thu hồi Share đến trước}: Python kiểm tra trạng thái trong DB (chưa có bản ghi nào), tiến hành gọi xóa tệp tin trên Cloudflare R2 (nếu đã được tạo trước đó), lưu bản ghi Share vào DB với trạng thái \texttt{is\_revoked = True} và phản hồi \texttt{Ack} để hoàn thành tin nhắn.
-\item \textbf{Khi sự kiện Tạo Share đến sau}: Python kiểm tra DB và phát hiện bản ghi đã tồn tại với trạng thái \texttt{is\_revoked = True}. Khi đó, áp dụng \textbf{Cơ chế Triệt tiêu sự kiện (Event Cancellation)}: lập tức bỏ qua (drop) hoàn toàn hành động tạo và upload tệp lên R2 để bảo vệ tuyệt đối dữ liệu nhạy cảm của người dùng, sau đó gửi \texttt{Ack} để đóng tin nhắn một cách an toàn.
+\item \textbf{Khi sự kiện Thu hồi chia sẻ đến trước}:
+Python kiểm tra trạng thái trong DB (chưa có bản ghi nào), tiến hành gọi xóa tệp tin trên Cloudflare R2 (nếu đã được tạo trước đó), lưu bản ghi chia sẻ vào DB với trạng thái \texttt{is\_revoked = True} và phản hồi \texttt{Ack} để hoàn thành tin nhắn.
+\item \textbf{Khi sự kiện Tạo chia sẻ đến sau}:
+Python kiểm tra DB và phát hiện bản ghi đã tồn tại với trạng thái \texttt{is\_revoked = True}. Khi đó, áp dụng \textbf{Cơ chế Triệt tiêu sự kiện (Event Cancellation)}: lập tức bỏ qua (drop) hoàn toàn hành động tạo và upload tệp lên R2 để bảo vệ tuyệt đối dữ liệu nhạy cảm của người dùng, sau đó gửi \texttt{Ack} để đóng tin nhắn một cách an toàn.
 \end{enumerate}
 
-\textbf{Thiết lập hàng đợi ưu tiên (Priority Queue) trên RabbitMQ}
+% \textbf{Thiết lập hàng đợi ưu tiên (Priority Queue) trên RabbitMQ}
 
-Để đảm bảo các thông điệp thu hồi khẩn cấp được đẩy lên xử lý trước trong trường hợp hàng đợi bị nghẽn (backlog), hệ thống hỗ trợ tích hợp \textbf{Priority Queue}:
-\begin{enumerate}
-\item \textbf{Khai báo hàng đợi hỗ trợ ưu tiên}: Khi khởi tạo queue trên RabbitMQ, gán đối số cấu hình mức ưu tiên cao nhất (khuyến nghị tối đa là 10 để tránh tốn tài nguyên RAM/CPU):
-\begin{verbatim}
-channel.queue_declare(
-queue='[prefix]_share_events_queue',
-arguments={'x-max-priority': 10}
-)
-\end{verbatim}
-\item \textbf{Gửi sự kiện kèm mức độ ưu tiên (Producer)}: Sự kiện Thu hồi Share (\texttt{share\_revoked}) được gửi với độ ưu tiên khẩn cấp (\texttt{priority = 10}); Sự kiện Tạo Share (\texttt{share\_generated}) được gửi với độ ưu tiên bình thường (\texttt{priority = 1}).
-\item \textbf{Cấu hình QOS cho Consumer}: Thiết lập thuộc tính \texttt{prefetch\_count = 1} trên consumer để bắt buộc RabbitMQ chỉ gửi đúng 1 thông điệp tại một thời điểm cho worker. Điều này giúp hàng đợi có cơ hội sắp xếp và đẩy các tin nhắn có độ ưu tiên cao (\texttt{priority = 10}) lên xử lý trước.
-\end{enumerate}
+% Để đảm bảo các thông điệp thu hồi khẩn cấp được đẩy lên xử lý trước trong trường hợp hàng đợi bị nghẽn (backlog), hệ thống hỗ trợ tích hợp \textbf{Priority Queue}:
+% \begin{enumerate}
+% \item \textbf{Khai báo hàng đợi hỗ trợ ưu tiên}: Khi khởi tạo queue trên RabbitMQ, gán đối số cấu hình mức ưu tiên.
+% % cao nhất (khuyến nghị tối đa là 10 để tránh tốn tài nguyên RAM/CPU):
+% % \begin{verbatim}
+% % channel.queue_declare(
+% % queue='[prefix]_share_events_queue',
+% % arguments={'x-max-priority': 10}
+% % )
+% % \end{verbatim}
+% \item \textbf{Gửi sự kiện kèm mức độ ưu tiên (Producer)}: Sự kiện thu hồi chia sẻ (\texttt{share\_revoked}) được gửi với độ ưu tiên khẩn cấp (\texttt{priority = 10}); Sự kiện tạo chia sẻ (\texttt{share\_generated}) được gửi với độ ưu tiên bình thường (\texttt{priority = 1}).
+% \item \textbf{Cấu hình cho consumer}: Thiết lập thuộc tính \texttt{prefetch\_count = 1} trên consumer để bắt buộc RabbitMQ chỉ gửi đúng 1 thông điệp tại một thời điểm cho worker. Điều này giúp hàng đợi có cơ hội sắp xếp và đẩy các tin nhắn có độ ưu tiên cao (\texttt{priority = 10}) lên xử lý trước.
+% \end{enumerate}
 
-\textbf{Luồng xử lý hàng đợi thư chết (DLQ) kết hợp Cảnh báo Telegram}
+\textbf{Luồng xử lý hàng đợi thư chết (DLQ) kết hợp cảnh báo Telegram}
 \begin{itemize}
 \item \textbf{Mục đích}: Khi một tin nhắn gặp lỗi xử lý lặp đi lặp lại nhiều lần (lỗi logic, lỗi kết nối CSDL kéo dài, lỗi phân tích cú pháp dữ liệu), hệ thống cần cô lập tin nhắn đó để tránh làm nghẽn hàng đợi chính, đồng thời phát cảnh báo tức thời cho đội ngũ vận hành (Developers/DevOps).
 \item \textbf{Quy trình hoạt động}: Sự kết hợp giữa cơ chế Dead Letter Queue (DLQ) của RabbitMQ và Telegram Bot API được thực hiện như sau:
@@ -349,6 +420,14 @@ Bộ lọc làm sạch văn bản \texttt{clean\_transcript} xử lý loại b�
 \caption{Bộ lọc làm sạch văn bản clean\_transcript}
 \end{figure}
 
+Thông tin log terminal khi AI thực thi công cụ lấy thông tin nhân vật thành công:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{pictures/voice-get-persona-terminal.png}
+\caption{Terminal log của việc gọi công cụ lấy thông tin nhân vật}
+\end{figure}
+
 Nhà phát triển gửi thông tin văn bản qua data channel mà không cần nói âm thanh:
 
 \begin{figure}[H]
@@ -363,14 +442,6 @@ Nhà phát triển gửi thông tin văn bản qua data channel mà không cần
 \centering
 \includegraphics[width=0.9\textwidth]{pictures/voice-get-persona-ui.png}
 \caption{Giao diện lấy thông tin nhân vật}
-\end{figure}
-
-Thông tin log terminal khi AI thực thi công cụ lấy thông tin nhân vật thành công:
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.95\textwidth]{pictures/voice-get-persona-terminal.png}
-\caption{Terminal log của việc gọi công cụ lấy thông tin nhân vật}
 \end{figure}
 
 \paragraph{Cơ chế Lập lịch Dọn dẹp dữ liệu (Data Cleanup Scheduling)}
