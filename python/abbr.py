@@ -133,6 +133,7 @@ DATA = [
     {"abbr": "TTL", "eng": "Time To Live", "vie": "Thời gian tồn tại"},
     {"abbr": "VBPL", "eng": "Văn bản pháp luật", "vie": "Văn bản pháp luật"},
     {"abbr": "DB", "eng": "database", "vie": "Cơ sở dữ liệu"},
+    # {"abbr": "HTTP", "eng": "database", "vie": "Cơ sở dữ liệu"},
 ]
 
 # OCR	Optical Character Recognition (Công nghệ nhận dạng chữ qua ảnh)
