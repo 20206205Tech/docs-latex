@@ -20,7 +20,13 @@ các gói dịch vụ khác nhau tới người dùng.
 \item \textbf{Tạo mới gói dịch vụ}:
 Cho phép Quản trị viên (ADMIN)
 thiết lập cấu hình gói dịch vụ mới
-bao gồm các thông số: tên gói (ví dụ: VIP 1 tháng), thời hạn sử dụng, giá tiền (VND), trạng thái hoạt động và các tính năng đi kèm (ví dụ: Quyền sử dụng mô hình suy luận AI, Voice, Xử lý tài liệu nâng cao).
+bao gồm các thông số:
+tên gói (ví dụ: VIP 1 tháng),
+thời hạn sử dụng,
+giá tiền,
+trạng thái hoạt động
+và mô tả các tính năng đi kèm
+(ví dụ: Quyền sử dụng mô hình suy luận AI, Voice, Xử lý tài liệu nâng cao).
 
 \item \textbf{Truy xuất danh sách gói}:
 Lấy danh sách toàn bộ
@@ -32,7 +38,7 @@ Chức năng này được phân trang thông qua hai tham số \texttt{skip} v�
 \item \textbf{Cơ chế Cache với Redis}:
 Lưu thông tin cache danh sách các plan vào Redis.
 Khi người dùng yêu cầu xem danh sách gói đăng ký, hệ thống sẽ ưu tiên đọc từ Redis.
-Nếu cache trống (cache miss), hệ thống sẽ truy xuất CSDL, trả về kết quả cho client
+Nếu cache trống, hệ thống sẽ truy xuất CSDL, trả về kết quả cho client
 và lưu lại kết quả đó vào Redis cho các yêu cầu sau.
 
 \item \textbf{Lưu trữ gói thuê bao VIP}:
@@ -71,7 +77,7 @@ Cho phép người dùng xem thông tin chi tiết
 Cung cấp danh sách lịch sử các giao dịch thanh toán trước đó của người dùng, hỗ trợ phân trang để dễ dàng theo dõi.
 
 \item \textbf{Kích hoạt giao dịch thủ công}:
-Tính năng dành cho ADMIN để can thiệp kích hoạt thủ công một giao dịch (\texttt{transaction\_id}) thành công, dùng trong các trường hợp đối soát thủ công hoặc xử lý sự cố.
+Tính năng dành cho ADMIN để can thiệp kích hoạt thủ công một giao dịch (\texttt{transaction\_id}) thành công, dùng trong các trường hợp xử lý sự cố.
 
 \end{itemize}
 
@@ -90,7 +96,7 @@ Trong quá trình phát triển dự án, do các dịch vụ thanh toán sẵn 
 
 Quy trình đóng gói và vận hành:
 \begin{itemize}
-\item Dịch vụ được đóng gói tự động bằng Docker.
+\item Dịch vụ được đóng gói tự động bằng Docker do Heroku xử lý.
 \item Tự động chạy và triển khai lên Heroku khi vượt qua các bước kiểm thử (tests) trong CI/CD của GitHub Actions.
 \item Kết nối trực tiếp với CSDL Postgres (Neon), Kafka và Redis để vận hành hàng đợi BullMQ.
 \end{itemize}
@@ -100,11 +106,11 @@ Triển khai Dịch vụ thanh toán (payment service) độc lập trên Heroku
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.95\textwidth]{pictures/payment-heroku.png}
-\caption{Trạng thái deploy dịch vụ thanh toán trên Heroku}
+\caption{Trạng thái triển khai dịch vụ thanh toán trên Heroku}
 \end{figure}
 
 Các bước CI/CD tự động chạy kiểm thử trên GitHub Actions:
-Hệ thống sử dụng \textbf{Testcontainers} (cho Postgres, Redis và Kafka) để tự động khởi chạy các container Docker độc lập ngay trong quá trình chạy integration tests, đảm bảo tính đúng đắn của mã nguồn trước khi deploy.
+Dịch vụ sử dụng \textbf{Testcontainers} (cho Postgres, Redis và Kafka) để tự động khởi chạy các container Docker độc lập ngay trong quá trình chạy kiểm thử tích hợp, đảm bảo tính đúng đắn của mã nguồn trước khi triển khai.
 Hàng đợi tác vụ bất đồng bộ \textbf{BullMQ} (vận hành trên Redis) được tích hợp để quản lý và tự động xử lý hủy các giao dịch thanh toán quá hạn nếu hết thời gian chờ.
 
 Dữ liệu gói thuê bao VIP được cache trong Redis:
@@ -129,12 +135,12 @@ Thông tin kiểm tra tự động của Pull Request của payment service trê
 \caption{Quy trình chạy Test trong GitHub Actions}
 \end{figure}
 
-Quản lý migrations CSDL tự động trong GitHub Actions:
+Quản lý di chuyển CSDL tự động trong GitHub Actions:
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{pictures/payment-database-migration.png}
-\caption{Quản lý database migrations trên GitHub Actions}
+\caption{Quản lý di chuyển CSDL trên GitHub Actions}
 \end{figure}
 
 Các bảng trong CSDL của Dịch vụ thanh toán (payment service):
