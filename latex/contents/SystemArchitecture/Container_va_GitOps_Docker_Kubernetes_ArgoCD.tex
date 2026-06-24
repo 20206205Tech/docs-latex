@@ -20,7 +20,7 @@ Kubernetes có khả năng thực hiện tính năng Rolling Update.
 Đây là một trong những cơ chế đảm bảo không gián đoạn dịch vụ (Zero Downtime)
 bằng cách tạo từ từ các Pod mới và lần lượt tắt các Pod cũ.
 Kubernetes không xóa tất cả các Pod cùng một lúc.
-Điều này đảm bảo ứng dụng của bạn luôn có Pod đang chạy để xử lý request từ người dùng.
+Điều này đảm bảo ứng dụng luôn có Pod đang chạy để xử lý yêu cầu từ người dùng.
 
 \item \textbf{GitOps với ArgoCD:}
 Việc cấu hình hệ thống bằng cách gõ lệnh thủ công rất dễ dẫn đến sai sót,
@@ -60,7 +60,7 @@ Triển khai \texttt{RabbitMQ} và \texttt{Redis} cùng các dịch vụ khác t
 Cấu hình \texttt{RabbitMQ} queue (kết nối \texttt{conversation service} và \texttt{chatbot service}), \texttt{RabbitMQ} worker (kết nối \texttt{document service} và \texttt{document worker}) và \texttt{Redis} (lưu trữ cache của \texttt{persona service}) có loại dịch vụ (\texttt{type}) là \texttt{ClusterIP}. Thiết lập này giúp ngăn chặn hoàn toàn các client từ bên ngoài cụm Kubernetes kết nối trực tiếp đến các dịch vụ nội bộ này.
 
 \item \textbf{Triển khai dịch vụ giọng nói (\texttt{Voice Deployment} - \texttt{LiveKit Agent}):}
-Dịch vụ giọng nói không cấu hình service đi kèm. Do đó, các tài nguyên khác (cả bên trong và bên ngoài cụm Kubernetes) không thể chủ động định tuyến và gửi các request trực tiếp vào các Pod của \texttt{voice agent}. Thay vào đó, \texttt{voice agent} hoạt động như một \texttt{LiveKit Agent} chủ động lắng nghe và kết nối trực tiếp với máy chủ \texttt{LiveKit}.
+Dịch vụ giọng nói không cấu hình service đi kèm. Do đó, các tài nguyên khác (cả bên trong và bên ngoài cụm Kubernetes) không thể chủ động định tuyến và gửi các yêu cầu trực tiếp vào các Pod của \texttt{voice agent}. Thay vào đó, \texttt{voice agent} hoạt động như một \texttt{LiveKit Agent} chủ động lắng nghe và kết nối trực tiếp với máy chủ \texttt{LiveKit}.
 
 \item \textbf{Triển khai dịch vụ xử lý tài liệu (\texttt{Document Worker} - \texttt{Celery}):}
 Tương tự như \texttt{voice agent}, dịch vụ \texttt{document worker} (sử dụng \texttt{Celery}) cũng không cấu hình service đi kèm. \texttt{Document worker} hoạt động theo cơ chế chủ động lắng nghe hàng đợi từ \texttt{RabbitMQ} worker để xử lý các tác vụ bất đồng bộ.

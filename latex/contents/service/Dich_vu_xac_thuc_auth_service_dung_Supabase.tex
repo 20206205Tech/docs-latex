@@ -13,6 +13,12 @@ bảng \texttt{profiles} được thiết kế riêng để lưu trữ
 và duy trì thông tin của người dùng.
 Dưới đây là mô tả chi tiết các chức năng:
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.99\textwidth]{pictures/supabase-overview.png}
+\caption{Tổng quan các chức năng của Supabase}
+\end{figure}
+
 \paragraph{Xác thực và quản lý tài khoản}
 
 Hệ thống sử dụng các API Auth của Supabase
@@ -113,12 +119,6 @@ Endpoint tải lên: \texttt{/storage/v1/object/avatars/\{fileName\}}
 
 Chi tiết về cấu hình Terraform dùng để quản lý hạ tầng Supabase:
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.95\textwidth]{pictures/auth-terraform-supabase-overview.png}
-\caption{Tổng quan cấu hình Terraform quản lý hạ tầng Supabase}
-\end{figure}
-
 \begin{itemize}
 \item Sử dụng Terraform Cloud với workspace \texttt{infra-supabase} để lưu trữ và quản lý trạng thái hạ tầng một cách tập trung.
 
@@ -132,21 +132,27 @@ Chi tiết về cấu hình Terraform dùng để quản lý hạ tầng Supabas
 
 \item Thiết lập giới hạn gửi email (rate limit).
 
-\item Cấu hình Hệ thống Email (SMTP) đang để mặc định là Gmail.
+\item Cấu hình Hệ thống Email (SMTP) đang được cấu hình mặc định là Gmail.
 
-\item Ghi đè các mẫu email HTML cho "Xác nhận tài khoản" và "Đặt lại mật khẩu" để đồng nhất email thương hiệu tương tự như trong dịch vụ thanh toán.
+\item Ghi đè các mẫu email HTML cho "Xác nhận tài khoản" và "Đặt lại mật khẩu" để đồng nhất email tương tự như trong dịch vụ thanh toán.
 \end{itemize}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{pictures/auth-mail.png}
-\caption{Mẫu email HTML được cấu hình}
+\includegraphics[width=0.95\textwidth]{pictures/auth-terraform-supabase-overview.png}
+\caption{Tổng quan cấu hình Terraform quản lý hạ tầng Supabase}
 \end{figure}
+
+% \begin{figure}[H]
+% \centering
+% \includegraphics[width=0.65\textwidth]{pictures/auth-terraform-supabase-diagram.png}
+% \caption{Sơ đồ cấu hình Terraform cho Supabase}
+% \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{pictures/auth-terraform-supabase-diagram.png}
-\caption{Sơ đồ cấu hình Terraform cho Supabase}
+\includegraphics[width=0.8\textwidth]{pictures/auth-mail.png}
+\caption{Mẫu email HTML được cấu hình}
 \end{figure}
 
 Chi tiết về cấu hình migration CSDL Supabase:
@@ -185,12 +191,12 @@ Hiện tại trong dự án, có 2 gói thư viện dùng chung được xây d�
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{pictures/nest-auth.png}
+\includegraphics[width=0.77\textwidth]{pictures/nest-auth.png}
 \caption{Quy trình kiểm tra bảo mật trong gói thư viện dùng chung}
 \end{figure}
 \begin{itemize}
 \item Xác thực \texttt{Request-Id} được chuyển tiếp từ Kong API Gateway.
-\item Xác thực mã bảo mật \texttt{Request-Kong-Secret} để đảm bảo request thực sự đi qua API Gateway.
+\item Xác thực mã bảo mật \texttt{Request-Kong-Secret} để đảm bảo yêu cầu thực sự đi qua API Gateway.
 \item Kiểm tra tính hợp lệ của chữ ký JWT của người dùng thông qua Supabase.
 \item Xác thực trạng thái MFA (yêu cầu bắt buộc để nâng cao bảo mật dữ liệu).
 \item Kiểm tra và phân quyền vai trò người dùng (ví dụ: yêu cầu vai trò quản trị viên ADMIN đối với các API quản lý).
@@ -200,13 +206,13 @@ Kết quả sơ đồ tệp và thư mục trong gói chung NestJS Auth được
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{pictures/20206205tech-nestjs-auth-file-architecture.png}
-\caption{Sơ đồ tệp và thư mục trong gói chung NestJS Auth}
+\includegraphics[width=0.6\textwidth]{pictures/20206205tech-nestjs-auth-file-architecture.png}
+\caption{Sơ đồ tệp và thư mục trong gói chung NestJS}
 \end{figure}
 
 \paragraph{Cấu hình trong Kong API Gateway}
 
 Tạo Service trong Kong trỏ về URL của dự án Supabase (\texttt{https://[PROJECT\_REF].supabase.co}).
 Thiết lập Route: Tạo một Route liên kết với Service vừa tạo.
-Tham số \texttt{strip\_path=true} đảm bảo Kong sẽ xóa tiền tố khỏi URI trước khi chuyển tiếp request đến Supabase.
+Tham số \texttt{strip\_path=true} đảm bảo Kong sẽ xóa tiền tố khỏi URI trước khi chuyển tiếp yêu cầu đến Supabase.
 Dùng plugin \texttt{request-transformer} để tự động thêm \texttt{apikey} vào header trước khi gửi đến Supabase.

@@ -59,7 +59,6 @@ def move_files(src, dest, files):
         if os.path.isfile(src_path):
             try:
                 # Dùng shutil.move để Cắt (Cut) & Dán (Paste)
-                # Nếu bạn chỉ muốn Copy, hãy đổi thành: shutil.copy(src_path, dest_path)
                 shutil.move(src_path, dest_path)
                 print(f"✅ Đã chuyển thành công: {filename}")
             except Exception as e:

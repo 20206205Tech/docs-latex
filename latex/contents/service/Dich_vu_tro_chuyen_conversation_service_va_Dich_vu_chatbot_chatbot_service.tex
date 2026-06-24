@@ -12,12 +12,6 @@ Sơ đồ tổng quan về Dịch vụ trò chuyện (conversation service) và 
 
 Vì chức năng trò chuyện văn bản suy luận (reasoning) và trò chuyện bằng giọng nói chỉ dành riêng cho tài khoản VIP, nên dịch vụ trò chuyện (conversation service) thực hiện lắng nghe sự kiện thanh toán thành công từ Kafka, lưu lại thông tin vào CSDL và kiểm tra quyền VIP của người dùng hiện tại trước khi xử lý yêu cầu.
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.95\textwidth]{pictures/conversation-swagger.png}
-\caption{Tài liệu Swagger API Dịch vụ trò chuyện}
-\end{figure}
-
 Mục đích: Chịu trách nhiệm quản lý luồng giao tiếp giữa người dùng và hệ thống Agentic RAG. Dịch vụ này xử lý trực tiếp các cuộc trò chuyện văn bản theo cơ chế streaming, cấp phát token truy cập cho luồng giao tiếp giọng nói và cung cấp các tiện ích lưu trữ, chia sẻ trò chuyện.
 
 Các tính năng chính:
@@ -31,6 +25,12 @@ Các tính năng chính:
 \item \textbf{Chia sẻ trò chuyện}: Tạo ra một bản snapshot chia sẻ đoạn trò chuyện với người dùng khác.
 \item \textbf{Đường dẫn chia sẻ}: Cung cấp URL công khai chứa tham số \texttt{shareId} và token bảo mật đi kèm. Chủ sở hữu đoạn chat có thể xem danh sách các liên kết đã tạo và thu hồi quyền truy cập bất cứ lúc nào.
 \end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{pictures/conversation-swagger.png}
+\caption{Tài liệu Swagger API Dịch vụ trò chuyện}
+\end{figure}
 
 Sơ đồ trình tự kiểm duyệt nghiệp vụ khi xóa cuộc trò chuyện và chặn đứng việc chia sẻ cuộc trò chuyện đã bị xóa:
 
@@ -50,7 +50,7 @@ Thông tin kiểm tra tự động Pull Request của dịch vụ trò chuyện 
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{pictures/conversation-PR-v2.png}
+\includegraphics[width=0.8\textwidth]{pictures/conversation-PR-v2.png}
 \caption{Kiểm tra Pull Request của conversation service trên GitHub}
 \end{figure}
 
@@ -80,20 +80,20 @@ Cơ cấu các bảng trong CSDL của Dịch vụ trò chuyện:
 
 \paragraph{Dịch vụ chatbot (chatbot service)}
 
+Mục đích: Sử dụng các mô hình AI để xử lý và phản hồi thông minh các câu hỏi của người dùng. Sau đó, lưu lại lịch sử trò chuyện và cung cấp các API truy xuất lịch sử, thông tin suy luận chi tiết (reasoning details) và nguồn tài liệu tham khảo (references) của từng câu trả lời.
+Dịch vụ chatbot lắng nghe RabbitMQ để thực hiện việc tạo và thu hồi các bản snapshot chia sẻ trò chuyện, đồng thời kết nối với LiveKit để vận hành đàm thoại giọng nói với người dùng.
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.95\textwidth]{pictures/chatbot-swagger.png}
 \caption{Tài liệu Swagger API Dịch vụ chatbot}
 \end{figure}
 
-Mục đích: Sử dụng các mô hình AI để xử lý và phản hồi thông minh các câu hỏi của người dùng. Sau đó, lưu lại lịch sử trò chuyện và cung cấp các API truy xuất lịch sử, thông tin suy luận chi tiết (reasoning details) và nguồn tài liệu tham khảo (references) của từng câu trả lời.
-Dịch vụ chatbot lắng nghe RabbitMQ để thực hiện việc tạo và thu hồi các bản snapshot chia sẻ trò chuyện, đồng thời kết nối với LiveKit để vận hành đàm thoại giọng nói với người dùng.
-
 Quản lý migrations CSDL của dịch vụ chatbot:
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{pictures/chatbot-database-migration.png}
+\includegraphics[width=0.9\textwidth]{pictures/chatbot-database-migration.png}
 \caption{Quản lý database migrations dịch vụ chatbot}
 \end{figure}
 
@@ -109,27 +109,33 @@ Cơ cấu các bảng trong CSDL của Dịch vụ chatbot:
 
 Hệ thống sử dụng \textbf{RabbitMQ} làm Message Broker để thực hiện các giao tiếp bất đồng bộ, đáng tin cậy giữa \textbf{Dịch vụ trò chuyện (NestJS)} và \textbf{Dịch vụ chatbot (Python)}. Các tên hàng đợi được tiền tố hóa tự động theo môi trường (\texttt{dev\_}, \texttt{test\_}, \texttt{prod\_}) dựa trên cấu hình hệ thống.
 
-\subparagraph{1. Danh sách các Hàng đợi (Queues) trong hệ thống}
+\subparagraph{Danh sách các Hàng đợi trong hệ thống}
 
 \begin{itemize}
 \item \textbf{\texttt{[prefix]\_chat\_deletions}}: Nhận yêu cầu xóa mềm (soft delete) lịch sử chat từ phía người dùng (Durable: \texttt{true}).
 
-\item \textbf{\texttt{[prefix]\_share\_generated}}: Yêu cầu tạo trang chia sẻ trò chuyện công khai (đóng gói dạng JSONL và tải lên Cloudflare R2) (Durable: \texttt{true}, DLQ Routing: \texttt{[prefix]\_share\_generated\_dlq}).
+\item \textbf{\texttt{[prefix]\_share\_generated}}: Yêu cầu tạo trang chia sẻ trò chuyện công khai (đóng gói JSONL và tải lên Cloudflare R2).
 
 \item \textbf{\texttt{[prefix]\_share\_generated\_retry}}: Hàng đợi trung gian để xử lý lại (retry) khi gặp lỗi lệch thứ tự sự kiện (out of order). Cấu hình độ trễ cố định \texttt{x-message-ttl = 20s} trước khi gửi trả lại queue chính.
 
 \item \textbf{\texttt{[prefix]\_share\_generated\_dlq}}: Dead Letter Queue nhận thông điệp tạo share thất bại hoàn toàn sau \texttt{MAX\_RETRY\_COUNT = 5} lần thử lại.
 
-\item \textbf{\texttt{[prefix]\_share\_upload\_completed}}: Báo cáo kết quả đóng gói và upload file chia sẻ từ Python về lại NestJS (Durable: \texttt{true}, DLQ Routing: \texttt{[prefix]\_share\_upload\_completed\_dlq}).
+\item \textbf{\texttt{[prefix]\_share\_upload\_completed}}: Báo cáo kết quả đóng gói và upload file chia sẻ từ Python về lại NestJS.
 
 \item \textbf{\texttt{[prefix]\_share\_upload\_completed\_dlq}}: Dead Letter Queue nhận thông điệp báo cáo kết quả upload bị xử lý thất bại ở NestJS.
 
 \item \textbf{\texttt{[prefix]\_share\_revoked}}: Nhận yêu cầu thu hồi link chia sẻ, tiến hành xóa file tương ứng trên Cloudflare R2 và cập nhật DB (Durable: \texttt{true}).
 \end{itemize}
 
-\subparagraph{2. Cấu trúc dữ liệu và Luồng xử lý sự kiện (Event Payloads \& Flow)}
+% \begin{figure}[H]
+% \centering
+% \includegraphics[width=0.95\textwidth]{pictures/share-out-of-order.png}
+% \caption{Danh sách các Hàng đợi trong hệ thống}
+% \end{figure}
 
-\textbf{A. Sự kiện Xóa trò chuyện (Chat Deletion Event)}
+% \subparagraph{Cấu trúc dữ liệu và Luồng xử lý sự kiện}
+
+\textbf{Sự kiện Xóa trò chuyện}
 \begin{itemize}
 \item \textbf{Queue}: \texttt{[prefix]\_chat\_deletions}
 \item \textbf{Publisher}: \texttt{code-conversation-service} (NestJS)
@@ -144,7 +150,7 @@ Hệ thống sử dụng \textbf{RabbitMQ} làm Message Broker để thực hi�
 \end{verbatim}
 \end{itemize}
 
-\textbf{B. Sự kiện Yêu cầu chia sẻ (Share Generated Event)}
+\textbf{Sự kiện Yêu cầu chia sẻ (Share Generated Event)}
 \begin{itemize}
 \item \textbf{Queue}: \texttt{[prefix]\_share\_generated}
 \item \textbf{Publisher}: \texttt{code-conversation-service} (NestJS)
@@ -156,13 +162,27 @@ Hệ thống sử dụng \textbf{RabbitMQ} làm Message Broker để thực hi�
 "chat_id": "string", // ID cuộc trò chuyện được chia sẻ
 "user_id": "string", // ID người dùng tạo chia sẻ
 "version": 1, // Phiên bản sự kiện (khởi tạo thường là 1)
-"last_message_id": "string" // ID tin nhắn cuối cùng (hoặc null nếu chia sẻ hết)
+"last_message_id": "string" // ID tin nhắn cuối cùng
 }
 \end{verbatim}
-\item \textbf{Cơ chế xử lý lệch thứ tự (Out-of-Order)}: Consumer Python so sánh phiên bản sự kiện nhận được với phiên bản hiện tại trong DB. Nếu \texttt{event\_version == current\_version + 1}, tiến hành đóng gói lịch sử chat, upload R2 và gửi kết quả về NestJS. Nếu \texttt{event\_version <= current\_version}, bỏ qua vì đã xử lý. Nếu \texttt{event\_version > current\_version + 1}, sự kiện đến sai thứ tự, ném ra ngoại lệ \texttt{OutOfOrderException} để đưa tin nhắn vào \texttt{[prefix]\_share\_generated\_retry} tạm chờ 20 giây trước khi thử lại; sau 5 lần thất bại liên tục sẽ bị chuyển vào DLQ và gửi cảnh báo về hệ thống.
+\item \textbf{Cơ chế xử lý lệch thứ tự (Out-of-Order)}:
+Consumer Python so sánh phiên bản sự kiện nhận được
+với phiên bản hiện tại trong DB.
+Nếu \texttt{event\_version == current\_version + 1},
+tiến hành đóng gói lịch sử chat,
+upload R2 và gửi kết quả về NestJS.
+Nếu \texttt{event\_version <= current\_version},
+bỏ qua vì đã xử lý.
+Nếu \texttt{event\_version > current\_version + 1},
+sự kiện đến sai thứ tự,
+ném ra ngoại lệ \texttt{OutOfOrderException}
+để đưa tin nhắn vào \texttt{retry}
+tạm chờ 20 giây trước khi thử lại.
+Sau 5 lần thất bại liên tục sẽ bị chuyển vào
+DLQ và gửi cảnh báo về hệ thống.
 \end{itemize}
 
-\textbf{C. Sự kiện Thu hồi liên kết (Share Revoked Event)}
+\textbf{Sự kiện Thu hồi liên kết (Share Revoked Event)}
 \begin{itemize}
 \item \textbf{Queue}: \texttt{[prefix]\_share\_revoked}
 \item \textbf{Publisher}: \texttt{code-conversation-service} (NestJS)
@@ -178,7 +198,7 @@ Hệ thống sử dụng \textbf{RabbitMQ} làm Message Broker để thực hi�
 \item \textbf{Cơ chế xử lý}: Xóa tệp tin trên Cloudflare R2, đánh dấu \texttt{is\_revoked = True} trong DB. Hỗ trợ cơ chế tự động gửi lại hàng đợi chính (requeue) nếu phát hiện sự kiện đến lệch thứ tự (revoke đến trước khi generate kịp ghi DB).
 \end{itemize}
 
-\textbf{D. Sự kiện Hoàn tất Upload (Share Upload Completed Event)}
+\textbf{Sự kiện Hoàn tất Upload (Share Upload Completed Event)}
 \begin{itemize}
 \item \textbf{Queue}: \texttt{[prefix]\_share\_upload\_completed}
 \item \textbf{Publisher}: \texttt{code-chatbot-service} (Python)
@@ -187,14 +207,14 @@ Hệ thống sử dụng \textbf{RabbitMQ} làm Message Broker để thực hi�
 \begin{verbatim}
 {
 "share_id": "string", // ID liên kết chia sẻ tương ứng
-"file_url": "string", // URL tệp tin JSONL chứa lịch sử chat đã upload R2 (hoặc rỗng nếu lỗi)
+"file_url": "string", // URL tệp tin JSONL
 "is_success": true // Trạng thái thành công (true / false)
 }
 \end{verbatim}
 \item \textbf{Cơ chế xử lý}: NestJS nhận thông điệp sẽ tiến hành cập nhật trạng thái của bản ghi chia sẻ thành công hoặc thất bại trong DB (sử dụng Manual Ack để đảm bảo không bị mất dữ liệu).
 \end{itemize}
 
-\textbf{E. Xử lý lệch thứ tự sự kiện Tạo Share và Thu hồi/Xóa Share (Out-of-Order Handling)}
+\textbf{Xử lý lệch thứ tự sự kiện Tạo Share và Thu hồi/Xóa Share (Out-of-Order Handling)}
 \begin{itemize}
 \item \textbf{Tình huống}: Người dùng vừa tạo Share và lập tức thực hiện xóa/thu hồi Share đó. Do tính chất bất đồng bộ của Message Broker, sự kiện Thu hồi Share (\texttt{share\_revoked}) có thể đến Python worker \textbf{trước} sự kiện Tạo Share (\texttt{share\_generated}).
 \item \textbf{Cơ chế kiểm tra trạng thái Lũy đẳng (State-based Idempotency)}: Vì việc thu hồi liên kết thường liên quan đến vấn đề rò rỉ thông tin nhạy cảm của người dùng, nghiệp vụ yêu cầu lệnh thu hồi phải được thực hiện \textbf{ngay lập tức và ưu tiên cao nhất}. Do đó, hệ thống không áp dụng cơ chế tuần tự kiểm tra version phức tạp mà sử dụng cờ trạng thái \texttt{is\_revoked} để triệt tiêu sự kiện:
@@ -211,7 +231,7 @@ Hệ thống sử dụng \textbf{RabbitMQ} làm Message Broker để thực hi�
 \item \textbf{Khi sự kiện Tạo Share đến sau}: Python kiểm tra DB và phát hiện bản ghi đã tồn tại với trạng thái \texttt{is\_revoked = True}. Khi đó, áp dụng \textbf{Cơ chế Triệt tiêu sự kiện (Event Cancellation)}: lập tức bỏ qua (drop) hoàn toàn hành động tạo và upload tệp lên R2 để bảo vệ tuyệt đối dữ liệu nhạy cảm của người dùng, sau đó gửi \texttt{Ack} để đóng tin nhắn một cách an toàn.
 \end{enumerate}
 
-\textbf{F. Thiết lập hàng đợi ưu tiên (Priority Queue) trên RabbitMQ}
+\textbf{Thiết lập hàng đợi ưu tiên (Priority Queue) trên RabbitMQ}
 
 Để đảm bảo các thông điệp thu hồi khẩn cấp được đẩy lên xử lý trước trong trường hợp hàng đợi bị nghẽn (backlog), hệ thống hỗ trợ tích hợp \textbf{Priority Queue}:
 \begin{enumerate}
@@ -226,7 +246,7 @@ arguments={'x-max-priority': 10}
 \item \textbf{Cấu hình QOS cho Consumer}: Thiết lập thuộc tính \texttt{prefetch\_count = 1} trên consumer để bắt buộc RabbitMQ chỉ gửi đúng 1 thông điệp tại một thời điểm cho worker. Điều này giúp hàng đợi có cơ hội sắp xếp và đẩy các tin nhắn có độ ưu tiên cao (\texttt{priority = 10}) lên xử lý trước.
 \end{enumerate}
 
-\textbf{G. Luồng xử lý hàng đợi thư chết (DLQ) kết hợp Cảnh báo Telegram}
+\textbf{Luồng xử lý hàng đợi thư chết (DLQ) kết hợp Cảnh báo Telegram}
 \begin{itemize}
 \item \textbf{Mục đích}: Khi một tin nhắn gặp lỗi xử lý lặp đi lặp lại nhiều lần (lỗi logic, lỗi kết nối CSDL kéo dài, lỗi phân tích cú pháp dữ liệu), hệ thống cần cô lập tin nhắn đó để tránh làm nghẽn hàng đợi chính, đồng thời phát cảnh báo tức thời cho đội ngũ vận hành (Developers/DevOps).
 \item \textbf{Quy trình hoạt động}: Sự kết hợp giữa cơ chế Dead Letter Queue (DLQ) của RabbitMQ và Telegram Bot API được thực hiện như sau:
@@ -234,7 +254,7 @@ arguments={'x-max-priority': 10}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{pictures/dlq-telegram-alert.png}
+\includegraphics[width=0.99\textwidth]{pictures/dlq-telegram-alert.png}
 \caption{Sơ đồ luồng xử lý DLQ và thông báo Telegram}
 \end{figure}
 
@@ -244,15 +264,9 @@ arguments={'x-max-priority': 10}
 \item \textbf{Tiêu thụ DLQ và Cảnh báo}: Một consumer chuyên biệt (\texttt{process\_share\_generated\_dlq}) sẽ lắng nghe hàng đợi DLQ. Khi có tin nhắn đi vào DLQ, consumer này sẽ trích xuất thông tin lỗi, payload của sự kiện, thời gian xảy ra sự cố và gửi yêu cầu HTTP POST tới Telegram Bot API để thông báo tức thời cho đội ngũ vận hành.
 \end{enumerate}
 
-\subparagraph{3. Xử lý concurrency khi Tạo Share và Xóa Chat đồng thời (Concurrency \& Snapshot Architecture)}
+\subparagraph{Xử lý concurrency khi Tạo Share và Xóa Chat đồng thời (Concurrency \& Snapshot Architecture)}
 
 Trong thực tế vận hành, người dùng có thể thực hiện thao tác tạo liên kết chia sẻ (Share) và ngay lập tức xóa cuộc trò chuyện (Delete Chat). Lúc này, cơ chế Outbox sẽ đẩy đồng thời hai sự kiện \texttt{share\_generated} và \texttt{chat\_deleted} vào RabbitMQ. Để giải quyết bài toán Race Condition (xung đột tài nguyên) khi thứ tự xử lý trên RabbitMQ không cố định, hệ thống áp dụng mẫu kiến trúc \textbf{Snapshot/Static Generation}:
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.95\textwidth]{pictures/share-concurrency-handling.png}
-\caption{Sơ đồ xử lý đồng thời tạo share và xóa chat}
-\end{figure}
 
 \textbf{Cơ chế hoạt động chi tiết:}
 \begin{itemize}
@@ -260,6 +274,12 @@ Trong thực tế vận hành, người dùng có thể thực hiện thao tác 
 \item \textbf{Tạo Snapshot tĩnh (Static Generation):} Dù sự kiện \texttt{chat\_deleted} có được xử lý trước sự kiện \texttt{share\_generated} trên Python worker, Python vẫn có thể truy vấn đầy đủ nội dung lịch sử chat đã xóa mềm từ database để đóng gói thành tệp JSONL tĩnh và tải lên Cloudflare R2.
 \item \textbf{Tính độc lập của liên kết chia sẻ:} Sau khi upload thành công lên Cloudflare R2, liên kết chia sẻ trỏ trực tiếp đến tệp tĩnh này. Khi người nhận xem liên kết chia sẻ, Frontend sẽ fetch trực tiếp tệp tĩnh từ R2 (qua CDN) mà không cần truy vấn vào database gốc (Neon) hay đi qua NestJS. Do đó, nghiệp vụ chấp nhận trạng thái "Có liên kết Share hoạt động nhưng Chat gốc đã bị xóa".
 \end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{pictures/share-concurrency-handling.png}
+\caption{Sơ đồ xử lý đồng thời tạo share và xóa chat}
+\end{figure}
 
 \paragraph{Chi tiết chức năng đàm thoại giọng nói (Voice Agent)}
 
@@ -271,7 +291,7 @@ Sơ đồ tổng quan luồng tích hợp LiveKit đàm thoại giọng nói:
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{pictures/voice-livekit-overview.png}
+\includegraphics[width=0.9\textwidth]{pictures/voice-livekit-overview.png}
 \caption{Sơ đồ tích hợp LiveKit đàm thoại giọng nói}
 \end{figure}
 
@@ -349,14 +369,14 @@ Thông tin log terminal khi AI thực thi công cụ lấy thông tin nhân vậ
 
 Vì tính năng xóa trò chuyện và thu hồi liên kết chia sẻ trong hệ thống sử dụng cơ chế \textbf{xóa mềm (soft delete)} để đảm bảo tính an toàn dữ liệu và tối ưu hiệu năng của các giao dịch tức thời, hệ thống triển khai các tác vụ lập lịch định kỳ (cron jobs / scheduler) trên cả \textbf{NestJS} và \textbf{Python} để dọn dẹp triệt để các dữ liệu đã bị xóa sau thời gian lưu trữ quy định.
 
-\subparagraph{1. Phía Dịch vụ trò chuyện (NestJS - code-conversation-service)}
+\subparagraph{Phía Dịch vụ trò chuyện (NestJS - code-conversation-service)}
 NestJS sử dụng module \texttt{@nestjs/schedule} để quản lý các cron jobs dọn dẹp các bản ghi không còn hoạt động quá \textbf{30 ngày}:
 \begin{itemize}
 \item \textbf{\texttt{ChatCleanupCron}}: Tìm và xóa vĩnh viễn các bản ghi Chat có \texttt{isActive = false} và thời gian cập nhật cách hiện tại từ 30 ngày trở lên. Chu kỳ chạy: Mỗi ngày vào lúc nửa đêm (môi trường production) hoặc mỗi 10 phút (môi trường development).
 \item \textbf{\texttt{ShareCleanupCron}}: Tìm và xóa vĩnh viễn các bản ghi liên kết Share có \texttt{isActive = false} (hoặc đã bị thu hồi) quá hạn 30 ngày. Chu kỳ chạy: Mỗi ngày vào lúc nửa đêm (môi trường production) hoặc mỗi 10 phút (môi trường development).
 \end{itemize}
 
-\subparagraph{2. Phía Dịch vụ chatbot (Python - code-chatbot-service)}
+\subparagraph{Phía Dịch vụ chatbot (Python - code-chatbot-service)}
 Python sử dụng thư viện \texttt{APScheduler} (\texttt{AsyncIOScheduler}) chạy nền tích hợp trong vòng đời (lifespan) của ứng dụng để tự động dọn dẹp CSDL lưu trữ lịch sử:
 \begin{itemize}
 \item \textbf{\texttt{run\_chat\_cleanup}}: Xóa vĩnh viễn các bản ghi Chat trong CSDL chatbot có trạng thái \texttt{is\_active = False} quá hạn 30 ngày. Chu kỳ chạy: Mỗi ngày lúc 12:00 trưa (môi trường production) hoặc mỗi 10 phút (môi trường development).

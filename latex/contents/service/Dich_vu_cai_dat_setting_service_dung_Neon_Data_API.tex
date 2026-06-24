@@ -9,7 +9,7 @@ Kích hoạt thủ công Data API trên bảng điều khiển của Neon:
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{pictures/setting-neonimage-1.png}
+\includegraphics[width=0.65\textwidth]{pictures/setting-neonimage-1.png}
 \caption{Kích hoạt Data API trên Neon}
 \end{figure}
 
@@ -46,9 +46,9 @@ Kích hoạt bảo mật cấp hàng RLS (Row-Level Security) để đảm bảo
 \paragraph{Cấu hình trong Kong API Gateway}
 
 Tạo Service trong Kong trỏ trực tiếp đến endpoint REST API của bảng \texttt{settings} trên Neon.
-Thay vì tạo một Route chung cho tất cả các request,
+Thay vì tạo một Route chung cho tất cả các yêu cầu,
 hệ thống được cấu hình để phân loại riêng biệt luồng đọc (\texttt{GET}) và luồng ghi (\texttt{POST}).
-Tham số \texttt{strip\_path=true} giúp Kong loại bỏ tiền tố URI trước khi chuyển tiếp request đến Neon.
+Tham số \texttt{strip\_path=true} giúp Kong loại bỏ tiền tố URI trước khi chuyển tiếp yêu cầu đến Neon.
 Cấu hình Plugin xử lý Upsert tự động:
 Trong REST API dựa trên Postgres,
 để thực hiện hành động Upsert

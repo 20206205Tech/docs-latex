@@ -6,7 +6,7 @@ Sơ đồ tổng quan về Dịch vụ thanh toán (payment service):
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.95\textwidth]{pictures/payment-kafka-event.png}
-\caption{Sơ đồ tích hợp thanh toán và sự kiện Kafka}
+\caption{Sơ đồ tổng quan dịch vụ thanh toán}
 \end{figure}
 
 \paragraph{Quản lý Gói dịch vụ (Plans)}
@@ -24,7 +24,8 @@ bao gồm các thông số: tên gói (ví dụ: VIP 1 tháng), thời hạn s�
 \item \textbf{Truy xuất danh sách gói}:
 Lấy danh sách toàn bộ
 các gói dịch vụ hiện có
-trên hệ thống để hiển thị cho người dùng.
+trên hệ thống.
+% để hiển thị cho người dùng.
 Chức năng này được phân trang thông qua hai tham số \texttt{skip} và \texttt{limit}.
 
 \item \textbf{Cơ chế Cache với Redis}:
@@ -34,11 +35,13 @@ Nếu cache trống (cache miss), hệ thống sẽ truy xuất CSDL, trả về
 và lưu lại kết quả đó vào Redis cho các yêu cầu sau.
 
 \item \textbf{Lưu trữ gói thuê bao VIP}:
-Cho phép quản trị viên tạm dừng cung cấp các gói dịch vụ cũ.
+Cho phép quản trị viên tạm dừng
+% cung cấp
+các gói dịch vụ cũ.
 
 \end{itemize}
 
-Các API chính trong tài liệu Swagger API của Dịch vụ thanh toán (payment service):
+% Các API chính trong tài liệu Swagger API của Dịch vụ thanh toán (payment service):
 
 \begin{figure}[H]
 \centering
@@ -115,7 +118,7 @@ Thông tin kiểm tra tự động của Pull Request của payment service trê
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{pictures/payment-PR.png}
+\includegraphics[width=0.8\textwidth]{pictures/payment-PR.png}
 \caption{Kiểm tra Pull Request của payment service trên GitHub}
 \end{figure}
 
@@ -129,7 +132,7 @@ Quản lý migrations CSDL tự động trong GitHub Actions:
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{pictures/payment-database-migration.png}
+\includegraphics[width=0.8\textwidth]{pictures/payment-database-migration.png}
 \caption{Quản lý database migrations trên GitHub Actions}
 \end{figure}
 
@@ -207,7 +210,7 @@ thông báo kết quả giao dịch một cách không đồng bộ cho
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{pictures/payment-ipn-i1.png}
+\includegraphics[width=0.9\textwidth]{pictures/payment-ipn-i1.png}
 \caption{Sơ đồ nguyên lý hoạt động của IPN}
 \end{figure}
 
@@ -215,51 +218,62 @@ Sau khi khách hàng hoàn tất thanh toán, kết nối mạng của họ có 
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{pictures/payment-ipn-i2.png}
+\includegraphics[width=0.9\textwidth]{pictures/payment-ipn-i2.png}
 \caption{Mô phỏng luồng cập nhật trạng thái qua IPN}
 \end{figure}
 
 \paragraph{Thiết kế hệ thống theo Domain-Driven Design (DDD)}
 
 Dự án được thiết kế theo mô hình Phát triển hướng tên miền (Domain-Driven Design - DDD) kết hợp với kiến trúc Lục giác (Hexagonal Architecture).
-Để demo khả năng thay đổi linh hoạt các dịch vụ tích hợp bên ngoài, hệ thống cho phép cấu hình cổng thanh toán mặc định thông qua biến môi trường \texttt{PAYMENT\_DEFAULT\_PROVIDER}. Nhờ áp dụng Dependency Inversion thông qua các Interface, việc chuyển đổi hoặc bổ sung các cổng thanh toán mới được thực hiện vô cùng dễ dàng mà không làm ảnh hưởng đến logic nghiệp vụ cốt lõi.
+Để demo khả năng thay đổi linh
+hoạt các dịch vụ tích hợp bên ngoài,
+hệ thống cho phép cấu hình cổng thanh toán
+mặc định thông qua biến
+môi trường \texttt{PAYMENT\_DEFAULT\_PROVIDER}.
+Nhờ áp dụng Dependency Inversion thông
+qua các Interface,
+việc chuyển đổi hoặc bổ
+sung các cổng thanh toán mới
+được thực hiện vô cùng dễ dàng
+mà không làm ảnh
+hưởng đến nghiệp vụ cốt lõi.
 
-Giao diện demo thanh toán qua VNPay:
+% Giao diện demo thanh toán qua VNPay:
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{pictures/payment-vnpay.png}
+\includegraphics[width=0.64\textwidth]{pictures/payment-vnpay.png}
 \caption{Giao diện thanh toán VNPay}
 \end{figure}
 
-Giao diện demo thanh toán qua MoMo:
+% Giao diện demo thanh toán qua MoMo:
+
+% \begin{figure}[H]
+% \centering
+% \includegraphics[width=0.99\textwidth]{pictures/payment-momo.png}
+% \caption{Giao diện thanh toán MoMo}
+% \end{figure}
+
+% % Giao diện demo thanh toán qua ZaloPay:
+
+% \begin{figure}[H]
+% \centering
+% \includegraphics[width=0.99\textwidth]{pictures/payment-zalo.png}
+% \caption{Giao diện thanh toán ZaloPay}
+% \end{figure}
+
+% Giao diện demo thanh toán qua SePay:
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{pictures/payment-momo.png}
-\caption{Giao diện thanh toán MoMo}
-\end{figure}
-
-Giao diện demo thanh toán qua ZaloPay:
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.95\textwidth]{pictures/payment-zalo.png}
-\caption{Giao diện thanh toán ZaloPay}
-\end{figure}
-
-Giao diện demo thanh toán qua SePay:
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.95\textwidth]{pictures/payment-sepay.png}
+\includegraphics[width=0.99\textwidth]{pictures/payment-sepay.png}
 \caption{Giao diện thanh toán SePay}
 \end{figure}
 
-Mẫu Email gửi cho người dùng khi thanh toán thành công:
+% Mẫu Email gửi cho người dùng khi thanh toán thành công:
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{pictures/payment-mail.png}
+\includegraphics[width=0.99\textwidth]{pictures/payment-mail.png}
 \caption{Email thông báo thanh toán thành công}
 \end{figure}
