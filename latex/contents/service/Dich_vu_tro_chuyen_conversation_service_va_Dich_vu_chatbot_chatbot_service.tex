@@ -1,11 +1,11 @@
 \subsubsection{Dịch vụ trò chuyện (conversation service) và Dịch vụ chatbot (chatbot service)}
 
-Sơ đồ tổng quan về Dịch vụ trò chuyện (conversation service) và Dịch vụ chatbot (chatbot service):
+Sơ đồ tổng quan về dịch vụ trò chuyện (conversation service) và dịch vụ chatbot (chatbot service):
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.95\textwidth]{pictures/conversation-and-chatbot-overview.png}
-\caption{Sơ đồ tổng quan Dịch vụ trò chuyện và Dịch vụ chatbot}
+\caption{Sơ đồ tổng quan dịch vụ trò chuyện và dịch vụ chatbot}
 \end{figure}
 
 \paragraph{Dịch vụ trò chuyện (conversation service)}
@@ -16,7 +16,7 @@ Các tính năng chính:
 \begin{itemize}
 \item \textbf{Khởi tạo trò chuyện}: Bắt đầu một luồng trò chuyện mới trong hệ thống.
 \item \textbf{Cấp phát token thoại}: Cấp phát token bảo mật phục vụ kết nối đàm thoại bằng giọng nói với máy chủ LiveKit.
-\item \textbf{Định tuyến tin nhắn}: Tiếp nhận tin nhắn từ người dùng và kết nối với Dịch vụ chatbot (chatbot service) thông qua giao thức gRPC để xử lý thông tin.
+\item \textbf{Định tuyến tin nhắn}: Tiếp nhận tin nhắn từ người dùng và kết nối với dịch vụ chatbot (chatbot service) thông qua giao thức gRPC để xử lý thông tin.
 \item \textbf{Xóa cuộc trò chuyện}: Hỗ trợ xóa mềm và lập lịch xóa dữ liệu sau khoảng thời gian.
 \item \textbf{Quản lý thư mục}: Cho phép người dùng tạo các thư mục lưu trữ để phân loại và sắp xếp các cuộc trò chuyện.
 \item \textbf{Đánh dấu và Ghi chú}: Đánh dấu một cuộc trò chuyện quan trọng và ghi chú các nội dung tóm tắt đi kèm.
@@ -27,7 +27,7 @@ Các tính năng chính:
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.95\textwidth]{pictures/conversation-swagger.png}
-\caption{Tài liệu Swagger API Dịch vụ trò chuyện}
+\caption{Tài liệu Swagger API dịch vụ trò chuyện}
 \end{figure}
 
 Sơ đồ trình tự kiểm duyệt nghiệp vụ khi xóa cuộc trò chuyện và chặn đứng việc chia sẻ cuộc trò chuyện đã bị xóa:
@@ -40,7 +40,7 @@ Sơ đồ trình tự kiểm duyệt nghiệp vụ khi xóa cuộc trò chuyện
 
 \textbf{Chi tiết luồng xử lý và kiểm duyệt (Validation Logic):}
 \begin{enumerate}
-\item \textbf{Xóa cuộc trò chuyện (Delete Chat)}: Client gửi yêu cầu \texttt{DELETE /chats/\{id\}} đến Dịch vụ trò chuyện (NestJS). Hệ thống tiến hành cập nhật trường trạng thái của cuộc trò chuyện trong Database thành \texttt{isActive = false} (thực hiện cơ chế xóa mềm - soft delete) và phản hồi \texttt{200 OK}. Lúc này, cuộc trò chuyện sẽ lập tức được ẩn đi trên giao diện người dùng.
+\item \textbf{Xóa cuộc trò chuyện (Delete Chat)}: Client gửi yêu cầu \texttt{DELETE /chats/\{id\}} đến dịch vụ trò chuyện (NestJS). Hệ thống tiến hành cập nhật trường trạng thái của cuộc trò chuyện trong Database thành \texttt{isActive = false} (thực hiện cơ chế xóa mềm - soft delete) và phản hồi \texttt{200 OK}. Lúc này, cuộc trò chuyện sẽ lập tức được ẩn đi trên giao diện người dùng.
 \item \textbf{Kiểm duyệt tạo liên kết chia sẻ (Validate Share Link)}: Khi client gửi yêu cầu \texttt{POST /shares} (kèm theo \texttt{chat\_id}) để tạo link chia sẻ công khai, trước khi lưu bản ghi chia sẻ, \texttt{GenerateLinkShareCommandHandler} sẽ truy vấn thông tin cuộc trò chuyện từ Database dựa trên \texttt{chat\_id}. Nếu cuộc trò chuyện không tồn tại hoặc có trạng thái \texttt{isActive = false} (đã bị xóa mềm), hệ thống sẽ chặn đứng hành động ngay lập tức và ném ra lỗi \texttt{ChatNotFoundException} (trả về mã lỗi \texttt{400/404} cho client kèm theo thông báo lỗi chi tiết trên giao diện UI).
 \end{enumerate}
 
@@ -87,7 +87,7 @@ Dịch vụ chatbot lắng nghe RabbitMQ để thực hiện việc tạo và th
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.99\textwidth]{pictures/chatbot-swagger.png}
-\caption{Tài liệu Swagger API Dịch vụ chatbot}
+\caption{Tài liệu Swagger API dịch vụ chatbot}
 \end{figure}
 
 Quản lý di chuyển CSDL của dịch vụ chatbot:
@@ -98,7 +98,7 @@ Quản lý di chuyển CSDL của dịch vụ chatbot:
 \caption{Quản lý di chuyển CSDL dịch vụ chatbot}
 \end{figure}
 
-Cơ cấu các bảng trong CSDL của Dịch vụ chatbot:
+Cơ cấu các bảng trong CSDL của dịch vụ chatbot:
 
 \begin{figure}[H]
 \centering
@@ -108,9 +108,9 @@ Cơ cấu các bảng trong CSDL của Dịch vụ chatbot:
 
 \paragraph{Hệ thống trao đổi thông điệp qua RabbitMQ (RabbitMQ Messaging)}
 
-Hệ thống sử dụng \textbf{RabbitMQ} làm Message Broker để thực hiện các giao tiếp bất đồng bộ, đáng tin cậy giữa \textbf{Dịch vụ trò chuyện (NestJS)} và \textbf{Dịch vụ chatbot (Python)}. Các tên hàng đợi được tiền tố hóa tự động theo môi trường (\texttt{dev\_}, \texttt{test\_}, \texttt{prod\_}) dựa trên cấu hình hệ thống.
+Hệ thống sử dụng \textbf{RabbitMQ} làm Message Broker để thực hiện các giao tiếp bất đồng bộ, đáng tin cậy giữa \textbf{dịch vụ trò chuyện (NestJS)} và \textbf{dịch vụ chatbot (Python)}. Các tên hàng đợi được tiền tố hóa tự động theo môi trường (\texttt{dev\_}, \texttt{test\_}, \texttt{prod\_}) dựa trên cấu hình hệ thống.
 
-\subparagraph{Danh sách các Hàng đợi trong hệ thống}
+\subparagraph{Danh sách các hàng đợi trong hệ thống}
 
 \begin{itemize}
 \item \textbf{\texttt{[prefix]\_chat\_deletions}}: Nhận yêu cầu xóa mềm (soft delete) lịch sử chat từ phía người dùng (Durable: \texttt{true}).
@@ -131,7 +131,7 @@ Hệ thống sử dụng \textbf{RabbitMQ} làm Message Broker để thực hi�
 % \begin{figure}[H]
 % \centering
 % \includegraphics[width=0.95\textwidth]{pictures/share-out-of-order.png}
-% \caption{Danh sách các Hàng đợi trong hệ thống}
+% \caption{Danh sách các hàng đợi trong hệ thống}
 % \end{figure}
 
 % \subparagraph{Cấu trúc dữ liệu và Luồng xử lý sự kiện}
@@ -298,7 +298,7 @@ sử dụng cờ trạng thái \texttt{is\_revoked}
 \item \textbf{Khi sự kiện Thu hồi chia sẻ đến trước}:
 Python kiểm tra trạng thái trong DB (chưa có bản ghi nào), tiến hành gọi xóa tệp tin trên Cloudflare R2 (nếu đã được tạo trước đó), lưu bản ghi chia sẻ vào DB với trạng thái \texttt{is\_revoked = True} và phản hồi \texttt{Ack} để hoàn thành tin nhắn.
 \item \textbf{Khi sự kiện Tạo chia sẻ đến sau}:
-Python kiểm tra DB và phát hiện bản ghi đã tồn tại với trạng thái \texttt{is\_revoked = True}. Khi đó, áp dụng \textbf{Cơ chế Triệt tiêu sự kiện (Event Cancellation)}: lập tức bỏ qua (drop) hoàn toàn hành động tạo và upload tệp lên R2 để bảo vệ tuyệt đối dữ liệu nhạy cảm của người dùng, sau đó gửi \texttt{Ack} để đóng tin nhắn một cách an toàn.
+Python kiểm tra DB và phát hiện bản ghi đã tồn tại với trạng thái \texttt{is\_revoked = True}. Khi đó, áp dụng \textbf{cơ chế triệt tiêu sự kiện (Event Cancellation)}: lập tức bỏ qua (drop) hoàn toàn hành động tạo và upload tệp lên R2 để bảo vệ tuyệt đối dữ liệu nhạy cảm của người dùng, sau đó gửi \texttt{Ack} để đóng tin nhắn một cách an toàn.
 \end{enumerate}
 
 % \textbf{Thiết lập hàng đợi ưu tiên (Priority Queue) trên RabbitMQ}
@@ -396,7 +396,7 @@ Các sự kiện của LiveKit được hệ thống Voice Agent tiếp nhận v
 Quản lý vòng đời kết nối và sự hiện diện của người dùng trong phòng đàm thoại:
 
 \begin{itemize}
-\item \textbf{\texttt{participant\_connected}}: Kích hoạt khi người dùng tham gia vào phòng đàm thoại thành công. Hệ thống tự động gọi hàm chủ động phát giọng nói chào hỏi người dùng (Lần đầu kết nối: \texttt{WELCOME\_MESSAGE} = "Xin chào, tôi là trợ lý pháp luật. Bạn có cần tôi giúp đỡ gì không?", Các lần kết nối lại sau đó: \texttt{REJOIN\_MESSAGE} = "Chào mừng bạn đã quay trở lại. Bạn có cần tôi giúp đỡ gì không?").
+\item \textbf{\texttt{participant\_connected}}: Kích hoạt khi người dùng tham gia vào phòng đàm thoại thành công. Hệ thống tự động gọi hàm chủ động phát giọng nói chào hỏi người dùng (Lần đầu kết nối: \texttt{WELCOME\_MESSAGE} = "Xin chào, tôi là trợ lý pháp luật. Bạn có cần tôi giúp đỡ gì không?", các lần kết nối lại sau đó: \texttt{REJOIN\_MESSAGE} = "Chào mừng bạn đã quay trở lại. Bạn có cần tôi giúp đỡ gì không?").
 
 \item \textbf{\texttt{participant\_disconnected}}: Kích hoạt khi người dùng rời khỏi phòng hoặc bị ngắt kết nối đột ngột.
 
@@ -455,14 +455,14 @@ Nhà phát triển gửi thông tin văn bản qua data channel mà không cần
 
 Vì tính năng xóa trò chuyện và thu hồi liên kết chia sẻ trong hệ thống sử dụng cơ chế \textbf{xóa mềm (soft delete)} để đảm bảo tính an toàn dữ liệu và tối ưu hiệu năng của các giao dịch tức thời, hệ thống triển khai các tác vụ lập lịch định kỳ (cron jobs / scheduler) trên cả \textbf{NestJS} và \textbf{Python} để dọn dẹp triệt để các dữ liệu đã bị xóa sau thời gian lưu trữ quy định.
 
-\subparagraph{Phía Dịch vụ trò chuyện (NestJS - code-conversation-service)}
+\subparagraph{Phía dịch vụ trò chuyện (NestJS - code-conversation-service)}
 NestJS sử dụng module \texttt{@nestjs/schedule} để quản lý các cron jobs dọn dẹp các bản ghi không còn hoạt động quá \textbf{30 ngày}:
 \begin{itemize}
 \item \textbf{\texttt{ChatCleanupCron}}: Tìm và xóa vĩnh viễn các bản ghi Chat có \texttt{isActive = false} và thời gian cập nhật cách hiện tại từ 30 ngày trở lên. Chu kỳ chạy: Mỗi ngày vào lúc nửa đêm (môi trường production) hoặc mỗi 10 phút (môi trường development).
 \item \textbf{\texttt{ShareCleanupCron}}: Tìm và xóa vĩnh viễn các bản ghi liên kết Share có \texttt{isActive = false} (hoặc đã bị thu hồi) quá hạn 30 ngày. Chu kỳ chạy: Mỗi ngày vào lúc nửa đêm (môi trường production) hoặc mỗi 10 phút (môi trường development).
 \end{itemize}
 
-\subparagraph{Phía Dịch vụ chatbot (Python - code-chatbot-service)}
+\subparagraph{Phía dịch vụ chatbot (Python - code-chatbot-service)}
 Python sử dụng \texttt{APScheduler} (\texttt{AsyncIOScheduler}) chạy nền tích hợp trong vòng đời (lifespan) của ứng dụng để tự động dọn dẹp CSDL lưu trữ lịch sử:
 \begin{itemize}
 \item \textbf{\texttt{run\_chat\_cleanup}}: Xóa vĩnh viễn các bản ghi Chat trong CSDL chatbot có trạng thái \texttt{is\_active = False} quá hạn 30 ngày. Chu kỳ chạy: Mỗi ngày lúc 12:00 trưa (môi trường production) hoặc mỗi 10 phút (môi trường development).

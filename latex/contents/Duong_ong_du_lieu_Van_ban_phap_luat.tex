@@ -34,7 +34,7 @@ Các bước thực hiện cũ:
 
 % Mô tả các bước thực hiện cũ:
 
-Quá trình luồng dữ liệu được chia thành 3 giai đoạn: Thu thập dữ liệu, Tiền xử lý văn bản và Tích hợp quy trình RAG.
+Quá trình luồng dữ liệu được chia thành 3 giai đoạn: Thu thập dữ liệu, tiền xử lý văn bản và tích hợp quy trình RAG.
 
 % \textbf{Giai đoạn Khởi tạo:}
 \begin{itemize}
@@ -73,7 +73,7 @@ Quá trình luồng dữ liệu được chia thành 3 giai đoạn: Thu thập 
 
 % \textbf{Giai đoạn Tiền xử lý Dữ liệu:}
 \begin{itemize}
-\item \texttt{step\_extract\_document\_info}: từ file HTML, bóc tách các siêu dữ liệu quan trọng (Metadata) như: Số hiệu, Cơ quan ban hành, Ngày có hiệu lực, Người ký, v.v. và lưu vào database.
+\item \texttt{step\_extract\_document\_info}: từ file HTML, bóc tách các siêu dữ liệu quan trọng (Metadata) như: số hiệu, cơ quan ban hành, ngày có hiệu lực, người ký, \dots và lưu vào database.
 \item \texttt{step\_extract\_document\_content}: Làm sạch file HTML, cắt bỏ các phần thừa (header, footer, menu) và chỉ giữ lại phần nội dung (thẻ \texttt{div\#toanvancontent}).
 \item \texttt{step\_extract\_document\_markdown}: Chuyển đổi file HTML đã làm sạch sang định dạng Markdown.
 \begin{figure}[H]

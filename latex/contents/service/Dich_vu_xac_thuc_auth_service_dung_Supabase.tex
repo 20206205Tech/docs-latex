@@ -31,12 +31,12 @@ và bảo mật tài khoản:
 Tạo URL và chuyển hướng người dùng đến trang ủy quyền của Google.
 Endpoint sử dụng: \texttt{/authorize?provider=google}
 
-\item \textbf{Đăng nhập bằng Email và Mật khẩu}:
+\item \textbf{Đăng nhập bằng Email và mật khẩu}:
 Cho phép người dùng đăng nhập bằng tài khoản email. Trả về thông tin Access Token và Refresh Token nếu thành công.
 Endpoint sử dụng: \texttt{/token?grant\_type=password}
 
 \item \textbf{Đăng ký tài khoản mới}:
-Tạo tài khoản mới bằng Email và Mật khẩu, hỗ trợ gửi email xác nhận tài khoản thông qua đường dẫn chuyển hướng sau khi kích hoạt thành công (\texttt{redirect\_to}).
+Tạo tài khoản mới bằng Email và mật khẩu, hỗ trợ gửi email xác nhận tài khoản thông qua đường dẫn chuyển hướng sau khi kích hoạt thành công (\texttt{redirect\_to}).
 Endpoint sử dụng: \texttt{/signup}
 
 \item \textbf{Khôi phục mật khẩu}:
@@ -87,7 +87,7 @@ Xóa một thiết bị xác thực MFA khỏi tài khoản người dùng.
 Endpoint sử dụng: \texttt{/factors/\{factorId\}}
 
 \item \textbf{Cập nhật tên hiển thị của thiết bị MFA}:
-Đổi tên hiển thị (\texttt{friendly\_name}) của thiết bị xác thực (ví dụ: "Điện thoại cá nhân").
+Đổi tên hiển thị (\texttt{friendly\_name}) của thiết bị xác thực (ví dụ: "điện thoại cá nhân").
 Endpoint sử dụng: \texttt{/factors/\{factorId\}}
 
 \end{itemize}
@@ -132,9 +132,9 @@ Chi tiết về cấu hình Terraform dùng để quản lý hạ tầng Supabas
 
 \item Thiết lập giới hạn gửi email (rate limit).
 
-\item Cấu hình Hệ thống Email (SMTP) đang được cấu hình mặc định là Gmail.
+\item Cấu hình hệ thống Email (SMTP) đang được cấu hình mặc định là Gmail.
 
-\item Ghi đè các mẫu email HTML cho "Xác nhận tài khoản" và "Đặt lại mật khẩu" để đồng nhất email tương tự như trong dịch vụ thanh toán.
+\item Ghi đè các mẫu email HTML cho "xác nhận tài khoản" và "đặt lại mật khẩu" để đồng nhất email tương tự như trong dịch vụ thanh toán.
 \end{itemize}
 
 \begin{figure}[H]
@@ -159,7 +159,7 @@ Chi tiết về cấu hình di chuyển CSDL Supabase:
 
 Sử dụng Supabase CLI tạo dự án quản lý di chuyển CSDL bằng lệnh \texttt{npx supabase init}.
 
-Trong thư mục migrations, các file SQL được thiết kế kết hợp với chính sách Bảo mật cấp hàng RLS (Row-Level Security):
+Trong thư mục migrations, các file SQL được thiết kế kết hợp với chính sách bảo mật cấp hàng RLS (Row-Level Security):
 
 \begin{itemize}
 \item Tạo bảng \texttt{admin\_whitelist} lưu thông tin email của quản trị viên (ADMIN).
