@@ -134,6 +134,7 @@ DATA = [
     {"abbr": "VBPL", "eng": "Văn bản pháp luật", "vie": "Văn bản pháp luật"},
     {"abbr": "DB", "eng": "database", "vie": "Cơ sở dữ liệu"},
     # {"abbr": "HTTP", "eng": "database", "vie": "Cơ sở dữ liệu"},
+    {"abbr": "DNS", "eng": "Domain Name System", "vie": "Hệ thống phân giải tên miền"},
 ]
 
 # OCR	Optical Character Recognition (Công nghệ nhận dạng chữ qua ảnh)
