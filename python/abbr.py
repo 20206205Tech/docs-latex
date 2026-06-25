@@ -1,4 +1,5 @@
 import os
+import re
 import sys
 
 import env
@@ -13,7 +14,7 @@ if sys.stdout.encoding != "utf-8":
 
 
 DATA = [
-    {"abbr": "GPU", "eng": "Graphics Processing Unit", "vie": "Bộ phận xử lý đồ họa"},
+    # {"abbr": "GPU", "eng": "Graphics Processing Unit", "vie": "Bộ phận xử lý đồ họa"},
     {"abbr": "AI", "eng": "Artificial Intelligence", "vie": "Trí tuệ nhân tạo"},
     {
         "abbr": "NLP",
@@ -43,11 +44,11 @@ DATA = [
         "eng": "JSON Web Token",
         "vie": "Tiêu chuẩn truyền tải thông tin JSON",
     },
-    {
-        "abbr": "JSON",
-        "eng": "JavaScript Object Notation",
-        "vie": "Một kiểu định dạng dữ liệu key - value",
-    },
+    # {
+    #     "abbr": "JSON",
+    #     "eng": "JavaScript Object Notation",
+    #     "vie": "Một kiểu định dạng dữ liệu key - value",
+    # },
     {
         "abbr": "RLS",
         "eng": "Row-Level Security",
@@ -58,11 +59,6 @@ DATA = [
     #     "eng": "Object-Oriented Programming",
     #     "vie": "Lập trình hướng đối tượng",
     # },
-    {
-        "abbr": "URL",
-        "eng": "Uniform Resource Locator",
-        "vie": "Định danh tài nguyên Internet",
-    },
     {"abbr": "CLI", "eng": "Command Line Interface", "vie": "Giao diện dòng lệnh"},
     {"abbr": "CSDL", "eng": "Cơ sở dữ liệu", "vie": "Cơ sở dữ liệu"},
     {"abbr": "SSE", "eng": "Server-sent events", "vie": "Sự kiện máy chủ gửi"},
@@ -140,6 +136,41 @@ DATA = [
     {"abbr": "DB", "eng": "database", "vie": "Cơ sở dữ liệu"},
     # {"abbr": "HTTP", "eng": "database", "vie": "Cơ sở dữ liệu"},
     {"abbr": "DNS", "eng": "Domain Name System", "vie": "Hệ thống phân giải tên miền"},
+    # {"abbr": "ID", "eng": "Identification", "vie": "Mã định danh"},
+    {"abbr": "VPS", "eng": "Virtual Private Server", "vie": "Máy chủ riêng ảo"},
+    {
+        "abbr": "UML",
+        "eng": "Unified Modeling Language",
+        "vie": "Ngôn ngữ mô hình hóa thống nhất",
+    },
+    # {"abbr": "ADMIN", "eng": "Administrator", "vie": "Quản trị viên"},
+    # {"abbr": "YAML", "eng": "YAML Ain't Markup Language", "vie": "Ngôn ngữ tuần tự hóa dữ liệu YAML"},
+    # {"abbr": "RAM", "eng": "Random Access Memory", "vie": "Bộ nhớ truy cập ngẫu nhiên"},
+    # {"abbr": "CPU", "eng": "Central Processing Unit", "vie": "Bộ xử lý trung tâm"},
+    # {"abbr": "GPU", "eng": "Graphics Processing Unit", "vie": "Bộ xử lý đồ họa"},
+    # {"abbr": "CRUD", "eng": "Create, Read, Update, Delete", "vie": "Tạo, Đọc, Cập nhật, Xóa"},
+    # {"abbr": "ZIP", "eng": "ZIP Archive", "vie": "Định dạng tệp nén ZIP"},
+    # {"abbr": "JSON", "eng": "JavaScript Object Notation", "vie": "Ký hiệu đối tượng JavaScript"},
+    # {"abbr": "JSONL", "eng": "JSON Lines", "vie": "Định dạng JSON đa dòng"},
+    # {"abbr": "URI", "eng": "Uniform Resource Identifier", "vie": "Định danh tài nguyên đồng nhất"},
+    {
+        "abbr": "URL",
+        "eng": "Uniform Resource Locator",
+        "vie": "Trình định vị tài nguyên đồng nhất",
+    },
+    # {"abbr": "PORT", "eng": "Port", "vie": "Cổng kết nối / Cổng giao tiếp"},
+    # {"abbr": "REST", "eng": "Representational State Transfer", "vie": "Chuyển giao trạng thái đại diện"},
+    {
+        "abbr": "UUID",
+        "eng": "Universally Unique Identifier",
+        "vie": "Mã định danh duy nhất toàn cầu",
+    },
+    {
+        "abbr": "AAL1 / AAL2",
+        "eng": r"\makecell[l]{Authenticator Assurance \\ Level 1 / 2}",
+        "vie": "Mức độ đảm bảo xác thực 1 / 2",
+    },
+    # {"abbr": "AAL2", "eng": "Authenticator Assurance Level 2", "vie": "Mức độ đảm bảo xác thực 2"}
 ]
 
 # OCR	Optical Character Recognition (Công nghệ nhận dạng chữ qua ảnh)
@@ -167,9 +198,6 @@ DATA = [
 
 
 # 9 & HMAC & Hash-based Message Authentication Code & \makecell[l]{Mã xác thực tin nhắn \\ dựa trên băm} \\ \hline
-
-
-# 12 & QR Code & Quick response code & Mã phản hồi nhanh \\ \hline
 
 
 TEX_PATH = os.path.join(
@@ -269,5 +297,38 @@ def generate_tex():
     print(f"Successfully updated: {TEX_PATH}")
 
 
+def remove_abbreviations(file_path, data_list):
+    try:
+        # Bước 1: Đọc nội dung file
+        with open(file_path, "r", encoding="utf-8") as file:
+            content = file.read()
+
+        # Bước 2: Duyệt qua danh sách và thay thế
+        for item in data_list:
+            abbr = item.get("abbr")
+            if abbr:
+                # Tạo pattern với \b để chỉ tìm chính xác các từ đứng độc lập
+                # re.escape giúp xử lý an toàn nếu trong abbr có chứa các ký tự đặc biệt
+                pattern = r"\b" + re.escape(abbr) + r"\b"
+
+                # Thay thế bằng chuỗi rỗng ""
+                content = re.sub(pattern, "", content)
+
+        # Bước 3: Ghi lại nội dung đã chỉnh sửa vào file gốc
+        with open(file_path, "w", encoding="utf-8") as file:
+            file.write(content)
+
+        print("Đã xóa thành công các từ viết tắt trong file!")
+
+    except FileNotFoundError:
+        print(f"Lỗi: Không tìm thấy file tại đường dẫn {file_path}")
+    except Exception as e:
+        print(f"Đã xảy ra lỗi: {e}")
+
+
 if __name__ == "__main__":
     generate_tex()
+
+    # file_path = r"C:\Users\Admin\Documents\GitHub\docs-tech\x.md"
+
+    # remove_abbreviations(file_path, DATA)
