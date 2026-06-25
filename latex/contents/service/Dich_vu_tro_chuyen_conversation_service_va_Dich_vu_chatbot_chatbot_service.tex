@@ -313,7 +313,7 @@ Python kiểm tra DB và phát hiện bản ghi đã tồn tại với trạng t
 % % arguments={'x-max-priority': 10}
 % % )
 % % \end{verbatim}
-% \item \textbf{Gửi sự kiện kèm mức độ ưu tiên (Producer)}: Sự kiện thu hồi chia sẻ (\texttt{share\_revoked}) được gửi với độ ưu tiên khẩn cấp (\texttt{priority = 10}); Sự kiện tạo chia sẻ (\texttt{share\_generated}) được gửi với độ ưu tiên bình thường (\texttt{priority = 1}).
+% \item \textbf{Gửi sự kiện kèm mức độ ưu tiên (Producer)}: Sự kiện thu hồi chia sẻ (\texttt{share\_revoked}) được gửi với độ ưu tiên khẩn cấp (\texttt{priority = 10}). Sự kiện tạo chia sẻ (\texttt{share\_generated}) được gửi với độ ưu tiên bình thường (\texttt{priority = 1}).
 % \item \textbf{Cấu hình cho consumer}: Thiết lập thuộc tính \texttt{prefetch\_count = 1} trên consumer để bắt buộc RabbitMQ chỉ gửi đúng 1 thông điệp tại một thời điểm cho worker. Điều này giúp hàng đợi có cơ hội sắp xếp và đẩy các tin nhắn có độ ưu tiên cao (\texttt{priority = 10}) lên xử lý trước.
 % \end{enumerate}
 

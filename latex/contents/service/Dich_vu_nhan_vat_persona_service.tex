@@ -24,7 +24,7 @@ Chịu trách nhiệm quản lý hệ thống nhân vật (personas), kho giọn
 
 \item \textbf{Chuyển đổi Text-to-Speech}: Cung cấp chức năng tạo ra âm thanh từ văn bản đầu vào thông qua hai thư viện: \texttt{edge-tts} (tổng hợp online) và \texttt{piper-tts} (tổng hợp offline chất lượng cao). Với \texttt{piper-tts}, hệ thống yêu cầu tệp mô hình giọng đọc được lưu trữ tại Cloudflare R2 và tự động tải xuống máy chủ cục bộ khi dịch vụ bắt đầu khởi động.
 
-\item \textbf{Cơ chế Cache tối ưu (TTS Caching)}: Sử dụng \textbf{Disk Cache} (thư viện \texttt{diskcache} cơ chế LRU, kích thước giới hạn 1GB) để lưu giữ các file âm thanh đã tổng hợp lên ổ đĩa nhằm phản hồi tức thì các yêu cầu trùng lặp; và sử dụng \textbf{Memory Cache} để lưu giữ các đối tượng mô hình Piper đã load vào bộ nhớ RAM (\texttt{\_loaded\_voices}), tránh việc phải nạp lại tệp tin mô hình \texttt{.onnx} nặng sau mỗi yêu cầu, tối ưu tốc độ phát âm thanh.
+\item \textbf{Cơ chế Cache tối ưu (TTS Caching)}: Sử dụng \textbf{Disk Cache} (thư viện \texttt{diskcache} cơ chế LRU, kích thước giới hạn 1GB) để lưu giữ các file âm thanh đã tổng hợp lên ổ đĩa nhằm phản hồi tức thì các yêu cầu trùng lặp và sử dụng \textbf{Memory Cache} để lưu giữ các đối tượng mô hình Piper đã load vào bộ nhớ RAM (\texttt{\_loaded\_voices}), tránh việc phải nạp lại tệp tin mô hình \texttt{.onnx} nặng sau mỗi yêu cầu, tối ưu tốc độ phát âm thanh.
 
 \item \textbf{Lưu trữ tài nguyên}: Toàn bộ dữ liệu mẫu âm thanh (\texttt{audio}), hình ảnh (\texttt{images}) và mô hình (\texttt{models}) phục vụ cho dịch vụ nhân vật được lưu trữ an toàn tại Cloudflare R2.
 \end{itemize}
