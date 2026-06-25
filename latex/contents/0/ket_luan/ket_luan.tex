@@ -25,7 +25,27 @@ minh bạch qua luồng suy luận rõ ràng và dẫn nguồn từ CSDL pháp �
 Đồng thời, hệ thống hỗ trợ đàm thoại giọng nói thời gian thực, xử lý tài liệu người dùng và tự động hóa quy trình thanh toán.
 
 \item \textbf{Về mặt công nghệ:}
-Tích hợp và làm chủ nhiều giải pháp công nghệ hiện đại ở các phân hệ chính: xây dựng hệ thống trên nền tảng kiến trúc vi dịch vụ (Microservices) theo định hướng Domain-Driven Design (DDD) và kiến trúc lục giác (Hexagonal Architecture), vận hành qua Kong API Gateway với các giao thức giao tiếp REST, gRPC cùng hệ thống hàng đợi RabbitMQ, Kafka; thiết lập hạ tầng lưu trữ đa dạng sử dụng PostgreSQL kết hợp các CSDL vector (Qdrant, Pinecone, Milvus) cùng các kho lưu trữ Supabase Storage, Cloudflare R2, Google Drive; xây dựng các đường ống thu thập dữ liệu tự động nhờ cron-job.org, GitHub Actions, Scrapy và dlt; triển khai giải pháp Agentic RAG nâng cao bằng LangGraph kết hợp các mô hình ngôn ngữ lớn (LLM) và HuggingFace (vietnamese-sbert); tích hợp hệ thống xác thực bảo mật chuẩn qua Supabase (JWT, Google OAuth, 2FA/TOTP) cùng phân hệ đàm thoại giọng nói thời gian thực LiveKit và các công cụ TTS (edge-tts, piper-tts, ElevenLabs); toàn bộ hệ thống được đóng gói bằng Docker, điều phối vận hành trên Kubernetes thông qua quy trình CI/CD của GitHub Actions và đồng bộ hóa hạ tầng tự động theo mô hình GitOps với ArgoCD.
+Tích hợp và làm chủ nhiều giải pháp công nghệ hiện đại:
+xây dựng hệ thống trên nền tảng kiến trúc vi dịch vụ
+có ứng dụng Domain-Driven Design,
+vận hành qua Kong API Gateway
+với các giao thức giao tiếp REST, gRPC
+cùng hệ thống hàng đợi RabbitMQ, Kafka.
+Thiết lập lưu trữ đa dạng sử dụng postgres
+kết hợp các CSDL vector (Qdrant, Pinecone, Milvus)
+cùng các kho lưu trữ Supabase Storage, Cloudflare R2, Google Drive.
+Xây dựng các đường ống thu thập dữ liệu
+tự động nhờ cron-job.org, GitHub Actions, Scrapy và dlt.
+Triển khai giải pháp Agentic RAG nâng cao bằng LangGraph
+kết hợp các mô hình ngôn ngữ lớn
+và HuggingFace (vietnamese-sbert).
+Tích hợp hệ thống xác thực bảo mật qua Supabase (JWT, Google OAuth, 2FA/TOTP)
+cùng phân hệ đàm thoại giọng nói LiveKit
+và các công cụ TTS (edge-tts, piper-tts, ElevenLabs).
+Toàn bộ hệ thống được đóng gói bằng Docker,
+điều phối vận hành trên Kubernetes
+thông qua quy trình CI/CD của GitHub Actions
+và đồng bộ hóa hạ tầng tự động theo mô hình GitOps với ArgoCD.
 
 \item \textbf{Về mặt kiến thức và kỹ năng tích lũy:}
 Qua quá trình thực hiện đồ án,
