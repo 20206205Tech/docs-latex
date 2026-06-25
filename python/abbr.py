@@ -32,7 +32,7 @@ DATA = [
         "vie": "Tạo tăng cường truy xuất",
     },
     {"abbr": "DDD", "eng": "Domain Driven Design", "vie": "Thiết kế hướng miền"},
-    {"abbr": "MSA", "eng": "Microservice Architecture", "vie": "Kiến trúc vi dịch vụ"},
+    # {"abbr": "MSA", "eng": "Microservice Architecture", "vie": "Kiến trúc vi dịch vụ"},
     {
         "abbr": "SQL",
         "eng": "Structured Query Language",
@@ -80,6 +80,11 @@ DATA = [
         "abbr": "CD",
         "eng": r"\makecell[l]{Continuous \\ Delivery / Deployment}",
         "vie": "Chuyển giao/Triển khai liên tục",
+    },
+    {
+        "abbr": "LRU",
+        "eng": "Least Recently Used",
+        "vie": r"\makecell[l]{Thuật toán loại bỏ dữ liệu \\ ít được sử dụng gần đây nhất}",
     },
     {
         "abbr": "HTML",
@@ -133,6 +138,8 @@ DATA = [
     {"abbr": "TTL", "eng": "Time To Live", "vie": "Thời gian tồn tại"},
     {"abbr": "VBPL", "eng": "Văn bản pháp luật", "vie": "Văn bản pháp luật"},
     {"abbr": "DB", "eng": "database", "vie": "Cơ sở dữ liệu"},
+    # {"abbr": "HTTP", "eng": "database", "vie": "Cơ sở dữ liệu"},
+    {"abbr": "DNS", "eng": "Domain Name System", "vie": "Hệ thống phân giải tên miền"},
 ]
 
 # OCR	Optical Character Recognition (Công nghệ nhận dạng chữ qua ảnh)
