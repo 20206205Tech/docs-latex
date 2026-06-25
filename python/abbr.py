@@ -82,6 +82,11 @@ DATA = [
         "vie": "Chuyển giao/Triển khai liên tục",
     },
     {
+        "abbr": "LRU",
+        "eng": "Least Recently Used",
+        "vie": r"\makecell[l]{Thuật toán loại bỏ dữ liệu \\ ít được sử dụng gần đây nhất}",
+    },
+    {
         "abbr": "HTML",
         "eng": "Hyper Text Markup Language",
         "vie": "Ngôn ngữ Đánh dấu Siêu văn bản",
