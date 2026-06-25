@@ -18,7 +18,7 @@ các gói dịch vụ khác nhau tới người dùng.
 
 \begin{itemize}
 \item \textbf{Tạo mới gói dịch vụ}:
-Cho phép Quản trị viên (ADMIN)
+Cho phép quản trị viên (ADMIN)
 thiết lập cấu hình gói dịch vụ mới
 bao gồm các thông số:
 tên gói (ví dụ: VIP 1 tháng),
@@ -26,7 +26,7 @@ thời hạn sử dụng,
 giá tiền,
 trạng thái hoạt động
 và mô tả các tính năng đi kèm
-(ví dụ: Quyền sử dụng mô hình suy luận AI, Voice, Xử lý tài liệu nâng cao).
+(ví dụ: Quyền sử dụng mô hình suy luận AI, Voice, xử lý tài liệu nâng cao).
 
 \item \textbf{Truy xuất danh sách gói}:
 Lấy danh sách toàn bộ
@@ -53,7 +53,7 @@ các gói dịch vụ cũ.
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.95\textwidth]{pictures/payment-swagger.png}
-\caption{Tài liệu Swagger API Dịch vụ thanh toán}
+\caption{Tài liệu Swagger API dịch vụ thanh toán}
 \end{figure}
 
 \paragraph{Quản lý Thuê bao (Subscriptions) và Giao dịch}
@@ -69,7 +69,7 @@ Tích hợp chức năng tự động hủy giao dịch nếu hết thời gian 
 Gửi sự kiện thanh toán thành công lên Kafka.
 Gửi email thông báo xác nhận thanh toán thành công cho người dùng.
 
-\item \textbf{Tra cứu thông tin Thuê bao}:
+\item \textbf{Tra cứu thông tin thuê bao}:
 Cho phép người dùng xem thông tin chi tiết
 à thời hạn của gói dịch vụ hiện tại mà họ đang sở hữu.
 
@@ -143,7 +143,7 @@ Quản lý di chuyển CSDL tự động trong GitHub Actions:
 \caption{Quản lý di chuyển CSDL trên GitHub Actions}
 \end{figure}
 
-Các bảng trong CSDL của Dịch vụ thanh toán (payment service):
+Các bảng trong CSDL của dịch vụ thanh toán (payment service):
 
 \begin{figure}[H]
 \centering
@@ -204,7 +204,7 @@ Dữ liệu sự kiện được gửi dưới dạng chuỗi JSON có cấu tr�
 \end{figure}
 
 \subparagraph{Cách các dịch vụ khác tiếp nhận và xử lý sự kiện}
-Sự kiện này được tiêu thụ (consume) song song bởi hai dịch vụ: \textbf{Dịch vụ văn bản (document service - Python)} (Consumer Group: \texttt{document-service-group}) và \textbf{Dịch vụ trò chuyện (conversation service - NestJS)} (Consumer Group: \texttt{conversation-service-group}) để đồng bộ quyền lợi gói VIP của người dùng theo các bước tuần tự sau:
+Sự kiện này được tiêu thụ (consume) song song bởi hai dịch vụ: \textbf{dịch vụ văn bản (document service - Python)} (Consumer Group: \texttt{document-service-group}) và \textbf{dịch vụ trò chuyện (conversation service - NestJS)} (Consumer Group: \texttt{conversation-service-group}) để đồng bộ quyền lợi gói VIP của người dùng theo các bước tuần tự sau:
 
 \begin{enumerate}
 \item \textbf{Lắng nghe và giải mã}: Consumer lắng nghe sự kiện từ topic tương ứng, phân tích và giải mã JSON payload nhận được.
@@ -243,7 +243,7 @@ Sau khi khách hàng hoàn tất thanh toán, kết nối mạng của họ có 
 
 \paragraph{Thiết kế hệ thống theo Domain-Driven Design (DDD)}
 
-Dự án được thiết kế theo mô hình Phát triển hướng tên miền (Domain-Driven Design - DDD) kết hợp với kiến trúc Lục giác (Hexagonal Architecture).
+Dự án được thiết kế theo mô hình phát triển hướng tên miền (Domain-Driven Design - DDD) kết hợp với kiến trúc lục giác (Hexagonal Architecture).
 Để demo khả năng thay đổi linh
 hoạt các dịch vụ tích hợp bên ngoài,
 hệ thống cho phép cấu hình cổng thanh toán

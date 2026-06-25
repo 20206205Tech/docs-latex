@@ -42,7 +42,7 @@ Kết quả vector được lưu trong vector database
 
 % Mô tả các bước thực hiện:
 
-Quá trình Data pipeline được chia thành 3 giai đoạn: Thu thập dữ liệu, Tiền xử lý văn bản và Tích hợp RAG Pipeline.
+Quá trình Data pipeline được chia thành 3 giai đoạn: Thu thập dữ liệu, tiền xử lý văn bản và tích hợp RAG Pipeline.
 
 % \textbf{Giai đoạn Thu thập Dữ liệu:}
 \begin{itemize}
@@ -66,7 +66,7 @@ từ nguồn Cổng thông tin điện tử Pháp Điển. Hệ thống tính to
 
 % \textbf{Giai đoạn Tiền xử lý Dữ liệu:}
 \begin{itemize}
-\item \texttt{step\_extract\_json} và \texttt{step\_load\_json}: Từ file \texttt{jsonData.js}, tiến hành bóc tách (parse) các biến cấu trúc dữ liệu để lấy danh sách Chủ đề (\texttt{jdChuDe}), Đề mục (\texttt{jdDeMuc}) và Cây mục lục (\texttt{jdAllTree}), sau đó xuất ra định dạng JSON.
+\item \texttt{step\_extract\_json} và \texttt{step\_load\_json}: Từ file \texttt{jsonData.js}, tiến hành bóc tách (parse) các biến cấu trúc dữ liệu để lấy danh sách chủ đề (\texttt{jdChuDe}), đề mục (\texttt{jdDeMuc}) và cây mục lục (\texttt{jdAllTree}), sau đó xuất ra định dạng JSON.
 
 \begin{figure}[H]
 \centering
@@ -83,7 +83,7 @@ từ nguồn Cổng thông tin điện tử Pháp Điển. Hệ thống tính to
 
 % \textbf{Giai đoạn Tích hợp RAG Pipeline:}
 \begin{itemize}
-\item \texttt{step\_rag\_chunking}: Thực hiện đối chiếu từ Cây mục lục (\texttt{jdAllTree}) với các thẻ bên trong từng file HTML chi tiết. Từ đó, bóc tách chính xác từng phần nội dung văn bản thành dạng JSON có các đoạn văn bản và siêu dữ liệu (Metadata).
+\item \texttt{step\_rag\_chunking}: Thực hiện đối chiếu từ cây mục lục (\texttt{jdAllTree}) với các thẻ bên trong từng file HTML chi tiết. Từ đó, bóc tách chính xác từng phần nội dung văn bản thành dạng JSON có các đoạn văn bản và siêu dữ liệu (Metadata).
 
 \begin{figure}[H]
 \centering
@@ -91,7 +91,7 @@ từ nguồn Cổng thông tin điện tử Pháp Điển. Hệ thống tính to
 \caption{Bóc tách và chia nhỏ nội dung văn bản theo cấu trúc mục lục}
 \end{figure}
 
-\item \texttt{step\_rag\_embedding}: Làm giàu ngữ cảnh bằng cách nối trực tiếp tên Chủ đề và Đề mục vào phần đầu của mỗi đoạn văn bản chunk. Sau đó, nội dung được đưa qua mô hình HuggingFace (\texttt{keepitreal/vietnamese-sbert}) để biến đổi thành các vector và lưu vào CSDL vector Qdrant.
+\item \texttt{step\_rag\_embedding}: Làm giàu ngữ cảnh bằng cách nối trực tiếp tên chủ đề và đề mục vào phần đầu của mỗi đoạn văn bản chunk. Sau đó, nội dung được đưa qua mô hình HuggingFace (\texttt{keepitreal/vietnamese-sbert}) để biến đổi thành các vector và lưu vào CSDL vector Qdrant.
 
 \begin{figure}[H]
 \centering
