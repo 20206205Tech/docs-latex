@@ -47,7 +47,7 @@ và kích hoạt gói thuê bao VIP cho người dùng.
 Event Bus (NestJS CQRS) & Component & Phát sự kiện thanh toán cho local event handler. \\ \hline
 SubscriptionPurchased Event Handler & Component & Lấy dữ liệu cần thiết và điều phối gửi email xác nhận thanh toán. \\ \hline
 Payment DB & Database & Cung cấp transaction metadata, transaction reference và thông tin plan. \\ \hline
-Supabase Profile Service & External Service & Cung cấp \texttt{fullName} của người dùng; email gửi thông báo được lấy từ transaction metadata. \\ \hline
+Supabase Profile Service & External Service & Cung cấp thông tin của người dùng. \\ \hline
 Brevo Email Adapter & External Service & Gửi email xác nhận thanh toán thành công. \\ \hline
 User & Actor & Nhận email xác nhận giao dịch VIP. \\ \hline
 \end{tabular}

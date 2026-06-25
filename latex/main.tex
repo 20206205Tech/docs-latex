@@ -81,8 +81,15 @@ before upper={\tcbtitle\vskip0pt\par}
 % \usepackage{etoolbox}
 % \pretocmd{\section}{\clearpage}{}{}
 
+\newif\ifdev
+% Chọn 1 trong 2 dòng dưới đây để bật/tắt chế độ:
+\devtrue % BẬT chế độ Dev
+% \devfalse % TẮT chế độ Dev (Production)
+
+\ifdev
 \pagecolor{black} % Thiết lập nền toàn bộ trang PDF thành màu đen
 \color{white} % Thiết lập màu chữ mặc định toàn trang là trắng
+\fi
 
 \begin{document}
 

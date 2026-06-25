@@ -313,7 +313,7 @@ Python kiểm tra DB và phát hiện bản ghi đã tồn tại với trạng t
 % % arguments={'x-max-priority': 10}
 % % )
 % % \end{verbatim}
-% \item \textbf{Gửi sự kiện kèm mức độ ưu tiên (Producer)}: Sự kiện thu hồi chia sẻ (\texttt{share\_revoked}) được gửi với độ ưu tiên khẩn cấp (\texttt{priority = 10}); Sự kiện tạo chia sẻ (\texttt{share\_generated}) được gửi với độ ưu tiên bình thường (\texttt{priority = 1}).
+% \item \textbf{Gửi sự kiện kèm mức độ ưu tiên (Producer)}: Sự kiện thu hồi chia sẻ (\texttt{share\_revoked}) được gửi với độ ưu tiên khẩn cấp (\texttt{priority = 10}). Sự kiện tạo chia sẻ (\texttt{share\_generated}) được gửi với độ ưu tiên bình thường (\texttt{priority = 1}).
 % \item \textbf{Cấu hình cho consumer}: Thiết lập thuộc tính \texttt{prefetch\_count = 1} trên consumer để bắt buộc RabbitMQ chỉ gửi đúng 1 thông điệp tại một thời điểm cho worker. Điều này giúp hàng đợi có cơ hội sắp xếp và đẩy các tin nhắn có độ ưu tiên cao (\texttt{priority = 10}) lên xử lý trước.
 % \end{enumerate}
 
@@ -349,7 +349,14 @@ Trong thực tế vận hành, người dùng có thể thực hiện thao tác 
 \begin{itemize}
 \item \textbf{Không phụ thuộc vào trạng thái hoạt động của Chat:} Khi NestJS hoặc Python nhận sự kiện xóa chat, họ chỉ thực hiện \textbf{xóa mềm (soft delete)} bằng cách cập nhật trường \texttt{is\_active = False} trong CSDL. Bản ghi và dữ liệu tin nhắn vẫn tồn tại vật lý trong database.
 \item \textbf{Tạo Snapshot tĩnh (Static Generation):} Dù sự kiện \texttt{chat\_deleted} có được xử lý trước sự kiện \texttt{share\_generated} trên Python worker, Python vẫn có thể truy vấn đầy đủ nội dung lịch sử chat đã xóa mềm từ database để đóng gói thành tệp JSONL tĩnh và tải lên Cloudflare R2.
-\item \textbf{Tính độc lập của liên kết chia sẻ:} Sau khi upload thành công lên Cloudflare R2, liên kết chia sẻ trỏ trực tiếp đến tệp tĩnh này. Khi người nhận xem liên kết chia sẻ, Frontend sẽ fetch trực tiếp tệp tĩnh từ R2 (qua CDN) mà không cần truy vấn vào database gốc (Neon) hay đi qua NestJS. Do đó, nghiệp vụ chấp nhận trạng thái "Có liên kết Share hoạt động nhưng Chat gốc đã bị xóa".
+\item \textbf{Tính độc lập của liên kết chia sẻ:}
+Sau khi upload thành công lên Cloudflare R2,
+trogn CSDL sẻ cập nhật thông tin liên kết đến tệp này.
+Khi người nhận xem liên kết chia sẻ,
+dịch vụ sẽ lấy thông tin tệp R2 từ CSDL và tải xuống xử lý.
+% Frontend sẽ fetch trực tiếp tệp tĩnh từ R2 (qua CDN) mà không cần truy vấn vào database gốc (Neon) hay đi qua NestJS.
+Nghiệp vụ chấp nhận trạng thái "Có liên kết chia sẻ hoạt động nhưng cuộc trò chuyện gốc đã bị xóa".
+Nếu muốn thu hồi sẽ có API khác thực hiện thu hồi chia sẻ.
 \end{itemize}
 
 \begin{figure}[H]
