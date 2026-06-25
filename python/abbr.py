@@ -133,7 +133,7 @@ DATA = [
     {"abbr": "QR Code", "eng": "Quick Response Code", "vie": "Mã phản hồi nhanh"},
     {"abbr": "TTL", "eng": "Time To Live", "vie": "Thời gian tồn tại"},
     {"abbr": "VBPL", "eng": "Văn bản pháp luật", "vie": "Văn bản pháp luật"},
-    {"abbr": "DB", "eng": "database", "vie": "Cơ sở dữ liệu"},
+    {"abbr": "DB", "eng": "Database", "vie": "Cơ sở dữ liệu"},
     # {"abbr": "HTTP", "eng": "database", "vie": "Cơ sở dữ liệu"},
     {"abbr": "DNS", "eng": "Domain Name System", "vie": "Hệ thống phân giải tên miền"},
     # {"abbr": "ID", "eng": "Identification", "vie": "Mã định danh"},
