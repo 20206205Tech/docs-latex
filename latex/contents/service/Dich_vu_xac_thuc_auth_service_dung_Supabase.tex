@@ -185,32 +185,6 @@ Kết quả CSDL trên Supabase:
 \caption{Kết quả bảng CSDL trên Supabase}
 \end{figure}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Mô tả chi tiết thông tin bảng trong CSDL
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% thứ tự các bảng trong tài liệu
-
-\begin{table}[H]
-\centering
-\begin{tabular}{|l|l|p{6cm}|}
-\hline
-\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
-email & text & Địa chỉ email của quản trị viên được phép truy cập hệ thống. \\ \hline
-\end{tabular}
-\caption{Cấu trúc bảng \texttt{admin\_whitelist} (Dịch vụ xác thực)}
-\end{table}
-
-\begin{table}[H]
-\centering
-\begin{tabular}{|l|l|p{6cm}|}
-\hline
-\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
-id & uuid & Khóa chính, liên kết trực tiếp với ID tài khoản trong bảng users của auth Supabase. \\ \hline
-full\_name & text & Họ và tên đầy đủ của người dùng. \\ \hline
-avatar\_url & text & Đường dẫn URL dẫn tới ảnh đại diện của người dùng lưu trên Storage. \\ \hline
-\end{tabular}
-\caption{Cấu trúc bảng \texttt{profiles} (Dịch vụ xác thực)}
-\end{table}
 Để tối ưu hóa quá trình phát triển,
 các gói thư viện dùng chung (Shared Packages) đã được xây dựng để các dịch vụ khác dễ dàng tái sử dụng và quản lý.
 Hiện tại trong dự án, có 2 gói thư viện dùng chung được xây dựng và đăng ký trên npm/PyPI là NestJS (\texttt{20206205tech-nestjs-auth}) và FastAPI trong Python (\texttt{20206205tech-python-auth}). Các thư viện này thực hiện các bước kiểm duyệt bảo mật tự động bao gồm:
@@ -233,13 +207,39 @@ Kết quả sơ đồ tệp và thư mục trong gói chung NestJS Auth được
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.6\textwidth]{pictures/20206205tech-nestjs-auth-file-architecture.png}
+\includegraphics[width=0.8\textwidth]{pictures/20206205tech-nestjs-auth-file-architecture.png}
 \caption{Sơ đồ tệp và thư mục trong gói chung NestJS}
 \end{figure}
 
 \paragraph{Cấu hình trong Kong API Gateway}
 
-Tạo Service trong Kong trỏ về URL của dự án Supabase (\texttt{https://[PROJECT\_REF].supabase.co}).
-Thiết lập Route: Tạo một Route liên kết với Service vừa tạo.
-Tham số \texttt{strip\_path=true} đảm bảo Kong sẽ xóa tiền tố khỏi URI trước khi chuyển tiếp yêu cầu đến Supabase.
-Dùng plugin \texttt{request-transformer} để tự động thêm \texttt{apikey} vào header trước khi gửi đến Supabase.
+\begin{itemize}
+
+\item Tạo Service trong Kong trỏ về URL của dự án Supabase.
+\item Thiết lập Route: Tạo một Route liên kết với Service vừa tạo.
+\item Tham số \texttt{strip\_path=true} đảm bảo Kong sẽ xóa tiền tố khỏi URI trước khi chuyển tiếp yêu cầu đến Supabase.
+\item Dùng plugin \texttt{request-transformer} để tự động thêm \texttt{apikey} vào header trước khi gửi đến Supabase.
+
+\end{itemize}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+email & text & Địa chỉ email của quản trị viên. \\ \hline
+\end{tabular}
+\caption{Cấu trúc bảng \texttt{admin\_whitelist} (Dịch vụ xác thực)}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+id & uuid & Khóa chính, liên kết trực tiếp với ID tài khoản trong bảng users của auth Supabase. \\ \hline
+full\_name & text & Tên của người dùng. \\ \hline
+avatar\_url & text & Đường dẫn URL dẫn tới ảnh đại diện của người dùng. \\ \hline
+\end{tabular}
+\caption{Cấu trúc bảng \texttt{profiles} (Dịch vụ xác thực)}
+\end{table}
