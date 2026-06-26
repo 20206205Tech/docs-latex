@@ -1,0 +1,63 @@
+% \restoregeometry
+
+% \newpage
+
+\newpage
+
+\thispagestyle{empty}
+
+% \newgeometry{left=2.2cm,right=2.8cm,top=2cm,bottom=2cm}
+% \pagenumbering{roman}
+% \setcounter{page}{1}
+% \thisfancypage{
+% 	\setlength{\fboxsep}{0.5cm}
+% 	\fbox}{}
+
+\begin{tikzpicture}[remember picture, overlay]
+\path ($(current page text area.north east)+(0cm, 0.5cm)$) coordinate (A)
+($(current page text area.north west)+(0cm, 0.5cm)$) coordinate (B)
+(current page text area.south west) coordinate (C)
+(current page text area.south east) coordinate (D);
+\draw[black!40!black, line width=3pt]
+(A)--(B)--(C)--(D)--cycle;
+\draw[black!10!black, line width=0.5pt]
+($(A)+(-0.1cm, -0.1cm)$)--($(B)+(0.1cm, -0.1cm)$)--($(C)+(0.1cm, 0.1cm)$)--($(D)+(-0.1cm, 0.1cm)$)--cycle;
+\end{tikzpicture}
+
+\fontsize{13pt}{16pt}\selectfont
+\bigbreak
+\begin{center}
+{\bfseries NHẬN XÉT CỦA GIẢNG VIÊN HƯỚNG DẪN}
+
+\end{center}
+\bigbreak
+
+\fontsize{12pt}{14pt}\selectfont
+\begin{enumerate}
+\item [{\bfseries 1.}]{\bfseries Mục đích và nội dung của đồ án}
+\begin{enumerate}
+\item \item \item \end{enumerate}
+\item [{\bfseries 2.}] {\bfseries Kết quả đạt được}
+\begin{enumerate}
+\item \item \item \end{enumerate}
+\item [{\bfseries 3.}]{\bfseries Ý thức làm việc của sinh viên}
+\begin{enumerate}
+\item \item \item \end{enumerate}
+\end{enumerate}
+\hspace{0.4\textwidth}
+\begin{minipage}{0.5\textwidth}
+\noindent\begin{center}
+% \textit{Hà Nội, ngày 06 tháng 02 năm 2022} \\
+\textit{Hà Nội, ngày \dots tháng \dots năm \dots} \\
+
+Giảng viên hướng dẫn \\
+\textit{(Ký và ghi rõ họ tên)} \\
+\vspace{2cm}
+% \textbf{PGS.TS. Nguyễn Thị Thu Thủy}
+\textbf{TS. Trần Anh Tú}
+
+\end{center}
+\end{minipage}
+% \restoregeometry
+
+\newpage
