@@ -32,7 +32,7 @@ note over RabbitMQ, Python: Python xử lý sự kiện Tạo Share
 RabbitMQ -> Python ++: Nhận dev_share_generated
 Python -> PythonDB ++: Truy vấn lịch sử Chat (Vẫn truy vấn được vì chỉ xóa mềm)
 PythonDB --> Python --: Trả về danh sách tin nhắn
-Python -> R2 ++: Upload file tĩnh shared_chats/{learnerId}/{share_id}.jsonl
+Python -> R2 ++: Upload file tĩnh shared_chats/{userId}/{share_id}.jsonl
 R2 --> Python --: URL tệp tin R2
 Python -> RabbitMQ: Publish dev_share_upload_completed (is_success = true, file_url)
 Python --> RabbitMQ --: Ack
@@ -45,6 +45,6 @@ NestJS --> RabbitMQ --: Ack
 
 == 6. Khách xem link share: Đọc trực tiếp từ R2 (Không cần Chat gốc) ==
 note over Client, R2: Khách xem link share: Đọc trực tiếp từ R2 (Không cần Chat gốc)
-Client -> R2 ++: GET /shared_chats/{learnerId}/{share_id}.jsonl
+Client -> R2 ++: GET /shared_chats/{userId}/{share_id}.jsonl
 R2 --> Client --: Trả về nội dung hội thoại tĩnh
 @enduml
