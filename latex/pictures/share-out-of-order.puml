@@ -1,6 +1,6 @@
 @startuml
 queue "RabbitMQ Broker" as RabbitMQ
-participant "Python (Chatbot Worker)" as Python
+participant "Chatbot Service" as Python
 database "DB (Python)" as PythonDB
 database "Cloudflare R2" as R2
 

@@ -105,27 +105,27 @@ Triển khai Dịch vụ thanh toán (payment service) độc lập trên Heroku
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{pictures/payment-heroku.png}
+\includegraphics[width=0.9\textwidth]{pictures/payment-heroku.png}
 \caption{Kết quả triển khai dịch vụ thanh toán trên Heroku}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{pictures/payment-redis-v2.png}
+\caption{Dữ liệu gói thuê bao VIP được cache trong Redis}
 \end{figure}
 
 Các bước CI/CD tự động chạy kiểm thử trên GitHub Actions:
 Dịch vụ sử dụng \textbf{Testcontainers} (cho Postgres, Redis và Kafka) để tự động khởi chạy các container Docker độc lập ngay trong quá trình chạy kiểm thử tích hợp, đảm bảo tính đúng đắn của mã nguồn trước khi triển khai.
 Hàng đợi tác vụ bất đồng bộ \textbf{BullMQ} (vận hành trên Redis) được tích hợp để quản lý và tự động xử lý hủy các giao dịch thanh toán quá hạn nếu hết thời gian chờ.
 
-Dữ liệu gói thuê bao VIP được cache trong Redis:
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.95\textwidth]{pictures/payment-redis-v2.png}
-\caption{Dữ liệu gói thuê bao VIP được cache trong Redis}
-\end{figure}
+% Dữ liệu gói thuê bao VIP được cache trong Redis:
 
 Thông tin kiểm tra tự động của Pull Request của payment service trên GitHub:
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.8\textwidth]{pictures/payment-PR.png}
+\includegraphics[width=0.95\textwidth]{pictures/payment-PR.png}
 \caption{Kiểm tra Pull Request của payment service trên GitHub}
 \end{figure}
 
@@ -139,7 +139,7 @@ Quản lý di chuyển CSDL tự động trong GitHub Actions:
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.8\textwidth]{pictures/payment-database-migration.png}
+\includegraphics[width=0.6\textwidth]{pictures/payment-database-migration.png}
 \caption{Quản lý di chuyển CSDL trên GitHub Actions}
 \end{figure}
 
@@ -147,9 +147,138 @@ Các bảng trong CSDL của dịch vụ thanh toán (payment service):
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{pictures/payment-database.png}
+\includegraphics[width=0.6\textwidth]{pictures/payment-database.png}
 \caption{Cấu hình các bảng CSDL của dịch vụ thanh toán}
 \end{figure}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+id & serial & ID định danh của phiên bản migration. \\ \hline
+timestamp & int8 & Thời điểm thực thi migration. \\ \hline
+name & varchar & Tên file migration đã thực thi. \\ \hline
+\end{tabular}
+\caption{Cấu trúc bảng \texttt{migrations} (Dịch vụ thanh toán)}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+id & uuid & Khóa chính của log yêu cầu HTTP. \\ \hline
+requestId & varchar & Mã định danh duy nhất của yêu cầu. \\ \hline
+method & varchar & Phương thức HTTP được sử dụng. \\ \hline
+url & text & Đường dẫn của yêu cầu API. \\ \hline
+statusCode & int4 & Mã trạng thái phản hồi HTTP. \\ \hline
+requestPayload & jsonb & Dữ liệu chi tiết trong yêu cầu. \\ \hline
+responsePayload & jsonb & Dữ liệu chi tiết hệ thống phản hồi. \\ \hline
+processTime & float8 & Thời gian hệ thống xử lý yêu cầu. \\ \hline
+created\_at & timestamptz & Thời gian ghi nhận log hệ thống. \\ \hline
+clientIp & varchar & Địa chỉ IP của máy khách gửi yêu cầu. \\ \hline
+\end{tabular}
+\caption{Cấu trúc bảng \texttt{request\_logs} (Dịch vụ thanh toán)}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+id & uuid & Khóa chính định danh gói dịch vụ. \\ \hline
+name & varchar & Tên gói thanh toán dịch vụ. \\ \hline
+duration\_months & int4 & Thời hạn sử dụng của gói dịch vụ. \\ \hline
+price & numeric & Giá tiền của gói dịch vụ. \\ \hline
+is\_active & bool & Trạng thái hoạt động của gói. \\ \hline
+created\_at & timestamptz & Thời gian gói dịch vụ được tạo. \\ \hline
+updated\_at & timestamptz & Thời gian cập nhật gói dịch vụ gần nhất. \\ \hline
+version & int4 & Số phiên bản của bản ghi. \\ \hline
+features & \_text & Mảng danh sách mô tả các tính năng. \\ \hline
+\end{tabular}
+\caption{Cấu trúc bảng \texttt{plan} (Dịch vụ thanh toán)}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+id & uuid & Khóa chính định danh lượt đăng ký gói. \\ \hline
+user\_id & varchar & ID người dùng thực hiện đăng ký gói. \\ \hline
+plan\_id & uuid & ID gói dịch vụ liên kết tương ứng. \\ \hline
+period\_start & timestamptz & Thời điểm bắt đầu hiệu lực. \\ \hline
+period\_end & timestamptz & Thời điểm hết hạn hiệu lực. \\ \hline
+status & subscription\_status\_enum & Trạng thái gói đăng ký (active, expired, canceled,...). \\ \hline
+created\_at & timestamptz & Thời gian đăng ký gói dịch vụ. \\ \hline
+updated\_at & timestamptz & Thời gian cập nhật trạng thái đăng ký. \\ \hline
+version & int4 & Số phiên bản của bản ghi. \\ \hline
+\end{tabular}
+\caption{Cấu trúc bảng \texttt{subscription} (Dịch vụ thanh toán)}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+id & uuid & Khóa chính định danh giao dịch thanh toán. \\ \hline
+user\_id & varchar & ID người dùng thực hiện giao dịch thanh toán. \\ \hline
+subscription\_id & uuid & ID đăng ký dịch vụ liên quan. \\ \hline
+plan\_id & uuid & ID gói dịch vụ đăng ký tương ứng. \\ \hline
+base\_amount & numeric & Số tiền gốc chưa áp dụng giảm giá. \\ \hline
+discount\_amount & numeric & Số tiền được khấu trừ/giảm giá. \\ \hline
+final\_amount & numeric & Số tiền thực tế thanh toán cuối cùng. \\ \hline
+payment\_method & varchar & Phương thức thanh toán. \\ \hline
+transaction\_ref & varchar & Mã tham chiếu giao dịch đối tác cổng thanh toán. \\ \hline
+payment\_status & enum & Trạng thái thanh toán của giao dịch (pending, completed, failed,...). \\ \hline
+provider\_transaction\_id & varchar & Mã giao dịch trả về từ cổng thanh toán. \\ \hline
+payment\_metadata & jsonb & Dữ liệu cấu trúc JSON bổ sung của giao dịch thanh toán. \\ \hline
+paid\_at & timestamptz & Thời điểm hoàn tất thanh toán thực tế. \\ \hline
+created\_at & timestamptz & Thời gian tạo bản ghi giao dịch. \\ \hline
+updated\_at & timestamptz & Thời gian cập nhật thông tin giao dịch. \\ \hline
+version & int4 & Phiên bản của dữ liệu. \\ \hline
+\end{tabular}
+\caption{Cấu trúc bảng \texttt{transaction} (Dịch vụ thanh toán)}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+id & uuid & Khóa chính của tin nhắn outbox đồng bộ dữ liệu. \\ \hline
+aggregate\_type & varchar & Loại thực thể gốc phát sinh sự kiện nghiệp vụ. \\ \hline
+aggregate\_id & uuid & ID định danh duy nhất của thực thể phát sinh sự kiện. \\ \hline
+event\_type & varchar & Loại sự kiện nghiệp vụ phát đi (ví dụ: user.created). \\ \hline
+payload & jsonb & Nội dung thông điệp chi tiết ở định dạng JSON. \\ \hline
+status & varchar & Trạng thái xử lý sự kiện (pending, processed, failed). \\ \hline
+retry\_count & int4 & Số lần hệ thống đã thử lại khi gửi sự kiện thất bại. \\ \hline
+created\_at & timestamptz & Thời gian khởi tạo sự kiện outbox. \\ \hline
+processed\_at & timestamptz & Thời điểm sự kiện được xuất bản thành công lên Kafka. \\ \hline
+\end{tabular}
+\caption{Cấu trúc bảng \texttt{outbox\_messages} (Dịch vụ thanh toán)}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+id & uuid & Khóa chính của tin nhắn outbox lưu trữ lịch sử. \\ \hline
+aggregate\_type & varchar & Loại thực thể gốc của sự kiện được lưu trữ lịch sử. \\ \hline
+aggregate\_id & uuid & ID định danh duy nhất của thực thể phát sinh sự kiện được lưu trữ. \\ \hline
+event\_type & varchar & Loại sự kiện nghiệp vụ đã phát. \\ \hline
+payload & jsonb & Nội dung chi tiết thông điệp định dạng JSON. \\ \hline
+status & varchar & Trạng thái hoàn thành cuối cùng của sự kiện outbox. \\ \hline
+retry\_count & int4 & Tổng số lần đã thử lại trong toàn bộ vòng đời của sự kiện. \\ \hline
+created\_at & timestamptz & Thời gian tạo sự kiện ban đầu. \\ \hline
+processed\_at & timestamptz & Thời điểm sự kiện được xử lý và xuất bản lên Kafka trước khi lưu trữ. \\ \hline
+archived\_at & timestamptz & Thời điểm hệ thống di chuyển bản ghi từ bảng outbox chính sang bảng lưu trữ (archive). \\ \hline
+\end{tabular}
+\caption{Cấu trúc bảng \texttt{outbox\_messages\_archive} (Dịch vụ thanh toán)}
+\end{table}
 
 \paragraph{Sự kiện Thanh toán thành công (Subscription Purchased Event)}
 
@@ -157,7 +286,7 @@ Khi giao dịch thanh toán gói dịch vụ thành công,
 Dịch vụ thanh toán sẽ tạo và phát hành (publish) sự kiện lên
 Kafka để đồng bộ quyền hạn người dùng.
 
-\subparagraph{Chi tiết sự kiện}
+% \subparagraph{Chi tiết sự kiện}
 \begin{itemize}
 \item \textbf{Tên Sự kiện}: \texttt{SubscriptionPurchasedEvent}
 \item \textbf{Topic}: \texttt{dev-payment-events} hoặc \texttt{prod-payment-events}
@@ -173,9 +302,9 @@ Dữ liệu sự kiện được gửi dưới dạng chuỗi JSON có cấu tr�
 \begin{tabular}{|l|l|l|}
 \hline
 \textbf{Thuộc tính} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
-\texttt{subscriptionId} & String (UUID) & Mã định danh duy nhất của thuê bao \\ \hline
-\texttt{userId} & String (UUID) & Mã định danh người dùng mua gói \\ \hline
-\texttt{planId} & String (UUID) & Mã định danh gói dịch vụ đã mua \\ \hline
+\texttt{subscriptionId} & UUID & Mã định danh duy nhất của thuê bao \\ \hline
+\texttt{userId} & UUID & Mã định danh người dùng mua gói \\ \hline
+\texttt{planId} & UUID & Mã định danh gói dịch vụ đã mua \\ \hline
 \texttt{periodStart} & String & Thời điểm bắt đầu hiệu lực gói dịch vụ \\ \hline
 \texttt{periodEnd} & String & Thời điểm kết thúc hiệu lực gói dịch vụ \\ \hline
 \texttt{version} & Number & Số phiên bản của sự kiện (dùng để quản lý xung đột) \\ \hline
@@ -199,7 +328,7 @@ Dữ liệu sự kiện được gửi dưới dạng chuỗi JSON có cấu tr�
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.7\textwidth]{pictures/event-outbox.png}
+\includegraphics[width=0.9\textwidth]{pictures/event-outbox.png}
 \caption{Thông tin sự kiện được lưu trong bảng Outbox}
 \end{figure}
 
@@ -229,7 +358,7 @@ thông báo kết quả giao dịch một cách không đồng bộ cho
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.9\textwidth]{pictures/payment-ipn-i1.png}
+\includegraphics[width=0.99\textwidth]{pictures/payment-ipn-i1.png}
 \caption{Sơ đồ nguyên lý hoạt động của IPN}
 \end{figure}
 
@@ -237,11 +366,11 @@ Sau khi khách hàng hoàn tất thanh toán, kết nối mạng của họ có 
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.9\textwidth]{pictures/payment-ipn-i2.png}
+\includegraphics[width=0.99\textwidth]{pictures/payment-ipn-i2.png}
 \caption{Mô phỏng luồng cập nhật trạng thái qua IPN}
 \end{figure}
 
-\paragraph{Thiết kế hệ thống theo Domain-Driven Design (DDD)}
+% \paragraph{Thiết kế hệ thống theo Domain-Driven Design (DDD)}
 
 Dự án được thiết kế theo mô hình phát triển hướng tên miền (Domain-Driven Design - DDD) kết hợp với kiến trúc lục giác (Hexagonal Architecture).
 Để demo khả năng thay đổi linh
@@ -261,38 +390,42 @@ hưởng đến nghiệp vụ cốt lõi.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.64\textwidth]{pictures/payment-vnpay.png}
+\includegraphics[width=0.62\textwidth]{pictures/payment-vnpay.png}
 \caption{Giao diện thanh toán VNPay}
 \end{figure}
 
-% Giao diện demo thanh toán qua MoMo:
-
-% \begin{figure}[H]
-% \centering
-% \includegraphics[width=0.99\textwidth]{pictures/payment-momo.png}
-% \caption{Giao diện thanh toán MoMo}
-% \end{figure}
-
-% % Giao diện demo thanh toán qua ZaloPay:
-
-% \begin{figure}[H]
-% \centering
-% \includegraphics[width=0.99\textwidth]{pictures/payment-zalo.png}
-% \caption{Giao diện thanh toán ZaloPay}
-% \end{figure}
-
-% Giao diện demo thanh toán qua SePay:
+\newpage
+Giao diện demo thanh toán qua MoMo:
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.99\textwidth]{pictures/payment-sepay.png}
+\includegraphics[width=0.99\textwidth]{pictures/payment-momo.png}
+\caption{Giao diện thanh toán MoMo}
+\end{figure}
+
+Giao diện demo thanh toán qua ZaloPay:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.99\textwidth]{pictures/payment-zalo.png}
+\caption{Giao diện thanh toán ZaloPay}
+\end{figure}
+
+\newpage
+
+Giao diện demo thanh toán qua SePay:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{pictures/payment-sepay.png}
 \caption{Giao diện thanh toán SePay}
 \end{figure}
 
-% Mẫu Email gửi cho người dùng khi thanh toán thành công:
+Mẫu email gửi cho người dùng khi thanh toán thành công:
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.99\textwidth]{pictures/payment-mail.png}
+\includegraphics[width=0.95\textwidth]{pictures/payment-mail.png}
 \caption{Email thông báo thanh toán thành công}
 \end{figure}
+\newpage

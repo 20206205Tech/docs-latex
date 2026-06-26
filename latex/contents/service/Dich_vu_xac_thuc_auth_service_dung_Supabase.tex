@@ -207,13 +207,41 @@ Kết quả sơ đồ tệp và thư mục trong gói chung NestJS Auth được
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.6\textwidth]{pictures/20206205tech-nestjs-auth-file-architecture.png}
+\includegraphics[width=0.8\textwidth]{pictures/20206205tech-nestjs-auth-file-architecture.png}
 \caption{Sơ đồ tệp và thư mục trong gói chung NestJS}
 \end{figure}
 
 \paragraph{Cấu hình trong Kong API Gateway}
 
-Tạo Service trong Kong trỏ về URL của dự án Supabase (\texttt{https://[PROJECT\_REF].supabase.co}).
-Thiết lập Route: Tạo một Route liên kết với Service vừa tạo.
-Tham số \texttt{strip\_path=true} đảm bảo Kong sẽ xóa tiền tố khỏi URI trước khi chuyển tiếp yêu cầu đến Supabase.
-Dùng plugin \texttt{request-transformer} để tự động thêm \texttt{apikey} vào header trước khi gửi đến Supabase.
+\begin{itemize}
+
+\item Tạo Service trong Kong trỏ về URL của dự án Supabase.
+\item Thiết lập Route: Tạo một Route liên kết với Service vừa tạo.
+\item Tham số \texttt{strip\_path=true} đảm bảo Kong sẽ xóa tiền tố khỏi URI trước khi chuyển tiếp yêu cầu đến Supabase.
+\item Dùng plugin \texttt{request-transformer} để tự động thêm \texttt{apikey} vào header trước khi gửi đến Supabase.
+
+\end{itemize}
+
+Mô tả chi tiết thông tin bảng trong CSDL
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+email & text & Địa chỉ email của quản trị viên. \\ \hline
+\end{tabular}
+\caption{Cấu trúc bảng \texttt{admin\_whitelist} (Dịch vụ xác thực)}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+id & uuid & Khóa chính, liên kết trực tiếp với ID tài khoản trong bảng users của auth. \\ \hline
+full\_name & text & Tên của người dùng. \\ \hline
+avatar\_url & text & Đường dẫn URL ảnh đại diện của người dùng. \\ \hline
+\end{tabular}
+\caption{Cấu trúc bảng \texttt{profiles} (Dịch vụ xác thực)}
+\end{table}

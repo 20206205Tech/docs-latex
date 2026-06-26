@@ -22,6 +22,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Disable Dev Mode
+        run: python python/disable_dev.py
+
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v3
         with:
