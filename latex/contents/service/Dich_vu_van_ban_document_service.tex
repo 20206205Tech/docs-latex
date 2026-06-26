@@ -88,3 +88,75 @@ Kết quả các bảng trong CSDL tài liệu:
 \includegraphics[width=0.4\textwidth]{pictures/document-database.png}
 \caption{Kết quả các bảng trong CSDL tài liệu}
 \end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Mô tả chi tiết thông tin bảng trong CSDL
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% thứ tự các bảng trong tài liệu
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+version\_num & varchar & Mã phiên bản di chuyển CSDL hiện tại của Alembic. \\ \hline
+\end{tabular}
+\caption{Cấu trúc bảng \texttt{alembic\_version} (Dịch vụ văn bản)}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+id & uuid & Khóa chính của log yêu cầu HTTP. \\ \hline
+request\_id & varchar & \\ \hline
+method & varchar & Phương thức HTTP được sử dụng. \\ \hline
+url & varchar & \\ \hline
+client\_ip & varchar & \\ \hline
+status\_code & int4 & Mã trạng thái phản hồi HTTP trả về. \\ \hline
+request\_payload & json & \\ \hline
+response\_payload & json & \\ \hline
+process\_time & float8 & \\ \hline
+created\_at & timestamptz & Thời gian ghi nhận log hệ thống. \\ \hline
+\end{tabular}
+\caption{Cấu trúc bảng \texttt{request\_logs} (Dịch vụ văn bản)}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+id & uuid & Khóa chính của bản ghi đồng bộ gói đăng ký người dùng. \\ \hline
+user\_id & varchar & ID người dùng đồng bộ. \\ \hline
+subscription\_id & varchar & \\ \hline
+is\_active & bool & \\ \hline
+created\_at & timestamptz & Thời gian tạo bản ghi đồng bộ. \\ \hline
+updated\_at & timestamptz & Thời gian cập nhật dữ liệu đồng bộ gói. \\ \hline
+period\_start & timestamptz & \\ \hline
+period\_end & timestamptz & \\ \hline
+version & int4 & \\ \hline
+\end{tabular}
+\caption{Cấu trúc bảng \texttt{user\_subscriptions} (Dịch vụ văn bản)}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+id & uuid & Khóa chính định danh tài liệu. \\ \hline
+user\_id & varchar & ID người dùng tạo và sở hữu tài liệu. \\ \hline
+filename & varchar & \\ \hline
+status & varchar & \\ \hline
+created\_at & timestamptz & Thời gian tài liệu được tạo. \\ \hline
+updated\_at & timestamptz & Thời gian cập nhật tài liệu gần nhất. \\ \hline
+has\_file & bool & \\ \hline
+has\_content & bool & \\ \hline
+has\_summary & bool & \\ \hline
+file\_hash & varchar & \\ \hline
+file\_size & int4 & \\ \hline
+\end{tabular}
+\caption{Cấu trúc bảng \texttt{documents} (Dịch vụ văn bản)}
+\end{table}

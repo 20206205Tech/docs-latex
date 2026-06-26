@@ -185,6 +185,32 @@ Kết quả CSDL trên Supabase:
 \caption{Kết quả bảng CSDL trên Supabase}
 \end{figure}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Mô tả chi tiết thông tin bảng trong CSDL
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% thứ tự các bảng trong tài liệu
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+email & text & Địa chỉ email của quản trị viên được phép truy cập hệ thống. \\ \hline
+\end{tabular}
+\caption{Cấu trúc bảng \texttt{admin\_whitelist} (Dịch vụ xác thực)}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+id & uuid & Khóa chính, liên kết trực tiếp với ID tài khoản trong bảng users của auth Supabase. \\ \hline
+full\_name & text & Họ và tên đầy đủ của người dùng. \\ \hline
+avatar\_url & text & Đường dẫn URL dẫn tới ảnh đại diện của người dùng lưu trên Storage. \\ \hline
+\end{tabular}
+\caption{Cấu trúc bảng \texttt{profiles} (Dịch vụ xác thực)}
+\end{table}
 Để tối ưu hóa quá trình phát triển,
 các gói thư viện dùng chung (Shared Packages) đã được xây dựng để các dịch vụ khác dễ dàng tái sử dụng và quản lý.
 Hiện tại trong dự án, có 2 gói thư viện dùng chung được xây dựng và đăng ký trên npm/PyPI là NestJS (\texttt{20206205tech-nestjs-auth}) và FastAPI trong Python (\texttt{20206205tech-python-auth}). Các thư viện này thực hiện các bước kiểm duyệt bảo mật tự động bao gồm:

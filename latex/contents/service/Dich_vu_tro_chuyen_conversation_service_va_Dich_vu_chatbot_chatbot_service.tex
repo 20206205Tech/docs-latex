@@ -76,6 +76,161 @@ Cấu hình các bảng trong CSDL dịch vụ trò chuyện:
 \caption{Cấu hình các bảng trong CSDL dịch vụ trò chuyện}
 \end{figure}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Mô tả chi tiết thông tin bảng trong CSDL
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% thứ tự các bảng trong tài liệu
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+id & serial & ID định danh của phiên bản migration. \\ \hline
+timestamp & int8 & \\ \hline
+name & varchar & Tên file migration đã thực thi. \\ \hline
+\end{tabular}
+\caption{Cấu trúc bảng \texttt{migrations} (Dịch vụ trò chuyện)}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+id & uuid & Khóa chính của log yêu cầu HTTP. \\ \hline
+requestId & varchar & \\ \hline
+method & varchar & Phương thức HTTP được sử dụng. \\ \hline
+url & text & \\ \hline
+statusCode & int4 & \\ \hline
+requestPayload & jsonb & \\ \hline
+responsePayload & jsonb & \\ \hline
+processTime & float8 & \\ \hline
+created\_at & timestamptz & Thời gian ghi nhận log hệ thống. \\ \hline
+clientIp & varchar & \\ \hline
+\end{tabular}
+\caption{Cấu trúc bảng \texttt{request\_logs} (Dịch vụ trò chuyện)}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+id & uuid & Khóa chính của bản ghi đồng bộ gói đăng ký người dùng. \\ \hline
+user\_id & varchar & ID người dùng đồng bộ. \\ \hline
+subscription\_id & varchar & \\ \hline
+period\_start & timestamptz & \\ \hline
+period\_end & timestamptz & \\ \hline
+version & int4 & \\ \hline
+is\_active & bool & \\ \hline
+created\_at & timestamptz & Thời gian tạo bản ghi đồng bộ. \\ \hline
+updated\_at & timestamptz & Thời gian cập nhật dữ liệu đồng bộ gói. \\ \hline
+\end{tabular}
+\caption{Cấu trúc bảng \texttt{user\_subscriptions} (Dịch vụ trò chuyện)}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+id & uuid & Khóa chính định danh phiên trò chuyện. \\ \hline
+user\_id & uuid & ID người dùng tham gia phiên trò chuyện. \\ \hline
+is\_active & bool & \\ \hline
+version & int4 & \\ \hline
+created\_at & timestamptz & Thời gian bắt đầu phiên trò chuyện. \\ \hline
+updated\_at & timestamptz & Thời gian cập nhật phiên trò chuyện gần nhất. \\ \hline
+\end{tabular}
+\caption{Cấu trúc bảng \texttt{chat} (Dịch vụ trò chuyện)}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+id & uuid & Khóa chính của phiên chia sẻ phòng chat. \\ \hline
+user\_id & uuid & ID người dùng chia sẻ phòng chat. \\ \hline
+chat\_id & uuid & ID phòng chat gốc được chia sẻ. \\ \hline
+token & varchar & \\ \hline
+file\_url & varchar & \\ \hline
+is\_active & bool & \\ \hline
+version & int4 & \\ \hline
+created\_at & timestamptz & Thời gian tạo liên kết chia sẻ. \\ \hline
+updated\_at & timestamptz & \\ \hline
+status & shared\_chat\_status\_enum & \\ \hline
+last\_message\_id & uuid & \\ \hline
+\end{tabular}
+\caption{Cấu trúc bảng \texttt{shared\_chat} (Dịch vụ trò chuyện)}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+id & uuid & Khóa chính của thư mục lưu trữ tin nhắn đánh dấu. \\ \hline
+user\_id & uuid & ID người dùng sở hữu thư mục. \\ \hline
+folder\_name & varchar & \\ \hline
+is\_active & bool & \\ \hline
+version & int4 & \\ \hline
+created\_at & timestamptz & Thời gian tạo thư mục. \\ \hline
+updated\_at & timestamptz & Thời gian cập nhật thư mục. \\ \hline
+\end{tabular}
+\caption{Cấu trúc bảng \texttt{bookmark\_folder} (Dịch vụ trò chuyện)}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+id & uuid & Khóa chính của bản ghi đánh dấu tin nhắn. \\ \hline
+folder\_id & uuid & ID thư mục lưu trữ liên quan. \\ \hline
+chat\_id & uuid & \\ \hline
+note & text & \\ \hline
+created\_at & timestamptz & Thời điểm thực hiện hành động đánh dấu. \\ \hline
+\end{tabular}
+\caption{Cấu trúc bảng \texttt{bookmark\_item} (Dịch vụ trò chuyện)}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+id & uuid & Khóa chính của tin nhắn outbox đồng bộ dữ liệu. \\ \hline
+aggregate\_type & varchar & \\ \hline
+aggregate\_id & uuid & \\ \hline
+event\_type & varchar & Loại sự kiện nghiệp vụ phát đi (ví dụ: user.created). \\ \hline
+payload & jsonb & Nội dung thông điệp chi tiết ở định dạng JSON. \\ \hline
+status & varchar & Trạng thái xử lý sự kiện (pending, processed, failed). \\ \hline
+created\_at & timestamptz & Thời gian khởi tạo sự kiện outbox. \\ \hline
+retry\_count & int4 & \\ \hline
+processed\_at & timestamptz & \\ \hline
+\end{tabular}
+\caption{Cấu trúc bảng \texttt{outbox\_messages} (Dịch vụ trò chuyện)}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+id & uuid & Khóa chính của tin nhắn outbox lưu trữ lịch sử. \\ \hline
+aggregate\_type & varchar & \\ \hline
+aggregate\_id & uuid & \\ \hline
+event\_type & varchar & Loại sự kiện nghiệp vụ đã phát. \\ \hline
+payload & jsonb & Nội dung chi tiết thông điệp định dạng JSON. \\ \hline
+status & varchar & Trạng thái hoàn thành cuối cùng của sự kiện outbox. \\ \hline
+retry\_count & int4 & \\ \hline
+created\_at & timestamptz & Thời gian tạo sự kiện ban đầu. \\ \hline
+processed\_at & timestamptz & \\ \hline
+archived\_at & timestamptz & \\ \hline
+\end{tabular}
+\caption{Cấu trúc bảng \texttt{outbox\_messages\_archive} (Dịch vụ trò chuyện)}
+\end{table}
 \paragraph{Dịch vụ chatbot (chatbot service)}
 
 % Mục đích:
@@ -106,6 +261,117 @@ Cơ cấu các bảng trong CSDL của dịch vụ chatbot:
 \caption{Cấu hình các bảng trong CSDL chatbot}
 \end{figure}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Mô tả chi tiết thông tin bảng trong CSDL
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% thứ tự các bảng trong tài liệu
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+version\_num & varchar & Mã phiên bản di chuyển CSDL hiện tại của Alembic. \\ \hline
+\end{tabular}
+\caption{Cấu trúc bảng \texttt{alembic\_version} (Dịch vụ chatbot)}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+id & uuid & Khóa chính của log yêu cầu HTTP. \\ \hline
+requestId & varchar & \\ \hline
+method & varchar & Phương thức HTTP được sử dụng. \\ \hline
+url & text & \\ \hline
+statusCode & int4 & \\ \hline
+requestPayload & jsonb & \\ \hline
+responsePayload & jsonb & \\ \hline
+processTime & float8 & \\ \hline
+created\_at & timestamptz & Thời gian ghi nhận log hệ thống. \\ \hline
+clientIp & varchar & \\ \hline
+\end{tabular}
+\caption{Cấu trúc bảng \texttt{request\_logs} (Dịch vụ trò chuyện)}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+id & uuid & Khóa chính định danh phiên chat. \\ \hline
+user\_id & varchar & ID người dùng sở hữu phiên chat. \\ \hline
+title & varchar & Tiêu đề của phiên chat. \\ \hline
+created\_at & timestamptz & Thời gian tạo phiên chat. \\ \hline
+updated\_at & timestamptz & Thời gian cập nhật thông tin phiên chat. \\ \hline
+is\_active & bool & \\ \hline
+\end{tabular}
+\caption{Cấu trúc bảng \texttt{chats} (Dịch vụ chatbot)}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+id & uuid & Khóa chính định danh tin nhắn. \\ \hline
+chat\_id & uuid & ID phiên chat chứa tin nhắn này. \\ \hline
+user\_id & varchar & \\ \hline
+role & varchar & Vai trò người gửi tin nhắn (user, assistant, system). \\ \hline
+content & text & Nội dung tin nhắn chi tiết. \\ \hline
+created\_at & timestamptz & Thời điểm gửi tin nhắn. \\ \hline
+persona\_id & varchar & \\ \hline
+pending\_confirmation & bool & \\ \hline
+\end{tabular}
+\caption{Cấu trúc bảng \texttt{chat\_messages} (Dịch vụ chatbot)}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+id & uuid & Khóa chính của bước suy luận. \\ \hline
+message\_id & uuid & ID tin nhắn AI liên quan. \\ \hline
+content & text & Nội dung suy luận chi tiết của bước. \\ \hline
+step\_order & int4 & \\ \hline
+created\_at & timestamptz & Thời gian tạo bản ghi bước suy luận. \\ \hline
+\end{tabular}
+\caption{Cấu trúc bảng \texttt{reasoning\_steps} (Dịch vụ chatbot)}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+id & uuid & Khóa chính của nguồn thông tin trích dẫn. \\ \hline
+message\_id & uuid & ID tin nhắn AI liên quan. \\ \hline
+source & text & \\ \hline
+item\_id & varchar & \\ \hline
+legal\_status & varchar & \\ \hline
+retrieval\_type & varchar & \\ \hline
+score & float8 & Điểm số độ tương đồng/mức độ phù hợp của dữ liệu trích dẫn. \\ \hline
+created\_at & timestamptz & Thời gian ghi nhận trích dẫn. \\ \hline
+\end{tabular}
+\caption{Cấu trúc bảng \texttt{message\_sources} (Dịch vụ chatbot)}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+id & uuid & Khóa chính của lượt chia sẻ phiên chat. \\ \hline
+chat\_id & uuid & ID phiên chat được chia sẻ. \\ \hline
+user\_id & varchar & ID người dùng thực hiện chia sẻ. \\ \hline
+version & int4 & \\ \hline
+is\_revoked & bool & \\ \hline
+created\_at & timestamptz & Thời gian tạo liên kết chia sẻ. \\ \hline
+\end{tabular}
+\caption{Cấu trúc bảng \texttt{shares} (Dịch vụ chatbot)}
+\end{table}
 \paragraph{Hệ thống trao đổi thông điệp qua RabbitMQ (RabbitMQ Messaging)}
 
 Hệ thống sử dụng \textbf{RabbitMQ} làm Message Broker để thực hiện các giao tiếp bất đồng bộ, đáng tin cậy giữa \textbf{dịch vụ trò chuyện (NestJS)} và \textbf{dịch vụ chatbot (Python)}. Các tên hàng đợi được tiền tố hóa tự động theo môi trường (\texttt{dev\_}, \texttt{test\_}, \texttt{prod\_}) dựa trên cấu hình hệ thống.

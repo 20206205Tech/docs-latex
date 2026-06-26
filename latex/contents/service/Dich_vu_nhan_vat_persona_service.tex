@@ -52,3 +52,83 @@ Cấu trúc các bảng trong CSDL của dịch vụ nhân vật:
 \includegraphics[width=0.8\textwidth]{pictures/persona-database.png}
 \caption{Cấu trúc các bảng trong CSDL của dịch vụ nhân vật}
 \end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Mô tả chi tiết thông tin bảng trong CSDL
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% thứ tự các bảng trong tài liệu
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+version\_num & varchar & Mã phiên bản di chuyển CSDL hiện tại của Alembic. \\ \hline
+\end{tabular}
+\caption{Cấu trúc bảng \texttt{alembic\_version} (Dịch vụ nhân vật)}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+id & uuid & Khóa chính của log yêu cầu HTTP. \\ \hline
+request\_id & varchar & \\ \hline
+method & varchar & Phương thức HTTP được sử dụng. \\ \hline
+url & varchar & \\ \hline
+client\_ip & varchar & \\ \hline
+status\_code & int4 & Mã trạng thái phản hồi HTTP trả về. \\ \hline
+request\_payload & json & \\ \hline
+response\_payload & json & \\ \hline
+process\_time & float8 & \\ \hline
+created\_at & timestamptz & Thời gian ghi nhận log hệ thống. \\ \hline
+\end{tabular}
+\caption{Cấu trúc bảng \texttt{request\_logs} (Dịch vụ nhân vật)}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+id & uuid & Khóa chính của công cụ/mô hình AI. \\ \hline
+code & varchar & \\ \hline
+name & varchar & Tên của engine/model tương ứng. \\ \hline
+is\_active & bool & \\ \hline
+\end{tabular}
+\caption{Cấu trúc bảng \texttt{engines} (Dịch vụ nhân vật)}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+voice\_uuid & uuid & \\ \hline
+voice\_code & varchar & \\ \hline
+engine\_id & uuid & ID engine liên kết tương ứng. \\ \hline
+is\_active & bool & \\ \hline
+\end{tabular}
+\caption{Cấu trúc bảng \texttt{voices} (Dịch vụ nhân vật)}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+id & uuid & Khóa chính định danh nhân vật ảo. \\ \hline
+name & varchar & Tên của nhân vật ảo. \\ \hline
+gender & varchar & \\ \hline
+voice\_uuid & uuid & \\ \hline
+description & text & \\ \hline
+avatar\_url & varchar & Đường dẫn URL ảnh đại diện của nhân vật ảo. \\ \hline
+greeting\_audio\_url & varchar & Đường dẫn URL file âm thanh chào hỏi của nhân vật. \\ \hline
+greeting\_text & text & Đoạn trò chuyện chào hỏi mặc định của nhân vật dạng văn bản. \\ \hline
+is\_active & bool & \\ \hline
+created\_at & timestamp & Thời gian tạo nhân vật. \\ \hline
+updated\_at & timestamp & Thời gian cập nhật cấu hình nhân vật. \\ \hline
+\end{tabular}
+\caption{Cấu trúc bảng \texttt{persona} (Dịch vụ nhân vật)}
+\end{table}
