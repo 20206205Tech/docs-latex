@@ -10,7 +10,7 @@ Cốt lõi của DDD được chia thành hai nhóm mẫu chính: \textbf{các m
 Nhóm mẫu này giúp phân chia một hệ thống lớn và phức tạp thành các phần nhỏ hơn với ranh giới rõ ràng, tập trung vào kiến trúc tổng thể.
 
 \begin{itemize}
-\item \textbf{Miền (Domain) \& Miền phụ (Sub-Domain):} Phạm vi kiến thức hoặc vấn đề mà phần mềm giải quyết. Một miền lớn được chia thành 3 loại miền phụ:
+\item \textbf{Miền (Domain) và Miền phụ (Sub-Domain):} Phạm vi kiến thức hoặc vấn đề mà phần mềm giải quyết. Một miền lớn được chia thành 3 loại miền phụ:
 \begin{itemize}
 \item Miền phụ cốt lõi (Core Subdomain)
 \item Miền phụ hỗ trợ (Supporting Subdomain)
@@ -19,7 +19,7 @@ Nhóm mẫu này giúp phân chia một hệ thống lớn và phức tạp thà
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.25]{pictures/333Subdomain.excalidraw.png}
+\includegraphics[scale = 0.3]{pictures/333Subdomain.excalidraw.png}
 \caption{Các loại miền phụ trong Domain Driven Design}
 \end{figure}
 
@@ -29,7 +29,7 @@ Nhóm mẫu này giúp phân chia một hệ thống lớn và phức tạp thà
 
 \item \textbf{Bối cảnh bị giới hạn (Bounded Context):} Xác định ranh giới rõ ràng cho một phần của hệ thống, giúp các nhóm hoạt động độc lập và giữ cho mô hình nhất quán trong phạm vi đó.
 
-\item \textbf{Bản đồ bối cảnh (Context Maps) \& Các mối quan hệ:} Thể hiện trực quan cách các Bounded Context giao tiếp với nhau.
+\item \textbf{Bản đồ bối cảnh (Context Maps) và Các mối quan hệ:} Thể hiện trực quan cách các Bounded Context giao tiếp với nhau.
 \end{itemize}
 
 \vspace{0.5em}
@@ -54,18 +54,31 @@ Nhóm mẫu này đóng vai trò hiện thực hóa các khái niệm nghiệp v
 \vspace{0.5em}
 \textbf{Kiến trúc hệ thống trong DDD}
 
-Để bảo vệ lớp miền cốt lõi khỏi các công nghệ bên ngoài, báo cáo áp dụng các kiến trúc phân lớp:
+Để bảo vệ lớp miền cốt lõi khỏi các công nghệ bên ngoài,
+dự án áp dụng các kiến trúc lục giác:
 
 \begin{itemize}
-\item \textbf{Kiến trúc phân lớp (Layered Architecture):} Thường chia làm 4 lớp cơ bản: Giao diện người dùng (User Interface) $\rightarrow$ Ứng dụng (Application) $\rightarrow$ Lớp Miền (Domain - trung tâm) $\rightarrow$ Hạ tầng (Infrastructure).
+% \item \textbf{Kiến trúc phân lớp (Layered Architecture):} Thường chia làm 4 lớp cơ bản: Giao diện người dùng (User Interface) $\rightarrow$ Ứng dụng (Application) $\rightarrow$ Lớp Miền (Domain - trung tâm) $\rightarrow$ Hạ tầng (Infrastructure).
 
 \item \textbf{Kiến trúc lục giác (Hexagonal Architecture / Ports and Adapters):} Đây là kiến trúc được áp dụng chính. Đặt lớp miền (Domain) ở vị trí trung tâm, cách ly hoàn toàn với các yếu tố bên ngoài. Mọi giao tiếp với CSDL, API, hoặc giao diện đều thông qua các \textbf{Cổng (Ports)} và \textbf{Bộ điều hợp (Adapters)}. Kiến trúc này giúp hệ thống cực kỳ dễ kiểm thử, linh hoạt thay đổi công nghệ (Database, Framework) mà không làm ảnh hưởng đến logic nghiệp vụ cốt lõi.
 
-\item \textbf{Nguyên tắc đảo ngược phụ thuộc (Dependency Inversion):} Đảo ngược phụ thuộc là nguyên tắc cốt lõi giúp bảo vệ và cô lập lớp miền (Domain Layer). Cơ chế hoạt động: Lớp Miền sẽ định nghĩa các giao diện (chính là các Cổng - Ports trong kiến trúc lục giác) để yêu cầu những gì nó cần. Các module cấp thấp (như CSDL, hàng đợi tin nhắn) sẽ triển khai các giao diện này (đóng vai trò là Bộ điều hợp - Adapters) và cắm vào lớp Miền như những ``plugin'' độc lập.
+\item \textbf{Nguyên tắc đảo ngược phụ thuộc (Dependency Inversion):} Đảo ngược phụ thuộc là nguyên tắc cốt lõi giúp bảo vệ và cô lập lớp miền (Domain Layer). Cơ chế hoạt động: Lớp Miền sẽ định nghĩa các giao diện (chính là các Cổng - Ports trong kiến trúc lục giác) để yêu cầu những gì nó cần. Các module cấp thấp (như CSDL, hàng đợi tin nhắn) sẽ triển khai các giao diện này (đóng vai trò là Bộ điều hợp - Adapters) và cắm vào lớp Miền như những \enquote{plugin} độc lập.
 \end{itemize}
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.4]{pictures/DomainDrivenHexagon.png}
+\includegraphics[width=0.6\textwidth]{pictures/DomainDrivenHexagon.png}
 \caption{Tổng quan kiến trúc lục giác}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\textwidth]{pictures/architecture-summary-code-payment-service.png}
+\caption{Dịch vụ thanh toán áp dụng Domain Driven Design (tạo tự động từ depcruise)}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\textwidth]{pictures/architecture-summary-code-conversation-service.png}
+\caption{Dịch vụ trò chuyện áp dụng Domain Driven Design (tạo tự động từ depcruise)}
 \end{figure}
