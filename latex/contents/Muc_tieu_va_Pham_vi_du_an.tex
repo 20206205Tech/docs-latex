@@ -19,7 +19,7 @@ không chỉ cung cấp câu trả lời cuối cùng
 mà còn đưa ra các bước lập luận logic,
 minh bạch, kèm theo trích dẫn
 nguồn văn bản pháp lý chính thống,
-giúp giảm thiểu tối đa hiện tượng "ảo giác AI" (hallucination) thường gặp trong các mô hình ngôn ngữ lớn.
+giúp giảm thiểu tối đa hiện tượng \enquote{ảo giác AI} (hallucination) thường gặp trong các mô hình ngôn ngữ lớn.
 
 \subsubsection{Mục tiêu cụ thể}
 
@@ -67,7 +67,7 @@ giới hạn trong các phạm vi sau:
 
 \begin{itemize}
 
-\item \textbf{Phân hệ quản trị người dùng \& bảo mật}:
+\item \textbf{Phân hệ quản trị người dùng và bảo mật}:
 Cài đặt hệ thống xác thực thông qua Supabase,
 hỗ trợ đăng nhập Email/mật khẩu,
 Google OAuth và xác thực hai yếu tố (2FA - TOTP).
@@ -79,7 +79,7 @@ từ hai nguồn là \url{https://vbpl.vn}
 và CSDL Pháp Điển (\url{https://phapdien.moj.gov.vn}),
 có áp dụng thuật toán mã băm để bỏ qua tài liệu không có thay đổi nội dung.
 
-\item \textbf{Phân hệ trợ lý ảo AI \& quản lý trò chuyện}:
+\item \textbf{Phân hệ trợ lý AI và quản lý trò chuyện}:
 Phát triển dịch vụ trò chuyện (NestJS) và dịch vụ chatbot (Python) giao tiếp qua gRPC và RabbitMQ.
 Ứng dụng kỹ thuật RAG (Retrieval-Augmented Generation) và LLM để trả lời theo cơ chế streaming, xuất luồng suy luận (reasoning details).
 Giới hạn các tính năng quản lý ở mức: tạo thư mục, ghi chú, đánh dấu (bookmark) và chia sẻ liên kết trò chuyện.
