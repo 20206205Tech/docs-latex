@@ -60,22 +60,27 @@ jobs:
       # --- PHẦN TÍCH HỢP DOPPLER VÀ UPLOAD LÊN DRIVE ---
 
       - name: Install Doppler CLI
+        if: github.ref == 'refs/heads/main'
         uses: dopplerhq/cli-action@v1
 
       - name: Install uv
+        if: github.ref == 'refs/heads/main'
         uses: astral-sh/setup-uv@v5
         with:
           enable-cache: true
 
       - name: Set up Python
+        if: github.ref == 'refs/heads/main'
         uses: actions/setup-python@v5
         with:
           python-version-file: ".python-version"
 
       - name: Install dependencies
+        if: github.ref == 'refs/heads/main'
         run: uv sync
 
       - name: Upload PDF to Google Drive
+        if: github.ref == 'refs/heads/main'
         env:
           DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN }}
         run: |
