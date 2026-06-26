@@ -12,7 +12,7 @@ participant "LiveKit Cloud" as LiveKit
 User -> Frontend: Bấm bắt đầu đàm thoại bằng giọng nói
 activate Frontend
 
-Frontend -> Kong: GET /code-conversation-service/chats/{chat_id}/voice-token\n?file_ids[]={doc_id}&use_reasoning=true&persona_id={persona_id}
+Frontend -> Kong: GET /code-conversation-service/chats/{chat_id}/voice-token\n?file_ids={doc_ids}&use_reasoning=true&persona_id={persona_id}
 activate Kong
 Kong -> ConversationService: Chuyển tiếp yêu cầu lấy voice token
 activate ConversationService

@@ -40,6 +40,10 @@ par #LightCyan Lấy thống kê VBPL bổ sung
     activate Kong
     Kong -> VbplService: Lấy thống kê trạng thái văn bản
     activate VbplService
+    VbplService -> DB: Truy vấn thống kê trạng thái
+    activate DB
+    DB --> VbplService: Dữ liệu trạng thái
+    deactivate DB
     VbplService --> Kong: Danh sách trạng thái
     deactivate VbplService
     Kong --> Frontend: Dữ liệu trạng thái
@@ -49,6 +53,10 @@ else #LightYellow
     activate Kong
     Kong -> VbplService: Lấy thống kê năm ban hành
     activate VbplService
+    VbplService -> DB: Truy vấn thống kê năm ban hành
+    activate DB
+    DB --> VbplService: Dữ liệu năm ban hành
+    deactivate DB
     VbplService --> Kong: Dữ liệu năm ban hành
     deactivate VbplService
     Kong --> Frontend: Dữ liệu năm ban hành
@@ -58,6 +66,10 @@ else #LightGreen
     activate Kong
     Kong -> VbplService: Lấy thống kê loại văn bản
     activate VbplService
+    VbplService -> DB: Truy vấn thống kê loại văn bản
+    activate DB
+    DB --> VbplService: Dữ liệu loại văn bản
+    deactivate DB
     VbplService --> Kong: Dữ liệu loại văn bản
     deactivate VbplService
     Kong --> Frontend: Dữ liệu loại văn bản
@@ -67,9 +79,26 @@ else #Lavender
     activate Kong
     Kong -> VbplService: Lấy thống kê hiệu lực
     activate VbplService
+    VbplService -> DB: Truy vấn thống kê hiệu lực
+    activate DB
+    DB --> VbplService: Dữ liệu hiệu lực
+    deactivate DB
     VbplService --> Kong: Dữ liệu hiệu lực
     deactivate VbplService
     Kong --> Frontend: Dữ liệu hiệu lực
+    deactivate Kong
+else #Pink
+    Frontend -> Kong: GET /data-pipeline-vbplnew-service/documents/majors
+    activate Kong
+    Kong -> VbplService: Lấy thống kê lĩnh vực/ngành luật
+    activate VbplService
+    VbplService -> DB: Truy vấn thống kê lĩnh vực/ngành luật
+    activate DB
+    DB --> VbplService: Dữ liệu lĩnh vực/ngành luật
+    deactivate DB
+    VbplService --> Kong: Dữ liệu lĩnh vực/ngành luật
+    deactivate VbplService
+    Kong --> Frontend: Dữ liệu lĩnh vực/ngành luật
     deactivate Kong
 end
 
