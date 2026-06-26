@@ -3,9 +3,12 @@
 % \newpage
 
 \newpage
-
 \thispagestyle{empty}
 
+% 1. BẮT ĐẦU CÔ LẬP: Mọi thiết lập font chữ trong này sẽ không ảnh hưởng trang khác
+\begingroup
+
+% Nếu bạn cần đổi lề riêng cho trang này, hãy bỏ comment dòng dưới:
 % \newgeometry{left=2.2cm,right=2.8cm,top=2cm,bottom=2cm}
 % \pagenumbering{roman}
 % \setcounter{page}{1}
@@ -47,17 +50,20 @@
 \hspace{0.4\textwidth}
 \begin{minipage}{0.5\textwidth}
 \noindent\begin{center}
-% \textit{Hà Nội, ngày 06 tháng 02 năm 2022} \\
 \textit{Hà Nội, ngày \dots tháng \dots năm \dots} \\
 
 Giảng viên hướng dẫn \\
 \textit{(Ký và ghi rõ họ tên)} \\
 \vspace{2cm}
-% \textbf{PGS.TS. Nguyễn Thị Thu Thủy}
 \textbf{TS. Trần Anh Tú}
 
 \end{center}
 \end{minipage}
-% \restoregeometry
+
+% 2. KẾT THÚC CÔ LẬP: Trả lại font chữ ban đầu
+\endgroup
 
 \newpage
+% 3. TRẢ LẠI LỀ GỐC: Nếu ở trên bạn dùng \newgeometry, thì bắt buộc phải bỏ comment dòng dưới
+% \restoregeometry
+% \restoregeometry
