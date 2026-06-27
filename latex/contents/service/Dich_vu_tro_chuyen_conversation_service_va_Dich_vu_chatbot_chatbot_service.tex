@@ -12,7 +12,7 @@ Sơ đồ tổng quan về dịch vụ trò chuyện (conversation service) và 
 Chịu trách nhiệm quản lý luồng giao tiếp giữa người dùng và hệ thống Agentic RAG. Dịch vụ này xử lý trực tiếp các cuộc trò chuyện văn bản theo cơ chế streaming, cấp phát token truy cập cho luồng giao tiếp giọng nói và cung cấp các tiện ích lưu trữ, chia sẻ trò chuyện.
 Vì chức năng trò chuyện văn bản suy luận (reasoning) và trò chuyện bằng giọng nói chỉ dành riêng cho tài khoản VIP, nên dịch vụ trò chuyện (conversation service) thực hiện lắng nghe sự kiện thanh toán thành công từ Kafka, lưu lại thông tin vào CSDL và kiểm tra quyền VIP của người dùng hiện tại trước khi xử lý yêu cầu.
 
-% Các tính năng chính:
+Các tính năng chính:
 \begin{itemize}
 \item \textbf{Khởi tạo trò chuyện}: Bắt đầu một luồng trò chuyện mới trong hệ thống.
 \item \textbf{Cấp phát token thoại}: Cấp phát token bảo mật phục vụ kết nối đàm thoại bằng giọng nói với máy chủ LiveKit.
@@ -26,7 +26,7 @@ Vì chức năng trò chuyện văn bản suy luận (reasoning) và trò chuy�
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.9\textwidth]{pictures/conversation-swagger.png}
+\includegraphics[width=0.95\textwidth]{pictures/conversation-swagger.png}
 \caption{Tài liệu Swagger API dịch vụ trò chuyện}
 \end{figure}
 
@@ -34,7 +34,7 @@ Sơ đồ trình tự kiểm duyệt nghiệp vụ khi xóa cuộc trò chuyện
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.8\textwidth]{pictures/delete-chat-validation-share.png}
+\includegraphics[width=0.85\textwidth]{pictures/delete-chat-validation-share.png}
 \caption{Sơ đồ trình tự xóa cuộc trò chuyện và kiểm duyệt chia sẻ}
 \end{figure}
 
@@ -102,7 +102,7 @@ Cơ cấu các bảng trong CSDL của dịch vụ chatbot:
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.8\textwidth]{pictures/chatbot-database.png}
+\includegraphics[width=0.95\textwidth]{pictures/chatbot-database.png}
 \caption{Cấu hình các bảng trong CSDL chatbot}
 \end{figure}
 
@@ -141,6 +141,14 @@ Hệ thống sử dụng \textbf{RabbitMQ} làm Message Broker để thực hi�
 \item \textbf{Hàng đợi}: \texttt{[prefix]\_chat\_deletions}
 \item \textbf{Bên xuất bản}: \texttt{code-conversation-service} (NestJS)
 \item \textbf{Bên tiêu thụ}: \texttt{code-chatbot-service} (Python)
+% \item \textbf{Payload Schema (JSON)}:
+% \begin{verbatim}
+% {
+% "chat_id": "string", // Mã ID cuộc trò chuyện cần xóa
+% "user_id": "string", // Mã ID người dùng sở hữu cuộc trò chuyện
+% "version": 0 // Phiên bản sự kiện để kiểm tra thứ tự
+% }
+% \end{verbatim}
 
 \begin{table}[H]
 \centering
@@ -161,6 +169,16 @@ Hệ thống sử dụng \textbf{RabbitMQ} làm Message Broker để thực hi�
 \item \textbf{Hàng đợi}: \texttt{[prefix]\_share\_generated}
 \item \textbf{Bên xuất bản}: \texttt{code-conversation-service} (NestJS)
 \item \textbf{Bên tiêu thụ}: \texttt{code-chatbot-service} (Python)
+% \item \textbf{Payload Schema (JSON)}:
+% \begin{verbatim}
+% {
+% "share_id": "string", // ID duy nhất của liên kết chia sẻ
+% "chat_id": "string", // ID cuộc trò chuyện được chia sẻ
+% "user_id": "string", // ID người dùng tạo chia sẻ
+% "version": 1, // Phiên bản sự kiện (khởi tạo thường là 1)
+% "last_message_id": "string" // ID tin nhắn cuối cùng
+% }
+% \end{verbatim}
 
 \begin{table}[H]
 \centering
@@ -198,6 +216,14 @@ DLQ và gửi cảnh báo về hệ thống.
 \item \textbf{Hàng đợi}: \texttt{[prefix]\_share\_revoked}
 \item \textbf{Bên xuất bản}: \texttt{code-conversation-service} (NestJS)
 \item \textbf{Bên tiêu thụ}: \texttt{code-chatbot-service} (Python)
+% \item \textbf{Payload Schema (JSON)}:
+% \begin{verbatim}
+% {
+% "share_id": "string", // ID liên kết chia sẻ cần thu hồi
+% "file_url": "string", // URL tệp tin JSONL cần xóa trên Cloudflare R2
+% "version": 2 // Phiên bản sự kiện (thường là phiên bản kế tiếp)
+% }
+% \end{verbatim}
 
 \begin{table}[H]
 \centering
@@ -219,6 +245,14 @@ DLQ và gửi cảnh báo về hệ thống.
 \item \textbf{Hàng đợi}: \texttt{[prefix]\_share\_upload\_completed}
 \item \textbf{Bên xuất bản}: \texttt{code-chatbot-service} (Python)
 \item \textbf{Bên tiêu thụ}: \texttt{code-conversation-service} (NestJS)
+% \item \textbf{Payload Schema (JSON)}:
+% \begin{verbatim}
+% {
+% "share_id": "string", // ID liên kết chia sẻ tương ứng
+% "file_url": "string", // URL tệp tin JSONL
+% "is_success": true // Trạng thái thành công (true / false)
+% }
+% \end{verbatim}
 
 \begin{table}[H]
 \centering
@@ -256,7 +290,7 @@ sử dụng cờ trạng thái \texttt{is\_revoked}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.8\textwidth]{pictures/share-out-of-order.png}
+\includegraphics[width=0.99\textwidth]{pictures/share-out-of-order.png}
 \caption{Sơ đồ xử lý lệch thứ tự tạo và thu hồi chia sẻ}
 \end{figure}
 
@@ -307,11 +341,11 @@ Python kiểm tra DB và phát hiện bản ghi đã tồn tại với trạng t
 \item \textbf{Tiêu thụ DLQ và Cảnh báo}: Một consumer chuyên biệt (\texttt{process\_share\_generated\_dlq}) sẽ lắng nghe hàng đợi DLQ. Khi có tin nhắn đi vào DLQ, consumer này sẽ trích xuất thông tin lỗi, payload của sự kiện, thời gian xảy ra sự cố và gửi yêu cầu HTTP POST tới Telegram Bot API để thông báo tức thời cho đội ngũ vận hành.
 \end{enumerate}
 
-\subparagraph{Xử lý concurrency khi Tạo Share và Xóa Chat đồng thời}
+\subparagraph{Xử lý concurrency khi Tạo Share và Xóa Chat đồng thời (Concurrency \& Snapshot Architecture)}
 
 Trong thực tế vận hành, người dùng có thể thực hiện thao tác tạo liên kết chia sẻ (Share) và ngay lập tức xóa cuộc trò chuyện (Delete Chat). Lúc này, cơ chế Outbox sẽ đẩy đồng thời hai sự kiện \texttt{share\_generated} và \texttt{chat\_deleted} vào RabbitMQ. Để giải quyết bài toán Race Condition (xung đột tài nguyên) khi thứ tự xử lý trên RabbitMQ không cố định, hệ thống áp dụng mẫu kiến trúc \textbf{Snapshot/Static Generation}:
 
-% \textbf{Cơ chế hoạt động chi tiết:}
+\textbf{Cơ chế hoạt động chi tiết:}
 \begin{itemize}
 \item \textbf{Không phụ thuộc vào trạng thái hoạt động của Chat:} Khi NestJS hoặc Python nhận sự kiện xóa chat, họ chỉ thực hiện \textbf{xóa mềm (soft delete)} bằng cách cập nhật trường \texttt{is\_active = False} trong CSDL. Bản ghi và dữ liệu tin nhắn vẫn tồn tại vật lý trong database.
 \item \textbf{Tạo Snapshot tĩnh (Static Generation):} Dù sự kiện \texttt{chat\_deleted} có được xử lý trước sự kiện \texttt{share\_generated} trên Python worker, Python vẫn có thể truy vấn đầy đủ nội dung lịch sử chat đã xóa mềm từ database để đóng gói thành tệp JSONL tĩnh và tải lên Cloudflare R2.
@@ -321,7 +355,7 @@ trogn CSDL sẻ cập nhật thông tin liên kết đến tệp này.
 Khi người nhận xem liên kết chia sẻ,
 dịch vụ sẽ lấy thông tin tệp R2 từ CSDL và tải xuống xử lý.
 % Frontend sẽ fetch trực tiếp tệp tĩnh từ R2 (qua CDN) mà không cần truy vấn vào database gốc (Neon) hay đi qua NestJS.
-Nghiệp vụ chấp nhận trạng thái \enquote{Có liên kết chia sẻ hoạt động nhưng cuộc trò chuyện gốc đã bị xóa}.
+Nghiệp vụ chấp nhận trạng thái "Có liên kết chia sẻ hoạt động nhưng cuộc trò chuyện gốc đã bị xóa".
 Nếu muốn thu hồi sẽ có API khác thực hiện thu hồi chia sẻ.
 \end{itemize}
 
@@ -331,13 +365,13 @@ Nếu muốn thu hồi sẽ có API khác thực hiện thu hồi chia sẻ.
 \caption{Sơ đồ xử lý đồng thời tạo share và xóa chat}
 \end{figure}
 
-% Kết quả các tệp tin chia sẻ
-% trò chuyện lưu trữ
-% trên Cloudflare R2:
+Kết quả các tệp tin chia sẻ
+trò chuyện lưu trữ
+trên Cloudflare R2:
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.7\textwidth]{pictures/r2chat.png}
+\includegraphics[width=0.99\textwidth]{pictures/r2chat.png}
 \caption{Lưu trữ các tệp tin chia sẻ trên Cloudflare R2}
 \end{figure}
 
@@ -362,8 +396,7 @@ Các sự kiện của LiveKit được hệ thống Voice Agent tiếp nhận v
 Quản lý vòng đời kết nối và sự hiện diện của người dùng trong phòng đàm thoại:
 
 \begin{itemize}
-\item \textbf{\texttt{participant\_connected}}: Kích hoạt khi người dùng tham gia vào phòng đàm thoại thành công. Hệ thống tự động gọi hàm chủ động phát giọng nói chào hỏi người dùng (Lần đầu kết nối: \texttt{WELCOME\_MESSAGE} = \enquote{Xin chào, tôi là trợ lý pháp luật. Bạn có cần tôi giúp đỡ gì không?},
-các lần kết nối lại sau đó: \texttt{REJOIN\_MESSAGE} = \enquote{Chào mừng bạn đã quay trở lại. Bạn có cần tôi giúp đỡ gì không?}).
+\item \textbf{\texttt{participant\_connected}}: Kích hoạt khi người dùng tham gia vào phòng đàm thoại thành công. Hệ thống tự động gọi hàm chủ động phát giọng nói chào hỏi người dùng (Lần đầu kết nối: \texttt{WELCOME\_MESSAGE} = "Xin chào, tôi là trợ lý pháp luật. Bạn có cần tôi giúp đỡ gì không?", các lần kết nối lại sau đó: \texttt{REJOIN\_MESSAGE} = "Chào mừng bạn đã quay trở lại. Bạn có cần tôi giúp đỡ gì không?").
 
 \item \textbf{\texttt{participant\_disconnected}}: Kích hoạt khi người dùng rời khỏi phòng hoặc bị ngắt kết nối đột ngột.
 

@@ -87,7 +87,7 @@ Xóa một thiết bị xác thực MFA khỏi tài khoản người dùng.
 Endpoint sử dụng: \texttt{/factors/\{factorId\}}
 
 \item \textbf{Cập nhật tên hiển thị của thiết bị MFA}:
-Đổi tên hiển thị (\texttt{friendly\_name}) của thiết bị xác thực (ví dụ: \enquote{Điện thoại cá nhân}).
+Đổi tên hiển thị (\texttt{friendly\_name}) của thiết bị xác thực (ví dụ: "Điện thoại cá nhân").
 Endpoint sử dụng: \texttt{/factors/\{factorId\}}
 
 \end{itemize}
@@ -134,7 +134,7 @@ Chi tiết về cấu hình Terraform dùng để quản lý hạ tầng Supabas
 
 \item Cấu hình hệ thống Email (SMTP) đang được cấu hình mặc định là Gmail.
 
-\item Ghi đè các mẫu email HTML cho \enquote{Xác nhận tài khoản} và \enquote{Đặt lại mật khẩu} để đồng nhất email tương tự như trong dịch vụ thanh toán.
+\item Ghi đè các mẫu email HTML cho "Xác nhận tài khoản" và "Đặt lại mật khẩu" để đồng nhất email tương tự như trong dịch vụ thanh toán.
 \end{itemize}
 
 \begin{figure}[H]
@@ -207,17 +207,13 @@ Kết quả sơ đồ tệp và thư mục trong gói chung NestJS Auth được
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.8\textwidth]{pictures/20206205tech-nestjs-auth-file-architecture.png}
+\includegraphics[width=0.6\textwidth]{pictures/20206205tech-nestjs-auth-file-architecture.png}
 \caption{Sơ đồ tệp và thư mục trong gói chung NestJS}
 \end{figure}
 
 \paragraph{Cấu hình trong Kong API Gateway}
 
-\begin{itemize}
-
-\item Tạo Service trong Kong trỏ về URL của dự án Supabase.
-\item Thiết lập Route: Tạo một Route liên kết với Service vừa tạo.
-\item Tham số \texttt{strip\_path=true} đảm bảo Kong sẽ xóa tiền tố khỏi URI trước khi chuyển tiếp yêu cầu đến Supabase.
-\item Dùng plugin \texttt{request-transformer} để tự động thêm \texttt{apikey} vào header trước khi gửi đến Supabase.
-
-\end{itemize}
+Tạo Service trong Kong trỏ về URL của dự án Supabase (\texttt{https://[PROJECT\_REF].supabase.co}).
+Thiết lập Route: Tạo một Route liên kết với Service vừa tạo.
+Tham số \texttt{strip\_path=true} đảm bảo Kong sẽ xóa tiền tố khỏi URI trước khi chuyển tiếp yêu cầu đến Supabase.
+Dùng plugin \texttt{request-transformer} để tự động thêm \texttt{apikey} vào header trước khi gửi đến Supabase.

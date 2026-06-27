@@ -9,7 +9,7 @@ Kích hoạt thủ công Data API trên bảng điều khiển của Neon:
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{pictures/setting-neonimage-1.png}
+\includegraphics[width=0.65\textwidth]{pictures/setting-neonimage-1.png}
 \caption{Kích hoạt thủ công Data API trên Neon}
 \end{figure}
 
@@ -17,7 +17,7 @@ Lấy thông tin URL của REST API trên giao diện web của Neon:
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.99\textwidth]{pictures/setting-neonimage-2.png}
+\includegraphics[width=0.95\textwidth]{pictures/setting-neonimage-2.png}
 \caption{Thông tin URL REST API trên Neon}
 \end{figure}
 
@@ -45,22 +45,18 @@ Kích hoạt bảo mật cấp hàng RLS (Row-Level Security) để đảm bảo
 
 \paragraph{Cấu hình trong Kong API Gateway}
 
-\begin{itemize}
-
-\item Tạo Service trong Kong trỏ trực tiếp đến endpoint REST API của bảng \texttt{settings} trên Neon.
-\item Thay vì tạo một Route chung cho tất cả các yêu cầu,
+Tạo Service trong Kong trỏ trực tiếp đến endpoint REST API của bảng \texttt{settings} trên Neon.
+Thay vì tạo một Route chung cho tất cả các yêu cầu,
 hệ thống được cấu hình để phân loại riêng biệt luồng đọc (\texttt{GET}) và luồng ghi (\texttt{POST}).
-\item Tham số \texttt{strip\_path=true} giúp Kong loại bỏ tiền tố URI trước khi chuyển tiếp yêu cầu đến Neon.
-\item Cấu hình Plugin xử lý Upsert tự động:
+Tham số \texttt{strip\_path=true} giúp Kong loại bỏ tiền tố URI trước khi chuyển tiếp yêu cầu đến Neon.
+Cấu hình Plugin xử lý Upsert tự động:
 Trong REST API dựa trên Postgres,
 để thực hiện hành động Upsert
 (chèn hoặc cập nhật),
 client cần gửi kèm các tham số cụ thể trên URL
 (\texttt{on\_conflict=user\_id,key})
 và Header (\texttt{Prefer: resolution=merge-duplicates}).
-\item Sử dụng plugin \texttt{request-transformer}
+Sử dụng plugin \texttt{request-transformer}
 để Kong API Gateway
 tự động đính kèm các tham số
 và header phức tạp này trước khi gửi đến Neon.
-
-\end{itemize}
