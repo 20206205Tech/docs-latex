@@ -81,15 +81,32 @@ before upper={\tcbtitle\vskip0pt\par}
 % \usepackage{etoolbox}
 % \pretocmd{\section}{\clearpage}{}{}
 \usepackage{csquotes}
+
+% Tự động thêm chữ "CHƯƠNG" vào trước số section và định dạng lại các đề mục con
+\usepackage{titlesec}
+\renewcommand{\thesection}{CHƯƠNG \arabic{section}}
+\renewcommand{\thesubsection}{\arabic{section}.\arabic{subsection}}
+\renewcommand{\thesubsubsection}{\thesubsection.\arabic{subsubsection}}
+\renewcommand{\thefigure}{\arabic{section}.\arabic{figure}}
+\renewcommand{\thetable}{\arabic{section}.\arabic{table}}
+
+% Định dạng hiển thị tiêu đề Chương (section) trong văn bản
+\titleformat{\section}[block]
+{\normalfont\Large\bfseries\centering} % Căn giữa, chữ in đậm, cỡ lớn
+{\thesection.} % Nhãn hiển thị (ví dụ: CHƯƠNG 1.)
+% {1em} % Khoảng cách giữa nhãn và tiêu đề chương
+{0.5em} % Khoảng cách giữa nhãn và tiêu đề chương
+{}
+
 \newif\ifdev
 % Chọn 1 trong 2 dòng dưới đây để bật/tắt chế độ:
 \devtrue % BẬT chế độ Dev
 % \devfalse % TẮT chế độ Dev (Production)
 
-\ifdev
-\pagecolor{black} % Thiết lập nền toàn bộ trang PDF thành màu đen
-\color{white} % Thiết lập màu chữ mặc định toàn trang là trắng
-\fi
+% \ifdev
+% \pagecolor{black} % Thiết lập nền toàn bộ trang PDF thành màu đen
+% \color{white} % Thiết lập màu chữ mặc định toàn trang là trắng
+% \fi
 
 \begin{document}
 
