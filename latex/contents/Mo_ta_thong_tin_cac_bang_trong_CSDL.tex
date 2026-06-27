@@ -1,19 +1,13 @@
 \subsubsection{Mô tả thông tin các bảng trong CSDL của các dịch vụ}
 
-
-
-
 Các dịch vụ đều có bảng quản lý việc di chuyển CSDL.
-Trong  python sử dụng alembic, 
+Trong python sử dụng alembic,
 trong NestJS sử dụng typeorm.
-Ngoài ra, 
+Ngoài ra,
 các dịch vụ đều có bảng
 request\_logs
-để ghi lại thông tin yêu cầu và  phản hồi 
+để ghi lại thông tin yêu cầu và phản hồi
 của người dùng.
-
-
-
 
 \begin{table}[H]
 \centering
@@ -22,7 +16,7 @@ của người dùng.
 \textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
 version\_num & varchar & Mã phiên bản di chuyển CSDL. \\ \hline
 \end{tabular}
-\caption{Cấu trúc bảng \texttt{alembic\_version} (Dịch vụ  python)}
+\caption{Cấu trúc bảng \texttt{alembic\_version} (Dịch vụ python)}
 \end{table}
 
 \begin{table}[H]
