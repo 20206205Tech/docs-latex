@@ -117,6 +117,10 @@ before upper={\tcbtitle\vskip0pt\par}
 
 \begin{document}
 
-\input{i}
+\ifdev
+\input{doc}
+\else
+\input{index}
+\fi
 
 \end{document}
