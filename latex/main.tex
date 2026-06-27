@@ -81,6 +81,30 @@ before upper={\tcbtitle\vskip0pt\par}
 % \usepackage{etoolbox}
 % \pretocmd{\section}{\clearpage}{}{}
 \usepackage{csquotes}
+
+% Tự động thêm chữ "CHƯƠNG" vào trước số section và định dạng lại các đề mục con
+\usepackage{titlesec}
+\renewcommand{\thesection}{CHƯƠNG \arabic{section}}
+\renewcommand{\thesubsection}{\arabic{section}.\arabic{subsection}}
+\renewcommand{\thesubsubsection}{\thesubsection.\arabic{subsubsection}}
+\renewcommand{\thefigure}{\arabic{section}.\arabic{figure}}
+\renewcommand{\thetable}{\arabic{section}.\arabic{table}}
+
+% Định dạng hiển thị tiêu đề Chương (section) trong văn bản
+\titleformat{\section}[block]
+{\normalfont\Large\bfseries\centering} % Căn giữa, chữ in đậm, cỡ lớn
+{\thesection.} % Nhãn hiển thị (ví dụ: CHƯƠNG 1.)
+{1em} % Khoảng cách giữa nhãn và tiêu đề chương
+{}
+
+% Cấu hình Mục lục (TOC) tránh lỗi tràn lề và đè chữ khi thêm chữ "CHƯƠNG" viết hoa
+\usepackage[titles]{tocloft}
+\setlength{\cftsecnumwidth}{7.0em} % Độ rộng cột số hiệu Section (đủ chỗ cho CHƯƠNG X.)
+\setlength{\cftsubsecindent}{7.0em} % Thụt lề Subsection thẳng hàng với tiêu đề Section (7.0em)
+\setlength{\cftsubsecnumwidth}{3.0em} % Độ rộng cột số hiệu Subsection
+\setlength{\cftsubsubsecindent}{10.0em} % Thụt lề Subsubsection (7.0 + 3.0)
+\setlength{\cftsubsubsecnumwidth}{3.5em} % Độ rộng cột số hiệu Subsubsection
+
 \newif\ifdev
 % Chọn 1 trong 2 dòng dưới đây để bật/tắt chế độ:
 \devtrue % BẬT chế độ Dev

@@ -83,6 +83,13 @@ cluster/.style={dashed, draw=#1!50, fill=#1!5, rounded corners=8pt, inner sep=6p
 \caption{Ví dụ ánh xạ các vector từ gần nghĩa.}
 \end{figure}
 
+Trong đồ án này, em dùng
+mô hình
+HuggingFace (keepitreal/vietnamese-sbert)
+tạo vector nhúng (embedding) cho tiếng Việt
+với
+số chiều (dimension) của mỗi vector là 768.
+
 Khi dự đoán từ tiếp theo,
 mô hình không chỉ nhìn vào từ ngay trước nó,
 mà nó nhìn vào toàn bộ các từ đã xuất hiện và dùng cơ chế gọi là Self-Attention để xem từ nào quan trọng nhất.
