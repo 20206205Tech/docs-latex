@@ -1,5 +1,20 @@
 \subsubsection{Mô tả thông tin các bảng trong CSDL của các dịch vụ}
 
+
+
+
+Các dịch vụ đều có bảng quản lý việc di chuyển CSDL.
+Trong  python sử dụng alembic, 
+trong NestJS sử dụng typeorm.
+Ngoài ra, 
+các dịch vụ đều có bảng
+request\_logs
+để ghi lại thông tin yêu cầu và  phản hồi 
+của người dùng.
+
+
+
+
 \begin{table}[H]
 \centering
 \begin{tabular}{|l|l|p{6cm}|}
@@ -38,7 +53,7 @@ processTime & float8 & Thời gian hệ thống xử lý yêu cầu. \\ \hline
 created\_at & timestamptz & Thời gian ghi nhận log hệ thống. \\ \hline
 clientIp & varchar & Địa chỉ IP của máy khách gửi yêu cầu. \\ \hline
 \end{tabular}
-\caption{Cấu trúc bảng \texttt{request\_logs} (Ghi lại thông tin yêu cầu và  phản hồi)}
+\caption{Cấu trúc bảng \texttt{request\_logs}}
 \end{table}
 
 \input{contents/database/auth-service}
