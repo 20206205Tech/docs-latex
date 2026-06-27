@@ -1,36 +1,53 @@
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% % Mô tả chi tiết thông tin bảng trong CSDL
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% % thứ tự các bảng trong tài liệu
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+id & uuid & Khóa chính của lượt chia sẻ phiên chat. \\ \hline
+chat\_id & uuid & ID phiên chat được chia sẻ. \\ \hline
+user\_id & varchar & ID người dùng thực hiện chia sẻ. \\ \hline
+version & int4 & Phiên bản dữ liệu để kiểm soát đồng bộ. \\ \hline
+is\_revoked & bool & Trạng thái thu hồi liên kết chia sẻ. \\ \hline
+created\_at & timestamptz & Thời gian tạo liên kết chia sẻ. \\ \hline
+\end{tabular}
+\caption{Cấu trúc bảng \texttt{shares} (Dịch vụ chatbot)}
+\end{table}
+
+% %%%%\paragraph{Các bảng trong CSDL của dịch vụ xác thực}
+
+% % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% % % Mô tả chi tiết thông tin bảng trong CSDL
+% % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% % % thứ tự các bảng trong tài liệu
+
+% % \begin{table}[H]
+% % \centering
+% % \begin{tabular}{|l|l|p{6cm}|}
+% % \hline
+% % \textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
+% % version\_num & varchar & Mã phiên bản di chuyển CSDL. \\ \hline
+% % \end{tabular}
+% % \caption{Cấu trúc bảng \texttt{alembic\_version} (Dịch vụ chatbot)}
+% % \end{table}
 
 % \begin{table}[H]
 % \centering
 % \begin{tabular}{|l|l|p{6cm}|}
 % \hline
 % \textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
-% version\_num & varchar & Mã phiên bản di chuyển CSDL. \\ \hline
+% id & uuid & Khóa chính của log yêu cầu HTTP. \\ \hline
+% requestId & varchar & Mã định danh dùng để truy vết yêu cầu. \\ \hline
+% method & varchar & Phương thức HTTP được sử dụng. \\ \hline
+% url & text & Đường dẫn URL của API. \\ \hline
+% statusCode & int4 & Mã trạng thái phản hồi HTTP. \\ \hline
+% requestPayload & jsonb & Dữ liệu gửi đi định dạng JSON. \\ \hline
+% responsePayload & jsonb & Dữ liệu phản hồi định dạng JSON. \\ \hline
+% processTime & float8 & Thời gian xử lý yêu cầu. \\ \hline
+% created\_at & timestamptz & Thời gian ghi nhận log hệ thống. \\ \hline
+% clientIp & varchar & Địa chỉ IP của máy khách. \\ \hline
 % \end{tabular}
-% \caption{Cấu trúc bảng \texttt{alembic\_version} (Dịch vụ chatbot)}
+% \caption{Cấu trúc bảng \texttt{request\_logs} (Dịch vụ chatbot)}
 % \end{table}
-
-\begin{table}[H]
-\centering
-\begin{tabular}{|l|l|p{6cm}|}
-\hline
-\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
-id & uuid & Khóa chính của log yêu cầu HTTP. \\ \hline
-requestId & varchar & Mã định danh dùng để truy vết yêu cầu. \\ \hline
-method & varchar & Phương thức HTTP được sử dụng. \\ \hline
-url & text & Đường dẫn URL của API. \\ \hline
-statusCode & int4 & Mã trạng thái phản hồi HTTP. \\ \hline
-requestPayload & jsonb & Dữ liệu gửi đi định dạng JSON. \\ \hline
-responsePayload & jsonb & Dữ liệu phản hồi định dạng JSON. \\ \hline
-processTime & float8 & Thời gian xử lý yêu cầu. \\ \hline
-created\_at & timestamptz & Thời gian ghi nhận log hệ thống. \\ \hline
-clientIp & varchar & Địa chỉ IP của máy khách. \\ \hline
-\end{tabular}
-\caption{Cấu trúc bảng \texttt{request\_logs} (Dịch vụ chatbot)}
-\end{table}
 
 \begin{table}[H]
 \centering
@@ -93,19 +110,4 @@ score & float8 & Điểm số độ tương đồng/mức độ phù hợp của
 created\_at & timestamptz & Thời gian ghi nhận trích dẫn. \\ \hline
 \end{tabular}
 \caption{Cấu trúc bảng \texttt{message\_sources} (Dịch vụ chatbot)}
-\end{table}
-
-\begin{table}[H]
-\centering
-\begin{tabular}{|l|l|p{6cm}|}
-\hline
-\textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
-id & uuid & Khóa chính của lượt chia sẻ phiên chat. \\ \hline
-chat\_id & uuid & ID phiên chat được chia sẻ. \\ \hline
-user\_id & varchar & ID người dùng thực hiện chia sẻ. \\ \hline
-version & int4 & Phiên bản dữ liệu để kiểm soát đồng bộ. \\ \hline
-is\_revoked & bool & Trạng thái thu hồi liên kết chia sẻ. \\ \hline
-created\_at & timestamptz & Thời gian tạo liên kết chia sẻ. \\ \hline
-\end{tabular}
-\caption{Cấu trúc bảng \texttt{shares} (Dịch vụ chatbot)}
 \end{table}
