@@ -48,7 +48,7 @@ updated\_at & timestamptz & Thời gian cập nhật trạng thái liên kết c
 status & enum & Trạng thái tiến trình đóng gói chia sẻ. \\ \hline
 last\_message\_id & uuid & ID của tin nhắn cuối cùng được đóng gói trong bản chia sẻ. \\ \hline
 \end{tabular}
-\caption{Bảng \texttt{shared\_chat} lưu liên kết chia sẻ và tệp sao lưu trên R2}
+\caption{Bảng \texttt{shared\_chat} lưu thông tin chia sẻ}
 \end{table}
 
 \begin{table}[H]
@@ -64,7 +64,7 @@ version & int4 & Phiên bản quản lý cập nhật. \\ \hline
 created\_at & timestamptz & Thời điểm tạo thư mục. \\ \hline
 updated\_at & timestamptz & Thời điểm cập nhật gần nhất. \\ \hline
 \end{tabular}
-\caption{Bảng \texttt{bookmark\_folder} định nghĩa thư mục phân loại cuộc trò chuyện}
+\caption{Bảng \texttt{bookmark\_folder} thư mục để các đánh dấu}
 \end{table}
 
 \begin{table}[H]
@@ -78,7 +78,7 @@ chat\_id & uuid & Khóa ngoại liên kết với phiên chat. \\ \hline
 note & text & Ghi chú đính kèm tin nhắn. \\ \hline
 created\_at & timestamptz & Thời điểm thực hiện đánh dấu. \\ \hline
 \end{tabular}
-\caption{Bảng \texttt{bookmark\_item} lưu thông tin cuộc trò chuyện được đánh dấu}
+\caption{Bảng \texttt{bookmark\_item} đánh dấu cuộc trò chuyện}
 \end{table}
 
 \begin{table}[H]
@@ -96,7 +96,7 @@ created\_at & timestamptz & Thời điểm khởi tạo sự kiện. \\ \hline
 retry\_count & int4 & Số lần hệ thống đã thử lại (retry). \\ \hline
 processed\_at & timestamptz & Thời điểm gửi thành công lên RabbitMQ. \\ \hline
 \end{tabular}
-\caption{Bảng \texttt{outbox\_messages} lưu sự kiện nghiệp vụ chưa xử lý (Outbox)}
+\caption{Bảng \texttt{outbox\_messages} lưu sự kiện thanh toán gửi RabbitMQ}
 \end{table}
 
 \begin{table}[H]
@@ -115,5 +115,5 @@ created\_at & timestamptz & Thời điểm khởi tạo sự kiện ban đầu. 
 processed\_at & timestamptz & Thời điểm xử lý sự kiện thành công. \\ \hline
 archived\_at & timestamptz & Thời điểm di chuyển vào kho lưu trữ. \\ \hline
 \end{tabular}
-\caption{Bảng \texttt{outbox\_messages\_archive} lưu lịch sử sự kiện đã xử lý (Outbox Archive)}
+\caption{Bảng \texttt{outbox\_messages\_archive} sao chép dữ liệu bảng Outbox giúp tối ưu}
 \end{table}

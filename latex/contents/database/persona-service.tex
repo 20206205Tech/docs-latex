@@ -8,7 +8,7 @@ code & varchar & Mã định danh của nền tảng TTS. \\ \hline
 name & varchar & Tên của engine/model tương ứng. \\ \hline
 is\_active & bool & Cờ trạng thái hoạt động của engine. \\ \hline
 \end{tabular}
-\caption{Bảng \texttt{engines} quản lý các nền tảng dịch vụ tổng hợp giọng nói (TTS Engines)}
+\caption{Bảng \texttt{engines} quản lý các nền tảng dịch vụ giọng nói}
 \end{table}
 
 \begin{table}[H]
@@ -21,7 +21,7 @@ voice\_code & varchar & Mã giọng đọc từ nhà cung cấp dịch vụ. \\ 
 engine\_id & uuid & ID engine liên kết tương ứng. \\ \hline
 is\_active & bool & Trạng thái hoạt động của giọng đọc. \\ \hline
 \end{tabular}
-\caption{Bảng \texttt{voices} lưu trữ kho giọng đọc của từng TTS Engine}
+\caption{Bảng \texttt{voices} lưu trữ giọng đọc của từng nền tảng}
 \end{table}
 
 \begin{table}[H]
@@ -41,5 +41,5 @@ is\_active & bool & Trạng thái kích hoạt của nhân vật trên hệ th�
 created\_at & timestamp & Thời gian tạo nhân vật. \\ \hline
 updated\_at & timestamp & Thời gian cập nhật cấu hình nhân vật. \\ \hline
 \end{tabular}
-\caption{Bảng \texttt{persona} quản lý cấu hình các nhân vật ảo}
+\caption{Bảng \texttt{persona} quản lý cấu hình các nhân vật}
 \end{table}
