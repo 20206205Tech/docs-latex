@@ -12,7 +12,7 @@
 % \textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
 % version\_num & varchar & Mã phiên bản di chuyển CSDL. \\ \hline
 % \end{tabular}
-% \caption{Cấu trúc bảng \texttt{alembic\_version} (Dịch vụ văn bản)}
+% \caption{Bảng \texttt{alembic\_version} (Dịch vụ văn bản)}
 % \end{table}
 
 % \begin{table}[H]
@@ -31,7 +31,7 @@
 % process\_time & float8 & Thời gian xử lý hoàn tất yêu cầu. \\ \hline
 % created\_at & timestamptz & Thời gian ghi nhận log hệ thống. \\ \hline
 % \end{tabular}
-% \caption{Cấu trúc bảng \texttt{request\_logs} (Dịch vụ văn bản)}
+% \caption{Bảng \texttt{request\_logs} (Dịch vụ văn bản)}
 % \end{table}
 
 \begin{table}[H]
@@ -49,7 +49,7 @@ period\_start & timestamptz & Thời điểm bắt đầu có hiệu lực. \\ \
 period\_end & timestamptz & Thời điểm kết thúc/hết hạn. \\ \hline
 version & int4 & Phiên bản của bản ghi sự kiện, dùng để loại bỏ các sự kiện cũ (out-of-order). \\ \hline
 \end{tabular}
-\caption{Cấu trúc bảng \texttt{user\_subscriptions} (Dịch vụ văn bản)}
+\caption{Bảng \texttt{user\_subscriptions} (Dịch vụ văn bản)}
 \end{table}
 
 \begin{table}[H]
@@ -69,5 +69,5 @@ has\_summary & bool & Cờ xác nhận tài liệu được tóm tắt. \\ \hlin
 file\_hash & varchar & Mã băm của tệp tin, dùng để phát hiện và tái sử dụng tài liệu trùng lặp. \\ \hline
 file\_size & int4 & Dung lượng của tệp tin, kết hợp với file\_hash để tái sử dụng. \\ \hline
 \end{tabular}
-\caption{Cấu trúc bảng \texttt{documents} (Dịch vụ văn bản)}
+\caption{Bảng \texttt{documents} (Dịch vụ văn bản)}
 \end{table}

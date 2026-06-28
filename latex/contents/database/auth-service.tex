@@ -7,7 +7,7 @@
 \textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
 email & text & Địa chỉ email của quản trị viên. \\ \hline
 \end{tabular}
-\caption{Cấu trúc bảng \texttt{admin\_whitelist} (Dịch vụ xác thực)}
+\caption{Bảng \texttt{admin\_whitelist} giúp Supabase tạo thông tin role ADMIN trong JWT}
 \end{table}
 
 \begin{table}[H]
@@ -19,5 +19,5 @@ id & uuid & Khóa chính, liên kết trực tiếp với ID tài khoản trong 
 full\_name & text & Tên của người dùng. \\ \hline
 avatar\_url & text & Đường dẫn URL ảnh đại diện của người dùng. \\ \hline
 \end{tabular}
-\caption{Cấu trúc bảng \texttt{profiles} (Dịch vụ xác thực)}
+\caption{Bảng \texttt{profiles} lưu thông tin cá nhân của người dùng}
 \end{table}

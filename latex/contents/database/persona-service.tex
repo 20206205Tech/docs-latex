@@ -7,7 +7,7 @@
 % \textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
 % version\_num & varchar & Mã phiên bản di chuyển CSDL. \\ \hline
 % \end{tabular}
-% \caption{Cấu trúc bảng \texttt{alembic\_version} (Dịch vụ nhân vật)}
+% \caption{Bảng \texttt{alembic\_version} (Dịch vụ nhân vật)}
 % \end{table}
 
 % \begin{table}[H]
@@ -26,7 +26,7 @@
 % process\_time & float8 & Thời gian hệ thống xử lý. \\ \hline
 % created\_at & timestamptz & Thời gian ghi nhận log hệ thống. \\ \hline
 % \end{tabular}
-% \caption{Cấu trúc bảng \texttt{request\_logs} (Dịch vụ nhân vật)}
+% \caption{Bảng \texttt{request\_logs} (Dịch vụ nhân vật)}
 % \end{table}
 
 \begin{table}[H]
@@ -39,7 +39,7 @@ code & varchar & Mã định danh của nền tảng TTS. \\ \hline
 name & varchar & Tên của engine/model tương ứng. \\ \hline
 is\_active & bool & Cờ trạng thái hoạt động của engine. \\ \hline
 \end{tabular}
-\caption{Cấu trúc bảng \texttt{engines} (Dịch vụ nhân vật)}
+\caption{Bảng \texttt{engines} (Dịch vụ nhân vật)}
 \end{table}
 
 \begin{table}[H]
@@ -52,7 +52,7 @@ voice\_code & varchar & Mã giọng đọc từ nhà cung cấp dịch vụ. \\ 
 engine\_id & uuid & ID engine liên kết tương ứng. \\ \hline
 is\_active & bool & Trạng thái hoạt động của giọng đọc. \\ \hline
 \end{tabular}
-\caption{Cấu trúc bảng \texttt{voices} (Dịch vụ nhân vật)}
+\caption{Bảng \texttt{voices} (Dịch vụ nhân vật)}
 \end{table}
 
 \begin{table}[H]
@@ -72,5 +72,5 @@ is\_active & bool & Trạng thái kích hoạt của nhân vật trên hệ th�
 created\_at & timestamp & Thời gian tạo nhân vật. \\ \hline
 updated\_at & timestamp & Thời gian cập nhật cấu hình nhân vật. \\ \hline
 \end{tabular}
-\caption{Cấu trúc bảng \texttt{persona} (Dịch vụ nhân vật)}
+\caption{Bảng \texttt{persona} (Dịch vụ nhân vật)}
 \end{table}
