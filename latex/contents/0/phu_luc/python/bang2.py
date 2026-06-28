@@ -1,9 +1,8 @@
-import os
-import sys
 import json
+import os
 import time
-import urllib.request
 import urllib.error
+import urllib.request
 
 # Mapping from result.json categories to report categories
 CATEGORY_MAPPING = {
@@ -13,6 +12,7 @@ CATEGORY_MAPPING = {
     "Truy vấn mập mờ (Ambiguous)": "Câu hỏi phức tạp, tối nghĩa",
     "Câu hỏi đánh lừa (Deceptive)": "Câu hỏi phức tạp, tối nghĩa",
 }
+
 
 def extract_json(text):
     """
@@ -32,14 +32,15 @@ def extract_json(text):
         return json.loads(text)
     except json.JSONDecodeError:
         # Fallback: find the first '{' and last '}'
-        start = text.find('{')
-        end = text.rfind('}')
+        start = text.find("{")
+        end = text.rfind("}")
         if start != -1 and end != -1:
             try:
-                return json.loads(text[start:end+1])
+                return json.loads(text[start : end + 1])
             except json.JSONDecodeError:
                 pass
         raise ValueError(f"Cannot extract valid JSON from response: {text}")
+
 
 def call_nvidia_judge_with_retry(api_key, question, context, answer, category):
     """
@@ -77,13 +78,11 @@ Hãy đưa ra phân tích ngắn gọn trong trường "reasoning" và kết lu�
 
     payload = {
         "model": "meta/llama-3.3-70b-instruct",
-        "messages": [
-            {"role": "user", "content": prompt}
-        ],
+        "messages": [{"role": "user", "content": prompt}],
         "temperature": 0.1,
         "top_p": 0.7,
         "max_tokens": 1024,
-        "stream": False
+        "stream": False,
     }
 
     max_retries = 5
@@ -96,9 +95,9 @@ Hãy đưa ra phân tích ngắn gọn trong trường "reasoning" và kết lu�
             data=json.dumps(payload).encode("utf-8"),
             headers={
                 "Content-Type": "application/json",
-                "Authorization": f"Bearer {api_key}"
+                "Authorization": f"Bearer {api_key}",
             },
-            method="POST"
+            method="POST",
         )
         try:
             with urllib.request.urlopen(req) as response:
@@ -112,18 +111,23 @@ Hãy đưa ra phân tích ngắn gọn trong trường "reasoning" và kết lu�
                 return extract_json(text_response)
         except urllib.error.HTTPError as e:
             if e.code in [429, 502, 503, 504]:
-                print(f"\n   [Rate Limit / Error {e.code}] {e.reason}. Đang ngủ {delay} giây trước khi thử lại (Lần thử {attempt + 1}/{max_retries})...")
+                print(
+                    f"\n   [Rate Limit / Error {e.code}] {e.reason}. Đang ngủ {delay} giây trước khi thử lại (Lần thử {attempt + 1}/{max_retries})..."
+                )
                 time.sleep(delay)
                 delay *= backoff_factor
             else:
                 print(f"\n   [Lỗi HTTP {e.code}] {e.reason}. Không thể thử lại.")
                 raise e
         except Exception as e:
-            print(f"\n   [Lỗi kết nối] {e}. Đang ngủ {delay} giây trước khi thử lại (Lần thử {attempt + 1}/{max_retries})...")
+            print(
+                f"\n   [Lỗi kết nối] {e}. Đang ngủ {delay} giây trước khi thử lại (Lần thử {attempt + 1}/{max_retries})..."
+            )
             time.sleep(delay)
             delay *= backoff_factor
 
     raise Exception("Không thể kết nối đến NVIDIA API sau nhiều lần thử lại.")
+
 
 def write_latex_table(tex_path, stats):
     """
@@ -133,12 +137,16 @@ def write_latex_table(tex_path, stats):
     lines.append(r"\begin{table}[H]")
     lines.append(r"\centering")
     lines.append(r"\refstepcounter{table}")
-    lines.append(r"\textbf{Bảng \thetable:} Bảng thống kê hiệu năng và độ chính xác của hệ thống RAG")
+    lines.append(
+        r"\textbf{Bảng \thetable:} Bảng thống kê hiệu năng và độ chính xác của hệ thống RAG"
+    )
     lines.append(r"\label{tab:hieu_nang_do_chinh_xac}")
     lines.append(r"\vspace{0.5em}")
     lines.append(r"\begin{tabular}{|l|c|c|c|c|}")
     lines.append(r"\hline")
-    lines.append(r"\textbf{Nhóm câu hỏi kiểm thử} & \makecell{\textbf{Tổng số}\\\textbf{câu hỏi}} & \makecell{\textbf{Phản hồi}\\\textbf{Đúng (\%)}} & \makecell{\textbf{Phản hồi Sai /}\\\textbf{Ảo giác (\%)}} & \makecell{\textbf{Không trả lời do}\\\textbf{không chắc chắn (\%)}} \\ \hline")
+    lines.append(
+        r"\textbf{Nhóm câu hỏi kiểm thử} & \makecell{\textbf{Tổng số}\\\textbf{câu hỏi}} & \makecell{\textbf{Phản hồi}\\\textbf{Đúng (\%)}} & \makecell{\textbf{Phản hồi Sai /}\\\textbf{Ảo giác (\%)}} & \makecell{\textbf{Không trả lời do}\\\textbf{không chắc chắn (\%)}} \\ \hline"
+    )
 
     overall_total = 0
     overall_correct = 0
@@ -148,11 +156,14 @@ def write_latex_table(tex_path, stats):
     groups = [
         "Câu hỏi có trong CSDL pháp luật",
         "Câu hỏi ngoài phạm vi (đời sống, IT...)",
-        "Câu hỏi phức tạp, tối nghĩa"
+        "Câu hỏi phức tạp, tối nghĩa",
     ]
 
     for group in groups:
-        g_stats = stats.get(group, {"total": 0, "CORRECT": 0, "INCORRECT_HALLUCINATION": 0, "REFUSED": 0})
+        g_stats = stats.get(
+            group,
+            {"total": 0, "CORRECT": 0, "INCORRECT_HALLUCINATION": 0, "REFUSED": 0},
+        )
         total = g_stats["total"]
         if total == 0:
             continue
@@ -189,14 +200,15 @@ def write_latex_table(tex_path, stats):
     lines.append(r"\end{tabular}")
     lines.append(r"\end{table}")
 
-    with open(tex_path, 'w', encoding='utf-8') as f:
-        f.write('\n'.join(lines) + '\n')
+    with open(tex_path, "w", encoding="utf-8") as f:
+        f.write("\n".join(lines) + "\n")
+
 
 def main():
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    json_path = os.path.join(script_dir, 'result.json')
-    eval_path = os.path.join(script_dir, 'evaluation_detail.json')
-    tex_path = os.path.join(script_dir, 'bang2.tex')
+    json_path = os.path.join(script_dir, "result.json")
+    eval_path = os.path.join(script_dir, "evaluation_detail.json")
+    tex_path = os.path.join(script_dir, "bang2.tex")
 
     if not os.path.exists(json_path):
         print(f"Error: {json_path} not found.")
@@ -207,29 +219,48 @@ def main():
     use_mock = False
 
     if not api_key:
-        print("\n" + "="*80)
+        print("\n" + "=" * 80)
         print("[CẢNH BÁO] Biến môi trường NVIDIA_API_KEY chưa được thiết lập!")
-        print("Hệ thống sẽ tự động tạo bảng bang2.tex sử dụng dữ liệu giả lập (mock data)")
+        print(
+            "Hệ thống sẽ tự động tạo bảng bang2.tex sử dụng dữ liệu giả lập (mock data)"
+        )
         print("để bạn có thể biên dịch tài liệu LaTeX ngay lập tức.")
-        print("Để chạy đánh giá thật bằng NVIDIA API, vui lòng thiết lập biến môi trường:")
-        print("  Windows (PowerShell): $env:NVIDIA_API_KEY=\"your_key_here\"")
+        print(
+            "Để chạy đánh giá thật bằng NVIDIA API, vui lòng thiết lập biến môi trường:"
+        )
+        print('  Windows (PowerShell): $env:NVIDIA_API_KEY="your_key_here"')
         print("  Windows (CMD):        set NVIDIA_API_KEY=your_key_here")
-        print("  Linux/macOS:          export NVIDIA_API_KEY=\"your_key_here\"")
-        print("="*80 + "\n")
+        print('  Linux/macOS:          export NVIDIA_API_KEY="your_key_here"')
+        print("=" * 80 + "\n")
         use_mock = True
 
     if use_mock:
         mock_stats = {
-            "Câu hỏi có trong CSDL pháp luật": {"total": 60, "CORRECT": 54, "INCORRECT_HALLUCINATION": 4, "REFUSED": 2},
-            "Câu hỏi ngoài phạm vi (đời sống, IT...)": {"total": 15, "CORRECT": 15, "INCORRECT_HALLUCINATION": 0, "REFUSED": 0},
-            "Câu hỏi phức tạp, tối nghĩa": {"total": 25, "CORRECT": 22, "INCORRECT_HALLUCINATION": 1, "REFUSED": 2}
+            "Câu hỏi có trong CSDL pháp luật": {
+                "total": 60,
+                "CORRECT": 54,
+                "INCORRECT_HALLUCINATION": 4,
+                "REFUSED": 2,
+            },
+            "Câu hỏi ngoài phạm vi (đời sống, IT...)": {
+                "total": 15,
+                "CORRECT": 15,
+                "INCORRECT_HALLUCINATION": 0,
+                "REFUSED": 0,
+            },
+            "Câu hỏi phức tạp, tối nghĩa": {
+                "total": 25,
+                "CORRECT": 22,
+                "INCORRECT_HALLUCINATION": 1,
+                "REFUSED": 2,
+            },
         }
         print(f"Đang ghi dữ liệu giả lập vào {tex_path}...")
         write_latex_table(tex_path, mock_stats)
         print("Đã tạo bảng bang2.tex thành công với dữ liệu giả lập!")
         return
 
-    with open(json_path, 'r', encoding='utf-8') as f:
+    with open(json_path, "r", encoding="utf-8") as f:
         data = json.load(f)
 
     # Load existing evaluation results and filter out failed API calls (saved as REFUSED due to errors)
@@ -237,7 +268,7 @@ def main():
     evaluated_stts = set()
     if os.path.exists(eval_path):
         try:
-            with open(eval_path, 'r', encoding='utf-8') as f:
+            with open(eval_path, "r", encoding="utf-8") as f:
                 raw_eval_results = json.load(f)
                 for item in raw_eval_results:
                     reasoning = item.get("danh_gia", {}).get("ly_do", "")
@@ -246,16 +277,35 @@ def main():
                         continue
                     eval_results.append(item)
                     evaluated_stts.add(item.get("stt"))
-            print(f"Đã tải {len(evaluated_stts)} câu hỏi từ cache hợp lệ. (Đã tự động loại bỏ các câu hỏi lỗi trước đó).")
+            print(
+                f"Đã tải {len(evaluated_stts)} câu hỏi từ cache hợp lệ. (Đã tự động loại bỏ các câu hỏi lỗi trước đó)."
+            )
         except Exception as e:
-            print(f"Lỗi khi đọc file đánh giá cũ: {e}. Sẽ tiến hành đánh giá lại từ đầu.")
+            print(
+                f"Lỗi khi đọc file đánh giá cũ: {e}. Sẽ tiến hành đánh giá lại từ đầu."
+            )
             eval_results = []
 
     # Run evaluation
     stats = {
-        "Câu hỏi có trong CSDL pháp luật": {"total": 0, "CORRECT": 0, "INCORRECT_HALLUCINATION": 0, "REFUSED": 0},
-        "Câu hỏi ngoài phạm vi (đời sống, IT...)": {"total": 0, "CORRECT": 0, "INCORRECT_HALLUCINATION": 0, "REFUSED": 0},
-        "Câu hỏi phức tạp, tối nghĩa": {"total": 0, "CORRECT": 0, "INCORRECT_HALLUCINATION": 0, "REFUSED": 0}
+        "Câu hỏi có trong CSDL pháp luật": {
+            "total": 0,
+            "CORRECT": 0,
+            "INCORRECT_HALLUCINATION": 0,
+            "REFUSED": 0,
+        },
+        "Câu hỏi ngoài phạm vi (đời sống, IT...)": {
+            "total": 0,
+            "CORRECT": 0,
+            "INCORRECT_HALLUCINATION": 0,
+            "REFUSED": 0,
+        },
+        "Câu hỏi phức tạp, tối nghĩa": {
+            "total": 0,
+            "CORRECT": 0,
+            "INCORRECT_HALLUCINATION": 0,
+            "REFUSED": 0,
+        },
     }
 
     # Populate stats with already evaluated items
@@ -268,10 +318,12 @@ def main():
 
     remaining_count = len(data) - len(evaluated_stts)
     if remaining_count > 0:
-        print(f"Bắt đầu đánh giá {remaining_count} câu hỏi còn lại bằng NVIDIA API (meta/llama-3.3-70b-instruct)...")
-        
+        print(
+            f"Bắt đầu đánh giá {remaining_count} câu hỏi còn lại bằng NVIDIA API (meta/llama-3.3-70b-instruct)..."
+        )
+
         # Add a 1-second rate limit safety delay between successful calls (NVIDIA key usually has good limits)
-        request_delay = 1.0 
+        request_delay = 1.0
 
         for idx, item in enumerate(data, 1):
             stt = item.get("stt")
@@ -283,16 +335,20 @@ def main():
             context = item.get("tai_lieu_formatted", "")
             answer = item.get("cau_tra_loi", "")
 
-            target_category = CATEGORY_MAPPING.get(raw_category, "Câu hỏi có trong CSDL pháp luật")
-            
+            target_category = CATEGORY_MAPPING.get(
+                raw_category, "Câu hỏi có trong CSDL pháp luật"
+            )
+
             print(f"[{stt}/{len(data)}] Đang chấm Câu hỏi {stt} ({raw_category})...")
-            
+
             try:
                 # Call judge API with retry mechanism
-                judge = call_nvidia_judge_with_retry(api_key, question, context, answer, raw_category)
+                judge = call_nvidia_judge_with_retry(
+                    api_key, question, context, answer, raw_category
+                )
                 verdict = judge.get("verdict", "REFUSED")
                 reasoning = judge.get("reasoning", "")
-                
+
                 print(f"   -> Kết quả: {verdict}")
 
                 # Update stats
@@ -307,10 +363,7 @@ def main():
                     "cau_hoi": question,
                     "cau_tra_loi": answer,
                     "tai_lieu_formatted": context,
-                    "danh_gia": {
-                        "ket_luan": verdict,
-                        "ly_do": reasoning
-                    }
+                    "danh_gia": {"ket_luan": verdict, "ly_do": reasoning},
                 }
                 eval_results.append(eval_item)
                 evaluated_stts.add(stt)
@@ -323,15 +376,34 @@ def main():
                 time.sleep(request_delay)
 
             except Exception as e:
-                print(f"\n[DỪNG LẠI] Dừng đánh giá tại Câu hỏi {stt} do gặp lỗi không thể tự khôi phục: {e}")
-                print("Dữ liệu đã hoàn thành đã được lưu vào cache. Bạn có thể chạy lại script sau ít phút để tiếp tục.")
+                print(
+                    f"\n[DỪNG LẠI] Dừng đánh giá tại Câu hỏi {stt} do gặp lỗi không thể tự khôi phục: {e}"
+                )
+                print(
+                    "Dữ liệu đã hoàn thành đã được lưu vào cache. Bạn có thể chạy lại script sau ít phút để tiếp tục."
+                )
                 break
 
     # Re-calculate statistics from all evaluated items to write the table
     final_stats = {
-        "Câu hỏi có trong CSDL pháp luật": {"total": 0, "CORRECT": 0, "INCORRECT_HALLUCINATION": 0, "REFUSED": 0},
-        "Câu hỏi ngoài phạm vi (đời sống, IT...)": {"total": 0, "CORRECT": 0, "INCORRECT_HALLUCINATION": 0, "REFUSED": 0},
-        "Câu hỏi phức tạp, tối nghĩa": {"total": 0, "CORRECT": 0, "INCORRECT_HALLUCINATION": 0, "REFUSED": 0}
+        "Câu hỏi có trong CSDL pháp luật": {
+            "total": 0,
+            "CORRECT": 0,
+            "INCORRECT_HALLUCINATION": 0,
+            "REFUSED": 0,
+        },
+        "Câu hỏi ngoài phạm vi (đời sống, IT...)": {
+            "total": 0,
+            "CORRECT": 0,
+            "INCORRECT_HALLUCINATION": 0,
+            "REFUSED": 0,
+        },
+        "Câu hỏi phức tạp, tối nghĩa": {
+            "total": 0,
+            "CORRECT": 0,
+            "INCORRECT_HALLUCINATION": 0,
+            "REFUSED": 0,
+        },
     }
     for item in eval_results:
         target_category = item.get("phan_loai_bao_cao")
@@ -340,9 +412,12 @@ def main():
             final_stats[target_category]["total"] += 1
             final_stats[target_category][verdict] += 1
 
-    print(f"\nĐang ghi kết quả thống kê ({len(eval_results)} câu hỏi đã hoàn thành) vào {tex_path}...")
+    print(
+        f"\nĐang ghi kết quả thống kê ({len(eval_results)} câu hỏi đã hoàn thành) vào {tex_path}..."
+    )
     write_latex_table(tex_path, final_stats)
     print("Hoàn thành!")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
