@@ -49,7 +49,7 @@ period\_start & timestamptz & Thời điểm bắt đầu có hiệu lực. \\ \
 period\_end & timestamptz & Thời điểm kết thúc/hết hạn. \\ \hline
 version & int4 & Phiên bản của bản ghi sự kiện, dùng để loại bỏ các sự kiện cũ (out-of-order). \\ \hline
 \end{tabular}
-\caption{Bảng \texttt{user\_subscriptions} (Dịch vụ văn bản)}
+\caption{Bảng \texttt{user\_subscriptions} lưu thông tin đồng bộ gói thuê bao của người dùng từ dịch vụ thanh toán để xác thực quyền tải lên tài liệu}
 \end{table}
 
 \begin{table}[H]
@@ -69,5 +69,5 @@ has\_summary & bool & Cờ xác nhận tài liệu được tóm tắt. \\ \hlin
 file\_hash & varchar & Mã băm của tệp tin, dùng để phát hiện và tái sử dụng tài liệu trùng lặp. \\ \hline
 file\_size & int4 & Dung lượng của tệp tin, kết hợp với file\_hash để tái sử dụng. \\ \hline
 \end{tabular}
-\caption{Bảng \texttt{documents} (Dịch vụ văn bản)}
+\caption{Bảng \texttt{documents} quản lý thông tin tài liệu tải lên, trạng thái bóc tách nội dung, tóm tắt và mã băm để tối ưu hóa tài nguyên}
 \end{table}
