@@ -1,39 +1,3 @@
-%%%%\paragraph{Các bảng trong CSDL của dịch vụ xác thực}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Mô tả chi tiết thông tin bảng trong CSDL
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% thứ tự các bảng trong tài liệu
-
-% \begin{table}[H]
-% \centering
-% \begin{tabular}{|l|l|p{6cm}|}
-% \hline
-% \textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
-% version\_num & varchar & Mã phiên bản di chuyển CSDL. \\ \hline
-% \end{tabular}
-% \caption{Cấu trúc bảng \texttt{alembic\_version} (Dịch vụ văn bản)}
-% \end{table}
-
-% \begin{table}[H]
-% \centering
-% \begin{tabular}{|l|l|p{6cm}|}
-% \hline
-% \textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
-% id & uuid & Khóa chính của log yêu cầu HTTP. \\ \hline
-% request\_id & varchar & Mã định danh duy nhất của yêu cầu. \\ \hline
-% method & varchar & Phương thức HTTP được sử dụng. \\ \hline
-% url & varchar & Đường dẫn của yêu cầu API. \\ \hline
-% client\_ip & varchar & Địa chỉ IP của máy khách gửi yêu cầu. \\ \hline
-% status\_code & int4 & Mã trạng thái phản hồi HTTP trả về. \\ \hline
-% request\_payload & json & Dữ liệu chi tiết gửi kèm trong yêu cầu. \\ \hline
-% response\_payload & json & Dữ liệu chi tiết do hệ thống phản hồi. \\ \hline
-% process\_time & float8 & Thời gian xử lý hoàn tất yêu cầu. \\ \hline
-% created\_at & timestamptz & Thời gian ghi nhận log hệ thống. \\ \hline
-% \end{tabular}
-% \caption{Cấu trúc bảng \texttt{request\_logs} (Dịch vụ văn bản)}
-% \end{table}
-
 \begin{table}[H]
 \centering
 \begin{tabular}{|l|l|p{6cm}|}
@@ -49,7 +13,7 @@ period\_start & timestamptz & Thời điểm bắt đầu có hiệu lực. \\ \
 period\_end & timestamptz & Thời điểm kết thúc/hết hạn. \\ \hline
 version & int4 & Phiên bản của bản ghi sự kiện, dùng để loại bỏ các sự kiện cũ (out-of-order). \\ \hline
 \end{tabular}
-\caption{Cấu trúc bảng \texttt{user\_subscriptions} (Dịch vụ văn bản)}
+\caption{Bảng \texttt{user\_subscriptions} đồng bộ thông tin gói thuê bao VIP}
 \end{table}
 
 \begin{table}[H]
@@ -69,5 +33,5 @@ has\_summary & bool & Cờ xác nhận tài liệu được tóm tắt. \\ \hlin
 file\_hash & varchar & Mã băm của tệp tin, dùng để phát hiện và tái sử dụng tài liệu trùng lặp. \\ \hline
 file\_size & int4 & Dung lượng của tệp tin, kết hợp với file\_hash để tái sử dụng. \\ \hline
 \end{tabular}
-\caption{Cấu trúc bảng \texttt{documents} (Dịch vụ văn bản)}
+\caption{Bảng \texttt{documents} quản lý tài liệu tải lên và trạng thái xử lý}
 \end{table}

@@ -16,7 +16,7 @@ của người dùng.
 \textbf{Cột} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\ \hline
 version\_num & varchar & Mã phiên bản di chuyển CSDL. \\ \hline
 \end{tabular}
-\caption{Cấu trúc bảng \texttt{alembic\_version} (Dịch vụ python)}
+\caption{Bảng \texttt{alembic\_version} quản lý phiên bản CSDL dịch vụ Python}
 \end{table}
 
 \begin{table}[H]
@@ -28,7 +28,7 @@ id & serial & ID định danh của phiên bản migration. \\ \hline
 timestamp & int8 & Thời điểm thực thi migration. \\ \hline
 name & varchar & Tên file migration đã thực thi. \\ \hline
 \end{tabular}
-\caption{Cấu trúc bảng \texttt{migrations} (Dịch vụ NestJS)}
+\caption{Bảng \texttt{migrations} quản lý phiên bản CSDL dịch vụ NestJS}
 \end{table}
 
 \begin{table}[H]
@@ -47,7 +47,7 @@ processTime & float8 & Thời gian hệ thống xử lý yêu cầu. \\ \hline
 created\_at & timestamptz & Thời gian ghi nhận log hệ thống. \\ \hline
 clientIp & varchar & Địa chỉ IP của máy khách gửi yêu cầu. \\ \hline
 \end{tabular}
-\caption{Cấu trúc bảng \texttt{request\_logs}}
+\caption{Bảng \texttt{request\_logs} ghi nhận nhật ký yêu cầu và phản hồi API}
 \end{table}
 
 \input{contents/database/auth-service}

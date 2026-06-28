@@ -273,6 +273,7 @@ def generate_tex():
     tex_content = rf"""% DANH MỤC KÝ HIỆU
 
 \newpage
+\phantomsection
 {{\centering \section*{{DANH MỤC KÝ HIỆU}}}} % Đặt tên tiêu đề
 \addcontentsline{{toc}}{{section}}{{DANH MỤC KÝ HIỆU}} % Thêm vào mục lục
 
