@@ -56,7 +56,7 @@ hiển thị trên phần mềm Authenticator để máy chủ tiến hành so s
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.95\textwidth]{pictures/2fa_diagram.jpg}
-\caption{Cách hoạt động của TOTP}
+\caption[Cách hoạt động của TOTP]{Cách hoạt động của TOTP (Nguồn: \cite{twilio-totp})}
 \end{figure}
 
 Tham khảo tài liệu tại:
@@ -92,7 +92,7 @@ Nội dung chính xoay quanh hai luồng hoạt động cơ bản:
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.95\textwidth]{pictures/auth-mfa-flow.excalidraw.png}
-\caption{Sơ đồ luồng xử lý xác thực MFA Supabase}
+\caption[Sơ đồ luồng xử lý xác thực MFA Supabase]{Sơ đồ luồng xử lý xác thực MFA Supabase (Nguồn: \cite{supabase-totp})}
 \end{figure}
 
 Tất cả các dịch vụ đều dùng CSDL Postgres của Neon để làm CSDL riêng theo đúng mẫu CSDL cho mỗi dịch vụ (database per service pattern). Mỗi dịch vụ sẽ sở hữu và quản lý hoàn toàn CSDL của riêng nó.

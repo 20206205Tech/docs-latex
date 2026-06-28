@@ -4,9 +4,7 @@ from pathlib import Path
 from loguru import logger
 
 target_path = Path(r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\service")
-target_path = Path(
-    r"C:\Users\Admin\Documents\GitHub\docs-latex\latex\contents\SystemArchitecture"
-)
+target_path = Path(r"C:\Users\Admin\Documents\GitHub\docs-latex\latex")
 
 if not target_path.exists():
     logger.error(f"Đường dẫn không tồn tại: {target_path}")
@@ -38,7 +36,7 @@ else:
 
     # Cấu hình Regex tìm kiếm và chuỗi thay thế
     search_pattern = re.compile(r"\\includegraphics\[.*?\]")
-    replace_str = r"\\includegraphics[width=0.95\\textwidth]"
+    replace_str = r"\\includegraphics[width=0.75\\textwidth]"
 
     # Vòng lặp xử lý danh sách file đã lọc được ở trên
     for file_path in files_to_process:
