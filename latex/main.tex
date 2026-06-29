@@ -119,12 +119,12 @@ before upper={\tcbtitle\vskip0pt\par}
 \begin{document}
 
 % \input{doc}
-\input{index}
-
-% \ifdev
-% \input{doc}
-% \else
 % \input{index}
-% \fi
+
+\ifdev
+\input{doc}
+\else
+\input{index}
+\fi
 
 \end{document}
